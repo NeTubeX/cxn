@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0e1a">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="googlebot" content="noindex, nofollow, noarchive">
 <title>Espace Direction</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -679,36 +677,16 @@ const auth = getAuth(app);
 
 const urlParams = new URLSearchParams(window.location.search);
 const schoolId = urlParams.get('ecole');
-
-let codeFromUrl = sessionStorage.getItem('clearAccessCode');
-
-if (!codeFromUrl) {
-    try {
-        const storedCode = sessionStorage.getItem('accessToken');
-        if (storedCode && storedCode !== 'undefined' && storedCode !== 'null') {
-            codeFromUrl = atob(storedCode);
-            sessionStorage.setItem('clearAccessCode', codeFromUrl);
-        }
-    } catch(e) {}
-}
-
-if (!codeFromUrl) {
-    const urlCode = urlParams.get('code');
-    if (urlCode) {
-        codeFromUrl = urlCode;
-        sessionStorage.setItem('clearAccessCode', codeFromUrl);
-        sessionStorage.setItem('accessToken', btoa(codeFromUrl));
-    }
-}
+const codeFromUrl = urlParams.get('code');
 
 if (!schoolId) {
-    window.location.href = 'https://www.netubex.com/login?error=ecole_requise';
-    throw new Error('Redirection');
+window.location.href = 'https://www.netubex.com/login?error=ecole_requise';
+throw new Error('Redirection');
 }
 
 if (!codeFromUrl) {
-    window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_requis`;
-    throw new Error('Redirection');
+window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_requis`;
+throw new Error('Redirection');
 }
 
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g, '_');
@@ -851,87 +829,62 @@ return false;
 }
 
 async function verifierCodeDirection() {
-    let code = sessionStorage.getItem('clearAccessCode');
-    if (!code) {
-        try {
-            const token = sessionStorage.getItem('accessToken');
-            if (token && token !== 'undefined' && token !== 'null') {
-                code = atob(token);
-                sessionStorage.setItem('clearAccessCode', code);
-            }
-        } catch(e) {}
-    }
-    
-    if (!code) {
-        window.location.href = `https://www.netubex.com/login?ecole=${schoolId}`;
-        return false;
-    }
-    
-    try {
-        const ref = doc(db, "ecoles", ECOLET_ID, "settings", "data");
-        const snap = await getDoc(ref);
-        let email = `direction.${ECOLET_ID}@gmail.com`;
+try {
+const ref = doc(db, "ecoles", ECOLET_ID, "settings", "data");
+const snap = await getDoc(ref);
+let email = `direction.${ECOLET_ID}@gmail.com`;
 
-        if (snap.exists()) {
-            const data = snap.data();
-            if (data.emailDirection) email = data.emailDirection;
-            if (data.codeDirection) ACCESS_CODE = data.codeDirection;
-        }
+if (snap.exists()) {
+const data = snap.data();
+if (data.emailDirection) email = data.emailDirection;
+if (data.codeDirection) ACCESS_CODE = data.codeDirection;
+}
 
-        let codeFound = false;
+let codeFound = false;
 
-        if (ACCESS_CODE && ACCESS_CODE === code) {
-            codeFound = true;
-        }
+if (ACCESS_CODE && ACCESS_CODE === codeFromUrl) {
+codeFound = true;
+}
 
-        if (!codeFound) {
-            const freshCode = sessionStorage.getItem('clearAccessCode');
-            if (freshCode && ACCESS_CODE && freshCode === ACCESS_CODE) {
-                code = freshCode;
-                codeFound = true;
-                sessionStorage.setItem('accessToken', btoa(freshCode));
-            }
-        }
+if (!codeFound && codeFromUrl) {
+try {
+const userCred = await signInWithEmailAndPassword(auth, email, codeFromUrl);
+currentAuthUser = userCred.user;
+codeFound = true;
+ACCESS_CODE = codeFromUrl;
+if (snap.exists() && !snap.data().codeDirection) {
+await setDoc(ref, { codeDirection: codeFromUrl, emailDirection: email, updatedAt: new Date().toISOString() }, { merge: true });
+}
+} catch (authError) {
+if (authError.code === 'auth/user-not-found') {
+try {
+const userCred = await createUserWithEmailAndPassword(auth, email, codeFromUrl);
+currentAuthUser = userCred.user;
+codeFound = true;
+ACCESS_CODE = codeFromUrl;
+await setDoc(ref, { codeDirection: codeFromUrl, emailDirection: email, updatedAt: new Date().toISOString() }, { merge: true });
+} catch (createError) {
+console.error('Erreur création utilisateur:', createError);
+}
+}
+}
+}
 
-        if (!codeFound && code) {
-            try {
-                const userCred = await signInWithEmailAndPassword(auth, email, code);
-                currentAuthUser = userCred.user;
-                codeFound = true;
-                ACCESS_CODE = code;
-                if (snap.exists() && !snap.data().codeDirection) {
-                    await setDoc(ref, { codeDirection: code, emailDirection: email, updatedAt: new Date().toISOString() }, { merge: true });
-                }
-            } catch (authError) {
-                if (authError.code === 'auth/user-not-found') {
-                    try {
-                        const userCred = await createUserWithEmailAndPassword(auth, email, code);
-                        currentAuthUser = userCred.user;
-                        codeFound = true;
-                        ACCESS_CODE = code;
-                        await setDoc(ref, { codeDirection: code, emailDirection: email, updatedAt: new Date().toISOString() }, { merge: true });
-                    } catch (createError) {
-                        console.error('Erreur création utilisateur:', createError);
-                    }
-                }
-            }
-        }
+if (codeFound) {
+document.getElementById('mainContent').classList.add('visible');
+await chargerAccessCode();
+await verifierCohérenceCode();
+initApp();
+demarrerSurveillanceInactiviteDirection();
+return true;
+}
 
-        if (codeFound) {
-            document.getElementById('mainContent').classList.add('visible');
-            await chargerAccessCode();
-            await verifierCohérenceCode();
-            initApp();
-            demarrerSurveillanceInactiviteDirection();
-            return true;
-        }
-
-        window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
-        return false;
-    } catch (error) {
-        window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
-        return false;
-    }
+window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
+return false;
+} catch (error) {
+window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
+return false;
+}
 }
 
 function genererEmailProfesseur(nom, ecoleId) {
