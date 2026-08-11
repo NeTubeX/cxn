@@ -755,6 +755,10 @@ const classesSansOptionsTitu = ["7ème EB", "8ème EB"];
 let triAlphabetiqueActif = false;
 let historiqueSections = {};
 
+// Variables pour la gestion de plusieurs enfants
+let listeElevesComplets = [];
+let indexEleveActuel = 0;
+
 function toast(message, type = "success") {
 toastQueue.push({ message, type });
 if (!isToastProcessing) processToastQueue();
@@ -1104,6 +1108,46 @@ texteParle = texteParle.replace(/\.\s+\./g, '. ');
 texteParle = texteParle.replace(/\?\s+\?/g, '? ');
 texteParle = texteParle.replace(/\!\s+\!/g, '! ');
 texteParle = texteParle.replace(/BLESSING/gi, 'blé-ssingue');
+texteParle = texteParle.replace(/\b1ère\s+Année\b/gi, 'première Année');
+texteParle = texteParle.replace(/\b1ere\s+Annee\b/gi, 'première Année');
+texteParle = texteParle.replace(/\b2ème\s+Année\b/gi, 'deuxième Année');
+texteParle = texteParle.replace(/\b2eme\s+Annee\b/gi, 'deuxième Année');
+texteParle = texteParle.replace(/\b3ème\s+Année\b/gi, 'troisième Année');
+texteParle = texteParle.replace(/\b3eme\s+Annee\b/gi, 'troisième Année');
+texteParle = texteParle.replace(/\b4ème\s+Année\b/gi, 'quatrième Année');
+texteParle = texteParle.replace(/\b4eme\s+Annee\b/gi, 'quatrième Année');
+texteParle = texteParle.replace(/\b5ème\s+Année\b/gi, 'cinquième Année');
+texteParle = texteParle.replace(/\b5eme\s+Annee\b/gi, 'cinquième Année');
+texteParle = texteParle.replace(/\b6ème\s+Année\b/gi, 'sixième Année');
+texteParle = texteParle.replace(/\b6eme\s+Annee\b/gi, 'sixième Année');
+texteParle = texteParle.replace(/\b7ème\s+EB\b/gi, 'septième EB');
+texteParle = texteParle.replace(/\b7eme\s+EB\b/gi, 'septième EB');
+texteParle = texteParle.replace(/\b8ème\s+EB\b/gi, 'huitième EB');
+texteParle = texteParle.replace(/\b8eme\s+EB\b/gi, 'huitième EB');
+texteParle = texteParle.replace(/\bLATIN-PHILO\b/gi, 'latin-philo');
+texteParle = texteParle.replace(/\bSCIENCES\b/gi, 'sciences');
+texteParle = texteParle.replace(/\bPEDAGOGIE GENERALE\b/gi, 'pédagogie générale');
+texteParle = texteParle.replace(/\bCOMMERCIALE ET GESTION\b/gi, 'commerciale et gestion');
+texteParle = texteParle.replace(/\bELECTRICITE\b/gi, 'électricité');
+texteParle = texteParle.replace(/\bMECANIQUE GENERALE\b/gi, 'mécanique générale');
+texteParle = texteParle.replace(/\bCOUPE ET COUTURE\b/gi, 'coupe et couture');
+texteParle = texteParle.replace(/\bTOUTES\b/gi, 'toutes');
+texteParle = texteParle.replace(/\b1ère\b/gi, 'première');
+texteParle = texteParle.replace(/\b1ere\b/gi, 'première');
+texteParle = texteParle.replace(/\b2ème\b/gi, 'deuxième');
+texteParle = texteParle.replace(/\b2eme\b/gi, 'deuxième');
+texteParle = texteParle.replace(/\b3ème\b/gi, 'troisième');
+texteParle = texteParle.replace(/\b3eme\b/gi, 'troisième');
+texteParle = texteParle.replace(/\b4ème\b/gi, 'quatrième');
+texteParle = texteParle.replace(/\b4eme\b/gi, 'quatrième');
+texteParle = texteParle.replace(/\b5ème\b/gi, 'cinquième');
+texteParle = texteParle.replace(/\b5eme\b/gi, 'cinquième');
+texteParle = texteParle.replace(/\b6ème\b/gi, 'sixième');
+texteParle = texteParle.replace(/\b6eme\b/gi, 'sixième');
+texteParle = texteParle.replace(/\b7ème\b/gi, 'septième');
+texteParle = texteParle.replace(/\b7eme\b/gi, 'septième');
+texteParle = texteParle.replace(/\b8ème\b/gi, 'huitième');
+texteParle = texteParle.replace(/\b8eme\b/gi, 'huitième');
 texteParle = texteParle.replace(/(\d{1,3}(?:[\s.,]\d{3})*)\s*FC/g, (match, p1) => {
 const num = parseInt(p1.replace(/[\s.,]/g, ''));
 if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
@@ -1156,6 +1200,46 @@ texteParle = texteParle.replace(/\.\s+\./g, '. ');
 texteParle = texteParle.replace(/\?\s+\?/g, '? ');
 texteParle = texteParle.replace(/\!\s+\!/g, '! ');
 texteParle = texteParle.replace(/BLESSING/gi, 'blé-ssingue');
+texteParle = texteParle.replace(/\b1ère\s+Année\b/gi, 'première Année');
+texteParle = texteParle.replace(/\b1ere\s+Annee\b/gi, 'première Année');
+texteParle = texteParle.replace(/\b2ème\s+Année\b/gi, 'deuxième Année');
+texteParle = texteParle.replace(/\b2eme\s+Annee\b/gi, 'deuxième Année');
+texteParle = texteParle.replace(/\b3ème\s+Année\b/gi, 'troisième Année');
+texteParle = texteParle.replace(/\b3eme\s+Annee\b/gi, 'troisième Année');
+texteParle = texteParle.replace(/\b4ème\s+Année\b/gi, 'quatrième Année');
+texteParle = texteParle.replace(/\b4eme\s+Annee\b/gi, 'quatrième Année');
+texteParle = texteParle.replace(/\b5ème\s+Année\b/gi, 'cinquième Année');
+texteParle = texteParle.replace(/\b5eme\s+Annee\b/gi, 'cinquième Année');
+texteParle = texteParle.replace(/\b6ème\s+Année\b/gi, 'sixième Année');
+texteParle = texteParle.replace(/\b6eme\s+Annee\b/gi, 'sixième Année');
+texteParle = texteParle.replace(/\b7ème\s+EB\b/gi, 'septième EB');
+texteParle = texteParle.replace(/\b7eme\s+EB\b/gi, 'septième EB');
+texteParle = texteParle.replace(/\b8ème\s+EB\b/gi, 'huitième EB');
+texteParle = texteParle.replace(/\b8eme\s+EB\b/gi, 'huitième EB');
+texteParle = texteParle.replace(/\bLATIN-PHILO\b/gi, 'latin-philo');
+texteParle = texteParle.replace(/\bSCIENCES\b/gi, 'sciences');
+texteParle = texteParle.replace(/\bPEDAGOGIE GENERALE\b/gi, 'pédagogie générale');
+texteParle = texteParle.replace(/\bCOMMERCIALE ET GESTION\b/gi, 'commerciale et gestion');
+texteParle = texteParle.replace(/\bELECTRICITE\b/gi, 'électricité');
+texteParle = texteParle.replace(/\bMECANIQUE GENERALE\b/gi, 'mécanique générale');
+texteParle = texteParle.replace(/\bCOUPE ET COUTURE\b/gi, 'coupe et couture');
+texteParle = texteParle.replace(/\bTOUTES\b/gi, 'toutes');
+texteParle = texteParle.replace(/\b1ère\b/gi, 'première');
+texteParle = texteParle.replace(/\b1ere\b/gi, 'première');
+texteParle = texteParle.replace(/\b2ème\b/gi, 'deuxième');
+texteParle = texteParle.replace(/\b2eme\b/gi, 'deuxième');
+texteParle = texteParle.replace(/\b3ème\b/gi, 'troisième');
+texteParle = texteParle.replace(/\b3eme\b/gi, 'troisième');
+texteParle = texteParle.replace(/\b4ème\b/gi, 'quatrième');
+texteParle = texteParle.replace(/\b4eme\b/gi, 'quatrième');
+texteParle = texteParle.replace(/\b5ème\b/gi, 'cinquième');
+texteParle = texteParle.replace(/\b5eme\b/gi, 'cinquième');
+texteParle = texteParle.replace(/\b6ème\b/gi, 'sixième');
+texteParle = texteParle.replace(/\b6eme\b/gi, 'sixième');
+texteParle = texteParle.replace(/\b7ème\b/gi, 'septième');
+texteParle = texteParle.replace(/\b7eme\b/gi, 'septième');
+texteParle = texteParle.replace(/\b8ème\b/gi, 'huitième');
+texteParle = texteParle.replace(/\b8eme\b/gi, 'huitième');
 texteParle = texteParle.replace(/(\d{1,3}(?:[\s.,]\d{3})*)\s*FC/g, (match, p1) => {
 const num = parseInt(p1.replace(/[\s.,]/g, ''));
 if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
@@ -1657,7 +1741,17 @@ reponse += `${pronomSexe} est en ${eleve.classe}\nSection PRIMAIRE\n\n`;
 } else {
 reponse += `${pronomSexe} est en ${eleve.classe} option ${eleve.option}\nSection SECONDAIRE\n\n`;
 }
-reponse += `Je peux vous parler de sa situation financière, puis-je commencer ?`;
+// Ajout du nombre d'enfants restants
+if (listeElevesComplets.length > 1) {
+const currentIndex = listeElevesComplets.findIndex(e => e.nom === eleve.nom && (e.prenom || '') === (eleve.prenom || ''));
+if (currentIndex !== -1) {
+const restants = listeElevesComplets.length - currentIndex - 1;
+if (restants > 0) {
+reponse += `\n📌 ${restants} autre(s) enfant(s) associé(s) à ce code. Dites "suivant" pour y accéder.`;
+}
+}
+}
+reponse += `\n\nJe peux vous parler de sa situation financière, puis-je commencer ?`;
 return reponse;
 }
 
@@ -1701,7 +1795,16 @@ reponse += `${pronomSexe} est en ${eleve.classe}\nSection PRIMAIRE\n\n`;
 } else {
 reponse += `${pronomSexe} est en ${eleve.classe} option ${eleve.option}\nSection SECONDAIRE\n\n`;
 }
-reponse += `Je peux vous parler de sa situation financière, puis-je commencer ?`;
+if (listeElevesComplets.length > 1) {
+const currentIndex = listeElevesComplets.findIndex(e => e.nom === eleve.nom && (e.prenom || '') === (eleve.prenom || ''));
+if (currentIndex !== -1) {
+const restants = listeElevesComplets.length - currentIndex - 1;
+if (restants > 0) {
+reponse += `\n📌 ${restants} autre(s) enfant(s) associé(s) à ce code. Dites "suivant" pour y accéder.`;
+}
+}
+}
+reponse += `\n\nJe peux vous parler de sa situation financière, puis-je commencer ?`;
 return reponse;
 }
 
@@ -1741,16 +1844,18 @@ const infos = await chercherInfosFinancieresParCode(code);
 if (!infos || infos.length === 0) {
 dernierEleveConsulte = null;
 dernierEleveData = null;
+listeElevesComplets = [];
 return `Code parent "${code}" non reconnu à l'école ${nomEcole}. Veuillez vérifier votre code ou contacter la comptabilité.`;
 }
 incrementQuestionCountInLocalStorage(code);
 currentParentCode = code;
 updateCounterDisplay();
+listeElevesComplets = infos;
 if (infos.length === 1) {
 return await afficherInfosEleve(infos[0]);
 } else {
-listeElevesEnAttente = infos;
 enAttenteChoixEleve = true;
+listeElevesEnAttente = infos;
 let reponse = `Plusieurs élèves sont associés à ce code parent :\n\n`;
 infos.forEach((eleve, index) => {
 const section = getSectionFromClasse(eleve.classe);
@@ -1761,7 +1866,53 @@ else sectionLabel = "SECONDAIRE";
 const optionText = eleve.option && eleve.option !== "" && section === "SECONDAIRE" ? ` option ${eleve.option}` : "";
 reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n   Classe : ${eleve.classe}${optionText}\n   Section : ${sectionLabel}\n\n`;
 });
-reponse += `Veuillez répondre avec le numéro de l'élève souhaité (1, 2, ...).`;
+reponse += `Veuillez répondre avec le numéro de l'élève souhaité (1, 2, ...).\n\n`;
+reponse += `Ou dites "suivant" pour passer au prochain élève.`;
+return reponse;
+}
+}
+
+// Gestion du passage à l'élève suivant
+if ((msg.includes('suivant') || msg.includes('prochain') || msg.includes('autre') || msg.includes('next')) && listeElevesComplets.length > 1) {
+if (!dernierEleveData) {
+return `Veuillez d'abord sélectionner un enfant en entrant votre code parent.`;
+}
+const currentNom = dernierEleveData.nom;
+const currentPrenom = dernierEleveData.prenom || '';
+let foundIndex = -1;
+for (let i = 0; i < listeElevesComplets.length; i++) {
+const e = listeElevesComplets[i];
+if (e.nom === currentNom && (e.prenom || '') === currentPrenom) {
+foundIndex = i;
+break;
+}
+}
+if (foundIndex !== -1) {
+let nextIndex = (foundIndex + 1) % listeElevesComplets.length;
+const eleve = listeElevesComplets[nextIndex];
+if (nextIndex === 0) {
+return await afficherInfosEleve(eleve) + `\n\n📌 Retour à ${eleve.nom} ${eleve.prenom||''}. Pour voir un autre enfant, dites "suivant".`;
+} else {
+return await afficherInfosEleve(eleve) + `\n\n📌 Voici ${eleve.nom} ${eleve.prenom||''}. Pour voir le suivant, dites "suivant".`;
+}
+}
+}
+
+// Gestion de la demande de liste des enfants
+if (msg.includes('liste') || msg.includes('enfants') || msg.includes('élèves') || msg.includes('eleves')) {
+if (listeElevesComplets.length > 1) {
+let reponse = `Voici la liste de vos enfants :\n\n`;
+listeElevesComplets.forEach((eleve, index) => {
+const section = getSectionFromClasse(eleve.classe);
+let sectionLabel = "";
+if (section === "MATERNELLE") sectionLabel = "MATERNELLE";
+else if (section === "PRIMAIRE") sectionLabel = "PRIMAIRE";
+else sectionLabel = "SECONDAIRE";
+const optionText = eleve.option && eleve.option !== "" && section === "SECONDAIRE" ? ` option ${eleve.option}` : "";
+const estActif = dernierEleveData && eleve.nom === dernierEleveData.nom && (eleve.prenom || '') === (dernierEleveData.prenom || '') ? ' ✅ (actif)' : '';
+reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''} - ${eleve.classe}${optionText}${estActif}\n`;
+});
+reponse += `\nPour changer d'enfant, dites "suivant" ou "prochain".`;
 return reponse;
 }
 }
@@ -3177,6 +3328,7 @@ const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEX
 parentModalOverlayNew.classList.add('active');
 document.body.style.overflow = 'hidden';
 reponseCache.clear();
+listeElevesComplets = [];
 const dernierComm = await getDernierCommunique();
 let messageComm = '';
 if (dernierComm) {
