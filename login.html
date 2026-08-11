@@ -2,12 +2,11 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0e1a">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="googlebot" content="noindex, nofollow, noarchive">
 <title>Connexion - Gestion de Scolarité</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script type="importmap">
@@ -150,80 +149,6 @@ body{display:flex;align-items:center;justify-content:center;background:linear-gr
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"}}
 </script>
 <script type="module">
-// ============================================
-// PROTECTION : Blocage clic droit, F12, DevTools
-// ============================================
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-});
-
-document.addEventListener('keydown', function(e) {
-    // F12
-    if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+Shift+I (DevTools)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+Shift+C (Inspecter)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+U (View Source)
-    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+Shift+J (Console)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+S (Save)
-    if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // Ctrl+H (History)
-    if (e.ctrlKey && (e.key === 'H' || e.key === 'h' || e.keyCode === 72)) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    // PrintScreen
-    if (e.key === 'PrintScreen' || e.keyCode === 44) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-    return true;
-});
-
-// Blocage du drag & drop
-document.addEventListener('dragover', function(e) {
-    e.preventDefault();
-    return false;
-});
-document.addEventListener('drop', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-// ============================================
-// CODE PRINCIPAL
-// ============================================
 import{initializeApp}from"firebase/app";
 import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword}from"firebase/auth";
 import{getFirestore,doc,getDoc}from"firebase/firestore";
@@ -365,6 +290,7 @@ async function getSchoolLogo(ecoleId) {
         }
         return null;
     } catch (error) {
+        console.error("Erreur chargement logo:", error);
         return null;
     }
 }
@@ -412,6 +338,7 @@ async function getSchoolCodes(){
             return null;
         }
     } catch(e){
+        console.error("Erreur chargement codes:", e);
         return null;
     }
 }
@@ -455,15 +382,15 @@ async function seConnecter(){
         if(codeDir === passwordClean){
             role = 'direction';
             email = codes.emailDirection || genererEmailDirection(ecoleId);
-            urlDestination = 'https://www.netubex.com/devdirect';
+            urlDestination = 'https://www.netubex.com/schooldirection';
         } else if(codeCompta === passwordClean){
             role = 'comptabilite';
             email = codes.emailComptabilite || genererEmailCompta(ecoleId);
-            urlDestination = 'https://www.netubex.com/devcompte';
+            urlDestination = 'https://www.netubex.com/schoolcompta';
         } else if(codePromoteur === passwordClean){
             role = 'promoteur';
             email = codes.emailPromoteur || genererEmailPromoteur(ecoleId);
-            urlDestination = 'https://www.netubex.com/devpromo';
+            urlDestination = 'https://www.netubex.com/schoolpromo';
         } else {
             showToast("Code d'accès incorrect. Veuillez réessayer.", "error");
             tentatives++;
@@ -498,15 +425,8 @@ async function seConnecter(){
             }
         }
 
-        // ===== STOCKAGE SESSION AMÉLIORÉ =====
-        sessionStorage.setItem('schoolId', ecoleId);
-        sessionStorage.setItem('userRole', role);
-        sessionStorage.setItem('accessToken', btoa(password));
-        sessionStorage.setItem('clearAccessCode', password); // CODE EN CLAIR - TRÈS IMPORTANT
-        sessionStorage.setItem('lastLogin', Date.now().toString());
-
         setTimeout(() => {
-            window.location.href = `${urlDestination}?ecole=${ecoleId}&role=${role}`;
+            window.location.href = `${urlDestination}?ecole=${ecoleId}&code=${password}&role=${role}`;
         }, 800);
 
     } catch(error){
@@ -528,13 +448,39 @@ document.getElementById("loginPassword").focus();
 
 updateSchoolLogo(ecoleId);
 
-// ============================================
-// PROTECTION : NE PAS SUPPRIMER LE SESSIONSTORAGE
-// ============================================
-window.addEventListener('beforeunload', function() {
-    // Ne pas supprimer le sessionStorage pour permettre la reconnexion
-    // sessionStorage.removeItem('accessToken');
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+    return true;
 });
+
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => e.preventDefault());
 </script>
 </body>
 </html>
