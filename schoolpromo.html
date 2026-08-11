@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="googlebot" content="noindex, nofollow, noarchive">
 <title>Espace Promoteur</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -156,20 +154,12 @@ body.dark-mode .section-title{color:#e8edf4}
 .btn-pdf:active{transform:perspective(400px) rotateX(0deg) translateY(2px) translateZ(-5px);box-shadow:0 4px 15px rgba(220,38,38,0.15),inset 0 2px 0 rgba(0,0,0,0.2)}
 .btn-pdf i{font-size:16px}
 
-.btn-pdf-green{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:40px;background:linear-gradient(145deg,#059669,#047857);color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 25px rgba(5,150,105,0.25),inset 0 -3px 0 rgba(0,0,0,0.15),inset 0 3px 0 rgba(255,255,255,0.15);transform:perspective(400px) rotateX(1deg) translateY(-1px)}
-.btn-pdf-green:hover{transform:perspective(400px) rotateX(0deg) translateY(-3px) translateZ(10px);box-shadow:0 14px 35px rgba(5,150,105,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),inset 0 3px 0 rgba(255,255,255,0.25)}
-.btn-pdf-green:active{transform:perspective(400px) rotateX(0deg) translateY(2px) translateZ(-5px);box-shadow:0 4px 15px rgba(5,150,105,0.15),inset 0 2px 0 rgba(0,0,0,0.2)}
-.btn-pdf-green i{font-size:16px}
-
 .btn-close-floating{position:fixed;top:20px;right:20px;z-index:999;display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:40px;background:linear-gradient(145deg,#ef4444,#dc2626);color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 30px rgba(239,68,68,0.25),inset 0 -3px 0 rgba(0,0,0,0.15),inset 0 3px 0 rgba(255,255,255,0.15);transform:perspective(400px) rotateX(1deg) translateY(-1px)}
 .btn-close-floating:hover{transform:perspective(400px) rotateX(0deg) translateY(-3px) translateZ(10px);box-shadow:0 14px 40px rgba(239,68,68,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),inset 0 3px 0 rgba(255,255,255,0.25)}
 .btn-close-floating:active{transform:perspective(400px) rotateX(0deg) translateY(2px) translateZ(-5px);box-shadow:0 4px 15px rgba(239,68,68,0.15),inset 0 2px 0 rgba(0,0,0,0.2)}
 .btn-close-floating i{font-size:18px}
 
-.exoneres-pdf-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.exoneres-pdf-actions .btn-pdf-green{flex:1;min-width:140px;justify-content:center}
-
-@media(max-width:600px){.header-fixed{padding:12px 16px;flex-direction:column;align-items:stretch;gap:6px}.header-title{font-size:22px}.header-status{font-size:13px;justify-content:flex-start}.card-body{padding:16px}.stat-item .value{font-size:26px}.stat-item .label{font-size:12px}.tab{padding:8px 14px;font-size:13px}.bottom-nav button{font-size:10px}.bottom-nav button i{font-size:19px}.btn-close-floating{top:10px;right:10px;padding:8px 14px;font-size:12px}.btn-close-floating i{font-size:14px}.exoneres-pdf-actions .btn-pdf-green{min-width:100px;font-size:12px;padding:8px 16px}}
+@media(max-width:600px){.header-fixed{padding:12px 16px;flex-direction:column;align-items:stretch;gap:6px}.header-title{font-size:22px}.header-status{font-size:13px;justify-content:flex-start}.card-body{padding:16px}.stat-item .value{font-size:26px}.stat-item .label{font-size:12px}.tab{padding:8px 14px;font-size:13px}.bottom-nav button{font-size:10px}.bottom-nav button i{font-size:19px}.btn-close-floating{top:10px;right:10px;padding:8px 14px;font-size:12px}.btn-close-floating i{font-size:14px}}
 </style>
 </head>
 <body>
@@ -228,6 +218,8 @@ body.dark-mode .section-title{color:#e8edf4}
 <div class="stat-item"><div class="label">Hier</div><div class="value cyan" id="inscritsHier">0</div></div>
 <div class="stat-item"><div class="label">Cette semaine</div><div class="value purple" id="inscritsSemaine">0</div></div>
 </div>
+<!-- SECTION PAIEMENTS MINERVAL SUPPRIMÉE -->
+<!-- SECTION FRAIS D'INSCRIPTION SUPPRIMÉE -->
 </div>
 </div>
 
@@ -284,14 +276,8 @@ body.dark-mode .section-title{color:#e8edf4}
 
 <div id="tab-exoneres" class="tab-content">
 <div class="card">
-<div class="card-header">
-<span><i class="fas fa-star"></i> Élèves exonérés</span>
-<span class="badge" id="exoneresCount">0</span>
-</div>
+<div class="card-header">Élèves exonérés <span class="badge" id="exoneresCount">0</span></div>
 <div class="card-body">
-<div class="exoneres-pdf-actions">
-<button class="btn-pdf-green" id="exportExoneresPdf"><i class="fas fa-file-pdf"></i> 📄 Exporter tous les exonérés (PDF)</button>
-</div>
 <div class="table-wrapper">
 <table class="table-promoteur">
 <thead><tr><th>#</th><th>Nom</th><th>Classe</th><th>Option</th><th>Motif</th><th>Approbateur</th></tr></thead>
@@ -395,41 +381,9 @@ import{getFirestore,collection,getDocs,query,where,onSnapshot,doc,getDoc}from"fi
 const firebaseConfig={apiKey:"AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",authDomain:"gesco-67c43.firebaseapp.com",projectId:"gesco-67c43",storageBucket:"gesco-67c43.firebasestorage.app",messagingSenderId:"333004443566",appId:"1:333004443566:web:de41f60000e418dce9023f"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
-
 const urlParams=new URLSearchParams(window.location.search);
 const schoolId=urlParams.get('ecole');
-
-// ===== RÉCUPÉRATION DU CODE DEPUIS sessionStorage =====
-let codeSaisi = sessionStorage.getItem('clearAccessCode');
-
-if (!codeSaisi) {
-    try {
-        const storedCode = sessionStorage.getItem('accessToken');
-        if (storedCode && storedCode !== 'undefined' && storedCode !== 'null') {
-            codeSaisi = atob(storedCode);
-            sessionStorage.setItem('clearAccessCode', codeSaisi);
-        }
-    } catch(e) {}
-}
-
-// Fallback: récupérer depuis l'URL si vraiment absent
-if (!codeSaisi) {
-    const urlCode = urlParams.get('code');
-    if (urlCode) {
-        codeSaisi = urlCode;
-        sessionStorage.setItem('clearAccessCode', codeSaisi);
-        sessionStorage.setItem('accessToken', btoa(codeSaisi));
-    }
-}
-
-if (!schoolId) {
-    window.location.href='https://www.netubex.com/schoolchoice';
-}
-
-if (!codeSaisi) {
-    window.location.href='https://www.netubex.com/login?ecole='+schoolId;
-}
-
+if(!schoolId){window.location.href='https://www.netubex.com/schoolchoice';}
 const ECOLET_ID=schoolId.replace(/[^a-zA-Z0-9]/g,'_');
 const SCHOOL_DISPLAY_NAME=schoolId;
 document.title='Espace Promoteur · '+SCHOOL_DISPLAY_NAME;
@@ -460,6 +414,7 @@ return data.logoUrl || null;
 }
 return null;
 } catch (error) {
+console.error("Erreur chargement logo:", error);
 return null;
 }
 }
@@ -519,6 +474,7 @@ const aujourdhui=new Date().toISOString().split('T')[0];
 const hier=new Date(Date.now()-86400000).toISOString().split('T')[0];
 const today=new Date();
 const startOfWeek=new Date(today);startOfWeek.setDate(today.getDate()-today.getDay());
+const startOfMonth=new Date(today.getFullYear(),today.getMonth(),1);
 
 let inscritsAujourdhui=0,inscritsHier=0,inscritsSemaine=0;
 
@@ -792,101 +748,11 @@ pdf.text('COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME.toUpperCase() + ' - Tous dro
 pdf.save('Synthèse_' + SCHOOL_DISPLAY_NAME + '_' + new Date().toISOString().split('T')[0] + '.pdf');
 });
 
-// ===== EXPORT EXONÉRÉS PDF =====
-document.getElementById('exportExoneresPdf').addEventListener('click', function() {
-const { jsPDF } = window.jspdf;
-const pdf = new jsPDF('portrait', 'mm', 'a4');
-const pageWidth = pdf.internal.pageSize.getWidth();
-const pageHeight = pdf.internal.pageSize.getHeight();
-const today = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-pdf.setFillColor(26, 38, 52);
-pdf.rect(0, 0, pageWidth, 42, 'F');
-pdf.setFont('helvetica', 'bold');
-pdf.setFontSize(20);
-pdf.setTextColor(255, 255, 255);
-const nomEcole = 'COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME.toUpperCase();
-pdf.text(nomEcole, pageWidth / 2, 18, { align: 'center' });
-pdf.setFontSize(14);
-pdf.text('LISTE DES ÉLÈVES EXONÉRÉS', pageWidth / 2, 33, { align: 'center' });
-
-const exoList = allEleves.filter(e => e.exonere && !e.abandon);
-
-if (exoList.length === 0) {
-pdf.setFontSize(14);
-pdf.setTextColor(200, 0, 0);
-pdf.text('Aucun élève exonéré', pageWidth / 2, 70, { align: 'center' });
-pdf.save('Exoneres_' + SCHOOL_DISPLAY_NAME + '_' + new Date().toISOString().split('T')[0] + '.pdf');
-return;
-}
-
-const tableData = exoList.map((e, i) => [
-(i + 1).toString(),
-(e.nom + ' ' + (e.postnom || '') + ' ' + (e.prenom || '')).toUpperCase(),
-e.classe || '-',
-e.option || '-',
-e.motifExon || '-',
-e.approbateur || '-'
-]);
-
-const totalFilles = exoList.filter(e => e.sexe === 'F').length;
-const totalGarcons = exoList.filter(e => e.sexe === 'M').length;
-
-pdf.setFontSize(10);
-pdf.setTextColor(80, 80, 80);
-pdf.text('Total exonérés: ' + exoList.length, 14, 52);
-pdf.text('Filles: ' + totalFilles, 80, 52);
-pdf.text('Garçons: ' + totalGarcons, 130, 52);
-
-pdf.autoTable({
-startY: 58,
-head: [['#', 'ÉLÈVE', 'CLASSE', 'OPTION', 'MOTIF', 'APPROBATEUR']],
-body: tableData,
-theme: 'grid',
-headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 10 },
-styles: { fontSize: 8, cellPadding: 4 },
-columnStyles: {
-0: { cellWidth: 12, halign: 'center' },
-1: { cellWidth: 60 },
-2: { cellWidth: 28, halign: 'center' },
-3: { cellWidth: 28, halign: 'center' },
-4: { cellWidth: 28, halign: 'center' },
-5: { cellWidth: 28, halign: 'center' }
-},
-didDrawPage: function(data) {
-const pageNumber = pdf.internal.getCurrentPageInfo().pageNumber;
-const totalPages = pdf.internal.getNumberOfPages();
-pdf.setFontSize(8);
-pdf.setTextColor(100, 100, 100);
-pdf.text('Page ' + pageNumber + ' / ' + totalPages, pageWidth / 2, pageHeight - 10, { align: 'center' });
-pdf.text('Document généré le ' + new Date().toLocaleString('fr-FR'), 14, pageHeight - 6);
-pdf.text('NeTubeX Education', pageWidth - 14, pageHeight - 6, { align: 'right' });
-}
-});
-
-pdf.save('Exoneres_' + SCHOOL_DISPLAY_NAME + '_' + new Date().toISOString().split('T')[0] + '.pdf');
-});
-
-// ===== PROTECTIONS =====
-document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
-document.addEventListener('keydown', function(e) {
-if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
-if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) { e.preventDefault(); return false; }
-if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) { e.preventDefault(); return false; }
-if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); return false; }
-if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) { e.preventDefault(); return false; }
-if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) { e.preventDefault(); return false; }
-if (e.key === 'PrintScreen' || e.keyCode === 44) { e.preventDefault(); return false; }
-return true;
-});
-document.addEventListener('dragover', e => { e.preventDefault(); return false; });
-document.addEventListener('drop', e => { e.preventDefault(); return false; });
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='K'))||(e.ctrlKey&&(e.key==='u'||e.key==='U'||e.key==='s'||e.key==='S'))){e.preventDefault();}});
 
 updateSchoolLogo(ECOLET_ID);
 setupRealtimeListeners();
-
-window.addEventListener('beforeunload', function() {
-});
 </script>
 </body>
 </html>
