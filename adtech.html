@@ -744,6 +744,7 @@ if (ecoleData.masque === true) continue;
 if (seenSchools.has(id)) continue;
 seenSchools.add(id);
 allSchools.push({ id, ...ecoleData });
+// Chargement des membres A - compta_eleves
 try {
 const mSnap = await getDocs(collection(db, "ecoles", id, SC.COMPTA_ELEVES));
 mSnap.forEach(d => {
@@ -766,8 +767,9 @@ allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom ||
 }
 });
 } catch (e) {}
+// Chargement des membres B - prima_eleves
 try {
-const pSnap = await getDocs(collection(db, "ecoles", id, "primaire_eleves"));
+const pSnap = await getDocs(collection(db, "ecoles", id, "prima_eleves"));
 pSnap.forEach(d => {
 const data = d.data();
 if (data.nom && !data.abandon) {
@@ -788,8 +790,9 @@ allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom ||
 }
 });
 } catch (e) {}
+// Chargement des membres C - mater_eleves
 try {
-const matSnap = await getDocs(collection(db, "ecoles", id, "maternelle_eleves"));
+const matSnap = await getDocs(collection(db, "ecoles", id, "mater_eleves"));
 matSnap.forEach(d => {
 const data = d.data();
 if (data.nom && !data.abandon) {
@@ -1354,7 +1357,7 @@ if (!school) return;
 if (!await showCodeModal('Suppression d\'école', { schoolId })) return;
 if (!await showConfirm(`⚠️ Supprimer définitivement l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
 try {
-const subs = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','primaire_eleves','maternelle_eleves'];
+const subs = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 for (const sub of subs) {
 try {
 const snap = await getDocs(collection(db, "ecoles", schoolId, sub));
@@ -1401,7 +1404,7 @@ async function exportBackup(ecoleId, ecoleNom, format) {
 const btn = document.querySelector(`[data-ecole="${ecoleId}"].btn-${format === 'excel' ? 'excel' : 'csv'}`);
 if (btn) { btn.textContent = '⏳...'; btn.style.opacity = '0.6'; btn.style.pointerEvents = 'none'; }
 try {
-const collections = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','primaire_eleves','maternelle_eleves'];
+const collections = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 const data = { ecole: ecoleId, nom: ecoleNom, date: new Date().toISOString(), collections: {} };
 for (const col of collections) {
 try {
@@ -1939,7 +1942,7 @@ let schools = allSchools;
 if (filter !== "all") schools = schools.filter(s => s.id === filter);
 const collections = {};
 let totalDocs = 0;
-const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','primaire_eleves','maternelle_eleves'];
+const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 for (const school of schools) {
 const id = school.id;
 for (const sub of subCols) {
