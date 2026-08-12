@@ -30,7 +30,6 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .topbar .brand h1 span{color:var(--accent)}
 .topbar .brand .sub{font-size:12px;font-weight:400;color:var(--text-muted);margin-left:8px}
 .topbar .right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.topbar .right .badge{background:rgba(255,255,255,0.06);color:var(--text-secondary);padding:4px 14px;border-radius:20px;font-size:12px;font-weight:500}
 .topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:16px;transition:var(--transition)}
 .topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
 .space-filter{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:10px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -44,29 +43,10 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
 .kpi-card .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
 .kpi-card .value{font-size:24px;font-weight:800;color:#fff;margin-top:2px}
-.kpi-card .value.orange{color:var(--accent)}
 .kpi-card .value.blue{color:#5dade2}
 .kpi-card .value.green{color:var(--success)}
 .kpi-card .value.purple{color:#bb8fce}
 .kpi-card .value.red{color:var(--danger)}
-.chart-header{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 24px 16px 24px}
-.chart-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:16px 20px;transition:var(--transition)}
-.chart-card:hover{background:rgba(255,255,255,0.05)}
-.chart-card .chart-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
-.chart-card .chart-container{height:60px;display:flex;align-items:center;gap:12px}
-.chart-card .chart-bar{flex:1;height:32px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden;display:flex;position:relative}
-.chart-card .chart-bar .fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(0.4,0,0.2,1);min-width:4px}
-.chart-card .chart-bar .fill.pink{background:linear-gradient(90deg,#ec4899,#f472b6)}
-.chart-card .chart-bar .fill.blue{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
-.chart-card .chart-stats{display:flex;flex-direction:column;gap:2px;min-width:80px;text-align:right}
-.chart-card .chart-stats .number{font-size:18px;font-weight:800;color:#fff}
-.chart-card .chart-stats .label{font-size:10px;color:var(--text-muted);font-weight:600}
-.chart-card .chart-stats .number.pink{color:#ec4899}
-.chart-card .chart-stats .number.blue{color:#3b82f6}
-.chart-card .chart-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--text-muted)}
-.chart-card .chart-legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
-.chart-card .chart-legend .dot.pink{background:#ec4899}
-.chart-card .chart-legend .dot.blue{background:#3b82f6}
 .tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
 .tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
 .tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
@@ -160,14 +140,11 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 @keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
 .eleve-group{margin-bottom:14px;border:1px solid var(--border-color);border-radius:10px;overflow:hidden}
 .eleve-group-header{padding:10px 14px;background:rgba(255,255,255,0.02);font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border-color)}
-.eleve-group-header .badge{font-size:11px}
 .eleve-group-body{padding:4px 6px}
 .eleve-group-body .eleve-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.02);flex-wrap:wrap;gap:4px}
 .eleve-group-body .eleve-item:hover{background:rgba(255,255,255,0.02)}
 .eleve-group-body .eleve-item .nom{font-weight:600;font-size:14px;color:#fff}
-.eleve-group-body .eleve-item .info{font-size:12px;color:var(--text-muted)}
 .eleve-group-body .eleve-item .code-parent{font-family:monospace;font-size:14px;color:var(--accent);background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;font-weight:700}
-.eleve-group-body .eleve-item .actions{display:flex;gap:4px;flex-wrap:wrap}
 .section-group{margin-bottom:10px;border-left:3px solid rgba(108,99,255,0.3);padding-left:4px}
 .section-group .section-title{font-size:12px;font-weight:700;color:var(--text-muted);padding:4px 10px;text-transform:uppercase;letter-spacing:0.5px}
 .section-group.secondary{border-left-color:rgba(187,143,206,0.4)}
@@ -252,7 +229,6 @@ body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--borde
 body.light .topbar{background:#0A1628}
 body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
 body.light .kpi-card .value{color:#1A202C}
-body.light .chart-card{background:#FFFFFF;border-color:#E2E8F0}
 body.light .card{background:#FFFFFF;border-color:#E2E8F0}
 body.light .card-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
 body.light .card-header .count{color:#4A5568;background:#EDF2F7}
@@ -268,7 +244,7 @@ body.light .teacher-item.header{color:#4A5568;background:#F7FAFC}
 body.light .eleve-group{border-color:#E2E8F0}
 body.light .eleve-group-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
 body.light .eleve-group-body .eleve-item .nom{color:#1A202C}
-body.light .eleve-group-body .eleve-item .info{color:#4A5568}
+body.light .eleve-group-body .eleve-item .code-parent{color:#2563EB;background:rgba(37,99,235,0.08)}
 body.light .eleve-group-body .eleve-item:hover{background:#F7FAFC}
 body.light .section-group .section-title{color:#4A5568}
 body.light .badge-success{background:rgba(52,211,153,0.12);color:#059669}
@@ -341,13 +317,9 @@ body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
 .topbar{padding:10px 16px}
 .topbar .brand h1{font-size:16px}
 .topbar .brand .sub{display:none}
-.topbar .right .badge{font-size:10px;padding:2px 10px}
 .kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}
 .kpi-card{padding:10px 14px}
 .kpi-card .value{font-size:20px}
-.chart-header{grid-template-columns:1fr;padding:4px 16px 12px 16px}
-.chart-card .chart-container{height:50px}
-.chart-card .chart-stats .number{font-size:16px}
 .space-filter{padding:8px 16px}
 .space-filter .btn-group button{padding:4px 14px;font-size:12px}
 .tabs{padding:4px 10px;gap:2px}
@@ -390,7 +362,6 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Tableau de Bord</span></h1>
 </div>
 <div class="right">
-<span class="badge" id="totalHeader">0</span>
 <button class="theme-toggle" id="themeToggle">🌙</button>
 </div>
 </div>
@@ -403,32 +374,8 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="kpi-row">
 <div class="kpi-card"><div class="label">Établissement</div><div class="value blue" id="hdrEcoles">0</div></div>
 <div class="kpi-card"><div class="label">Enseignants</div><div class="value purple" id="hdrEnseignants">0</div></div>
-<div class="kpi-card"><div class="label">Élèves</div><div class="value orange" id="hdrEleves">0</div></div>
 <div class="kpi-card"><div class="label">Fiches</div><div class="value green" id="hdrFiches">0</div></div>
-<div class="kpi-card"><div class="label">Codes</div><div class="value" id="hdrCodes" style="color:#f1c40f;">0</div></div>
 <div class="kpi-card"><div class="label">Alertes</div><div class="value red" id="hdrAlertes">0</div></div>
-</div>
-<div class="chart-header">
-<div class="chart-card">
-<div class="chart-title">👩 Répartition par Genre</div>
-<div class="chart-container">
-<div class="chart-bar">
-<div class="fill pink" id="chartFilles" style="width:0%"></div>
-<div class="fill blue" id="chartGarcons" style="width:0%"></div>
-</div>
-<div class="chart-stats">
-<div class="number pink" id="chartFillesCount">0</div>
-<div class="label">Filles</div>
-<div class="number blue" id="chartGarconsCount">0</div>
-<div class="label">Garçons</div>
-</div>
-</div>
-<div class="chart-legend">
-<span><span class="dot pink"></span> Filles <span id="chartFillesPct">0%</span></span>
-<span><span class="dot blue"></span> Garçons <span id="chartGarconsPct">0%</span></span>
-<span>Total: <strong id="chartTotal">0</strong></span>
-</div>
-</div>
 </div>
 <div id="bannerContainer"></div>
 <div class="tabs" id="tabContainer">
@@ -456,7 +403,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div>
 </div>
-<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles <span class="count" id="ecolesCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
+<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
 <div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Nom de l'école</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
@@ -477,17 +424,17 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="school-grid" id="ecolesContainer"><div class="empty-state">Chargement...</div></div>
 </div>
 </div></div>
-<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS <span class="count" id="membersCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersBtn">⟳</button></div></div>
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearch" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
 <div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilter" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
-<div id="membersContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
+<div id="membersContainer" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
 <div class="pagination-container" id="membersPagination" style="display:none;"><div class="pagination-info" id="membersPaginationInfo">0 membres</div><div class="pagination-buttons" id="membersPaginationButtons"></div></div>
 </div>
 </div></div>
-<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants <span class="count" id="teachersCount">0</span></div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
 <div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Nom</label><input type="text" id="teacherName" placeholder="Nom complet"></div>
@@ -505,7 +452,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div id="teachersContainer"></div>
 </div>
 </div></div>
-<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches <span class="count" id="sheetsCount">0</span></div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
 <div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Matière</label><input type="text" id="sheetCours" placeholder="Ex: Mathématiques"></div>
@@ -524,13 +471,13 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="table-wrapper"><table><thead><tr><th>#</th><th>Matière</th><th>Classe</th><th>Option</th><th>Enseignant</th><th>École</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
 </div>
 </div></div>
-<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails <span class="count" id="codesEmailsCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
+<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
-<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes <span class="count" id="alertesCount">0</span></div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
 <div class="card-body">
 <div class="filter-row">
 <label>🏫</label><select id="alertesEcoleFilter"><option value="all">Toutes</option></select>
@@ -575,21 +522,20 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div>
 </div></div>
-<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS <span class="count" id="codesCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="codeEcoleSelect"><option value="">-- Sélectionner --</option></select></div>
-<div class="code-stats" style="display:flex;gap:16px;font-size:13px;color:var(--text-muted);padding:8px 0;"><span>Total: <strong id="codeTotal">0</strong></span><span>Résultats: <strong id="codeResults">0</strong></span></div>
 <div><input type="text" id="codeSearchInput" placeholder="Tapez les premières lettres du nom..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
 <div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Sélectionnez une école</div></div>
 </div>
 </div></div>
-<div id="tab9" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs <span class="count" id="wmCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
+<div id="tab9" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="wmEcoleFilter"><option value="all">Toutes</option></select></div>
 <div class="table-wrapper"><table><thead><tr><th>Élève</th><th>Classe</th><th>Section</th><th>École</th><th>Mois</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
 </div>
 </div></div>
-<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur <span class="count" id="explorerCount">0</span></div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="explorerEcoleFilter"><option value="all">Toutes</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Appliquer</button></div>
 <div id="explorerContent"><div class="empty-state">Chargement...</div></div>
@@ -597,7 +543,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div></div>
 <div id="tab13" class="tab-panel">
 <div class="card">
-<div class="card-header"><div>📈 TENDANCE <span class="count" id="tendanceCount">3 périodes</span></div></div>
+<div class="card-header"><div>📈 TENDANCE</div></div>
 <div class="card-body">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
@@ -666,7 +612,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
-const NX_CODE = "NXTheone2024";
+const NX_CODE = "NXTheone";
 const SC = { PROFESSEURS: "professeurs", FICHES: "fiches", COMPTA_ELEVES: "compta_eleves" };
 let allSchools = [], allMembers = [], allTeachers = [], allSheets = [], allCodes = [], allAlertes = [];
 let espaceActif = 'all';
@@ -917,15 +863,6 @@ updateSelectors();
 updateCounters();
 updateDashboard();
 updateBanner();
-document.getElementById("ecolesCount").textContent = allSchools.length;
-document.getElementById("membersCount").textContent = allMembers.length;
-document.getElementById("teachersCount").textContent = allTeachers.length;
-document.getElementById("sheetsCount").textContent = allSheets.length;
-document.getElementById("codesEmailsCount").textContent = allSchools.length;
-document.getElementById("alertesCount").textContent = allAlertes.length;
-document.getElementById("codesCount").textContent = allCodes.length;
-document.getElementById("explorerCount").textContent = Object.keys(explorerData).length;
-if (isStatsFullscreen) buildStatsChart();
 loadSchools();
 loadMembers();
 loadTeachers();
@@ -960,32 +897,10 @@ if (val && el.querySelector(`option[value="${val}"]`)) el.value = val;
 });
 }
 function updateCounters() {
-const total = allMembers.length;
 document.getElementById("hdrEcoles").textContent = allSchools.length;
 document.getElementById("hdrEnseignants").textContent = allTeachers.length;
 document.getElementById("hdrFiches").textContent = allSheets.length;
-document.getElementById("hdrCodes").textContent = allCodes.length;
 document.getElementById("hdrAlertes").textContent = allAlertes.length;
-document.getElementById("hdrEleves").textContent = total;
-document.getElementById("totalHeader").textContent = total;
-updateChart();
-}
-function updateChart() {
-let filles = 0, garcons = 0;
-allMembers.forEach(m => {
-if (m.sexe === 'F') filles++;
-else if (m.sexe === 'M') garcons++;
-});
-const total = filles + garcons || 1;
-const pctFilles = Math.round((filles / total) * 100);
-const pctGarcons = Math.round((garcons / total) * 100);
-document.getElementById('chartFilles').style.width = pctFilles + '%';
-document.getElementById('chartGarcons').style.width = pctGarcons + '%';
-document.getElementById('chartFillesCount').textContent = filles;
-document.getElementById('chartGarconsCount').textContent = garcons;
-document.getElementById('chartFillesPct').textContent = pctFilles + '%';
-document.getElementById('chartGarconsPct').textContent = pctGarcons + '%';
-document.getElementById('chartTotal').textContent = total;
 }
 function updateDashboard() {
 const filter = espaceActif;
@@ -1547,7 +1462,6 @@ const search = document.getElementById("memberSearch")?.value?.toLowerCase() || 
 let members = allMembers;
 if (filterEcole !== "all") members = members.filter(m => m.ecoleId === filterEcole);
 if (search) members = members.filter(m => (m.nom + ' ' + (m.prenom||'')).toLowerCase().includes(search));
-document.getElementById("membersCount").textContent = members.length;
 const totalPages = Math.ceil(members.length / membersPerPage);
 if (membersPage > totalPages) membersPage = 1;
 const start = (membersPage - 1) * membersPerPage;
@@ -1570,7 +1484,6 @@ html += `
 <div class="eleve-group">
 <div class="eleve-group-header">
 🏫 ${escapeHtml(ecoleData.school)}
-<span class="badge badge-primary">${ecoleData.members.length} élèves</span>
 </div>
 <div class="eleve-group-body">
 `;
@@ -1594,7 +1507,7 @@ const paginationInfo = document.getElementById('membersPaginationInfo');
 const paginationButtons = document.getElementById('membersPaginationButtons');
 if (totalPages > 1) {
 paginationContainer.style.display = 'flex';
-paginationInfo.textContent = `${members.length} membres · Page ${membersPage}/${totalPages}`;
+paginationInfo.textContent = `Page ${membersPage}/${totalPages}`;
 let btns = '';
 if (membersPage > 1) btns += `<button class="pagination-btn" data-page="${membersPage - 1}">◀</button>`;
 for (let i = Math.max(1, membersPage - 2); i <= Math.min(totalPages, membersPage + 2); i++) {
@@ -1624,7 +1537,6 @@ if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search
 if (emailFilter === 'valid') teachers = teachers.filter(t => t.email && t.email.includes('@'));
 else if (emailFilter === 'invalid') teachers = teachers.filter(t => !t.email || !t.email.includes('@'));
 else if (emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
-document.getElementById("teachersCount").textContent = teachers.length;
 if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant</div>'; return; }
 const ficheCounts = {};
 allSheets.forEach(s => { if (s.titulaire) { const key = s.titulaire.trim().toLowerCase(); ficheCounts[key] = (ficheCounts[key] || 0) + 1; } });
@@ -1687,7 +1599,6 @@ const search = document.getElementById("sheetSearch")?.value?.toLowerCase() || "
 let sheets = allSheets;
 if (filter !== "all") sheets = sheets.filter(s => s.ecoleId === filter);
 if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
-document.getElementById("sheetsCount").textContent = sheets.length;
 if (sheets.length === 0) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 Aucune fiche</td></tr>'; return; }
 let html = '';
 sheets.forEach((s, i) => {
@@ -1790,7 +1701,6 @@ if (statutFilter !== "all") alertes = alertes.filter(a => a.statut === statutFil
 if (categorieFilter !== "all") alertes = alertes.filter(a => a.categorie === categorieFilter);
 if (dateDebut) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) >= new Date(dateDebut));
 if (dateFin) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) <= new Date(dateFin));
-document.getElementById("alertesCount").textContent = alertes.length;
 if (alertes.length === 0) {
 container.innerHTML = '<div class="alert-item header"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div><div class="empty-state">Aucune alerte</div>';
 return;
@@ -1933,8 +1843,6 @@ codes = codes.filter(c => c.ecole === ecoleId);
 if (searchTerm) {
 codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
 }
-document.getElementById("codeTotal").textContent = allCodes.length;
-document.getElementById("codeResults").textContent = codes.length;
 const container = document.getElementById("codeResultsContainer");
 if (codes.length === 0) {
 container.innerHTML = '<div class="empty-state">📭 Aucun code parent trouvé</div>';
@@ -1948,19 +1856,13 @@ groupedByEcole[key] = [];
 }
 groupedByEcole[key].push(c);
 });
-let html = `
-<div style="display:flex;gap:12px;padding:6px 0;margin-bottom:8px;border-bottom:1px solid var(--border-color);">
-<span style="font-size:12px;color:var(--text-muted);">👨‍👩‍👧‍👦 Total: <strong style="color:#fff;">${codes.length}</strong></span>
-<span style="font-size:12px;color:var(--text-muted);">🏫 Écoles: <strong style="color:#fff;">${Object.keys(groupedByEcole).length}</strong></span>
-</div>
-`;
+let html = ``;
 for (const [ecoleId, eleves] of Object.entries(groupedByEcole)) {
 const ecoleNom = allSchools.find(s => s.id === ecoleId)?.nom || ecoleId;
 html += `
 <div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;">
 <div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);">
 <span>🏫 ${escapeHtml(ecoleNom)}</span>
-<span style="font-weight:400;color:var(--text-muted);">${eleves.length} élève(s)</span>
 </div>
 <div style="padding:4px 8px;">
 ${eleves.map(e => {
@@ -1999,7 +1901,6 @@ wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Inconnu", classe: data.c
 });
 } catch(e) {}
 }
-document.getElementById("wmCount").textContent = wm.length;
 if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ Aucun mois blanc</td></tr>'; return; }
 let html = '';
 wm.slice(0, 100).forEach((w, i) => {
@@ -2052,7 +1953,6 @@ totalDocs += docs.length;
 }
 }
 explorerData = collections;
-document.getElementById("explorerCount").textContent = Object.keys(collections).length;
 let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;">
 <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">${Object.keys(collections).length}</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div>
 <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">${totalDocs}</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div>
