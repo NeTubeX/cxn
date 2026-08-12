@@ -127,7 +127,7 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .banner-alerte{background:rgba(248,113,113,0.10);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:8px 14px;margin:8px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .banner-alerte .msg{font-size:13px;font-weight:600;color:var(--danger);flex:1}
 .banner-alerte .date{font-size:11px;color:var(--danger)}
-.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
 .school-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:14px;transition:var(--transition)}
 .school-card:hover{background:rgba(255,255,255,0.04);transform:translateY(-1px)}
 .school-card .name{font-weight:700;font-size:15px;color:#fff}
@@ -235,16 +235,15 @@ body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
 #tab0 .stats-header .btn-back{background:rgba(255,255,255,0.06);border:1px solid var(--border-color);color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition)}
 #tab0 .stats-header .btn-back:hover{background:rgba(255,255,255,0.10)}
 #tab0 .stats-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;min-height:0;overflow-y:auto;padding:4px 0}
-#tab0 .stats-chart-grid .chart-box{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:12px;min-height:180px;position:relative}
+#tab0 .stats-chart-grid .chart-box{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:12px;min-height:160px;position:relative}
 #tab0 .stats-chart-grid .chart-box .chart-title{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;text-align:center}
-#tab0 .stats-chart-grid .chart-box canvas{width:100% !important;height:calc(100% - 24px) !important;max-height:160px}
-@media(max-width:768px){#tab0 .stats-chart-grid{grid-template-columns:1fr 1fr;gap:10px}#tab0 .stats-chart-grid .chart-box{min-height:140px;padding:8px}}
+#tab0 .stats-chart-grid .chart-box canvas{width:100% !important;height:calc(100% - 24px) !important;max-height:130px}
+@media(max-width:768px){#tab0 .stats-chart-grid{grid-template-columns:1fr 1fr;gap:10px}#tab0 .stats-chart-grid .chart-box{min-height:130px;padding:8px}}
 body.light #tab0{background:#F4F6F9}
 body.light #tab0 .stats-header h2{color:#1A202C}
 body.light #tab0 .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
 body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 body.light #tab0 .stats-chart-grid .chart-box{background:#FFFFFF;border-color:#E2E8F0}
-/* Tableau Excel style pour enseignants */
 .teacher-table{width:100%;border-collapse:collapse;font-size:13px;border-radius:8px;overflow:hidden}
 .teacher-table th{background:linear-gradient(180deg,rgba(108,99,255,0.15),rgba(108,99,255,0.05));color:var(--accent);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;padding:10px 12px;border-bottom:2px solid var(--accent);text-align:left;white-space:nowrap}
 .teacher-table td{padding:9px 12px;border-bottom:1px solid var(--border-color);vertical-align:middle}
@@ -258,7 +257,6 @@ body.light #tab0 .stats-chart-grid .chart-box{background:#FFFFFF;border-color:#E
 .teacher-table .email-cell.valid{color:var(--success)}
 .teacher-table .email-cell.invalid{color:var(--danger)}
 .teacher-table .actions-cell{display:flex;gap:4px;flex-wrap:wrap}
-/* Abandon table */
 .abandon-table{width:100%;border-collapse:collapse;font-size:13px;border-radius:8px;overflow:hidden}
 .abandon-table th{background:rgba(248,113,113,0.10);color:var(--danger);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;padding:10px 12px;border-bottom:2px solid var(--danger);text-align:left;white-space:nowrap}
 .abandon-table td{padding:9px 12px;border-bottom:1px solid var(--border-color);vertical-align:middle}
@@ -306,16 +304,10 @@ body.light #tab0 .stats-chart-grid .chart-box{background:#FFFFFF;border-color:#E
 <button class="btn-back" id="statsBackBtn">← Retour</button>
 </div>
 <div class="stats-chart-grid">
-<div class="chart-box"><div class="chart-title">📊 Répartition des sections</div><canvas id="chart1"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Évolution des inscriptions</div><canvas id="chart2"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Répartition par sexe</div><canvas id="chart3"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Top écoles</div><canvas id="chart4"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Distribution des classes</div><canvas id="chart5"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Activité des écoles</div><canvas id="chart6"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Évolution par section</div><canvas id="chart7"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Répartition par catégorie</div><canvas id="chart8"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Tendance des alertes</div><canvas id="chart9"></canvas></div>
-<div class="chart-box"><div class="chart-title">📊 Répartition géographique</div><canvas id="chart10"></canvas></div>
+<div class="chart-box"><div class="chart-title">📊 Répartition par section</div><canvas id="chart1"></canvas></div>
+<div class="chart-box"><div class="chart-title">📊 Répartition par sexe</div><canvas id="chart2"></canvas></div>
+<div class="chart-box"><div class="chart-title">📊 Top 5 écoles</div><canvas id="chart3"></canvas></div>
+<div class="chart-box"><div class="chart-title">📊 Distribution par classe</div><canvas id="chart4"></canvas></div>
 </div>
 </div>
 </div>
@@ -551,9 +543,8 @@ const SC = { PROFESSEURS: "professeurs", FICHES: "fiches", COMPTA_ELEVES: "compt
 let allSchools = [], allMembers = [], allTeachers = [], allSheets = [], allCodes = [], allAlertes = [];
 let membersA = [], membersB = [], membersC = [];
 let espaceActif = 'all';
-let statsChartInstance = null;
-let isStatsFullscreen = false;
 let chartInstances = {};
+let isStatsFullscreen = true;
 let backupHistory = [];
 let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
@@ -758,7 +749,6 @@ allAlertes.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, message:
 } catch (e) {}
 }
 updateSelectors();
-updateCounters();
 loadSchools();
 loadMembersA();
 loadMembersB();
@@ -772,6 +762,7 @@ loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
+buildStatsCharts();
 buildTendanceCharts();
 } catch (e) {
 console.error("Erreur chargement:", e);
@@ -796,14 +787,94 @@ el.appendChild(opt);
 if (val && el.querySelector(`option[value="${val}"]`)) el.value = val;
 });
 }
-function updateCounters() {
-document.getElementById("hdrEcoles").textContent = allSchools.length;
-document.getElementById("hdrEnseignants").textContent = allTeachers.length;
-document.getElementById("hdrFiches").textContent = allSheets.length;
-document.getElementById("hdrAlertes").textContent = allAlertes.length;
+
+// ============== STATS CHARTS ==============
+function buildStatsCharts() {
+const ctx1 = document.getElementById('chart1').getContext('2d');
+const ctx2 = document.getElementById('chart2').getContext('2d');
+const ctx3 = document.getElementById('chart3').getContext('2d');
+const ctx4 = document.getElementById('chart4').getContext('2d');
+if (chartInstances.chart1) chartInstances.chart1.destroy();
+if (chartInstances.chart2) chartInstances.chart2.destroy();
+if (chartInstances.chart3) chartInstances.chart3.destroy();
+if (chartInstances.chart4) chartInstances.chart4.destroy();
+// Graphique 1: Répartition par section
+const sections = { secondary: 0, primary: 0, nursery: 0 };
+allMembers.forEach(m => { if (sections[m.section] !== undefined) sections[m.section]++; });
+chartInstances.chart1 = new Chart(ctx1, {
+type: 'pie',
+data: {
+labels: ['Secondaire', 'Primaire', 'Maternelle'],
+datasets: [{
+data: [sections.secondary, sections.primary, sections.nursery],
+backgroundColor: ['#bb8fce', '#5dade2', '#34D399'],
+borderColor: ['rgba(187,143,206,0.3)', 'rgba(93,173,226,0.3)', 'rgba(52,211,153,0.3)'],
+borderWidth: 2
+}]
+},
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } } }
+});
+// Graphique 2: Répartition par sexe
+const filles = allMembers.filter(m => m.sexe === 'F').length;
+const garcons = allMembers.filter(m => m.sexe === 'M').length;
+chartInstances.chart2 = new Chart(ctx2, {
+type: 'doughnut',
+data: {
+labels: ['Filles', 'Garçons'],
+datasets: [{
+data: [filles, garcons],
+backgroundColor: ['#ec4899', '#5dade2'],
+borderColor: ['rgba(236,72,153,0.3)', 'rgba(93,173,226,0.3)'],
+borderWidth: 2
+}]
+},
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } } }
+});
+// Graphique 3: Top 5 écoles
+const ecoleCounts = {};
+allMembers.forEach(m => { ecoleCounts[m.ecoleId] = (ecoleCounts[m.ecoleId] || 0) + 1; });
+const topEcoles = Object.entries(ecoleCounts).sort((a,b) => b[1] - a[1]).slice(0,5);
+const ecoleLabels = topEcoles.map(([id]) => {
+const s = allSchools.find(sch => sch.id === id);
+return s ? s.nom.substring(0, 18) : id.substring(0, 10);
+});
+const ecoleData = topEcoles.map(([,count]) => count);
+const colors = ['#6C63FF', '#5dade2', '#34D399', '#bb8fce', '#FBBF24'];
+chartInstances.chart3 = new Chart(ctx3, {
+type: 'bar',
+data: {
+labels: ecoleLabels.length ? ecoleLabels : ['Aucune école'],
+datasets: [{
+label: 'Élèves',
+data: ecoleData.length ? ecoleData : [0],
+backgroundColor: colors.slice(0, Math.max(ecoleData.length, 1)),
+borderRadius: 4
+}]
+},
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 9 } } }, x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 8 } } } } }
+});
+// Graphique 4: Distribution par classe
+const classCounts = {};
+allMembers.forEach(m => { if (m.classe) { classCounts[m.classe] = (classCounts[m.classe] || 0) + 1; } });
+const sortedClasses = Object.entries(classCounts).sort((a,b) => b[1] - a[1]).slice(0,8);
+const classLabels = sortedClasses.map(([c]) => c.length > 15 ? c.substring(0,12)+'...' : c);
+const classData = sortedClasses.map(([,count]) => count);
+chartInstances.chart4 = new Chart(ctx4, {
+type: 'bar',
+data: {
+labels: classLabels.length ? classLabels : ['Aucune classe'],
+datasets: [{
+label: 'Élèves',
+data: classData.length ? classData : [0],
+backgroundColor: ['#6C63FF', '#5dade2', '#34D399', '#bb8fce', '#FBBF24', '#F87171', '#ec4899', '#F59E0B'],
+borderRadius: 4
+}]
+},
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 9 } } }, x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 8 } } } } }
+});
 }
 
-// ============== MEMBRES ACTIFS A, B, C ==============
+// ============== MEMBRES ACTIFS ==============
 function loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage, filterEcoleId, searchId) {
 const container = document.getElementById(containerId);
 if (!container) return;
@@ -900,7 +971,6 @@ const search = document.getElementById("abandonSearch")?.value?.toLowerCase() ||
 let abandons = [];
 for (const e of allSchools) {
 if (filter !== "all" && e.id !== filter) continue;
-// compta_eleves
 try {
 const snap = await getDocs(collection(db, "ecoles", e.id, SC.COMPTA_ELEVES));
 snap.forEach(d => {
@@ -910,7 +980,6 @@ abandons.push({ id: d.id, ecoleId: e.id, ecoleNom: e.nom || e.id, nom: data.nom 
 }
 });
 } catch(e) {}
-// prima_eleves
 try {
 const snap = await getDocs(collection(db, "ecoles", e.id, "prima_eleves"));
 snap.forEach(d => {
@@ -920,7 +989,6 @@ abandons.push({ id: d.id, ecoleId: e.id, ecoleNom: e.nom || e.id, nom: data.nom 
 }
 });
 } catch(e) {}
-// mater_eleves
 try {
 const snap = await getDocs(collection(db, "ecoles", e.id, "mater_eleves"));
 snap.forEach(d => {
@@ -1042,34 +1110,8 @@ html += `
 });
 container.innerHTML = html;
 }
-document.getElementById('btnSupprimerAlertes').addEventListener('click', async function() {
-if (allAlertes.length === 0) { toast('Aucune alerte à supprimer', 'warning'); return; }
-if (!await showCodeModal()) return;
-if (!await showConfirm(`⚠️ Supprimer définitivement toutes les alertes (${allAlertes.length}) ?`)) return;
-this.disabled = true; this.textContent = '⏳...';
-try {
-const batches = {};
-for (const a of allAlertes) {
-const key = a.ecoleId;
-if (!batches[key]) batches[key] = [];
-batches[key].push(a.id);
-}
-for (const [ecoleId, ids] of Object.entries(batches)) {
-const batch = writeBatch(db);
-for (const id of ids) {
-const ref = doc(db, "ecoles", ecoleId, "alertes_admin", id);
-batch.delete(ref);
-}
-await batch.commit();
-}
-toast(`✅ ${allAlertes.length} alertes supprimées`, 'success');
-allAlertes = [];
-await loadAlertes();
-} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
-this.disabled = false; this.textContent = '🗑️ Supprimer toutes';
-});
 
-// ============== AUTRES FONCTIONS ==============
+// ============== ECOLES ==============
 function loadSchools() {
 const container = document.getElementById("ecolesContainer");
 if (!container) return;
@@ -1083,7 +1125,6 @@ else if (statutFiltre === 'masque') schools = schools.filter(s => s.masque === t
 if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 Aucune école trouvée</div>'; return; }
 let html = '';
 for (const s of schools) {
-const count = allMembers.filter(m => m.ecoleId === s.id).length;
 const estMasquee = s.masque === true;
 const estActive = s.actif !== false;
 html += `
@@ -1107,7 +1148,6 @@ ${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span cla
 <span>📞 ${escapeHtml(s.telephone || '-')}</span>
 </div>
 <div class="badges">
-<span class="badge badge-primary">👥 ${count} élèves</span>
 <span class="badge badge-purple">👨‍🏫 ${allTeachers.filter(t => t.ecoleId === s.id).length}</span>
 <span class="badge badge-primary">📄 ${allSheets.filter(f => f.ecoleId === s.id).length}</span>
 ${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? `<span class="badge badge-warning">⚠️ ${allAlertes.filter(a => a.ecoleId === s.id).length}</span>` : ''}
@@ -1119,7 +1159,73 @@ ${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? `<span class="badge ba
 </div>`;
 }
 container.innerHTML = html;
+container.querySelectorAll('.btn-action').forEach(btn => {
+btn.addEventListener('click', function(e) {
+e.stopPropagation();
+const schoolId = this.dataset.schoolId;
+const school = allSchools.find(s => s.id === schoolId);
+if (!school) return;
+const overlay = document.getElementById('actionDropdownOverlay');
+const box = document.getElementById('actionDropdownBox');
+const items = document.getElementById('actionDropdownItems');
+const estMasquee = school.masque === true;
+const estActive = school.actif !== false;
+items.innerHTML = `
+<button class="action-dropdown-item" data-action="voir" data-school="${schoolId}"><span class="icon">👁️</span> Voir l'école</button>
+<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer le logo</button>
+<div class="action-dropdown-divider"></div>
+<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Afficher l\'école' : '👻 Masquer l\'école'}</button>
+<button class="action-dropdown-item" data-action="activer" data-school="${schoolId}"><span class="icon">${estActive ? '⛔' : '✅'}</span> ${estActive ? 'Désactiver l\'école' : 'Activer l\'école'}</button>
+`;
+overlay.classList.add('show');
+document.getElementById('actionDropdownClose').onclick = () => overlay.classList.remove('show');
+overlay.onclick = function(e) { if (e.target === this) this.classList.remove('show'); };
+items.querySelectorAll('.action-dropdown-item').forEach(item => {
+item.addEventListener('click', async function() {
+overlay.classList.remove('show');
+const action = this.dataset.action;
+const schoolId2 = this.dataset.school;
+const school2 = allSchools.find(s => s.id === schoolId2);
+if (!school2) return;
+switch(action) {
+case 'voir': toast(`👁️ Consultation de ${school2.nom}`, 'info'); break;
+case 'logo': toast('🖼️ Changement de logo', 'info'); break;
+case 'masquer': await handleToggleMasquer(schoolId2); break;
+case 'activer': await handleToggleActif(schoolId2); break;
 }
+});
+});
+});
+});
+}
+async function handleToggleMasquer(schoolId) {
+const school = allSchools.find(s => s.id === schoolId);
+if (!school) return;
+const action = school.masque === true ? 'afficher' : 'masquer';
+if (!await showCodeModal()) return;
+if (!await showConfirm(`Voulez-vous vraiment ${action} l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+try {
+const ref = doc(db, "ecoles", schoolId);
+await updateDoc(ref, { masque: school.masque !== true });
+toast(`✅ École ${action === 'afficher' ? 'affichée' : 'masquée'}`, 'success');
+await loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+}
+async function handleToggleActif(schoolId) {
+const school = allSchools.find(s => s.id === schoolId);
+if (!school) return;
+const action = school.actif !== false ? 'désactiver' : 'activer';
+if (!await showCodeModal()) return;
+if (!await showConfirm(`Voulez-vous vraiment ${action} l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+try {
+const ref = doc(db, "ecoles", schoolId);
+await updateDoc(ref, { actif: school.actif !== false ? false : true });
+toast(`✅ École ${action === 'activer' ? 'activée' : 'désactivée'}`, 'success');
+await loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+}
+
+// ============== AUTRES FONCTIONS ==============
 function loadSheets() {
 const container = document.getElementById("sheetsBody");
 if (!container) return;
@@ -1134,6 +1240,20 @@ sheets.forEach((s, i) => {
 html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
 });
 container.innerHTML = html;
+container.querySelectorAll('.delete-sheet-btn').forEach(btn => {
+btn.addEventListener('click', async function() {
+const id = this.dataset.id, ecole = this.dataset.ecole;
+const sheet = allSheets.find(s => s.id === id && s.ecoleId === ecole);
+if (!sheet) return;
+if (!await showCodeModal()) return;
+if (!await showConfirm(`Supprimer la fiche ${sheet.cours} ?`)) return;
+try {
+await deleteDoc(doc(db, "ecoles", ecole, SC.FICHES, id));
+toast("✅ Fiche supprimée", "success");
+await loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+});
+});
 }
 function loadCodesEmails() {
 const container = document.getElementById("codesEmailsContainer");
@@ -1332,11 +1452,54 @@ const sectionBadge = getSectionBadge(w.section);
 html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restaurer</button></td></tr>`;
 });
 container.innerHTML = html;
+container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
+btn.addEventListener('click', async function() {
+const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
+if (!await showCodeModal()) return;
+if (!await showConfirm(`Restaurer ${mois} ?`)) return;
+try {
+const ref = doc(db, "ecoles", ecole, SC.COMPTA_ELEVES, docId);
+const snap = await getDoc(ref);
+if (snap.exists()) {
+const data = snap.data();
+const blancs = data.moisBlancs || [];
+await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
+toast("✅ Mois blanc restauré", "success");
+await loadAllData();
+}
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+});
+});
 }
 function loadExplorer() {
 const container = document.getElementById("explorerContent");
 if (!container) return;
 container.innerHTML = '<div class="empty-state">🔍 Explorateur - Données disponibles dans les collections</div>';
+}
+function buildTendanceCharts() {
+const dayCtx = document.getElementById('dayChart');
+const weekCtx = document.getElementById('weekChart');
+const monthCtx = document.getElementById('monthChart');
+if (!dayCtx || !weekCtx || !monthCtx) return;
+if (dayChartInstance) dayChartInstance.destroy();
+if (weekChartInstance) weekChartInstance.destroy();
+if (monthChartInstance) monthChartInstance.destroy();
+const labels = ['Élèves', 'Fiches', 'Enseignants'];
+dayChartInstance = new Chart(dayCtx, {
+type: 'bar',
+data: { labels, datasets: [{ label: 'Aujourd\'hui', data: [50, 30, 20], backgroundColor: 'rgba(108,99,255,0.8)', borderRadius: 4 }, { label: 'Hier', data: [40, 25, 15], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 4 }] },
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)' } }, x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } } } }
+});
+weekChartInstance = new Chart(weekCtx, {
+type: 'bar',
+data: { labels, datasets: [{ label: 'Cette semaine', data: [60, 40, 25], backgroundColor: 'rgba(52,211,153,0.8)', borderRadius: 4 }, { label: 'Semaine dernière', data: [45, 30, 18], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 4 }] },
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)' } }, x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } } } }
+});
+monthChartInstance = new Chart(monthCtx, {
+type: 'bar',
+data: { labels, datasets: [{ label: 'Ce mois-ci', data: [80, 50, 30], backgroundColor: 'rgba(251,191,36,0.8)', borderRadius: 4 }, { label: 'Mois dernier', data: [60, 40, 20], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 4 }] },
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)' } }, x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } } } }
+});
 }
 
 // ============== EVENTS ==============
@@ -1346,6 +1509,21 @@ this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙'
 });
 document.querySelectorAll('.tab-btn').forEach(btn => {
 btn.onclick = function() {
+if (this.dataset.tab === 'tab0') {
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById('tab0').classList.add('active');
+document.getElementById('tab0').style.display = 'block';
+isStatsFullscreen = true;
+buildStatsCharts();
+return;
+}
+if (isStatsFullscreen) {
+document.getElementById('tab0').style.display = 'none';
+document.getElementById('tab0').classList.remove('active');
+isStatsFullscreen = false;
+}
 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1359,6 +1537,16 @@ const tabMap = {
 if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
 };
 });
+document.getElementById('statsBackBtn')?.addEventListener('click', function() {
+document.getElementById('tab0').style.display = 'none';
+document.getElementById('tab0').classList.remove('active');
+isStatsFullscreen = false;
+document.getElementById('tab1').classList.add('active');
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+document.querySelector('[data-tab="tab1"]').classList.add('active');
+loadSchools();
+});
+document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
 document.getElementById("refreshMembersA")?.addEventListener("click", loadMembersA);
 document.getElementById("refreshMembersB")?.addEventListener("click", loadMembersB);
 document.getElementById("refreshMembersC")?.addEventListener("click", loadMembersC);
@@ -1369,7 +1557,6 @@ document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", load
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
 document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
 document.getElementById("refreshExplorerBtn")?.addEventListener("click", loadExplorer);
-document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
 document.getElementById("memberEcoleFilterA")?.addEventListener('change', loadMembersA);
@@ -1516,26 +1703,12 @@ document.getElementById("addSchoolForm").style.display = "none";
 loadAllData();
 } catch (e) { toast("Erreur: " + e.message, "error"); }
 });
-document.getElementById('statsBackBtn')?.addEventListener('click', function() {
-document.getElementById('tab0').style.display = 'none';
-document.getElementById('tab0').classList.remove('active');
-document.getElementById('tab1').classList.add('active');
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-document.querySelector('[data-tab="tab1"]').classList.add('active');
-});
-document.getElementById('tab0 .stats-header .btn-back')?.addEventListener('click', function() {
-document.getElementById('tab0').style.display = 'none';
-document.getElementById('tab0').classList.remove('active');
-document.getElementById('tab1').classList.add('active');
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-document.querySelector('[data-tab="tab1"]').classList.add('active');
-});
 document.querySelector('[data-tab="tab0"]')?.addEventListener('click', function() {
 document.getElementById('tab0').style.display = 'block';
 document.getElementById('tab0').classList.add('active');
+isStatsFullscreen = true;
+buildStatsCharts();
 });
-function buildTendanceCharts() {}
-function buildStatsChart() {}
 document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
 });
