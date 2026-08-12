@@ -112,6 +112,7 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .badge-espace-primary{background:rgba(93,173,226,0.15);color:#5dade2}
 .badge-espace-nursery{background:rgba(52,211,153,0.15);color:var(--success)}
 .badge-masque{background:rgba(160,174,192,0.15);color:var(--text-muted)}
+.badge-compta{background:rgba(108,99,255,0.15);color:var(--accent)}
 .empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:14px}
 .empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
@@ -256,6 +257,7 @@ body.light .badge-espace-secondary{background:rgba(187,143,206,0.12);color:#7C3A
 body.light .badge-espace-primary{background:rgba(93,173,226,0.12);color:#2563EB}
 body.light .badge-espace-nursery{background:rgba(52,211,153,0.12);color:#059669}
 body.light .badge-masque{background:rgba(160,174,192,0.12);color:#6B7280}
+body.light .badge-compta{background:rgba(108,99,255,0.12);color:#4F46E5}
 body.light .empty-state{color:#A0AEC0}
 body.light .code-email-card{background:#F7FAFC;border-color:#E2E8F0}
 body.light .code-email-card .name{color:#1A202C}
@@ -381,15 +383,17 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="tabs" id="tabContainer">
 <button class="tab-btn active" data-tab="tab0">📊 STATS</button>
 <button class="tab-btn" data-tab="tab1">🏫 ÉCOLES</button>
-<button class="tab-btn" data-tab="tab2">👥 MEMBRES ACTIFS</button>
-<button class="tab-btn" data-tab="tab3">👨‍🏫 ENSEIGNANTS</button>
-<button class="tab-btn" data-tab="tab4">📄 FICHES</button>
-<button class="tab-btn" data-tab="tab5">🔐 CODES & EMAILS</button>
-<button class="tab-btn" data-tab="tab6">⚠️ ALERTES</button>
-<button class="tab-btn" data-tab="tab7">📋 RAPPORT</button>
-<button class="tab-btn" data-tab="tab8">🔑 CODES PARENTS</button>
-<button class="tab-btn" data-tab="tab9">❄️ MOIS BLANCS</button>
-<button class="tab-btn" data-tab="tab10">🔍 EXPLORATEUR</button>
+<button class="tab-btn" data-tab="tab2">👥 MEMBRES ACTIFS A</button>
+<button class="tab-btn" data-tab="tab3">👥 MEMBRES ACTIFS B</button>
+<button class="tab-btn" data-tab="tab4">👥 MEMBRES ACTIFS C</button>
+<button class="tab-btn" data-tab="tab5">👨‍🏫 ENSEIGNANTS</button>
+<button class="tab-btn" data-tab="tab6">📄 FICHES</button>
+<button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
+<button class="tab-btn" data-tab="tab8">⚠️ ALERTES</button>
+<button class="tab-btn" data-tab="tab9">📋 RAPPORT</button>
+<button class="tab-btn" data-tab="tab10">🔑 CODES PARENTS</button>
+<button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
+<button class="tab-btn" data-tab="tab12">🔍 EXPLORATEUR</button>
 <button class="tab-btn" data-tab="tab13">📈 TENDANCE</button>
 </div>
 <div id="tab0" class="tab-panel active">
@@ -424,17 +428,37 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="school-grid" id="ecolesContainer"><div class="empty-state">Chargement...</div></div>
 </div>
 </div></div>
-<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersBtn">⟳</button></div></div>
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS A (Compta)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearch" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilter" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
-<div id="membersContainer" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPagination" style="display:none;"><div class="pagination-info" id="membersPaginationInfo">0 membres</div><div class="pagination-buttons" id="membersPaginationButtons"></div></div>
+<div id="membersContainerA" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
+<div class="pagination-container" id="membersPaginationA" style="display:none;"><div class="pagination-info" id="membersPaginationInfoA">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
 </div>
 </div></div>
-<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS B (Primaire)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+</div>
+<div id="membersContainerB" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
+<div class="pagination-container" id="membersPaginationB" style="display:none;"><div class="pagination-info" id="membersPaginationInfoB">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
+</div>
+</div></div>
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS C (Maternelle)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+</div>
+<div id="membersContainerC" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
+<div class="pagination-container" id="membersPaginationC" style="display:none;"><div class="pagination-info" id="membersPaginationInfoC">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
+</div>
+</div></div>
+<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
 <div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Nom</label><input type="text" id="teacherName" placeholder="Nom complet"></div>
@@ -452,7 +476,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div id="teachersContainer"></div>
 </div>
 </div></div>
-<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
 <div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Matière</label><input type="text" id="sheetCours" placeholder="Ex: Mathématiques"></div>
@@ -471,13 +495,13 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="table-wrapper"><table><thead><tr><th>#</th><th>Matière</th><th>Classe</th><th>Option</th><th>Enseignant</th><th>École</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
 </div>
 </div></div>
-<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
+<div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
-<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
+<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
 <div class="card-body">
 <div class="filter-row">
 <label>🏫</label><select id="alertesEcoleFilter"><option value="all">Toutes</option></select>
@@ -490,7 +514,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div id="alertesContainer"></div>
 </div>
 </div></div>
-<div id="tab7" class="tab-panel"><div class="card"><div class="card-header">📋 Rapport & Suivi</div>
+<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Rapport & Suivi</div>
 <div class="card-body">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
@@ -522,20 +546,20 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div>
 </div></div>
-<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="codeEcoleSelect"><option value="">-- Sélectionner --</option></select></div>
 <div><input type="text" id="codeSearchInput" placeholder="Tapez les premières lettres du nom..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
 <div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Sélectionnez une école</div></div>
 </div>
 </div></div>
-<div id="tab9" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
+<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="wmEcoleFilter"><option value="all">Toutes</option></select></div>
 <div class="table-wrapper"><table><thead><tr><th>Élève</th><th>Classe</th><th>Section</th><th>École</th><th>Mois</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
 </div>
 </div></div>
-<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
+<div id="tab12" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="explorerEcoleFilter"><option value="all">Toutes</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Appliquer</button></div>
 <div id="explorerContent"><div class="empty-state">Chargement...</div></div>
@@ -615,16 +639,15 @@ const storage = getStorage(app);
 const NX_CODE = "NXTheone";
 const SC = { PROFESSEURS: "professeurs", FICHES: "fiches", COMPTA_ELEVES: "compta_eleves" };
 let allSchools = [], allMembers = [], allTeachers = [], allSheets = [], allCodes = [], allAlertes = [];
+let membersA = [], membersB = [], membersC = [];
 let espaceActif = 'all';
 let statsChartInstance = null;
 let isStatsFullscreen = false;
 let currentContextSchoolId = null;
 let backupHistory = [];
-let membersPage = 1;
+let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
-let dayChartInstance = null;
-let weekChartInstance = null;
-let monthChartInstance = null;
+let dayChartInstance = null, weekChartInstance = null, monthChartInstance = null;
 
 function toast(msg, type = "success") {
 const container = document.getElementById('toastContainer');
@@ -711,6 +734,7 @@ async function loadAllData() {
 try {
 const snap = await getDocs(collection(db, "ecoles"));
 allSchools = []; allMembers = []; allTeachers = []; allSheets = []; allCodes = []; allAlertes = [];
+membersA = []; membersB = []; membersC = [];
 const seenMembers = new Set(); const seenSchools = new Set(); const seenTeachers = new Set();
 const seenSheets = new Set(); const seenCodes = new Set();
 for (const ds of snap.docs) {
@@ -728,24 +752,16 @@ if (data._type === "compta_eleve" && !data.abandon && data.nom) {
 const key = `${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-allMembers.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-nom: data.nom || "Inconnu", prenom: data.prenom || "",
-sexe: data.sexe || "M", classe: data.classe || "",
-section: 'secondary',
-parentCode: data.parentCode || null
-});
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "", section: 'secondary', parentCode: data.parentCode || null };
+membersA.push(m);
+allMembers.push(m);
 }
 }
 if (data.parentCode) {
 const key = `${d.id}_${id}`;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
-allCodes.push({
-id: d.id, ecole: id, nom: data.nom || "",
-prenom: data.prenom || "", parentCode: data.parentCode,
-classe: data.classe || "", section: 'secondary'
-});
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "", section: 'secondary' });
 }
 }
 });
@@ -758,24 +774,16 @@ if (data.nom && !data.abandon) {
 const key = `prim_${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-allMembers.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-nom: data.nom || "Inconnu", prenom: data.prenom || "",
-sexe: data.sexe || "M", classe: data.classe || "Primaire",
-section: 'primary',
-parentCode: data.parentCode || null
-});
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Primaire", section: 'primary', parentCode: data.parentCode || null };
+membersB.push(m);
+allMembers.push(m);
 }
 }
 if (data.parentCode) {
 const key = `prim_${d.id}_${id}`;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
-allCodes.push({
-id: d.id, ecole: id, nom: data.nom || "",
-prenom: data.prenom || "", parentCode: data.parentCode,
-classe: data.classe || "Primaire", section: 'primary'
-});
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Primaire", section: 'primary' });
 }
 }
 });
@@ -788,24 +796,16 @@ if (data.nom && !data.abandon) {
 const key = `mat_${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-allMembers.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-nom: data.nom || "Inconnu", prenom: data.prenom || "",
-sexe: data.sexe || "M", classe: data.classe || "Maternelle",
-section: 'nursery',
-parentCode: data.parentCode || null
-});
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Maternelle", section: 'nursery', parentCode: data.parentCode || null };
+membersC.push(m);
+allMembers.push(m);
 }
 }
 if (data.parentCode) {
 const key = `mat_${d.id}_${id}`;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
-allCodes.push({
-id: d.id, ecole: id, nom: data.nom || "",
-prenom: data.prenom || "", parentCode: data.parentCode,
-classe: data.classe || "Maternelle", section: 'nursery'
-});
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Maternelle", section: 'nursery' });
 }
 }
 });
@@ -818,12 +818,7 @@ if (data._type === "prof") {
 const key = `${d.id}_${id}`;
 if (!seenTeachers.has(key)) {
 seenTeachers.add(key);
-allTeachers.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-nom: data.nom || "Inconnu", code: data.code || null,
-email: data.email || data.emailProf || null, actif: data.actif !== false,
-dateCreation: data.createdAt || null
-});
+allTeachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false, dateCreation: data.createdAt || null });
 }
 }
 });
@@ -836,12 +831,7 @@ if (!data._type) {
 const key = `${d.id}_${id}`;
 if (!seenSheets.has(key)) {
 seenSheets.add(key);
-allSheets.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-cours: data.cours || "Sans matière", classe: data.classe || "",
-option: data.option || "", titulaire: data.titulaire || "",
-dateCreation: data.dateCreation || null
-});
+allSheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "Sans matière", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "", dateCreation: data.dateCreation || null });
 }
 }
 });
@@ -850,12 +840,7 @@ try {
 const aSnap = await getDocs(collection(db, "ecoles", id, "alertes_admin"));
 aSnap.forEach(d => {
 const a = d.data();
-allAlertes.push({
-id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id,
-message: a.message || "", priorite: a.priorite || "mineure",
-statut: a.statut || "nonresolu", dateCreation: a.dateCreation || null,
-categorie: a.categorie || ""
-});
+allAlertes.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, message: a.message || "", priorite: a.priorite || "mineure", statut: a.statut || "nonresolu", dateCreation: a.dateCreation || null, categorie: a.categorie || "" });
 });
 } catch (e) {}
 }
@@ -864,7 +849,9 @@ updateCounters();
 updateDashboard();
 updateBanner();
 loadSchools();
-loadMembers();
+loadMembersA();
+loadMembersB();
+loadMembersC();
 loadTeachers();
 loadSheets();
 loadCodesEmails();
@@ -882,7 +869,8 @@ toast("Erreur de chargement: " + e.message, "error");
 function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
 'wmEcoleFilter', 'codeEcoleSelect', 'explorerEcoleFilter',
-'memberEcoleFilter', 'teacherSchoolSelect', 'sheetSchoolSelect'].forEach(id => {
+'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
+'teacherSchoolSelect', 'sheetSchoolSelect'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
@@ -1454,22 +1442,25 @@ loadRapport();
 } catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
 if (btn) { btn.textContent = format === 'excel' ? '📊 Excel' : '📄 CSV'; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
 }
-async function loadMembers() {
-const container = document.getElementById("membersContainer");
+function loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage, filterEcoleId, searchId) {
+const container = document.getElementById(containerId);
 if (!container) return;
-const filterEcole = document.getElementById("memberEcoleFilter")?.value || "all";
-const search = document.getElementById("memberSearch")?.value?.toLowerCase() || "";
-let members = allMembers;
-if (filterEcole !== "all") members = members.filter(m => m.ecoleId === filterEcole);
-if (search) members = members.filter(m => (m.nom + ' ' + (m.prenom||'')).toLowerCase().includes(search));
-const totalPages = Math.ceil(members.length / membersPerPage);
-if (membersPage > totalPages) membersPage = 1;
-const start = (membersPage - 1) * membersPerPage;
+const filterEcole = document.getElementById(filterEcoleId)?.value || "all";
+const search = document.getElementById(searchId)?.value?.toLowerCase() || "";
+let filtered = members;
+if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
+if (search) filtered = filtered.filter(m => (m.nom + ' ' + (m.prenom||'')).toLowerCase().includes(search));
+const totalPages = Math.ceil(filtered.length / membersPerPage);
+let currentPage = pageVar;
+if (currentPage > totalPages) currentPage = 1;
+if (currentPage < 1) currentPage = 1;
+setPage(currentPage);
+const start = (currentPage - 1) * membersPerPage;
 const end = start + membersPerPage;
-const pageMembers = members.slice(start, end);
-if (members.length === 0) {
+const pageMembers = filtered.slice(start, end);
+if (filtered.length === 0) {
 container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div>';
-document.getElementById("membersPagination").style.display = 'none';
+document.getElementById(paginationId).style.display = 'none';
 return;
 }
 const grouped = {};
@@ -1502,28 +1493,38 @@ html += `
 `;
 }
 container.innerHTML = html;
-const paginationContainer = document.getElementById('membersPagination');
-const paginationInfo = document.getElementById('membersPaginationInfo');
-const paginationButtons = document.getElementById('membersPaginationButtons');
+const paginationContainer = document.getElementById(paginationId);
+const paginationInfo = document.getElementById(paginationInfoId);
+const paginationButtons = document.getElementById(paginationButtonsId);
 if (totalPages > 1) {
 paginationContainer.style.display = 'flex';
-paginationInfo.textContent = `Page ${membersPage}/${totalPages}`;
+paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
 let btns = '';
-if (membersPage > 1) btns += `<button class="pagination-btn" data-page="${membersPage - 1}">◀</button>`;
-for (let i = Math.max(1, membersPage - 2); i <= Math.min(totalPages, membersPage + 2); i++) {
-btns += `<button class="pagination-btn ${i === membersPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+if (currentPage > 1) btns += `<button class="pagination-btn" data-page="${currentPage - 1}">◀</button>`;
+for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+btns += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
 }
-if (membersPage < totalPages) btns += `<button class="pagination-btn" data-page="${membersPage + 1}">▶</button>`;
+if (currentPage < totalPages) btns += `<button class="pagination-btn" data-page="${currentPage + 1}">▶</button>`;
 paginationButtons.innerHTML = btns;
 paginationButtons.querySelectorAll('.pagination-btn').forEach(btn => {
 btn.addEventListener('click', function() {
-membersPage = parseInt(this.dataset.page);
-loadMembers();
+const newPage = parseInt(this.dataset.page);
+setPage(newPage);
+loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, newPage, setPage, filterEcoleId, searchId);
 });
 });
 } else {
 paginationContainer.style.display = 'none';
 }
+}
+function loadMembersA() {
+loadMembersGeneric('membersContainerA', membersA, 'membersPaginationA', 'membersPaginationInfoA', 'membersPaginationButtonsA', membersPageA, (p) => { membersPageA = p; }, 'memberEcoleFilterA', 'memberSearchA');
+}
+function loadMembersB() {
+loadMembersGeneric('membersContainerB', membersB, 'membersPaginationB', 'membersPaginationInfoB', 'membersPaginationButtonsB', membersPageB, (p) => { membersPageB = p; }, 'memberEcoleFilterB', 'memberSearchB');
+}
+function loadMembersC() {
+loadMembersGeneric('membersContainerC', membersC, 'membersPaginationC', 'membersPaginationInfoC', 'membersPaginationButtonsC', membersPageC, (p) => { membersPageC = p; }, 'memberEcoleFilterC', 'memberSearchC');
 }
 async function loadTeachers() {
 const container = document.getElementById("teachersContainer");
@@ -2075,9 +2076,10 @@ this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 document.getElementById(tabId).classList.add('active');
 const tabMap = {
-'tab1': loadSchools, 'tab2': loadMembers, 'tab3': loadTeachers, 'tab4': loadSheets,
-'tab5': loadCodesEmails, 'tab6': loadAlertes, 'tab7': loadRapport,
-'tab8': loadParentCodes, 'tab9': loadWhiteMonths, 'tab10': loadExplorer,
+'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
+'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
+'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
+'tab11': loadWhiteMonths, 'tab12': loadExplorer,
 'tab13': () => { buildTendanceCharts(); }
 };
 if (tabMap[tabId]) tabMap[tabId]();
@@ -2107,7 +2109,9 @@ document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
 document.querySelector('[data-tab="tab1"]').classList.add('active');
 }
 document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
-document.getElementById("refreshMembersBtn")?.addEventListener("click", loadMembers);
+document.getElementById("refreshMembersA")?.addEventListener("click", loadMembersA);
+document.getElementById("refreshMembersB")?.addEventListener("click", loadMembersB);
+document.getElementById("refreshMembersC")?.addEventListener("click", loadMembersC);
 document.getElementById("refreshTeachersBtn")?.addEventListener("click", loadTeachers);
 document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheets);
 document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
@@ -2116,8 +2120,12 @@ document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMont
 document.getElementById("refreshExplorerBtn")?.addEventListener("click", loadExplorer);
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
-document.getElementById("memberEcoleFilter")?.addEventListener('change', loadMembers);
-document.getElementById("memberSearch")?.addEventListener('input', loadMembers);
+document.getElementById("memberEcoleFilterA")?.addEventListener('change', loadMembersA);
+document.getElementById("memberSearchA")?.addEventListener('input', loadMembersA);
+document.getElementById("memberEcoleFilterB")?.addEventListener('change', loadMembersB);
+document.getElementById("memberSearchB")?.addEventListener('input', loadMembersB);
+document.getElementById("memberEcoleFilterC")?.addEventListener('change', loadMembersC);
+document.getElementById("memberSearchC")?.addEventListener('input', loadMembersC);
 document.getElementById("teacherEcoleFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("teacherSearch")?.addEventListener('input', loadTeachers);
 document.getElementById("teacherEmailFilter")?.addEventListener('change', loadTeachers);
@@ -2138,7 +2146,9 @@ document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
 setTimeout(() => {
 loadSchools();
-loadMembers();
+loadMembersA();
+loadMembersB();
+loadMembersC();
 loadTeachers();
 loadSheets();
 loadCodesEmails();
