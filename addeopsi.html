@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="max-age=86400, public">
+<meta http-equiv="Pragma" content="cache">
+<meta http-equiv="Expires" content="86400">
 <title>NeTubeX · Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -32,12 +35,8 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .topbar .right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:16px;transition:var(--transition)}
 .topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
-.space-filter{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:10px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.space-filter .label{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-.space-filter .btn-group{display:flex;gap:4px;background:rgba(255,255,255,0.03);padding:4px;border-radius:8px}
-.space-filter .btn-group button{background:transparent;border:none;padding:6px 18px;border-radius:6px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
-.space-filter .btn-group button:hover{color:var(--text-secondary)}
-.space-filter .btn-group button.active{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--accent-glow)}
+.topbar .right .clear-cache-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 14px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:12px;font-weight:600;transition:var(--transition)}
+.topbar .right .clear-cache-btn:hover{background:rgba(248,113,113,0.15);color:#F87171;border-color:rgba(248,113,113,0.3)}
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:20px 24px 8px 24px}
 .kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:14px 18px;transition:var(--transition)}
 .kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
@@ -183,37 +182,6 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .section-bar .track .fill.secondary{background:#bb8fce}
 .section-bar .track .fill.primary{background:#5dade2}
 .section-bar .track .fill.nursery{background:var(--success)}
-.teacher-item{display:grid;grid-template-columns:1.5fr 1.5fr 1fr 1fr 0.8fr;gap:6px;padding:6px 8px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center}
-.teacher-item.header{font-weight:700;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0}
-.teacher-item .code{font-family:monospace;color:var(--accent);font-weight:700;font-size:13px}
-.teacher-item .email.valid{color:var(--success)}
-.teacher-item .email.invalid{color:var(--danger)}
-.teacher-item .badge-fiches{font-size:10px;font-weight:700;background:rgba(93,173,226,0.15);color:#5dade2;padding:2px 8px;border-radius:12px}
-.alert-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center}
-.alert-item.header{font-weight:700;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0}
-.alert-item .priority.critique{color:var(--danger);font-weight:700}
-.alert-item .priority.important{color:var(--warning);font-weight:700}
-.alert-item .priority.mineure{color:#5dade2;font-weight:700}
-.alert-item .statut.resolu{color:var(--success);font-weight:700}
-.alert-item .statut.encours{color:var(--warning);font-weight:700}
-.alert-item .statut.nonresolu{color:var(--danger);font-weight:700}
-.code-email-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:10px 14px;margin-bottom:10px}
-.code-email-card .name{font-weight:700;font-size:14px;color:#fff}
-.code-email-card .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:6px}
-.code-email-card .item .lbl{font-size:9px;color:var(--text-muted);text-transform:uppercase;font-weight:600}
-.code-email-card .item .val{font-family:monospace;font-size:13px;font-weight:700}
-.code-email-card .item .val.dir{color:#bb8fce}
-.code-email-card .item .val.compta{color:var(--success)}
-.code-email-card .item .val.promo{color:#5dade2}
-.code-email-card .item .val.email{color:var(--accent);font-size:12px}
-.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.school-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:14px;transition:var(--transition)}
-.school-card:hover{background:rgba(255,255,255,0.04);transform:translateY(-1px)}
-.school-card .name{font-weight:700;font-size:15px;color:#fff}
-.school-card .id{font-size:11px;color:var(--text-muted);margin-left:6px}
-.school-card .info{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-top:4px}
-.school-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
-.school-card .actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-color);flex-wrap:wrap;align-items:center}
 .action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay 0.3s ease}
 .action-dropdown-overlay.show{display:flex}
 .action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);max-height:80vh;overflow-y:auto}
@@ -242,8 +210,6 @@ body.light .table-wrapper{background:#FFFFFF;border-color:#E2E8F0}
 body.light .table-wrapper th{color:#4A5568;background:#F7FAFC}
 body.light .table-wrapper td{color:#1A202C;border-bottom-color:#EDF2F7}
 body.light .table-wrapper tr:hover td{background:#F7FAFC}
-body.light .teacher-item{border-bottom-color:#EDF2F7}
-body.light .teacher-item.header{color:#4A5568;background:#F7FAFC}
 body.light .eleve-group{border-color:#E2E8F0}
 body.light .eleve-group-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
 body.light .eleve-group-body .eleve-item .nom{color:#1A202C}
@@ -284,14 +250,6 @@ body.light .space-filter .btn-group{background:#F7FAFC}
 body.light .space-filter .btn-group button{color:#A0AEC0}
 body.light .space-filter .btn-group button:hover{color:#4A5568}
 body.light .space-filter .btn-group button.active{background:var(--accent);color:#fff}
-body.light .alert-item{border-bottom-color:#EDF2F7}
-body.light .alert-item.header{color:#4A5568;background:#F7FAFC}
-body.light .alert-item .priority.critique{color:#DC2626}
-body.light .alert-item .priority.important{color:#D97706}
-body.light .alert-item .priority.mineure{color:#2563EB}
-body.light .alert-item .statut.resolu{color:#059669}
-body.light .alert-item .statut.encours{color:#D97706}
-body.light .alert-item .statut.nonresolu{color:#DC2626}
 body.light .dash-card{background:#FFFFFF;border-color:#E2E8F0}
 body.light .dash-card .label{color:#A0AEC0}
 body.light .section-bar .lbl{color:#A0AEC0}
@@ -332,10 +290,6 @@ body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
 .card-header{padding:10px 14px;font-size:14px}
 .card-body{padding:10px 12px}
 .school-grid{grid-template-columns:1fr}
-.teacher-item{grid-template-columns:1fr 1fr;gap:3px;font-size:11px;padding:6px 8px}
-.teacher-item.header{display:none}
-.alert-item{grid-template-columns:1fr 1fr;gap:4px;padding:6px 8px}
-.alert-item.header{display:none}
 .form-grid{grid-template-columns:1fr}
 .filter-row{flex-direction:column;align-items:stretch}
 .filter-row select,.filter-row input{width:100%}
@@ -343,6 +297,7 @@ body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
 .code-email-card .grid{grid-template-columns:1fr 1fr}
 .kpi-row .kpi-card:last-child{grid-column:span 2}
 .eleve-group-body .eleve-item{flex-direction:column;align-items:flex-start;gap:2px}
+.school-logo-large{width:120px !important;height:120px !important}
 }
 #tab0{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;background:var(--bg-primary);padding:0;margin:0;display:none}
 #tab0.active{display:block}
@@ -357,17 +312,71 @@ body.light #tab0{background:#F4F6F9}
 body.light #tab0 .stats-header h2{color:#1A202C}
 body.light #tab0 .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
 body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
-
-/* Progress bar styles */
 .progress-container{width:100%;background:rgba(255,255,255,0.05);border-radius:8px;padding:20px;text-align:center;margin:10px 0}
 .progress-bar{width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-top:12px}
 .progress-bar .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#4A42D4);border-radius:4px;transition:width 0.3s ease}
 .progress-text{font-size:14px;font-weight:700;color:var(--text-secondary)}
 .progress-percent{font-size:24px;font-weight:900;color:var(--accent)}
-
-/* Reveal counter styles */
 .reveal-counter{display:inline-block;background:rgba(255,101,132,0.15);border:1px solid rgba(255,101,132,0.3);border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700;color:#FF6584;margin-left:10px}
 .reveal-counter .total{font-size:18px;color:#fff}
+.rt-toggle-bar{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:6px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rt-toggle-bar .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.rt-toggle-bar .toggle-btn{background:rgba(52,211,153,0.15);border:1px solid rgba(52,211,153,0.3);padding:4px 16px;border-radius:20px;color:#34D399;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;gap:6px}
+.rt-toggle-bar .toggle-btn:hover{background:rgba(52,211,153,0.25)}
+.rt-toggle-bar .toggle-btn.inactive{background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.3);color:#F87171}
+.rt-toggle-bar .toggle-btn.inactive:hover{background:rgba(248,113,113,0.25)}
+.rt-toggle-bar .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.rt-toggle-bar .status-dot.on{background:#34D399;box-shadow:0 0 8px rgba(52,211,153,0.4)}
+.rt-toggle-bar .status-dot.off{background:#F87171;box-shadow:0 0 8px rgba(248,113,113,0.4)}
+#rtNotificationContainer{position:fixed;top:80px;right:24px;z-index:9999999;display:flex;flex-direction:column;gap:10px;max-width:420px;width:100%;pointer-events:none;max-height:calc(100vh - 100px);overflow:hidden}
+.rt-toast{background:rgba(10,22,40,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(108,99,255,0.2);border-radius:16px;padding:14px 18px;box-shadow:0 16px 60px rgba(0,0,0,0.5);display:flex;align-items:center;gap:14px;pointer-events:auto;transform:translateY(-120px);opacity:0;transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease;min-width:300px;position:relative;border-left:3px solid #6C63FF}
+.rt-toast.rt-toast-enter{transform:translateY(0);opacity:1}
+.rt-toast.rt-toast-exit{transform:translateY(-120px);opacity:0;transition:transform 0.4s ease,opacity 0.3s ease}
+.rt-toast-icon{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center}
+.rt-toast-icon img{width:100%;height:100%;object-fit:cover}
+.rt-toast-icon .fallback{font-size:24px;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.rt-toast-content{flex:1;min-width:0}
+.rt-toast-title{font-size:12px;font-weight:700;color:#6C63FF;margin-bottom:1px;text-transform:uppercase;letter-spacing:0.3px}
+.rt-toast-message{font-size:15px;font-weight:600;color:#fff;line-height:1.3}
+.rt-toast-message .school-name{color:#5dade2;font-weight:700}
+.rt-toast-time-ago{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;display:flex;align-items:center;gap:4px}
+.rt-toast-time-ago .dot{width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;animation:pulse-dot 1.5s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.8)}}
+.rt-toast-time{font-size:11px;color:rgba(255,255,255,0.3);flex-shrink:0;padding-left:10px;border-left:1px solid rgba(255,255,255,0.06);font-variant-numeric:tabular-nums}
+body.light .rt-toast{background:rgba(255,255,255,0.97);border-color:rgba(108,99,255,0.15);box-shadow:0 16px 60px rgba(0,0,0,0.12)}
+body.light .rt-toast-message{color:#1A202C}
+body.light .rt-toast-message .school-name{color:#2563EB}
+body.light .rt-toast-time{color:rgba(0,0,0,0.3)}
+body.light .rt-toast-time-ago{color:rgba(0,0,0,0.35)}
+body.light .rt-toast{border-left:3px solid #6C63FF}
+.school-logo-large{width:150px !important;height:150px !important;border-radius:12px;object-fit:cover;background:rgba(255,255,255,0.03);border:1px solid var(--border-color)}
+.school-logo-wrapper{width:150px;height:150px;flex-shrink:0;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center}
+.school-logo-wrapper .fallback{font-size:60px}
+.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.teacher-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition)}
+.teacher-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-2px);border-color:rgba(108,99,255,0.2)}
+.teacher-card .teacher-name{font-size:15px;font-weight:700;color:#fff}
+.teacher-card .teacher-detail{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,0.04)}
+.teacher-card .teacher-detail .label{color:var(--text-muted)}
+.teacher-card .teacher-detail .value{color:var(--text-secondary);font-weight:500}
+.teacher-card .teacher-detail .value.code{color:var(--accent);font-family:monospace;font-weight:700}
+.teacher-card .teacher-detail .value.valid{color:var(--success)}
+.teacher-card .teacher-detail .value.invalid{color:var(--danger)}
+.teacher-card .teacher-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.codes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.code-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition)}
+.code-card:hover{background:rgba(255,255,255,0.05);border-color:rgba(108,99,255,0.15)}
+.code-card .code-school-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.code-card .code-item{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.code-card .code-item .label{color:var(--text-muted)}
+.code-card .code-item .value{font-family:monospace;font-weight:600;font-size:13px}
+.code-card .code-item .value.dir{color:#bb8fce}
+.code-card .code-item .value.compta{color:var(--success)}
+.code-card .code-item .value.promo{color:#5dade2}
+.code-card .code-item .value.email{color:var(--accent);font-size:12px;font-family:'Inter',sans-serif}
+body.light .code-card .code-school-name{color:#1A202C}
+body.light .teacher-card .teacher-name{color:#1A202C}
+body.light .teacher-card .teacher-detail .value{color:#4A5568}
 </style>
 </head>
 <body>
@@ -377,37 +386,38 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Dashboard</span></h1>
 </div>
 <div class="right">
+<button class="clear-cache-btn" id="clearCacheBtn">🧹 Clear Cache</button>
 <button class="theme-toggle" id="themeToggle">🌙</button>
 </div>
 </div>
-<div class="space-filter">
-<span class="label">Filter</span>
-<div class="btn-group" id="spaceSelector">
-<button class="active" data-space="all">📊 All</button>
+<div class="rt-toggle-bar">
+<span class="label">🔔 Live Notifications</span>
+<button class="toggle-btn active" id="rtToggleBtn">
+<span class="status-dot on" id="rtStatusDot"></span>
+<span id="rtStatusText">ON</span>
+</button>
+<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">(real-time · no cache)</span>
 </div>
-</div>
+<div id="rtNotificationContainer"></div>
 <div class="kpi-row">
 <div class="kpi-card"><div class="label">Schools</div><div class="value blue" id="hdrEcoles">0</div></div>
 <div class="kpi-card"><div class="label">Teachers</div><div class="value purple" id="hdrEnseignants">0</div></div>
 <div class="kpi-card"><div class="label">Sheets</div><div class="value green" id="hdrFiches">0</div></div>
-<div class="kpi-card"><div class="label">Alerts</div><div class="value red" id="hdrAlertes">0</div></div>
+<div class="kpi-card"><div class="label">Students</div><div class="value red" id="hdrStudents">0</div></div>
 </div>
 <div id="bannerContainer"></div>
 <div class="tabs" id="tabContainer">
 <button class="tab-btn active" data-tab="tab0">📊 STATS</button>
 <button class="tab-btn" data-tab="tab1">🏫 SCHOOLS</button>
-<button class="tab-btn" data-tab="tab2">👥 ACTIVE MEMBERS A</button>
-<button class="tab-btn" data-tab="tab3">👥 ACTIVE MEMBERS B</button>
-<button class="tab-btn" data-tab="tab4">👥 ACTIVE MEMBERS C</button>
+<button class="tab-btn" data-tab="tab2">👥 MEMBERS A</button>
+<button class="tab-btn" data-tab="tab3">👥 MEMBERS B</button>
+<button class="tab-btn" data-tab="tab4">👥 MEMBERS C</button>
 <button class="tab-btn" data-tab="tab5">👨‍🏫 TEACHERS</button>
 <button class="tab-btn" data-tab="tab6">📄 SHEETS</button>
 <button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
-<button class="tab-btn" data-tab="tab8">⚠️ ALERTS</button>
-<button class="tab-btn" data-tab="tab9">📋 REPORT</button>
 <button class="tab-btn" data-tab="tab10">🔑 PARENT CODES</button>
 <button class="tab-btn" data-tab="tab11">❄️ WHITE MONTHS</button>
 <button class="tab-btn" data-tab="tab12">🔍 EXPLORER</button>
-<button class="tab-btn" data-tab="tab13">📈 TREND</button>
 </div>
 <div id="tab0" class="tab-panel active">
 <div class="stats-fullscreen">
@@ -514,51 +524,6 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
-<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alerts</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Delete all</button></div>
-<div class="card-body">
-<div class="filter-row">
-<label>🏫</label><select id="alertesEcoleFilter"><option value="all">All</option></select>
-<label>🔴</label><select id="alertesPriorityFilter"><option value="all">All priorities</option><option value="critique">Critical</option><option value="important">Important</option><option value="mineure">Minor</option></select>
-<label>📌</label><select id="alertesStatutFilter"><option value="all">All statuses</option><option value="nonresolu">Unresolved</option><option value="encours">In progress</option><option value="resolu">Resolved</option></select>
-<label>🏷️</label><select id="alertesCategorieFilter"><option value="all">All categories</option><option value="securite">🔐 Security</option><option value="enseignant">👨‍🏫 Teacher</option><option value="fiche">📄 Sheet</option><option value="ecole">🏫 School</option></select>
-<label>📅</label><input type="date" id="alertesDateDebut" style="width:130px;">
-<label>→</label><input type="date" id="alertesDateFin" style="width:130px;">
-</div>
-<div id="alertesContainer"></div>
-</div>
-</div></div>
-<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Report & Monitoring</div>
-<div class="card-body">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📅 Today</div>
-<div id="aujourdhuiContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📈 Trends</div>
-<div id="tendancesContainer"></div>
-</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">🔑 Duplicate codes</div>
-<div id="doublonsContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📄 Sheets without teacher</div>
-<div id="fichesSansEnseignantContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">⏱️ Resolution rate</div>
-<div id="tempsResolutionContainer"></div>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📊 Backup history</div>
-<div id="historiqueBackupsContainer"></div>
-</div>
-</div>
-</div></div>
 <div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 PARENT CODES</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>School :</label><select id="codeEcoleSelect"><option value="">-- Select --</option></select></div>
@@ -578,44 +543,6 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div id="explorerContent"><div class="empty-state">Loading...</div></div>
 </div>
 </div></div>
-<div id="tab13" class="tab-panel">
-<div class="card">
-<div class="card-header"><div>📈 TREND</div></div>
-<div class="card-body">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
-<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📊 Today vs Yesterday</div>
-<div class="value" id="tendanceDay" style="font-size:22px;font-weight:800;color:#6C63FF;">0%</div>
-<div class="sub" id="tendanceDaySub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
-</div>
-<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📈 This week vs last</div>
-<div class="value" id="tendanceWeek" style="font-size:22px;font-weight:800;color:#34D399;">0%</div>
-<div class="sub" id="tendanceWeekSub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
-</div>
-<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📅 This month vs last</div>
-<div class="value" id="tendanceMonth" style="font-size:22px;font-weight:800;color:#FBBF24;">0%</div>
-<div class="sub" id="tendanceMonthSub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
-</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr;gap:16px;">
-<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Today vs Yesterday</h4>
-<div id="dayChartContainer" style="height:200px;"><canvas id="dayChart"></canvas></div>
-</div>
-<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 This week vs Last week</h4>
-<div id="weekChartContainer" style="height:200px;"><canvas id="weekChart"></canvas></div>
-</div>
-<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 This month vs Last month</h4>
-<div id="monthChartContainer" style="height:200px;"><canvas id="monthChart"></canvas></div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Verification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Please enter the access code</p>
 <div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Validate</button></div>
@@ -634,7 +561,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="toast-container" id="toastContainer"></div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, query, where, orderBy, limit, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, query, where, orderBy, limit, runTransaction, writeBatch, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 const firebaseConfig = {
@@ -660,17 +587,22 @@ let currentContextSchoolId = null;
 let backupHistory = [];
 let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
-let dayChartInstance = null, weekChartInstance = null, monthChartInstance = null;
 let revealTimeoutA = null, revealTimeoutB = null, revealTimeoutC = null;
 let revealActiveA = false, revealActiveB = false, revealActiveC = false;
+let notificationsActive = true;
+let rtQueue = [];
+let rtProcessing = false;
+let rtUnsubscribes = [];
+let lastToastTimestamp = 0;
 
-function toast(msg, type = "success") {
+function toast(msg, type) {
+type = type || "success";
 const container = document.getElementById('toastContainer');
 if (!container) return;
 const titles = { success: "✅ Success", error: "❌ Error", warning: "⚠️ Warning", info: "ℹ️ Info" };
 const el = document.createElement("div");
-el.className = 'toast ' + (type || 'success');
-el.innerHTML = '<div class="toast-title">' + titles[type] + '</div><div class="toast-msg">' + msg + '</div>';
+el.className = 'toast ' + type;
+el.innerHTML = '<div class="toast-title">' + (titles[type] || '') + '</div><div class="toast-msg">' + msg + '</div>';
 container.appendChild(el);
 setTimeout(() => {
 if (el.parentNode) {
@@ -745,6 +677,146 @@ function getCategoryLabel(cat) {
 const map = { 'securite': '🔐 Security', 'enseignant': '👨‍🏫 Teacher', 'fiche': '📄 Sheet', 'ecole': '🏫 School' };
 return map[cat] || cat || 'General';
 }
+
+function isNewNotification(ecoleId, eleveNom, timestamp) {
+const now = Date.now();
+if (now - lastToastTimestamp < 2000) return false;
+lastToastTimestamp = now;
+return true;
+}
+
+function getTimeAgo(timestamp) {
+const now = Date.now();
+const diff = now - timestamp;
+if (diff < 60000) return 'just now';
+if (diff < 120000) return '1 minute ago';
+if (diff < 3600000) return Math.floor(diff / 60000) + ' minutes ago';
+if (diff < 7200000) return '1 hour ago';
+if (diff < 86400000) return Math.floor(diff / 3600000) + ' hours ago';
+return Math.floor(diff / 86400000) + ' days ago';
+}
+
+function playNotificationSound() {
+try {
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const oscillator = audioCtx.createOscillator();
+const gainNode = audioCtx.createGain();
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+oscillator.frequency.value = 880;
+oscillator.type = 'sine';
+gainNode.gain.value = 0.1;
+oscillator.start();
+oscillator.stop(audioCtx.currentTime + 0.12);
+setTimeout(() => oscillator.disconnect(), 300);
+} catch(e) {}
+}
+
+function showRealTimeNotification(ecoleNom, ecoleId, logoUrl, timeAgo, eleveNom, timestamp) {
+if (!isNewNotification(ecoleId, eleveNom, timestamp)) return;
+if (!notificationsActive) return;
+rtQueue.push({ ecoleNom, ecoleId, logoUrl, timeAgo, eleveNom, timestamp });
+processQueue();
+}
+
+function processQueue() {
+if (rtProcessing || rtQueue.length === 0) return;
+if (!notificationsActive) { rtQueue = []; return; }
+rtProcessing = true;
+const data = rtQueue.shift();
+const { ecoleNom, logoUrl, timeAgo } = data;
+const container = document.getElementById('rtNotificationContainer');
+if (!container) { rtProcessing = false; return; }
+const el = document.createElement('div');
+el.className = 'rt-toast';
+el.innerHTML = `
+<div class="rt-toast-icon">
+${logoUrl ? `<img src="${escapeHtml(logoUrl)}" alt="${escapeHtml(ecoleNom)}" />` : `<span class="fallback">🏫</span>`}
+</div>
+<div class="rt-toast-content">
+<div class="rt-toast-title">📝 New enrollment</div>
+<div class="rt-toast-message">School <span class="school-name">${escapeHtml(ecoleNom)}</span> just enrolled a new student</div>
+<div class="rt-toast-time-ago"><span class="dot"></span>${escapeHtml(timeAgo)}</div>
+</div>
+<div class="rt-toast-time">${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
+`;
+container.appendChild(el);
+requestAnimationFrame(() => { el.classList.add('rt-toast-enter'); });
+if (notificationsActive) playNotificationSound();
+setTimeout(() => {
+if (el.parentNode) {
+el.classList.remove('rt-toast-enter');
+el.classList.add('rt-toast-exit');
+setTimeout(() => {
+if (el.parentNode) el.remove();
+rtProcessing = false;
+if (rtQueue.length > 0) setTimeout(processQueue, 300);
+}, 400);
+} else { rtProcessing = false; }
+}, 5000);
+}
+
+function setupRealtimeListeners() {
+rtUnsubscribes.forEach(unsub => { try { unsub(); } catch(e) {} });
+rtUnsubscribes = [];
+if (!notificationsActive) return;
+allSchools.forEach(school => {
+try {
+const q = query(collection(db, "ecoles", school.id, SC.COMPTA_ELEVES), orderBy("dateCreation", "desc"), limit(1));
+const unsubscribe = onSnapshot(q, (snapshot) => {
+if (!notificationsActive) return;
+snapshot.docChanges().forEach(change => {
+if (change.type === 'added') {
+const data = change.doc.data();
+if (data._type === "compta_eleve" && data.nom && !data.abandon) {
+const timestamp = data.dateCreation ? new Date(data.dateCreation).getTime() : Date.now();
+const timeAgo = getTimeAgo(timestamp);
+const logoUrl = school.logoUrl || '';
+const eleveNom = data.nom + ' ' + (data.prenom || '');
+showRealTimeNotification(school.nom || school.id, school.id, logoUrl, timeAgo, eleveNom, timestamp);
+}
+}
+});
+}, () => {});
+rtUnsubscribes.push(unsubscribe);
+} catch(e) {}
+});
+}
+
+document.getElementById('rtToggleBtn')?.addEventListener('click', function() {
+notificationsActive = !notificationsActive;
+const dot = document.getElementById('rtStatusDot');
+const text = document.getElementById('rtStatusText');
+if (notificationsActive) {
+this.classList.remove('inactive');
+this.classList.add('active');
+dot.className = 'status-dot on';
+text.textContent = 'ON';
+toast('🔔 Notifications enabled', 'success');
+setupRealtimeListeners();
+} else {
+this.classList.remove('active');
+this.classList.add('inactive');
+dot.className = 'status-dot off';
+text.textContent = 'OFF';
+toast('🔕 Notifications disabled', 'info');
+rtUnsubscribes.forEach(unsub => { try { unsub(); } catch(e) {} });
+rtUnsubscribes = [];
+rtQueue = [];
+rtProcessing = false;
+document.getElementById('rtNotificationContainer').innerHTML = '';
+}
+});
+
+document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
+if (!confirm('🧹 Clear all cache?\n\nThis will clear:\n- Toast cache (notifications)\n- Session storage\n\nData from Firebase will reload automatically.')) return;
+const keys = Object.keys(sessionStorage);
+keys.forEach(key => { if (key.startsWith('rt_toast_')) sessionStorage.removeItem(key); });
+lastToastTimestamp = 0;
+toast('🧹 Cache cleared successfully!', 'success');
+loadAllData();
+});
+
 async function loadAllData() {
 try {
 const snap = await getDocs(collection(db, "ecoles"));
@@ -764,7 +836,7 @@ const mSnap = await getDocs(collection(db, "ecoles", id, SC.COMPTA_ELEVES));
 mSnap.forEach(d => {
 const data = d.data();
 if (data._type === "compta_eleve" && !data.abandon && data.nom) {
-const key = `${d.id}_${id}`;
+const key = d.id + '_' + id;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
 const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "", section: 'secondary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
@@ -773,7 +845,7 @@ allMembers.push(m);
 }
 }
 if (data.parentCode) {
-const key = `${d.id}_${id}`;
+const key = d.id + '_' + id;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
 allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "", section: 'secondary' });
@@ -786,7 +858,7 @@ const pSnap = await getDocs(collection(db, "ecoles", id, "prima_eleves"));
 pSnap.forEach(d => {
 const data = d.data();
 if (data.nom && !data.abandon) {
-const key = `prim_${d.id}_${id}`;
+const key = 'prim_' + d.id + '_' + id;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
 const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Primary", section: 'primary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
@@ -795,7 +867,7 @@ allMembers.push(m);
 }
 }
 if (data.parentCode) {
-const key = `prim_${d.id}_${id}`;
+const key = 'prim_' + d.id + '_' + id;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
 allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Primary", section: 'primary' });
@@ -808,7 +880,7 @@ const matSnap = await getDocs(collection(db, "ecoles", id, "mater_eleves"));
 matSnap.forEach(d => {
 const data = d.data();
 if (data.nom && !data.abandon) {
-const key = `mat_${d.id}_${id}`;
+const key = 'mat_' + d.id + '_' + id;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
 const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Nursery", section: 'nursery', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
@@ -817,7 +889,7 @@ allMembers.push(m);
 }
 }
 if (data.parentCode) {
-const key = `mat_${d.id}_${id}`;
+const key = 'mat_' + d.id + '_' + id;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
 allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Nursery", section: 'nursery' });
@@ -830,7 +902,7 @@ const pSnap = await getDocs(collection(db, "ecoles", id, SC.PROFESSEURS));
 pSnap.forEach(d => {
 const data = d.data();
 if (data._type === "prof") {
-const key = `${d.id}_${id}`;
+const key = d.id + '_' + id;
 if (!seenTeachers.has(key)) {
 seenTeachers.add(key);
 allTeachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false, dateCreation: data.createdAt || null });
@@ -843,7 +915,7 @@ const fSnap = await getDocs(collection(db, "ecoles", id, SC.FICHES));
 fSnap.forEach(d => {
 const data = d.data();
 if (!data._type) {
-const key = `${d.id}_${id}`;
+const key = d.id + '_' + id;
 if (!seenSheets.has(key)) {
 seenSheets.add(key);
 allSheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "No subject", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "", dateCreation: data.dateCreation || null });
@@ -861,8 +933,6 @@ allAlertes.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, message:
 }
 updateSelectors();
 updateCounters();
-updateDashboard();
-updateBanner();
 loadSchools();
 loadMembersA();
 loadMembersB();
@@ -870,19 +940,16 @@ loadMembersC();
 loadTeachers();
 loadSheets();
 loadCodesEmails();
-loadAlertes();
-loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
-buildTendanceCharts();
-} catch (e) {
-console.error("Loading error:", e);
-toast("Loading error: " + e.message, "error");
+buildStatsChart();
+setupRealtimeListeners();
+} catch (e) {}
 }
-}
+
 function updateSelectors() {
-['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
+['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter',
 'wmEcoleFilter', 'codeEcoleSelect', 'explorerEcoleFilter',
 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
 'teacherSchoolSelect', 'sheetSchoolSelect'].forEach(id => {
@@ -896,58 +963,28 @@ opt.value = s.id;
 opt.textContent = s.nom || s.id;
 el.appendChild(opt);
 });
-if (val && el.querySelector(`option[value="${val}"]`)) el.value = val;
+if (val && el.querySelector('option[value="' + val + '"]')) el.value = val;
 });
 }
+
 function updateCounters() {
 document.getElementById("hdrEcoles").textContent = allSchools.length;
 document.getElementById("hdrEnseignants").textContent = allTeachers.length;
 document.getElementById("hdrFiches").textContent = allSheets.length;
-document.getElementById("hdrAlertes").textContent = allAlertes.length;
+document.getElementById("hdrStudents").textContent = allMembers.length;
 }
-function updateDashboard() {
-const filter = espaceActif;
-let members = allMembers;
-if (filter !== 'all') members = members.filter(m => m.section === filter);
-const sections = { secondary: 0, primary: 0, nursery: 0 };
-members.forEach(m => { if (sections[m.section] !== undefined) sections[m.section]++; });
-}
-function updateBanner() {
-const container = document.getElementById('bannerContainer');
-const critiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu');
-if (critiques.length === 0) { container.innerHTML = ''; return; }
-container.innerHTML = critiques.map(a => `
-<div class="banner-alerte">
-<span style="font-size:18px;">🔴</span>
-<span class="msg">${escapeHtml(a.message || 'Critical alert')}</span>
-<span class="date">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('en-US') : '-'}</span>
-</div>
-`).join('');
-}
+
 function buildStatsChart() {
 const ctx = document.getElementById('statsChart').getContext('2d');
 if (statsChartInstance) statsChartInstance.destroy();
-
-const teachersCount = allTeachers.length;
-const sheetsCount = allSheets.length;
-const alertsCount = allAlertes.length;
-const schoolsCount = allSchools.length;
-const criticalAlerts = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
-
 statsChartInstance = new Chart(ctx, {
 type: 'bar',
 data: {
-labels: ['Schools', 'Teachers', 'Sheets', 'Alerts', 'Critical'],
+labels: ['Schools', 'Teachers', 'Sheets', 'Students', 'Alerts'],
 datasets: [{
 label: 'Platform Statistics',
-data: [schoolsCount, teachersCount, sheetsCount, alertsCount, criticalAlerts],
-backgroundColor: [
-'rgba(93,173,226,0.8)',
-'rgba(187,143,206,0.8)',
-'rgba(52,211,153,0.8)',
-'rgba(248,113,113,0.8)',
-'rgba(255,101,132,0.8)'
-],
+data: [allSchools.length, allTeachers.length, allSheets.length, allMembers.length, allAlertes.length],
+backgroundColor: ['rgba(93,173,226,0.8)', 'rgba(187,143,206,0.8)', 'rgba(52,211,153,0.8)', 'rgba(248,113,113,0.8)', 'rgba(255,101,132,0.8)'],
 borderColor: ['#5dade2', '#bb8fce', '#34D399', '#F87171', '#FF6584'],
 borderWidth: 2,
 borderRadius: 6
@@ -956,261 +993,12 @@ borderRadius: 6
 options: {
 responsive: true,
 maintainAspectRatio: false,
-plugins: {
-legend: {
-display: false
-},
-title: {
-display: true,
-text: '📊 Platform Overview',
-color: 'rgba(255,255,255,0.8)',
-font: { size: 18, weight: '800' },
-padding: { bottom: 15 }
-}
-},
-scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12, weight: '600' } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, beginAtZero: true }
-},
-interaction: { mode: 'index', intersect: false }
+plugins: { legend: { display: false }, title: { display: true, text: '📊 Platform Overview', color: 'rgba(255,255,255,0.8)', font: { size: 18, weight: '800' }, padding: { bottom: 15 } } },
+scales: { x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12, weight: '600' } } }, y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, beginAtZero: true } }
 }
 });
 }
-function buildTendanceCharts() {
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const yesterday = new Date(today);
-yesterday.setDate(yesterday.getDate() - 1);
-const weekStart = new Date(today);
-weekStart.setDate(weekStart.getDate() - 7);
-const lastWeekStart = new Date(today);
-lastWeekStart.setDate(lastWeekStart.getDate() - 14);
-const monthStart = new Date(today);
-monthStart.setDate(monthStart.getDate() - 30);
-const lastMonthStart = new Date(today);
-lastMonthStart.setDate(lastMonthStart.getDate() - 60);
 
-function countByDate(items, dateField, startDate, endDate) {
-return items.filter(item => {
-if (!item[dateField]) return false;
-const d = new Date(item[dateField]);
-d.setHours(0, 0, 0, 0);
-if (endDate) {
-return d >= startDate && d <= endDate;
-}
-return d.getTime() === startDate.getTime();
-}).length;
-}
-
-const elevesAujourdhui = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d.getTime() === today.getTime();
-});
-const elevesHier = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d.getTime() === yesterday.getTime();
-});
-const elevesSemaine = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d >= weekStart;
-});
-const elevesSemaineDerniere = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d >= lastWeekStart && d < weekStart;
-});
-const elevesMois = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d >= monthStart;
-});
-const elevesMoisDernier = allMembers.filter(m => {
-if (!m.dateInscription) return false;
-const d = new Date(m.dateInscription);
-d.setHours(0, 0, 0, 0);
-return d >= lastMonthStart && d < monthStart;
-});
-
-const todayValues = [
-elevesAujourdhui.length,
-countByDate(allSheets, 'dateCreation', today),
-countByDate(allTeachers, 'dateCreation', today)
-];
-const yesterdayValues = [
-elevesHier.length,
-countByDate(allSheets, 'dateCreation', yesterday),
-countByDate(allTeachers, 'dateCreation', yesterday)
-];
-const weekValues = [
-elevesSemaine.length,
-countByDate(allSheets, 'dateCreation', weekStart, today),
-countByDate(allTeachers, 'dateCreation', weekStart, today)
-];
-const lastWeekValues = [
-elevesSemaineDerniere.length,
-countByDate(allSheets, 'dateCreation', lastWeekStart, weekStart),
-countByDate(allTeachers, 'dateCreation', lastWeekStart, weekStart)
-];
-const monthValues = [
-elevesMois.length,
-countByDate(allSheets, 'dateCreation', monthStart, today),
-countByDate(allTeachers, 'dateCreation', monthStart, today)
-];
-const lastMonthValues = [
-elevesMoisDernier.length,
-countByDate(allSheets, 'dateCreation', lastMonthStart, monthStart),
-countByDate(allTeachers, 'dateCreation', lastMonthStart, monthStart)
-];
-
-const labels = ['Students', 'Sheets', 'Teachers'];
-
-function calcPct(current, previous) {
-const total = current + previous;
-if (total === 0) return 50;
-return Math.round((current / total) * 100);
-}
-
-function calcEvol(current, previous) {
-if (previous === 0) return current === 0 ? 0 : 100;
-return Math.round(((current - previous) / previous) * 100);
-}
-
-const dayPcts = [
-calcPct(todayValues[0], yesterdayValues[0]),
-calcPct(todayValues[1], yesterdayValues[1]),
-calcPct(todayValues[2], yesterdayValues[2])
-];
-const weekPcts = [
-calcPct(weekValues[0], lastWeekValues[0]),
-calcPct(weekValues[1], lastWeekValues[1]),
-calcPct(weekValues[2], lastWeekValues[2])
-];
-const monthPcts = [
-calcPct(monthValues[0], lastMonthValues[0]),
-calcPct(monthValues[1], lastMonthValues[1]),
-calcPct(monthValues[2], lastMonthValues[2])
-];
-
-const dayEvol = calcEvol(todayValues[0], yesterdayValues[0]);
-document.getElementById('tendanceDay').textContent = (dayEvol > 0 ? '+' : '') + dayEvol + '%';
-document.getElementById('tendanceDaySub').textContent = dayEvol > 0 ? '⬆️ Up' : dayEvol < 0 ? '⬇️ Down' : '➖ Stable';
-const weekEvol = calcEvol(weekValues[0], lastWeekValues[0]);
-document.getElementById('tendanceWeek').textContent = (weekEvol > 0 ? '+' : '') + weekEvol + '%';
-document.getElementById('tendanceWeekSub').textContent = weekEvol > 0 ? '⬆️ Up' : weekEvol < 0 ? '⬇️ Down' : '➖ Stable';
-const monthEvol = calcEvol(monthValues[0], lastMonthValues[0]);
-document.getElementById('tendanceMonth').textContent = (monthEvol > 0 ? '+' : '') + monthEvol + '%';
-document.getElementById('tendanceMonthSub').textContent = monthEvol > 0 ? '⬆️ Up' : monthEvol < 0 ? '⬇️ Down' : '➖ Stable';
-
-const dayCtx = document.getElementById('dayChart').getContext('2d');
-if (dayChartInstance) dayChartInstance.destroy();
-dayChartInstance = new Chart(dayCtx, {
-type: 'bar',
-data: {
-labels: labels,
-datasets: [
-{ label: 'Today', data: dayPcts, backgroundColor: 'rgba(108,99,255,0.8)', borderColor: '#6C63FF', borderWidth: 1, borderRadius: 4 },
-{ label: 'Yesterday', data: dayPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
-tooltip: {
-callbacks: {
-label: function(context) {
-const index = context.dataIndex;
-const values = [todayValues, yesterdayValues];
-const period = context.datasetIndex === 0 ? 'Today' : 'Yesterday';
-return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
-}
-}
-}
-},
-scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
-}
-}
-});
-
-const weekCtx = document.getElementById('weekChart').getContext('2d');
-if (weekChartInstance) weekChartInstance.destroy();
-weekChartInstance = new Chart(weekCtx, {
-type: 'bar',
-data: {
-labels: labels,
-datasets: [
-{ label: 'This week', data: weekPcts, backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
-{ label: 'Last week', data: weekPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
-tooltip: {
-callbacks: {
-label: function(context) {
-const index = context.dataIndex;
-const values = [weekValues, lastWeekValues];
-const period = context.datasetIndex === 0 ? 'This week' : 'Last week';
-return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
-}
-}
-}
-},
-scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
-}
-}
-});
-
-const monthCtx = document.getElementById('monthChart').getContext('2d');
-if (monthChartInstance) monthChartInstance.destroy();
-monthChartInstance = new Chart(monthCtx, {
-type: 'bar',
-data: {
-labels: labels,
-datasets: [
-{ label: 'This month', data: monthPcts, backgroundColor: 'rgba(251,191,36,0.8)', borderColor: '#FBBF24', borderWidth: 1, borderRadius: 4 },
-{ label: 'Last month', data: monthPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
-tooltip: {
-callbacks: {
-label: function(context) {
-const index = context.dataIndex;
-const values = [monthValues, lastMonthValues];
-const period = context.datasetIndex === 0 ? 'This month' : 'Last month';
-return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
-}
-}
-}
-},
-scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
-}
-}
-});
-}
 async function loadSchools() {
 const container = document.getElementById("ecolesContainer");
 if (!container) return;
@@ -1224,19 +1012,20 @@ else if (statutFiltre === 'masque') schools = schools.filter(s => s.masque === t
 if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 No schools found</div>'; return; }
 let html = '';
 for (const s of schools) {
-const count = allMembers.filter(m => m.ecoleId === s.id).length;
 const estMasquee = s.masque === true;
 const estActive = s.actif !== false;
 const inscriptionActive = s.inscriptionActive === true;
 html += `
 <div class="school-card" data-school-id="${s.id}">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-<div style="display:flex;align-items:center;gap:8px;">
-<div style="width:36px;height:36px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid var(--border-color);">
-<img src="${s.logoUrl || ''}" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:${s.logoUrl ? 'block' : 'none'};">
-<span style="display:${s.logoUrl ? 'none' : 'block'};">🏫</span>
+<div style="display:flex;align-items:center;gap:16px;">
+<div class="school-logo-wrapper">
+${s.logoUrl ? `<img src="${escapeHtml(s.logoUrl)}" alt="${escapeHtml(s.nom)}" class="school-logo-large" />` : `<span class="fallback">🏫</span>`}
 </div>
+<div>
 <span class="name">${escapeHtml(s.nom)} <span class="id">🆔 ${escapeHtml(s.id)}</span></span>
+<div style="font-size:12px;color:var(--text-muted);margin-top:2px;">📍 ${escapeHtml(s.province || '-')}, ${escapeHtml(s.ville || '-')}</div>
+</div>
 </div>
 <div>
 ${estMasquee ? '<span class="badge badge-masque">👻 HIDDEN</span>' : ''}
@@ -1245,15 +1034,13 @@ ${inscriptionActive ? '<span class="badge badge-success">📝 Registration ON</s
 </div>
 </div>
 <div class="info">
-<span>📍 ${escapeHtml(s.province || '-')}, ${escapeHtml(s.ville || '-')}</span>
 <span>👨‍💼 ${escapeHtml(s.directeur || '-')}</span>
 <span>📞 ${escapeHtml(s.telephone || '-')}</span>
 </div>
 <div class="badges">
-<span class="badge badge-primary">👥 ${count} students</span>
 <span class="badge badge-purple">👨‍🏫 ${allTeachers.filter(t => t.ecoleId === s.id).length}</span>
 <span class="badge badge-primary">📄 ${allSheets.filter(f => f.ecoleId === s.id).length}</span>
-${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? `<span class="badge badge-warning">⚠️ ${allAlertes.filter(a => a.ecoleId === s.id).length}</span>` : ''}
+${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? '<span class="badge badge-warning">⚠️ ' + allAlertes.filter(a => a.ecoleId === s.id).length + '</span>' : ''}
 </div>
 <div class="actions">
 <button class="btn btn-sm btn-action" data-school-id="${s.id}">⚡ Actions</button>
@@ -1270,7 +1057,6 @@ const schoolId = this.dataset.schoolId;
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 const overlay = document.getElementById('actionDropdownOverlay');
-const box = document.getElementById('actionDropdownBox');
 const items = document.getElementById('actionDropdownItems');
 const estMasquee = school.masque === true;
 const estActive = school.actif !== false;
@@ -1296,7 +1082,7 @@ const schoolId2 = this.dataset.school;
 const school2 = allSchools.find(s => s.id === schoolId2);
 if (!school2) return;
 switch(action) {
-case 'voir': toast(`👁️ Viewing ${school2.nom}`, 'info'); break;
+case 'voir': toast('👁️ Viewing ' + school2.nom, 'info'); break;
 case 'logo': await handleLogoChange(schoolId2); break;
 case 'inscription': await handleToggleInscription(schoolId2); break;
 case 'masquer': await handleToggleMasquer(schoolId2); break;
@@ -1308,69 +1094,51 @@ case 'supprimer': await handleDeleteSchool(schoolId2); break;
 });
 });
 container.querySelectorAll('.btn-excel, .btn-csv').forEach(btn => {
-btn.onclick = function() {
-const isExcel = this.classList.contains('btn-excel');
-exportBackup(this.dataset.ecole, this.dataset.nom, isExcel ? 'excel' : 'csv');
-};
+btn.onclick = function() { exportBackup(this.dataset.ecole, this.dataset.nom, this.classList.contains('btn-excel') ? 'excel' : 'csv'); };
 });
 }
+
 async function handleToggleInscription(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 const action = school.inscriptionActive === true ? 'disable' : 'enable';
-if (!await showCodeModal(`Registration (${action})`, { schoolId })) return;
-if (!await showConfirm(`Are you sure you want to ${action} registration for <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
-try {
-const ref = doc(db, "ecoles", schoolId);
-await updateDoc(ref, { inscriptionActive: school.inscriptionActive !== true });
-toast(`✅ Registration ${action === 'enable' ? 'enabled' : 'disabled'}`, 'success');
-await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+if (!await showCodeModal('Registration (' + action + ')', { schoolId })) return;
+if (!await showConfirm('Are you sure you want to ' + action + ' registration for <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+try { await updateDoc(doc(db, "ecoles", schoolId), { inscriptionActive: school.inscriptionActive !== true }); toast('✅ Registration ' + (action === 'enable' ? 'enabled' : 'disabled'), 'success'); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 }
+
 async function handleToggleMasquer(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 const action = school.masque === true ? 'show' : 'hide';
-if (!await showCodeModal(`Hide/Show (${action})`, { schoolId })) return;
-if (!await showConfirm(`Are you sure you want to ${action} school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
-try {
-const ref = doc(db, "ecoles", schoolId);
-await updateDoc(ref, { masque: school.masque !== true });
-toast(`✅ School ${action === 'show' ? 'shown' : 'hidden'}`, 'success');
-await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+if (!await showCodeModal('Hide/Show (' + action + ')', { schoolId })) return;
+if (!await showConfirm('Are you sure you want to ' + action + ' school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+try { await updateDoc(doc(db, "ecoles", schoolId), { masque: school.masque !== true }); toast('✅ School ' + (action === 'show' ? 'shown' : 'hidden'), 'success'); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 }
+
 async function handleToggleActif(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 const action = school.actif !== false ? 'deactivate' : 'activate';
-if (!await showCodeModal(`Status change (${action})`, { schoolId })) return;
-if (!await showConfirm(`Are you sure you want to ${action} school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
-try {
-const ref = doc(db, "ecoles", schoolId);
-await updateDoc(ref, { actif: school.actif !== false ? false : true });
-toast(`✅ School ${action === 'activate' ? 'activated' : 'deactivated'}`, 'success');
-await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+if (!await showCodeModal('Status change (' + action + ')', { schoolId })) return;
+if (!await showConfirm('Are you sure you want to ' + action + ' school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+try { await updateDoc(doc(db, "ecoles", schoolId), { actif: school.actif !== false ? false : true }); toast('✅ School ' + (action === 'activate' ? 'activated' : 'deactivated'), 'success'); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 }
+
 async function handleDeleteSchool(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 if (!await showCodeModal('School deletion', { schoolId })) return;
-if (!await showConfirm(`⚠️ Permanently delete school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+if (!await showConfirm('⚠️ Permanently delete school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
 try {
 const subs = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
-for (const sub of subs) {
-try {
-const snap = await getDocs(collection(db, "ecoles", schoolId, sub));
-for (const d of snap.docs) { await deleteDoc(d.ref); }
-} catch(e) {}
-}
+for (const sub of subs) { try { const snap = await getDocs(collection(db, "ecoles", schoolId, sub)); for (const d of snap.docs) { await deleteDoc(d.ref); } } catch(e) {} }
 await deleteDoc(doc(db, "ecoles", schoolId));
 toast("🗑️ School deleted", "success");
 await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 }
+
 async function handleLogoChange(schoolId) {
 if (!await showCodeModal('Logo change', { schoolId })) return;
 const modal = document.getElementById('logoModal');
@@ -1380,73 +1148,50 @@ document.getElementById('logoUrlInput').value = '';
 document.getElementById('logoPreviewContainer').style.display = 'none';
 document.getElementById('logoUrlInput').addEventListener('input', function() {
 const url = this.value.trim();
-if (url) {
-document.getElementById('logoPreviewImg').src = url;
-document.getElementById('logoPreviewContainer').style.display = 'block';
-} else {
-document.getElementById('logoPreviewContainer').style.display = 'none';
-}
+if (url) { document.getElementById('logoPreviewImg').src = url; document.getElementById('logoPreviewContainer').style.display = 'block'; }
+else { document.getElementById('logoPreviewContainer').style.display = 'none'; }
 });
 document.getElementById('logoValidateBtn').onclick = async function() {
 const url = document.getElementById('logoUrlInput').value.trim();
 if (!url) { toast('Please enter a URL', 'warning'); return; }
-try {
-const schoolRef = doc(db, "ecoles", schoolId);
-await updateDoc(schoolRef, { logoUrl: url });
-document.getElementById('logoModal').classList.remove('show');
-toast('✅ Logo updated', 'success');
-await loadAllData();
-} catch (e) { toast('Error: ' + e.message, 'error'); }
+try { await updateDoc(doc(db, "ecoles", schoolId), { logoUrl: url }); document.getElementById('logoModal').classList.remove('show'); toast('✅ Logo updated', 'success'); await loadAllData(); } catch(e) { toast('Error: ' + e.message, 'error'); }
 };
-document.getElementById('logoCancelBtn').onclick = () => {
-document.getElementById('logoModal').classList.remove('show');
-};
+document.getElementById('logoCancelBtn').onclick = () => { document.getElementById('logoModal').classList.remove('show'); };
 }
+
 async function exportBackup(ecoleId, ecoleNom, format) {
-const btn = document.querySelector(`[data-ecole="${ecoleId}"].btn-${format === 'excel' ? 'excel' : 'csv'}`);
+const btn = document.querySelector('[data-ecole="' + ecoleId + '"].btn-' + (format === 'excel' ? 'excel' : 'csv'));
 if (btn) { btn.textContent = '⏳...'; btn.style.opacity = '0.6'; btn.style.pointerEvents = 'none'; }
 try {
 const collections = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 const data = { ecole: ecoleId, nom: ecoleNom, date: new Date().toISOString(), collections: {} };
 for (const col of collections) {
-try {
-const snap = await getDocs(collection(db, "ecoles", ecoleId, col));
-const docs = []; snap.forEach(d => { docs.push({ id: d.id, ...d.data() }); });
-data.collections[col] = docs;
-} catch(e) { data.collections[col] = []; }
+try { const snap = await getDocs(collection(db, "ecoles", ecoleId, col)); const docs = []; snap.forEach(d => { docs.push({ id: d.id, ...d.data() }); }); data.collections[col] = docs; } catch(e) { data.collections[col] = []; }
 }
 if (format === 'excel') {
 const wb = XLSX.utils.book_new();
-for (const [name, docs] of Object.entries(data.collections)) {
-if (docs.length === 0) continue;
-const ws = XLSX.utils.json_to_sheet(docs);
-XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31));
-}
-XLSX.writeFile(wb, `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.xlsx`);
+for (const [name, docs] of Object.entries(data.collections)) { if (docs.length === 0) continue; const ws = XLSX.utils.json_to_sheet(docs); XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31)); }
+XLSX.writeFile(wb, 'backup_' + ecoleId + '_' + new Date().toISOString().split('T')[0] + '.xlsx');
 backupHistory.push({ nom: ecoleNom, format: 'Excel', date: new Date().toLocaleString('en-US') });
-toast(`✅ Excel backup of ${ecoleNom} downloaded`, 'success');
+toast('✅ Excel backup of ' + ecoleNom + ' downloaded', 'success');
 } else {
 const rows = [['Collection', 'Document ID', 'Data']];
-for (const [name, docs] of Object.entries(data.collections)) {
-for (const doc of docs) {
-rows.push([name, doc.id, JSON.stringify(doc)]);
-}
-}
+for (const [name, docs] of Object.entries(data.collections)) { for (const doc of docs) { rows.push([name, doc.id, JSON.stringify(doc)]); } }
 const csv = rows.map(r => r.join(';')).join('\n');
 const blob = new Blob([csv], { type: 'text/csv' });
 const url = URL.createObjectURL(blob);
 const a = document.createElement('a');
 a.href = url;
-a.download = `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.csv`;
+a.download = 'backup_' + ecoleId + '_' + new Date().toISOString().split('T')[0] + '.csv';
 a.click();
 URL.revokeObjectURL(url);
 backupHistory.push({ nom: ecoleNom, format: 'CSV', date: new Date().toLocaleString('en-US') });
-toast(`✅ CSV backup of ${ecoleNom} downloaded`, 'success');
+toast('✅ CSV backup of ' + ecoleNom + ' downloaded', 'success');
 }
-loadRapport();
 } catch(e) { toast('❌ Error: ' + e.message, 'error'); }
 if (btn) { btn.textContent = format === 'excel' ? '📊 Excel' : '📄 CSV'; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
 }
+
 function loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage, filterEcoleId, searchId) {
 const container = document.getElementById(containerId);
 if (!container) return;
@@ -1463,39 +1208,17 @@ setPage(currentPage);
 const start = (currentPage - 1) * membersPerPage;
 const end = start + membersPerPage;
 const pageMembers = filtered.slice(start, end);
-if (filtered.length === 0) {
-container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">👥 No members found</div>';
-document.getElementById(paginationId).style.display = 'none';
-return;
-}
+if (filtered.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">👥 No members found</div>'; document.getElementById(paginationId).style.display = 'none'; return; }
 const grouped = {};
-pageMembers.forEach(m => {
-const key = m.ecoleId;
-if (!grouped[key]) grouped[key] = { school: m.ecoleNom, members: [] };
-grouped[key].members.push(m);
-});
+pageMembers.forEach(m => { const key = m.ecoleId; if (!grouped[key]) grouped[key] = { school: m.ecoleNom, members: [] }; grouped[key].members.push(m); });
 let html = '';
 for (const [ecoleId, ecoleData] of Object.entries(grouped)) {
-html += `
-<div class="eleve-group">
-<div class="eleve-group-header">
-🏫 ${escapeHtml(ecoleData.school)}
-</div>
-<div class="eleve-group-body">
-`;
+html += '<div class="eleve-group"><div class="eleve-group-header">🏫 ' + escapeHtml(ecoleData.school) + '</div><div class="eleve-group-body">';
 ecoleData.members.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Unknown";
-html += `
-<div class="eleve-item">
-<span class="nom">${escapeHtml(nomComplet)}</span>
-<span class="code-parent">${e.parentCode || '---'}</span>
-</div>
-`;
+html += '<div class="eleve-item"><span class="nom">' + escapeHtml(nomComplet) + '</span><span class="code-parent">' + (e.parentCode || '---') + '</span></div>';
 });
-html += `
-</div>
-</div>
-`;
+html += '</div></div>';
 }
 container.innerHTML = html;
 const paginationContainer = document.getElementById(paginationId);
@@ -1503,13 +1226,13 @@ const paginationInfo = document.getElementById(paginationInfoId);
 const paginationButtons = document.getElementById(paginationButtonsId);
 if (totalPages > 1) {
 paginationContainer.style.display = 'flex';
-paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+paginationInfo.textContent = 'Page ' + currentPage + '/' + totalPages;
 let btns = '';
-if (currentPage > 1) btns += `<button class="pagination-btn" data-page="${currentPage - 1}">◀</button>`;
+if (currentPage > 1) btns += '<button class="pagination-btn" data-page="' + (currentPage - 1) + '">◀</button>';
 for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
-btns += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+btns += '<button class="pagination-btn ' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
 }
-if (currentPage < totalPages) btns += `<button class="pagination-btn" data-page="${currentPage + 1}">▶</button>`;
+if (currentPage < totalPages) btns += '<button class="pagination-btn" data-page="' + (currentPage + 1) + '">▶</button>';
 paginationButtons.innerHTML = btns;
 paginationButtons.querySelectorAll('.pagination-btn').forEach(btn => {
 btn.addEventListener('click', function() {
@@ -1518,19 +1241,13 @@ setPage(newPage);
 loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, newPage, setPage, filterEcoleId, searchId);
 });
 });
-} else {
-paginationContainer.style.display = 'none';
+} else { paginationContainer.style.display = 'none'; }
 }
-}
-function loadMembersA() {
-loadMembersGeneric('membersContainerA', membersA, 'membersPaginationA', 'membersPaginationInfoA', 'membersPaginationButtonsA', membersPageA, (p) => { membersPageA = p; }, 'memberEcoleFilterA', 'memberSearchA');
-}
-function loadMembersB() {
-loadMembersGeneric('membersContainerB', membersB, 'membersPaginationB', 'membersPaginationInfoB', 'membersPaginationButtonsB', membersPageB, (p) => { membersPageB = p; }, 'memberEcoleFilterB', 'memberSearchB');
-}
-function loadMembersC() {
-loadMembersGeneric('membersContainerC', membersC, 'membersPaginationC', 'membersPaginationInfoC', 'membersPaginationButtonsC', membersPageC, (p) => { membersPageC = p; }, 'memberEcoleFilterC', 'memberSearchC');
-}
+
+function loadMembersA() { loadMembersGeneric('membersContainerA', membersA, 'membersPaginationA', 'membersPaginationInfoA', 'membersPaginationButtonsA', membersPageA, (p) => { membersPageA = p; }, 'memberEcoleFilterA', 'memberSearchA'); }
+function loadMembersB() { loadMembersGeneric('membersContainerB', membersB, 'membersPaginationB', 'membersPaginationInfoB', 'membersPaginationButtonsB', membersPageB, (p) => { membersPageB = p; }, 'memberEcoleFilterB', 'memberSearchB'); }
+function loadMembersC() { loadMembersGeneric('membersContainerC', membersC, 'membersPaginationC', 'membersPaginationInfoC', 'membersPaginationButtonsC', membersPageC, (p) => { membersPageC = p; }, 'memberEcoleFilterC', 'memberSearchC'); }
+
 async function loadTeachers() {
 const container = document.getElementById("teachersContainer");
 if (!container) return;
@@ -1546,31 +1263,28 @@ else if (emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
 if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 No teachers</div>'; return; }
 const ficheCounts = {};
 allSheets.forEach(s => { if (s.titulaire) { const key = s.titulaire.trim().toLowerCase(); ficheCounts[key] = (ficheCounts[key] || 0) + 1; } });
-let html = '<div class="teacher-item header"><span>Name</span><span>Email</span><span>Code</span><span>Status</span><span>Sheets</span></div>';
+let html = '<div class="teacher-grid">';
 teachers.forEach(t => {
 const emailValid = t.email && t.email.includes('@');
 const nbFiches = ficheCounts[t.nom.toLowerCase()] || 0;
 html += `
-<div class="teacher-item">
-<span><strong>${escapeHtml(t.nom)}</strong></span>
-<span class="email ${emailValid ? 'valid' : 'invalid'}">${t.email ? escapeHtml(t.email) : '❌'}</span>
-<span class="code">${t.code || '---'}</span>
-<span>${t.actif ? '🟢 Active' : '🔴 Inactive'}</span>
-<span><span class="badge-fiches">${nbFiches}</span></span>
+<div class="teacher-card">
+<div class="teacher-name">${escapeHtml(t.nom)}</div>
+<div class="teacher-detail"><span class="label">📧 Email</span><span class="value ${emailValid ? 'valid' : 'invalid'}">${t.email ? escapeHtml(t.email) : '❌'}</span></div>
+<div class="teacher-detail"><span class="label">🔑 Code</span><span class="value code">${t.code || '---'}</span></div>
+<div class="teacher-detail"><span class="label">📊 Status</span><span class="value">${t.actif ? '🟢 Active' : '🔴 Inactive'}</span></div>
+<div class="teacher-detail"><span class="label">📄 Sheets</span><span class="value"><span class="badge badge-primary">${nbFiches}</span></span></div>
+<div class="teacher-detail" style="border-bottom:none;"><span class="label">🏫 School</span><span class="value">${escapeHtml(t.ecoleNom)}</span></div>
+<div class="teacher-badges">${t.code ? '<span class="badge badge-success">✅ Has code</span>' : '<span class="badge badge-danger">❌ No code</span>'}${emailValid ? '<span class="badge badge-success">✅ Valid email</span>' : '<span class="badge badge-danger">❌ Invalid email</span>'}</div>
 </div>`;
 });
+html += '</div>';
 container.innerHTML = html;
 }
-document.getElementById("showAddTeacher")?.addEventListener("click", function() {
-document.getElementById("addTeacherForm").style.display = "block";
-updateSelectors();
-});
-document.getElementById("cancelTeacherBtn")?.addEventListener("click", function() {
-document.getElementById("addTeacherForm").style.display = "none";
-});
-document.getElementById("generateTeacherCodeBtn")?.addEventListener("click", function() {
-document.getElementById("teacherCode").value = genererCode6Chiffres();
-});
+
+document.getElementById("showAddTeacher")?.addEventListener("click", function() { document.getElementById("addTeacherForm").style.display = "block"; updateSelectors(); });
+document.getElementById("cancelTeacherBtn")?.addEventListener("click", function() { document.getElementById("addTeacherForm").style.display = "none"; });
+document.getElementById("generateTeacherCodeBtn")?.addEventListener("click", function() { document.getElementById("teacherCode").value = genererCode6Chiffres(); });
 document.getElementById("saveTeacherBtn")?.addEventListener("click", async function() {
 const nom = document.getElementById("teacherName").value.trim();
 const ecole = document.getElementById("teacherSchoolSelect").value;
@@ -1580,23 +1294,17 @@ if (!code) { code = genererCode6Chiffres(); document.getElementById("teacherCode
 if (!/^\d{6}$/.test(code)) { toast("Code must be 6 digits", "error"); return; }
 const btn = this; btn.disabled = true; btn.textContent = "⏳ Creating...";
 try {
-const email = `prof.${nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.')}.${ecole}@gmail.com`;
-try { await createUserWithEmailAndPassword(auth, email, code); } catch (e) {
-if (e.code === 'auth/email-already-in-use') { toast("Email already in use", "warning"); btn.disabled = false; btn.textContent = "💾 Create"; return; }
-throw e;
-}
+const email = 'prof.' + nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.') + '.' + ecole + '@gmail.com';
+try { await createUserWithEmailAndPassword(auth, email, code); } catch(e) { if (e.code === 'auth/email-already-in-use') { toast("Email already in use", "warning"); btn.disabled = false; btn.textContent = "💾 Create"; return; } throw e; }
 const profId = 'prof_' + Date.now();
-await setDoc(doc(db, "ecoles", ecole, SC.PROFESSEURS, profId), {
-_type: "prof", id: profId, profId: profId, nom: nom,
-email: email, emailProf: email, code: code, actif: true,
-school: ecole, createdAt: new Date().toISOString()
-});
+await setDoc(doc(db, "ecoles", ecole, SC.PROFESSEURS, profId), { _type: "prof", id: profId, profId: profId, nom: nom, email: email, emailProf: email, code: code, actif: true, school: ecole, createdAt: new Date().toISOString() });
 toast("✅ Teacher created", "success");
 document.getElementById("addTeacherForm").style.display = "none";
 loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 finally { btn.disabled = false; btn.textContent = "💾 Create"; }
 });
+
 async function loadSheets() {
 const container = document.getElementById("sheetsBody");
 if (!container) return;
@@ -1608,7 +1316,7 @@ if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) 
 if (sheets.length === 0) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 No sheets</td></tr>'; return; }
 let html = '';
 sheets.forEach((s, i) => {
-html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
+html += '<tr><td>' + (i+1) + '</td><td><strong>' + escapeHtml(s.cours) + '</strong></td><td>' + escapeHtml(s.classe||'-') + '</td><td>' + escapeHtml(s.option||'-') + '</td><td>' + escapeHtml(s.titulaire||'-') + '</td><td>' + escapeHtml(s.ecoleNom) + '</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="' + s.id + '" data-ecole="' + s.ecoleId + '">🗑️</button></td></tr>';
 });
 container.innerHTML = html;
 container.querySelectorAll('.delete-sheet-btn').forEach(btn => {
@@ -1617,39 +1325,27 @@ const id = this.dataset.id, ecole = this.dataset.ecole;
 const sheet = allSheets.find(s => s.id === id && s.ecoleId === ecole);
 if (!sheet) return;
 if (!await showCodeModal('Sheet deletion', { sheetId: id })) return;
-if (!await showConfirm(`Delete sheet ${sheet.cours} ?`)) return;
-try {
-await deleteDoc(doc(db, "ecoles", ecole, SC.FICHES, id));
-toast("✅ Sheet deleted", "success");
-await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+if (!await showConfirm('Delete sheet ' + sheet.cours + ' ?')) return;
+try { await deleteDoc(doc(db, "ecoles", ecole, SC.FICHES, id)); toast("✅ Sheet deleted", "success"); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 });
 });
 }
-document.getElementById("showAddSheet")?.addEventListener("click", function() {
-document.getElementById("addSheetForm").style.display = "block";
-updateSelectors();
-});
-document.getElementById("cancelSheetBtn")?.addEventListener("click", function() {
-document.getElementById("addSheetForm").style.display = "none";
-});
+
+document.getElementById("showAddSheet")?.addEventListener("click", function() { document.getElementById("addSheetForm").style.display = "block"; updateSelectors(); });
+document.getElementById("cancelSheetBtn")?.addEventListener("click", function() { document.getElementById("addSheetForm").style.display = "none"; });
 document.getElementById("saveSheetBtn")?.addEventListener("click", async function() {
 const cours = document.getElementById("sheetCours").value.trim();
 const classe = document.getElementById("sheetClasse").value.trim();
 const ecole = document.getElementById("sheetSchoolSelect").value;
 if (!cours || !classe || !ecole || ecole === 'all') { toast("Subject, class and school required", "error"); return; }
 try {
-await setDoc(doc(collection(db, "ecoles", ecole, SC.FICHES)), {
-cours, classe, option: document.getElementById("sheetOption").value.trim(),
-titulaire: document.getElementById("sheetTitulaire").value.trim(),
-createdBy: "DSI", eleves: [],
-dateCreation: new Date().toISOString()
-});
+await setDoc(doc(collection(db, "ecoles", ecole, SC.FICHES)), { cours, classe, option: document.getElementById("sheetOption").value.trim(), titulaire: document.getElementById("sheetTitulaire").value.trim(), createdBy: "DSI", eleves: [], dateCreation: new Date().toISOString() });
 toast("✅ Sheet added", "success");
 document.getElementById("addSheetForm").style.display = "none";
 loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 });
+
 async function loadCodesEmails() {
 const container = document.getElementById("codesEmailsContainer");
 if (!container) return;
@@ -1657,7 +1353,7 @@ const filter = document.getElementById("codesEmailsEcoleFilter")?.value || "all"
 let schools = allSchools;
 if (filter !== "all") schools = schools.filter(s => s.id === filter);
 if (schools.length === 0) { container.innerHTML = '<div class="empty-state">🔐 No schools</div>'; return; }
-let html = '';
+let html = '<div class="codes-grid">';
 for (const s of schools) {
 let codeDir = 'Not set', codeCompta = 'Not set', codePromoteur = 'Not set';
 let emailDir = s.directionEmail || genererEmailDirection(s.id);
@@ -1676,219 +1372,46 @@ if (d.emailPromoteur) emailPromo = d.emailPromoteur;
 }
 } catch(e) {}
 html += `
-<div class="code-email-card">
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-<span class="name">${escapeHtml(s.nom)}</span>
-<span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Active' : '🔴 Inactive'}</span>
-</div>
-<div class="grid">
-<div class="item"><div class="lbl">👔 Director</div><div class="val dir">${escapeHtml(codeDir)}</div><div class="val email">${escapeHtml(emailDir)}</div></div>
-<div class="item"><div class="lbl">💰 Accounting</div><div class="val compta">${escapeHtml(codeCompta)}</div><div class="val email">${escapeHtml(emailCompta)}</div></div>
-<div class="item"><div class="lbl">👔 Promoter</div><div class="val promo">${escapeHtml(codePromoteur)}</div><div class="val email">${escapeHtml(emailPromo)}</div></div>
-<div class="item"><div class="lbl">📧 Parent</div><div class="val email">${escapeHtml(s.parentEmail || genererEmailParent(s.id))}</div></div>
-</div>
+<div class="code-card">
+<div class="code-school-name">${escapeHtml(s.nom)} <span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Active' : '🔴 Inactive'}</span></div>
+<div class="code-item"><span class="label">👔 Director</span><span class="value dir">${escapeHtml(codeDir)}</span></div>
+<div class="code-item"><span class="label">📧 Director Email</span><span class="value email">${escapeHtml(emailDir)}</span></div>
+<div class="code-item"><span class="label">💰 Accounting</span><span class="value compta">${escapeHtml(codeCompta)}</span></div>
+<div class="code-item"><span class="label">📧 Accounting Email</span><span class="value email">${escapeHtml(emailCompta)}</span></div>
+<div class="code-item"><span class="label">👔 Promoter</span><span class="value promo">${escapeHtml(codePromoteur)}</span></div>
+<div class="code-item" style="border-bottom:none;"><span class="label">📧 Promoter Email</span><span class="value email">${escapeHtml(emailPromo)}</span></div>
 </div>`;
 }
+html += '</div>';
 container.innerHTML = html;
 }
-async function loadAlertes() {
-const container = document.getElementById("alertesContainer");
-if (!container) return;
-const filter = document.getElementById("alertesEcoleFilter")?.value || "all";
-const priorityFilter = document.getElementById("alertesPriorityFilter")?.value || "all";
-const statutFilter = document.getElementById("alertesStatutFilter")?.value || "all";
-const categorieFilter = document.getElementById("alertesCategorieFilter")?.value || "all";
-const dateDebut = document.getElementById("alertesDateDebut")?.value;
-const dateFin = document.getElementById("alertesDateFin")?.value;
-let alertes = allAlertes;
-if (filter !== "all") alertes = alertes.filter(a => a.ecoleId === filter);
-if (priorityFilter !== "all") alertes = alertes.filter(a => a.priorite === priorityFilter);
-if (statutFilter !== "all") alertes = alertes.filter(a => a.statut === statutFilter);
-if (categorieFilter !== "all") alertes = alertes.filter(a => a.categorie === categorieFilter);
-if (dateDebut) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) >= new Date(dateDebut));
-if (dateFin) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) <= new Date(dateFin));
-if (alertes.length === 0) {
-container.innerHTML = '<div class="alert-item header"><span>Message</span><span>Category</span><span>Priority / Status</span><span>School</span></div><div class="empty-state">No alerts</div>';
-return;
-}
-const priorityLabels = { critique: '🔴 Critical', important: '🟡 Important', mineure: '🟢 Minor' };
-const priorityClass = { critique: 'critique', important: 'important', mineure: 'mineure' };
-const statutLabels = { nonresolu: '❌ Unresolved', encours: '⏳ In progress', resolu: '✅ Resolved' };
-const statutClass = { nonresolu: 'nonresolu', encours: 'encours', resolu: 'resolu' };
-let html = '<div class="alert-item header"><span>Message</span><span>Category</span><span>Priority / Status</span><span>School</span></div>';
-alertes.forEach(a => {
-const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('en-US') : '-';
-html += `
-<div class="alert-item">
-<span><strong>${escapeHtml(a.message || 'No message')}</strong><br><span style="font-size:10px;color:var(--text-muted);">${date}</span></span>
-<span><span class="badge badge-primary">${getCategoryLabel(a.categorie)}</span></span>
-<span>
-<span class="priority ${priorityClass[a.priorite] || 'mineure'}">${priorityLabels[a.priorite] || '🟢 Minor'}</span>
-<br>
-<span class="statut ${statutClass[a.statut] || 'nonresolu'}">${statutLabels[a.statut] || '❌ Unresolved'}</span>
-</span>
-<span>${escapeHtml(a.ecoleNom)}</span>
-</div>`;
-});
-container.innerHTML = html;
-}
-document.getElementById('btnSupprimerAlertes').addEventListener('click', async function() {
-if (allAlertes.length === 0) { toast('No alerts to delete', 'warning'); return; }
-if (!await showCodeModal('Delete all alerts', { count: allAlertes.length })) return;
-if (!await showConfirm(`⚠️ Permanently delete all alerts (${allAlertes.length}) ?`)) return;
-this.disabled = true; this.textContent = '⏳...';
-try {
-const batches = {};
-for (const a of allAlertes) {
-const key = a.ecoleId;
-if (!batches[key]) batches[key] = [];
-batches[key].push(a.id);
-}
-for (const [ecoleId, ids] of Object.entries(batches)) {
-const batch = writeBatch(db);
-for (const id of ids) {
-const ref = doc(db, "ecoles", ecoleId, "alertes_admin", id);
-batch.delete(ref);
-}
-await batch.commit();
-}
-toast(`✅ ${allAlertes.length} alerts deleted`, 'success');
-allAlertes = [];
-await loadAlertes();
-updateCounters();
-updateBanner();
-} catch(e) { toast('❌ Error: ' + e.message, 'error'); }
-this.disabled = false; this.textContent = '🗑️ Delete all';
-});
-function loadRapport() {
-const today = new Date();
-const dateStr = today.toLocaleDateString('en-US');
-const totalEcoles = allSchools.length;
-const totalEnseignants = allTeachers.length;
-const totalFiches = allSheets.length;
-const totalAlertes = allAlertes.length;
-const alertesNonResolues = allAlertes.filter(a => a.statut !== 'resolu').length;
-const alertesCritiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
-const sansCode = allTeachers.filter(t => !t.code).length;
-const emailInvalid = allTeachers.filter(t => !t.email || !t.email.includes('@')).length;
-document.getElementById('aujourdhuiContainer').innerHTML = `
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:13px;">
-<div>📅 ${dateStr}</div>
-<div>🏫 ${totalEcoles} schools</div>
-<div>👨‍🏫 ${totalEnseignants} teachers</div>
-<div>📄 ${totalFiches} sheets</div>
-<div>⚠️ ${totalAlertes} alerts</div>
-<div>🔴 ${alertesCritiques} critical</div>
-<div>🔑 ${sansCode} no code</div>
-<div>📧 ${emailInvalid} invalid emails</div>
-</div>
-`;
-document.getElementById('tendancesContainer').innerHTML = `
-<div style="font-size:13px;line-height:1.8;">
-<div>📈 7-day trend</div>
-<div>👨‍🏫 Teachers: ${totalEnseignants}</div>
-<div>📄 Sheets: ${totalFiches}</div>
-<div>⚠️ Alerts: ${totalAlertes}</div>
-<div style="font-size:11px;color:var(--text-muted);">🔄 ${new Date().toLocaleTimeString('en-US')}</div>
-</div>
-`;
-const codeCounts = {};
-allTeachers.forEach(t => { if (t.code) { codeCounts[t.code] = (codeCounts[t.code] || 0) + 1; } });
-const doublons = Object.entries(codeCounts).filter(([,count]) => count > 1);
-const doublonsContainer = document.getElementById('doublonsContainer');
-if (doublons.length === 0) {
-doublonsContainer.innerHTML = '<div class="empty-state">✅ No duplicate codes</div>';
-} else {
-doublonsContainer.innerHTML = `<div style="font-size:12px;">🔑 ${doublons.length} duplicate code(s)</div>` +
-doublons.slice(0, 5).map(([code, count]) => {
-const teachers = allTeachers.filter(t => t.code === code);
-return `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${code}: ${teachers.map(t => t.nom).join(', ')}</div>`;
-}).join('');
-}
-const fichesSans = allSheets.filter(s => !s.titulaire || s.titulaire.trim() === '');
-const fichesContainer = document.getElementById('fichesSansEnseignantContainer');
-if (fichesSans.length === 0) {
-fichesContainer.innerHTML = '<div class="empty-state">✅ All sheets have a teacher</div>';
-} else {
-fichesContainer.innerHTML = `<div style="font-size:12px;">📄 ${fichesSans.length} sheet(s) without teacher</div>` +
-fichesSans.slice(0, 5).map(s => `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${s.cours} - ${s.classe} (${s.ecoleNom})</div>`).join('');
-}
-const alertesParStatut = { nonresolu: 0, encours: 0, resolu: 0 };
-allAlertes.forEach(a => { if (alertesParStatut[a.statut] !== undefined) alertesParStatut[a.statut]++; });
-const totalA = allAlertes.length || 1;
-const tauxResolu = totalA > 0 ? Math.round((alertesParStatut.resolu / totalA) * 100) : 0;
-document.getElementById('tempsResolutionContainer').innerHTML = `
-<div style="font-size:13px;line-height:1.8;">
-<div>⏱️ Resolution rate: ${tauxResolu}%</div>
-<div>✅ Resolved: ${alertesParStatut.resolu}</div>
-<div>⏳ In progress: ${alertesParStatut.encours}</div>
-<div>❌ Unresolved: ${alertesParStatut.nonresolu}</div>
-</div>
-`;
-const backupContainer = document.getElementById('historiqueBackupsContainer');
-if (backupHistory.length === 0) {
-backupContainer.innerHTML = '<div class="empty-state">No backups performed</div>';
-} else {
-backupContainer.innerHTML = `<div style="font-size:12px;max-height:150px;overflow-y:auto;">` +
-backupHistory.slice(-10).reverse().map(b => `
-<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border-color);font-size:11px;">
-<span>📁 ${b.nom}</span>
-<span>${b.format} · ${b.date}</span>
-</div>
-`).join('') + '</div>';
-}
-}
+
 async function loadParentCodes() {
 const select = document.getElementById("codeEcoleSelect");
 const ecoleId = select?.value;
 const searchTerm = document.getElementById("codeSearchInput")?.value?.toLowerCase() || "";
 let codes = allCodes;
-if (ecoleId && ecoleId !== 'all' && ecoleId !== '') {
-codes = codes.filter(c => c.ecole === ecoleId);
-}
-if (searchTerm) {
-codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
-}
+if (ecoleId && ecoleId !== 'all' && ecoleId !== '') codes = codes.filter(c => c.ecole === ecoleId);
+if (searchTerm) codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
 const container = document.getElementById("codeResultsContainer");
-if (codes.length === 0) {
-container.innerHTML = '<div class="empty-state">📭 No parent codes found</div>';
-return;
-}
+if (codes.length === 0) { container.innerHTML = '<div class="empty-state">📭 No parent codes found</div>'; return; }
 const groupedByEcole = {};
-codes.forEach(c => {
-const key = c.ecole;
-if (!groupedByEcole[key]) {
-groupedByEcole[key] = [];
-}
-groupedByEcole[key].push(c);
-});
-let html = ``;
+codes.forEach(c => { const key = c.ecole; if (!groupedByEcole[key]) groupedByEcole[key] = []; groupedByEcole[key].push(c); });
+let html = '';
 for (const [ecoleId, eleves] of Object.entries(groupedByEcole)) {
 const ecoleNom = allSchools.find(s => s.id === ecoleId)?.nom || ecoleId;
-html += `
-<div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;">
-<div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);">
-<span>🏫 ${escapeHtml(ecoleNom)}</span>
-</div>
-<div style="padding:4px 8px;">
-${eleves.map(e => {
+html += '<div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;"><div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);"><span>🏫 ' + escapeHtml(ecoleNom) + '</span></div><div style="padding:4px 8px;">';
+eleves.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Unknown";
-return `
-<div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:14px;">
-<span style="font-weight:600;">${escapeHtml(nomComplet)}</span>
-<span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700;">${escapeHtml(e.parentCode)}</span>
-</div>
-`;
-}).join('')}
-</div>
-</div>
-`;
+html += '<div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:14px;"><span style="font-weight:600;">' + escapeHtml(nomComplet) + '</span><span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700;">' + escapeHtml(e.parentCode) + '</span></div>';
+});
+html += '</div></div>';
 }
 container.innerHTML = html;
 }
-document.getElementById("codeSearchInput")?.addEventListener("input", function() {
-loadParentCodes();
-});
+
+document.getElementById("codeSearchInput")?.addEventListener("input", loadParentCodes);
+
 async function loadWhiteMonths() {
 const container = document.getElementById("wmBody");
 if (!container) return;
@@ -1901,9 +1424,7 @@ const snap = await getDocs(collection(db, "ecoles", e.id, SC.COMPTA_ELEVES));
 snap.forEach(d => {
 const data = d.data();
 const blancs = data.moisBlancs || [];
-blancs.forEach(m => {
-wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Unknown", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m });
-});
+blancs.forEach(m => { wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Unknown", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m }); });
 });
 } catch(e) {}
 }
@@ -1911,14 +1432,14 @@ if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-s
 let html = '';
 wm.slice(0, 100).forEach((w, i) => {
 const sectionBadge = getSectionBadge(w.section);
-html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restore</button></td></tr>`;
+html += '<tr><td><strong>' + escapeHtml(w.nom) + '</strong></td><td>' + escapeHtml(w.classe) + '</td><td><span class="badge ' + sectionBadge + '">' + getSectionLabel(w.section) + '</span></td><td>' + escapeHtml(w.ecoleNom) + '</td><td><span class="badge badge-warning">❄️ ' + escapeHtml(w.mois) + '</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="' + w.docId + '" data-ecole="' + w.ecoleId + '" data-mois="' + w.mois + '">🔄 Restore</button></td></tr>';
 });
 container.innerHTML = html;
 container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
 btn.addEventListener('click', async function() {
 const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
 if (!await showCodeModal('Restore white month', { docId, ecole })) return;
-if (!await showConfirm(`Restore ${mois} ?`)) return;
+if (!await showConfirm('Restore ' + mois + ' ?')) return;
 try {
 const ref = doc(db, "ecoles", ecole, SC.COMPTA_ELEVES, docId);
 const snap = await getDoc(ref);
@@ -1929,37 +1450,25 @@ await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
 toast("✅ White month restored", "success");
 await loadAllData();
 }
-} catch (e) { toast("Error: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 });
 });
 }
+
 let explorerData = {};
 async function loadExplorer() {
 const container = document.getElementById("explorerContent");
 if (!container) return;
-
-// Show progress bar
-container.innerHTML = `
-<div class="progress-container">
-<div class="progress-text">🔍 Loading data...</div>
-<div class="progress-percent" id="explorerProgressPercent">0%</div>
-<div class="progress-bar">
-<div class="fill" id="explorerProgressFill" style="width:0%;"></div>
-</div>
-</div>
-`;
-
+container.innerHTML = '<div class="progress-container"><div class="progress-text">🔍 Loading data...</div><div class="progress-percent" id="explorerProgressPercent">0%</div><div class="progress-bar"><div class="fill" id="explorerProgressFill" style="width:0%;"></div></div></div>';
 try {
 const filter = document.getElementById("explorerEcoleFilter")?.value || "all";
 let schools = allSchools;
 if (filter !== "all") schools = schools.filter(s => s.id === filter);
-
 const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 const totalSteps = schools.length * subCols.length;
 let currentStep = 0;
 const collections = {};
 let totalDocs = 0;
-
 for (const school of schools) {
 const id = school.id;
 for (const sub of subCols) {
@@ -1967,52 +1476,36 @@ currentStep++;
 const progress = Math.round((currentStep / totalSteps) * 100);
 document.getElementById('explorerProgressPercent').textContent = progress + '%';
 document.getElementById('explorerProgressFill').style.width = progress + '%';
-
 try {
 const snap = await getDocs(collection(db, "ecoles", id, sub));
 const docs = [];
 snap.forEach(d => docs.push({ id: d.id, data: d.data() }));
-const key = `${school.nom || id}/${sub}`;
+const key = (school.nom || id) + '/' + sub;
 collections[key] = { nb: docs.length, docs: docs, ecoleId: id, ecoleNom: school.nom || id };
 totalDocs += docs.length;
 } catch(e) {}
 }
 }
-
 explorerData = collections;
-
-// Build the final display
-let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">${Object.keys(collections).length}</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div>
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">${totalDocs}</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div>
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">${schools.length}</div><div style="font-size:11px;color:var(--text-muted);">Schools</div></div>
-</div>`;
+let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;"><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">' + Object.keys(collections).length + '</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">' + totalDocs + '</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">' + schools.length + '</div><div style="font-size:11px;color:var(--text-muted);">Schools</div></div></div>';
 let idx = 0;
 for (const [key, val] of Object.entries(collections)) {
 idx++;
 const isVide = val.nb === 0;
-html += `<div style="border:1px solid ${isVide ? 'var(--border-color)' : 'var(--border-color)'};border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,0.01);overflow:hidden;">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;cursor:pointer;" onclick="document.getElementById('exp-${idx}').classList.toggle('open')">
-<div><span>${isVide ? '📭' : '📂'}</span><span style="font-weight:600;font-size:13px;margin-left:6px;">${escapeHtml(key)}</span></div>
-<div><span class="badge badge-primary">${val.nb}</span></div>
-</div>
-<div id="exp-${idx}" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">
-${val.nb === 0 ? '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Empty</div>' :
-val.docs.slice(0, 5).map(d => `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border-color);font-size:12px;color:var(--text-muted);"><span style="font-family:monospace;font-size:10px;color:#5dade2;">${d.id.substring(0,8)}…</span><span>${JSON.stringify(d.data).substring(0,40)}…</span></div>`).join('')}
-${val.nb > 5 ? `<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... and ${val.nb - 5} more</div>` : ''}
-</div>
-</div>`;
+html += '<div style="border:1px solid var(--border-color);border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,0.01);overflow:hidden;"><div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;cursor:pointer;" onclick="document.getElementById(\'exp-' + idx + '\').classList.toggle(\'open\')"><div><span>' + (isVide ? '📭' : '📂') + '</span><span style="font-weight:600;font-size:13px;margin-left:6px;">' + escapeHtml(key) + '</span></div><div><span class="badge badge-primary">' + val.nb + '</span></div></div><div id="exp-' + idx + '" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">';
+if (val.nb === 0) html += '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Empty</div>';
+else {
+val.docs.slice(0, 5).forEach(d => {
+html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border-color);font-size:12px;color:var(--text-muted);"><span style="font-family:monospace;font-size:10px;color:#5dade2;">' + d.id.substring(0,8) + '…</span><span>' + JSON.stringify(d.data).substring(0,40) + '…</span></div>';
+});
+if (val.nb > 5) html += '<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... and ' + (val.nb - 5) + ' more</div>';
+}
+html += '</div></div>';
 }
 container.innerHTML = html;
-
-// Clean up progress
-document.getElementById('explorerProgressPercent')?.remove();
-document.getElementById('explorerProgressFill')?.remove();
-
-} catch(e) {
-container.innerHTML = '<div class="empty-state">❌ Error loading data</div>';
+} catch(e) { container.innerHTML = '<div class="empty-state">❌ Error loading data</div>'; }
 }
-}
+
 document.getElementById('exportExplorerExcel')?.addEventListener('click', function() {
 if (Object.keys(explorerData).length === 0) { toast('No data to export', 'warning'); return; }
 try {
@@ -2020,25 +1513,16 @@ const wb = XLSX.utils.book_new();
 for (const [key, val] of Object.entries(explorerData)) {
 if (val.nb === 0) continue;
 const rows = [];
-val.docs.forEach(d => {
-const row = { ID: d.id, ...d.data };
-rows.push(row);
-});
-if (rows.length > 0) {
-const ws = XLSX.utils.json_to_sheet(rows);
-XLSX.utils.book_append_sheet(wb, ws, key.substring(0, 31));
+val.docs.forEach(d => { const row = { ID: d.id, ...d.data }; rows.push(row); });
+if (rows.length > 0) { const ws = XLSX.utils.json_to_sheet(rows); XLSX.utils.book_append_sheet(wb, ws, key.substring(0, 31)); }
 }
-}
-XLSX.writeFile(wb, `explorer_${new Date().toISOString().split('T')[0]}.xlsx`);
+XLSX.writeFile(wb, 'explorer_' + new Date().toISOString().split('T')[0] + '.xlsx');
 toast('✅ Export complete', 'success');
 } catch(e) { toast('❌ Export error: ' + e.message, 'error'); }
 });
-document.getElementById("showAddSchool")?.addEventListener("click", function() {
-document.getElementById("addSchoolForm").style.display = "block";
-});
-document.getElementById("cancelSchoolBtn")?.addEventListener("click", function() {
-document.getElementById("addSchoolForm").style.display = "none";
-});
+
+document.getElementById("showAddSchool")?.addEventListener("click", function() { document.getElementById("addSchoolForm").style.display = "block"; });
+document.getElementById("cancelSchoolBtn")?.addEventListener("click", function() { document.getElementById("addSchoolForm").style.display = "none"; });
 document.getElementById("schoolName")?.addEventListener("input", function() {
 const val = this.value.trim().toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
 document.getElementById("schoolId").value = val || "auto-" + Date.now().toString().slice(-6);
@@ -2052,48 +1536,19 @@ try {
 const existing = await getDoc(doc(db, "ecoles", id));
 if (existing.exists()) { toast("ID already in use", "error"); return; }
 const codeDirection = genererCode6Chiffres();
-await setDoc(doc(db, "ecoles", id), {
-nom, id, province: document.getElementById("schoolProvince").value,
-ville: document.getElementById("schoolCity").value.trim(),
-telephone: document.getElementById("schoolPhone").value.trim(),
-directeur: document.getElementById("schoolDirector").value.trim(),
-adresse: document.getElementById("schoolAddress").value.trim(),
-actif: true,
-inscriptionActive: false, masque: false,
-parentEmail: genererEmailParent(id),
-directionEmail: genererEmailDirection(id),
-comptaEmail: genererEmailCompta(id),
-promoteurEmail: genererEmailPromoteur(id),
-dateCreation: new Date().toISOString()
-});
-await setDoc(doc(db, "ecoles", id, "settings", "data"), {
-codeDirection: codeDirection,
-codeComptabilite: genererCode6Chiffres(),
-codePromoteur: genererCode6Chiffres(),
-emailDirection: genererEmailDirection(id),
-emailComptabilite: genererEmailCompta(id),
-emailPromoteur: genererEmailPromoteur(id),
-updatedAt: new Date().toISOString()
-});
+await setDoc(doc(db, "ecoles", id), { nom, id, province: document.getElementById("schoolProvince").value, ville: document.getElementById("schoolCity").value.trim(), telephone: document.getElementById("schoolPhone").value.trim(), directeur: document.getElementById("schoolDirector").value.trim(), adresse: document.getElementById("schoolAddress").value.trim(), actif: true, inscriptionActive: false, masque: false, parentEmail: genererEmailParent(id), directionEmail: genererEmailDirection(id), comptaEmail: genererEmailCompta(id), promoteurEmail: genererEmailPromoteur(id), dateCreation: new Date().toISOString() });
+await setDoc(doc(db, "ecoles", id, "settings", "data"), { codeDirection: codeDirection, codeComptabilite: genererCode6Chiffres(), codePromoteur: genererCode6Chiffres(), emailDirection: genererEmailDirection(id), emailComptabilite: genererEmailCompta(id), emailPromoteur: genererEmailPromoteur(id), updatedAt: new Date().toISOString() });
 toast("✅ School created", "success");
 document.getElementById("addSchoolForm").style.display = "none";
 await loadAllData();
-} catch (e) { toast("Error: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 });
+
 document.getElementById("themeToggle")?.addEventListener("click", function() {
 document.body.classList.toggle('light');
 this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
 });
-document.querySelectorAll('.space-btn').forEach(btn => {
-btn.onclick = function() {
-document.querySelectorAll('.space-btn').forEach(b => b.classList.remove('active'));
-this.classList.add('active');
-espaceActif = this.dataset.space;
-toast('🔁 Filter: ' + this.textContent.trim(), 'info');
-loadAllData();
-if (isStatsFullscreen) buildStatsChart();
-};
-});
+
 document.querySelectorAll('.tab-btn').forEach(btn => {
 btn.onclick = function() {
 const tabId = this.dataset.tab;
@@ -2110,20 +1565,13 @@ document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
 this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 document.getElementById(tabId).classList.add('active');
-const tabMap = {
-'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
-'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
-'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
-'tab11': loadWhiteMonths, 'tab12': loadExplorer,
-'tab13': () => { buildTendanceCharts(); }
-};
+const tabMap = { 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC, 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails, 'tab10': loadParentCodes, 'tab11': loadWhiteMonths, 'tab12': loadExplorer };
 if (tabMap[tabId]) tabMap[tabId]();
 };
 });
-document.getElementById('statsBackBtn')?.addEventListener('click', function() {
-exitStatsFullscreen();
-loadAllData();
-});
+
+document.getElementById('statsBackBtn')?.addEventListener('click', function() { exitStatsFullscreen(); loadAllData(); });
+
 function enterStatsFullscreen() {
 isStatsFullscreen = true;
 document.getElementById('mainHeader').classList.add('hidden');
@@ -2133,6 +1581,7 @@ document.getElementById('tab0').style.display = 'block';
 document.querySelectorAll('.tab-panel:not(#tab0)').forEach(el => el.classList.remove('active'));
 setTimeout(() => { if (statsChartInstance) statsChartInstance.resize(); }, 100);
 }
+
 function exitStatsFullscreen() {
 isStatsFullscreen = false;
 document.getElementById('mainHeader').classList.remove('hidden');
@@ -2143,6 +1592,7 @@ document.getElementById('tab1').classList.add('active');
 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 document.querySelector('[data-tab="tab1"]').classList.add('active');
 }
+
 document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
 document.getElementById("refreshMembersA")?.addEventListener("click", loadMembersA);
 document.getElementById("refreshMembersB")?.addEventListener("click", loadMembersB);
@@ -2167,96 +1617,41 @@ document.getElementById("teacherEmailFilter")?.addEventListener('change', loadTe
 document.getElementById("sheetEcoleFilter")?.addEventListener('change', loadSheets);
 document.getElementById("sheetSearch")?.addEventListener('input', loadSheets);
 document.getElementById("codesEmailsEcoleFilter")?.addEventListener('change', loadCodesEmails);
-document.getElementById("alertesEcoleFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesPriorityFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesStatutFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesCategorieFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesDateDebut")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesDateFin")?.addEventListener('change', loadAlertes);
 document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
 document.getElementById("codeEcoleSelect")?.addEventListener('change', loadParentCodes);
 document.getElementById("explorerEcoleFilter")?.addEventListener('change', loadExplorer);
 document.getElementById("applyExplorerFilter")?.addEventListener('click', loadExplorer);
 
-// ============ REVEAL FUNCTIONALITY ============
 function setupRevealButton(btnId, counterId, totalId, membersArray) {
 const btn = document.getElementById(btnId);
 const counter = document.getElementById(counterId);
 const totalEl = document.getElementById(totalId);
 let timeout = null;
 let active = false;
-
 btn.addEventListener('click', async function() {
-// If already active, just hide
 if (active) {
 counter.style.display = 'none';
 active = false;
 if (timeout) { clearTimeout(timeout); timeout = null; }
 return;
 }
-
-// Ask for code
 const ok = await showCodeModal('Reveal members count', {});
 if (!ok) return;
-
-// Get total based on current filter
-const filterEcole = document.getElementById(btnId === 'revealBtnA' ? 'memberEcoleFilterA' :
-btnId === 'revealBtnB' ? 'memberEcoleFilterB' : 'memberEcoleFilterC')?.value || "all";
+const filterEcole = document.getElementById(btnId === 'revealBtnA' ? 'memberEcoleFilterA' : btnId === 'revealBtnB' ? 'memberEcoleFilterB' : 'memberEcoleFilterC')?.value || "all";
 let filtered = membersArray;
 if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
 const total = filtered.length;
-
-// Show counter
 totalEl.textContent = total;
 counter.style.display = 'inline-block';
 active = true;
-toast(`👥 Total: ${total} members revealed for 30 seconds`, 'info');
-
-// Auto-hide after 30s
 if (timeout) clearTimeout(timeout);
-timeout = setTimeout(() => {
-counter.style.display = 'none';
-active = false;
-timeout = null;
-}, 30000);
+timeout = setTimeout(() => { counter.style.display = 'none'; active = false; timeout = null; }, 30000);
 });
 }
 
 setupRevealButton('revealBtnA', 'revealCounterA', 'revealTotalA', membersA);
 setupRevealButton('revealBtnB', 'revealCounterB', 'revealTotalB', membersB);
 setupRevealButton('revealBtnC', 'revealCounterC', 'revealTotalC', membersC);
-
-// Also refresh reveal counters when filters change
-['memberEcoleFilterA', 'memberSearchA'].forEach(id => {
-document.getElementById(id)?.addEventListener('change', () => {
-if (document.getElementById('revealCounterA').style.display !== 'none') {
-const filter = document.getElementById('memberEcoleFilterA').value;
-let filtered = membersA;
-if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
-document.getElementById('revealTotalA').textContent = filtered.length;
-}
-});
-});
-['memberEcoleFilterB', 'memberSearchB'].forEach(id => {
-document.getElementById(id)?.addEventListener('change', () => {
-if (document.getElementById('revealCounterB').style.display !== 'none') {
-const filter = document.getElementById('memberEcoleFilterB').value;
-let filtered = membersB;
-if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
-document.getElementById('revealTotalB').textContent = filtered.length;
-}
-});
-});
-['memberEcoleFilterC', 'memberSearchC'].forEach(id => {
-document.getElementById(id)?.addEventListener('change', () => {
-if (document.getElementById('revealCounterC').style.display !== 'none') {
-const filter = document.getElementById('memberEcoleFilterC').value;
-let filtered = membersC;
-if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
-document.getElementById('revealTotalC').textContent = filtered.length;
-}
-});
-});
 
 document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
@@ -2268,17 +1663,14 @@ loadMembersC();
 loadTeachers();
 loadSheets();
 loadCodesEmails();
-loadAlertes();
-loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
-buildTendanceCharts();
+buildStatsChart();
 enterStatsFullscreen();
 setTimeout(() => buildStatsChart(), 300);
 }, 500);
 });
-console.log('🔧 NeTubeX V2 - Enterprise Dashboard');
 </script>
 </body>
 </html>
