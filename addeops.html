@@ -600,53 +600,69 @@ body.light #clearCacheModal .modal-card .subtitle {
     color: #4A5568;
 }
 
-@media (max-width: 768px) {
-    .school-item {
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 12px 14px;
+/* ===== TOTAL MEMBERS CARDS ===== */
+.total-members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+.total-member-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.total-member-card:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.total-member-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+.total-member-icon {
+    font-size: 18px;
+}
+.total-member-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.total-member-badge {
+    font-size: 10px;
+    padding: 1px 10px;
+}
+.total-member-count {
+    font-size: 42px;
+    font-weight: 900;
+    padding: 6px 0;
+}
+.total-member-school {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+body.light .total-member-card {
+    background: #FFFFFF;
+}
+body.light .total-member-card:hover {
+    background: #FAFAFA;
+}
+@media (max-width: 600px) {
+    .total-members-grid {
+        grid-template-columns: 1fr;
     }
-    .school-item .school-left {
-        flex: 1 1 100%;
-        min-width: unset;
-        order: 2;
+    .total-member-count {
+        font-size: 32px;
     }
-    .school-item .school-logo-center {
-        order: 1;
-        width: 48px;
-        height: 48px;
-    }
-    .school-item .school-right {
-        order: 3;
-        margin-left: 0;
-        flex-wrap: wrap;
-        width: 100%;
-        border-top: 1px solid var(--border-color);
-        padding-top: 10px;
-        justify-content: flex-start;
-    }
-    .filter-bar {
-        flex-direction: column;
-    }
-    .filter-group {
-        width: 100%;
-        min-width: unset;
-    }
-    .card-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-    .card-header-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-    #clearCacheModal .modal-card {
-        margin: 16px;
-        padding: 24px 16px;
-    }
-    #clearCacheModal .modal-card .btn-group {
-        flex-direction: column;
+    #totalAllMembers {
+        font-size: 40px !important;
     }
 }
 </style>
@@ -680,6 +696,7 @@ body.light #clearCacheModal .modal-card .subtitle {
 <button class="tab-btn" data-tab="tab10">🔑 PARENT CODES</button>
 <button class="tab-btn" data-tab="tab11">❄️ WHITE MONTHS</button>
 <button class="tab-btn" data-tab="tab12">🔍 EXPLORER</button>
+<button class="tab-btn" data-tab="tab13">👥 TOTAL MEMBERS</button>
 </div>
 <div id="tab0" class="tab-panel active">
 <div class="stats-fullscreen">
@@ -751,7 +768,7 @@ body.light #clearCacheModal .modal-card .subtitle {
 </div>
 </div>
 </div>
-<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS A (Accounting)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnA">🔓 REVEAL</button><span id="revealCounterA" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalA">0</span></span></div></div>
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS A (Accounting)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
@@ -761,7 +778,7 @@ body.light #clearCacheModal .modal-card .subtitle {
 <div class="pagination-container" id="membersPaginationA" style="display:none;"><div class="pagination-info" id="membersPaginationInfoA">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
 </div>
 </div></div>
-<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS B (Primary)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnB">🔓 REVEAL</button><span id="revealCounterB" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalB">0</span></span></div></div>
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS B (Primary)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
@@ -771,7 +788,7 @@ body.light #clearCacheModal .modal-card .subtitle {
 <div class="pagination-container" id="membersPaginationB" style="display:none;"><div class="pagination-info" id="membersPaginationInfoB">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
 </div>
 </div></div>
-<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS C (Nursery)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnC">🔓 REVEAL</button><span id="revealCounterC" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalC">0</span></span></div></div>
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS C (Nursery)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
@@ -843,6 +860,66 @@ body.light #clearCacheModal .modal-card .subtitle {
 <div id="explorerContent"><div class="empty-state">Loading...</div></div>
 </div>
 </div></div>
+<div id="tab13" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<div class="card-header-left">
+<span class="card-icon">👥</span>
+<span>Total Members</span>
+<span class="badge badge-primary" id="totalMembersBadge">0</span>
+</div>
+<div class="card-header-actions">
+<button class="btn btn-refresh btn-sm" id="refreshTotalMembersBtn">⟳ Refresh</button>
+</div>
+</div>
+<div class="card-body">
+<!-- GRAND TOTAL -->
+<div style="background: linear-gradient(135deg, rgba(108,99,255,0.10), rgba(108,99,255,0.02)); border: 2px solid var(--accent); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
+<div style="font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Total Members</div>
+<div style="font-size: 56px; font-weight: 900; color: var(--accent);" id="totalAllMembers">0</div>
+<div style="font-size: 13px; color: var(--text-muted);" id="totalAllSchools">🏫 All schools</div>
+</div>
+<!-- 3 Cartes par section -->
+<div class="total-members-grid">
+<div class="total-member-card" style="border-left: 4px solid #bb8fce;">
+<div class="total-member-header">
+<span class="total-member-icon">👥</span>
+<span class="total-member-label">MEMBERS A</span>
+<span class="total-member-badge badge badge-espace-secondary">Accounting</span>
+</div>
+<div class="total-member-count" id="totalCountA" style="color: #bb8fce;">0</div>
+<div class="total-member-school" id="totalSchoolA">🏫 All schools</div>
+</div>
+<div class="total-member-card" style="border-left: 4px solid #5dade2;">
+<div class="total-member-header">
+<span class="total-member-icon">👥</span>
+<span class="total-member-label">MEMBERS B</span>
+<span class="total-member-badge badge badge-espace-primary">Primary</span>
+</div>
+<div class="total-member-count" id="totalCountB" style="color: #5dade2;">0</div>
+<div class="total-member-school" id="totalSchoolB">🏫 All schools</div>
+</div>
+<div class="total-member-card" style="border-left: 4px solid #34D399;">
+<div class="total-member-header">
+<span class="total-member-icon">👥</span>
+<span class="total-member-label">MEMBERS C</span>
+<span class="total-member-badge badge badge-espace-nursery">Nursery</span>
+</div>
+<div class="total-member-count" id="totalCountC" style="color: #34D399;">0</div>
+<div class="total-member-school" id="totalSchoolC">🏫 All schools</div>
+</div>
+</div>
+<!-- Filtre par école -->
+<div class="filter-row" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+<label>🏫 Filter by school :</label>
+<select id="totalMembersEcoleFilter" style="flex:1; min-width: 200px;">
+<option value="all">All schools</option>
+</select>
+<button class="btn btn-primary btn-sm" id="applyTotalFilter">Apply</button>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Verification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Please enter the access code</p>
 <div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Validate</button></div>
@@ -909,6 +986,7 @@ const membersPerPage = 20;
 let revealTimeoutA = null, revealTimeoutB = null, revealTimeoutC = null;
 let revealActiveA = false, revealActiveB = false, revealActiveC = false;
 let lastToastTimestamp = 0;
+let totalMembersUnlocked = false;
 
 function toast(msg, type) {
 type = type || "success";
@@ -1119,6 +1197,10 @@ loadCodesEmails();
 loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
+updateTotalMembersFilter();
+if (document.getElementById('tab13').classList.contains('active')) {
+updateTotalMembers();
+}
 buildStatsChart();
 } catch (e) {}
 }
@@ -1127,7 +1209,7 @@ function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter',
 'wmEcoleFilter', 'codeEcoleSelect', 'explorerEcoleFilter',
 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
-'teacherSchoolSelect', 'sheetSchoolSelect'].forEach(id => {
+'teacherSchoolSelect', 'sheetSchoolSelect', 'totalMembersEcoleFilter'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
@@ -1744,7 +1826,7 @@ document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
 this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 document.getElementById(tabId).classList.add('active');
-const tabMap = { 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC, 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails, 'tab10': loadParentCodes, 'tab11': loadWhiteMonths, 'tab12': loadExplorer };
+const tabMap = { 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC, 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails, 'tab10': loadParentCodes, 'tab11': loadWhiteMonths, 'tab12': loadExplorer, 'tab13': loadTotalMembers };
 if (tabMap[tabId]) tabMap[tabId]();
 };
 });
@@ -1782,6 +1864,7 @@ document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", load
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
 document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
 document.getElementById("refreshExplorerBtn")?.addEventListener("click", loadExplorer);
+document.getElementById("refreshTotalMembersBtn")?.addEventListener("click", updateTotalMembers);
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
 document.getElementById("memberEcoleFilterA")?.addEventListener('change', loadMembersA);
@@ -1800,37 +1883,71 @@ document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMo
 document.getElementById("codeEcoleSelect")?.addEventListener('change', loadParentCodes);
 document.getElementById("explorerEcoleFilter")?.addEventListener('change', loadExplorer);
 document.getElementById("applyExplorerFilter")?.addEventListener('click', loadExplorer);
+document.getElementById("applyTotalFilter")?.addEventListener('click', updateTotalMembers);
+document.getElementById("totalMembersEcoleFilter")?.addEventListener('change', updateTotalMembers);
 
-function setupRevealButton(btnId, counterId, totalId, membersArray) {
-const btn = document.getElementById(btnId);
-const counter = document.getElementById(counterId);
-const totalEl = document.getElementById(totalId);
-let timeout = null;
-let active = false;
-btn.addEventListener('click', async function() {
-if (active) {
-counter.style.display = 'none';
-active = false;
-if (timeout) { clearTimeout(timeout); timeout = null; }
+// ===== TOTAL MEMBERS =====
+function loadTotalMembers() {
+if (totalMembersUnlocked) {
+updateTotalMembers();
 return;
 }
-const ok = await showCodeModal('Reveal members count', {});
-if (!ok) return;
-const filterEcole = document.getElementById(btnId === 'revealBtnA' ? 'memberEcoleFilterA' : btnId === 'revealBtnB' ? 'memberEcoleFilterB' : 'memberEcoleFilterC')?.value || "all";
-let filtered = membersArray;
-if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
-const total = filtered.length;
-totalEl.textContent = total;
-counter.style.display = 'inline-block';
-active = true;
-if (timeout) clearTimeout(timeout);
-timeout = setTimeout(() => { counter.style.display = 'none'; active = false; timeout = null; }, 30000);
+const tabBtn = document.querySelector('[data-tab="tab13"]');
+if (!tabBtn) return;
+// Demander le code
+showCodeModal('Access Total Members', {}).then(ok => {
+if (ok) {
+totalMembersUnlocked = true;
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+tabBtn.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById('tab13').classList.add('active');
+updateTotalMembers();
+}
 });
 }
 
-setupRevealButton('revealBtnA', 'revealCounterA', 'revealTotalA', membersA);
-setupRevealButton('revealBtnB', 'revealCounterB', 'revealTotalB', membersB);
-setupRevealButton('revealBtnC', 'revealCounterC', 'revealTotalC', membersC);
+function updateTotalMembers() {
+const filterEcole = document.getElementById('totalMembersEcoleFilter')?.value || "all";
+let filteredA = membersA;
+let filteredB = membersB;
+let filteredC = membersC;
+if (filterEcole !== "all") {
+filteredA = filteredA.filter(m => m.ecoleId === filterEcole);
+filteredB = filteredB.filter(m => m.ecoleId === filterEcole);
+filteredC = filteredC.filter(m => m.ecoleId === filterEcole);
+}
+const totalA = filteredA.length;
+const totalB = filteredB.length;
+const totalC = filteredC.length;
+const totalAll = totalA + totalB + totalC;
+const schoolName = filterEcole !== "all" 
+? allSchools.find(s => s.id === filterEcole)?.nom || filterEcole
+: 'All schools';
+document.getElementById('totalAllMembers').textContent = totalAll;
+document.getElementById('totalAllSchools').textContent = '🏫 ' + schoolName;
+document.getElementById('totalMembersBadge').textContent = totalAll;
+document.getElementById('totalCountA').textContent = totalA;
+document.getElementById('totalCountB').textContent = totalB;
+document.getElementById('totalCountC').textContent = totalC;
+document.getElementById('totalSchoolA').textContent = '🏫 ' + schoolName;
+document.getElementById('totalSchoolB').textContent = '🏫 ' + schoolName;
+document.getElementById('totalSchoolC').textContent = '🏫 ' + schoolName;
+}
+
+function updateTotalMembersFilter() {
+const select = document.getElementById('totalMembersEcoleFilter');
+if (!select) return;
+const val = select.value;
+select.innerHTML = '<option value="all">📊 All schools</option>';
+allSchools.forEach(s => {
+const opt = document.createElement('option');
+opt.value = s.id;
+opt.textContent = s.nom || s.id;
+select.appendChild(opt);
+});
+if (val && select.querySelector('option[value="' + val + '"]')) select.value = val;
+}
 
 // Clear Cache - Professional Modal
 document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
@@ -1873,6 +1990,7 @@ loadCodesEmails();
 loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
+updateTotalMembersFilter();
 buildStatsChart();
 enterStatsFullscreen();
 setTimeout(() => buildStatsChart(), 300);
