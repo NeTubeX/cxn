@@ -469,7 +469,6 @@ body.light .connexion-row .value{color:#1A202C}
 <button class="tab-btn" data-tab="tab10">🔑 CODE PARENT</button>
 <button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
 <button class="tab-btn" data-tab="tab12">📈 TENDANCE</button>
-<button class="tab-btn" data-tab="tab13">🔌 CONNEXIONS</button>
 </div>
 
 <div id="tab1" class="tab-panel active"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
@@ -524,35 +523,28 @@ body.light .connexion-row .value{color:#1A202C}
 </div>
 </div></div>
 
-<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
-<div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-<div class="form-group"><label>Nom</label><input type="text" id="teacherName" placeholder="Nom complet"></div>
-<div class="form-group"><label>École</label><select id="teacherSchoolSelect"><option value="">Sélectionner</option></select></div>
-<div class="form-group"><label>Code (6 chiffres)</label><div style="display:flex;gap:8px;"><input type="text" id="teacherCode" maxlength="6" placeholder="Auto" readonly style="flex:1;background:rgba(255,255,255,0.02);font-family:monospace;font-size:18px;letter-spacing:4px;color:var(--accent);"><button class="btn btn-sm btn-warning" id="generateTeacherCodeBtn">🔄 Générer</button></div></div>
+<div id="tab5" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<div>👨‍🏫 Enseignants</div>
+<div class="actions">
+<button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button>
 </div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveTeacherBtn">💾 Créer</button><button class="btn btn-outline" id="cancelTeacherBtn">Annuler</button></div>
 </div>
 <div class="card-body">
 <div class="filter-row">
-<label>🏫</label><select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
-<label>🔍</label><input type="text" id="teacherSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
+<label>🏫</label>
+<select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
+<label>🔍</label>
+<input type="text" id="teacherSearch" placeholder="Rechercher un ID..." style="flex:1;min-width:120px;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;">
+<label>📌</label>
+<select id="teacherStatutFilter"><option value="all">Tous statuts</option><option value="connecte">🟢 Connecté</option><option value="deconnecte">🔴 Déconnecté</option></select>
 </div>
 <div id="teachersContainer"></div>
 </div>
 </div></div>
 
-<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
-<div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-<div class="form-group"><label>Matière</label><input type="text" id="sheetCours" placeholder="Ex: Mathématiques"></div>
-<div class="form-group"><label>Classe</label><input type="text" id="sheetClasse" placeholder="Ex: 6ème A"></div>
-<div class="form-group"><label>Option</label><input type="text" id="sheetOption" placeholder="Ex: Sciences"></div>
-<div class="form-group"><label>Enseignant</label><input type="text" id="sheetTitulaire" placeholder="Nom de l'enseignant"></div>
-<div class="form-group"><label>École</label><select id="sheetSchoolSelect"><option value="">Sélectionner</option></select></div>
-</div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-primary" id="saveSheetBtn">💾 Enregistrer</button><button class="btn btn-outline" id="cancelSheetBtn">Annuler</button></div>
-</div>
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
@@ -670,26 +662,6 @@ body.light .connexion-row .value{color:#1A202C}
 </div>
 </div>
 </div>
-
-<div id="tab13" class="tab-panel">
-<div class="card">
-<div class="card-header">
-<div>🔌 CONNEXIONS À L'ESPACE PARENTAL</div>
-<div style="display:flex;gap:6px;">
-<button class="btn btn-refresh btn-sm" id="refreshConnexionsBtn">⟳</button>
-</div>
-</div>
-<div class="card-body">
-<div class="filter-row">
-<label>🏫</label>
-<select id="connexionEcoleFilter"><option value="all">Toutes les écoles</option></select>
-<label>📌</label>
-<select id="connexionStatutFilter"><option value="all">Tous</option><option value="ACTIF">🟢 ACTIF</option><option value="INACTIF">🔴 INACTIF</option></select>
-</div>
-<div id="connexionsContainer"></div>
-</div>
-</div>
-</div>
 </div>
 
 <div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:16px;margin-bottom:12px;">Veuillez entrer le code d'accès</p>
@@ -702,15 +674,15 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="logoPreviewContainer" style="text-align:center;margin:8px 0;display:none;"><img id="logoPreviewImg" src="" alt="Aperçu" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
 <div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Enregistrer</button><button class="btn btn-outline" id="logoCancelBtn">Annuler</button></div>
 </div></div>
-<div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Confirmation</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
-<div class="modal-buttons"><button class="btn" id="confirmYes">OUI</button><button class="btn btn-outline" id="confirmNo">NON</button></div>
+<div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Détails de connexion</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
+<div class="modal-buttons"><button class="btn" id="confirmYes">Fermer</button><button class="btn btn-outline" id="confirmNo" style="display:none;">Annuler</button></div>
 </div></div>
 <div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
 <div class="toast-container" id="toastContainer"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, query, where, orderBy, limit, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, query, where, limit, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
@@ -820,87 +792,28 @@ return map[cat] || cat || 'Général';
 }
 
 function getTempsEcoule(dateISO) {
+if (!dateISO) return 'Jamais';
 const now = new Date();
 const date = new Date(dateISO);
 const diffMs = now - date;
 const diffMin = Math.floor(diffMs / (1000 * 60));
 const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-
-if (diffMin < 1) return 'à l\'instant';
-if (diffMin < 60) return `depuis ${diffMin} min`;
-if (diffH < 24) {
-const minutes = diffMin % 60;
-if (minutes === 0) return `depuis ${diffH}h`;
-return `depuis ${diffH}h ${minutes}min`;
-}
-return `depuis ${Math.floor(diffH / 24)}j`;
+if (diffMin < 1) return 'À l\'instant';
+if (diffMin < 60) return `Il y a ${diffMin} min`;
+if (diffH < 24) return `Il y a ${diffH}h`;
+return `Il y a ${Math.floor(diffH / 24)}j`;
 }
 
-async function loadConnexions() {
-const container = document.getElementById("connexionsContainer");
-if (!container) return;
-
-const filterEcole = document.getElementById("connexionEcoleFilter")?.value || "all";
-const filterStatut = document.getElementById("connexionStatutFilter")?.value || "all";
-
-try {
-let connexions = [];
-const schoolsToCheck = filterEcole === "all" ? allSchools : allSchools.filter(s => s.id === filterEcole);
-
-for (const school of schoolsToCheck) {
-try {
-const ref = doc(db, "ecoles", school.id, SC.ALERTES_ADMIN, 'espace_parental_actuel');
-const snap = await getDoc(ref);
-if (snap.exists()) {
-const data = snap.data();
-connexions.push({
-ecoleId: school.id,
-ecoleNom: school.nom || school.id,
-...data
-});
-}
-} catch(e) {}
-}
-
-if (filterStatut !== "all") {
-connexions = connexions.filter(c => c.statut === filterStatut);
-}
-
-if (connexions.length === 0) {
-container.innerHTML = '<div class="empty-state">🔌 Aucune connexion enregistrée</div>';
-return;
-}
-
-let html = '<div style="display:grid;grid-template-columns:1fr;gap:12px;">';
-
-connexions.forEach(c => {
-const isActif = c.statut === 'ACTIF';
-const temps = getTempsEcoule(c.date);
-const dateObj = new Date(c.date);
-const dateStr = dateObj.toLocaleDateString('fr-FR');
-const heureStr = c.heure || dateObj.toLocaleTimeString('fr-FR');
-
-html += `
-<div class="connexion-card ${isActif ? 'actif' : 'inactif'}">
-<div class="connexion-header">
-<span class="status-dot">${isActif ? '🟢' : '🔴'}</span>
-<span class="status-label ${isActif ? 'actif' : 'inactif'}">${isActif ? 'ACTIF' : 'INACTIF'}</span>
-<span class="status-time">${isActif ? 'Actif' : 'Inactif'} ${temps}</span>
-</div>
-<div class="connexion-body">
-<div class="connexion-row"><span class="label">Dernière activité :</span><span class="value">${dateStr} à ${heureStr}</span></div>
-<div class="connexion-row"><span class="label">École :</span><span class="value">${escapeHtml(c.ecoleNom)}</span></div>
-</div>
-</div>`;
-});
-
-html += '</div>';
-container.innerHTML = html;
-
-} catch (e) {
-console.warn('Erreur chargement connexions:', e);
-container.innerHTML = '<div class="empty-state">🔌 Erreur de chargement des connexions</div>';
-}
+function getTempsConnecte(dateConnexion, dateDeconnexion) {
+if (!dateConnexion) return 'Jamais connecté';
+const start = new Date(dateConnexion);
+const end = dateDeconnexion ? new Date(dateDeconnexion) : new Date();
+const diffMs = end - start;
+const diffMin = Math.floor(diffMs / (1000 * 60));
+const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+if (diffH < 1) return `${diffMin} min`;
+if (diffH < 24) return `${diffH}h ${diffMin % 60}min`;
+return `${Math.floor(diffH / 24)}j ${diffH % 24}h`;
 }
 
 async function loadAllData() {
@@ -1040,7 +953,6 @@ loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 buildTendanceCharts();
-loadConnexions();
 
 } catch (e) {
 console.error("Erreur chargement:", e);
@@ -1051,7 +963,7 @@ toast("Erreur de chargement: " + e.message, "error");
 function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
 'wmEcoleFilter', 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
-'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter', 'connexionEcoleFilter'].forEach(id => {
+'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
@@ -1117,63 +1029,160 @@ function loadMembersB() { renderExcelMembers('membersContainerB', membersB, 'mem
 function loadMembersC() { renderExcelMembers('membersContainerC', membersC, 'memberEcoleFilterC', 'memberSearchC'); }
 
 async function loadTeachers() {
-const container = document.getElementById("teachersContainer");
-if (!container) return;
-const filter = document.getElementById("teacherEcoleFilter")?.value || "all";
-const search = document.getElementById("teacherSearch")?.value?.toLowerCase() || "";
-let teachers = allTeachers;
-if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
-if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
-if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant</div>'; return; }
-let html = `
-<div class="excel-table-wrapper">
-<table>
-<thead><tr><th>🆔 ID</th><th>🔑 CODE</th><th>📧 GMAIL</th><th>🏫 ÉCOLE</th><th>📊 STATUT</th></tr></thead>
-<tbody>
-`;
-teachers.forEach(t => {
-html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(t.id)}</span></td><td class="code-cell">${t.code || '---'}</td><td class="gmail-cell">${t.email ? escapeHtml(t.email) : '❌'}</td><td style="font-size:12px;color:var(--text-muted);">${escapeHtml(t.ecoleNom)}</td><td>${t.actif ? '<span class="badge badge-success">✅ Actif</span>' : '<span class="badge badge-danger">⛔ Inactif</span>'}</td></tr>`;
-});
-html += `</tbody></table></div>`;
-container.innerHTML = html;
+    const container = document.getElementById("teachersContainer");
+    if (!container) return;
+    
+    const filter = document.getElementById("teacherEcoleFilter")?.value || "all";
+    const search = document.getElementById("teacherSearch")?.value?.toLowerCase() || "";
+    const statutFilter = document.getElementById("teacherStatutFilter")?.value || "all";
+    
+    let teachers = allTeachers;
+    if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
+    if (search) teachers = teachers.filter(t => t.id?.toLowerCase().includes(search));
+    
+    const connexionsMap = new Map();
+    try {
+        const snap = await getDocs(collection(db, "professeurs_connexions"));
+        snap.forEach(doc => {
+            const data = doc.data();
+            connexionsMap.set(data.userId || doc.id, data);
+        });
+    } catch(e) {}
+    
+    teachers = teachers.map(t => {
+        const conn = connexionsMap.get(t.id);
+        return {
+            ...t,
+            statut: conn?.statut || "deconnecte",
+            derniereActivite: conn?.derniereActivite || null,
+            dateConnexion: conn?.dateConnexion || null,
+            dateDeconnexion: conn?.dateDeconnexion || null
+        };
+    });
+    
+    if (statutFilter !== "all") {
+        teachers = teachers.filter(t => t.statut === statutFilter);
+    }
+    
+    if (teachers.length === 0) {
+        container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant trouvé</div>';
+        return;
+    }
+    
+    let html = `
+    <div class="excel-table-wrapper">
+    <table>
+    <thead><tr>
+        <th>🆔 ID</th>
+        <th>🔑 Code</th>
+        <th>📧 Gmail</th>
+        <th>📊 Statut</th>
+        <th style="text-align:center;width:60px;">🟢 Connexion</th>
+    </tr></thead>
+    <tbody>
+    `;
+    
+    teachers.forEach(t => {
+        const estConnecte = t.statut === "connecte";
+        const lampe = estConnecte ? '🟢' : '🔴';
+        const bgColor = estConnecte ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)';
+        const temps = getTempsEcoule(t.derniereActivite || t.dateConnexion);
+        const tempsConnecte = getTempsConnecte(t.dateConnexion, t.dateDeconnexion);
+        
+        const detail = estConnecte 
+            ? `✅ Connecté depuis ${tempsConnecte}\n🕐 Dernière activité : ${temps}`
+            : `❌ Déconnecté depuis ${temps}\n🕐 Dernière connexion : ${t.dateConnexion ? getTempsEcoule(t.dateConnexion) : 'Jamais'}`;
+        
+        html += `<tr>
+            <td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(t.id)}</span></td>
+            <td class="code-cell">${t.code || '---'}</td>
+            <td class="gmail-cell">${t.email ? escapeHtml(t.email) : '❌'}</td>
+            <td>${t.actif ? '<span class="badge badge-success">✅ Actif</span>' : '<span class="badge badge-danger">⛔ Inactif</span>'}</td>
+            <td style="text-align:center;cursor:pointer;background:${bgColor};border-radius:4px;padding:4px;font-size:24px;" 
+                onclick="window.showConnexionDetail('${t.id}', '${escapeHtml(t.nom)}', ${estConnecte}, '${t.dateConnexion || ''}', '${t.dateDeconnexion || ''}', '${t.derniereActivite || ''}')"
+                title="${detail}">
+                ${lampe}
+            </td>
+        </tr>`;
+    });
+    
+    html += `</tbody></table></div>`;
+    container.innerHTML = html;
 }
 
-document.getElementById("showAddTeacher")?.addEventListener("click", function() {
-document.getElementById("addTeacherForm").style.display = "block";
-updateSelectors();
-});
-document.getElementById("cancelTeacherBtn")?.addEventListener("click", function() {
-document.getElementById("addTeacherForm").style.display = "none";
-});
-document.getElementById("generateTeacherCodeBtn")?.addEventListener("click", function() {
-document.getElementById("teacherCode").value = genererCode6Chiffres();
-});
-document.getElementById("saveTeacherBtn")?.addEventListener("click", async function() {
-const nom = document.getElementById("teacherName").value.trim();
-const ecole = document.getElementById("teacherSchoolSelect").value;
-let code = document.getElementById("teacherCode").value.trim();
-if (!nom || !ecole || ecole === 'all') { toast("Nom et école requis", "error"); return; }
-if (!code) { code = genererCode6Chiffres(); document.getElementById("teacherCode").value = code; }
-if (!/^\d{6}$/.test(code)) { toast("Le code doit faire 6 chiffres", "error"); return; }
-const btn = this; btn.disabled = true; btn.textContent = "⏳ Création...";
-try {
-const email = `prof.${nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.')}.${ecole}@gmail.com`;
-try { await createUserWithEmailAndPassword(auth, email, code); } catch (e) {
-if (e.code === 'auth/email-already-in-use') { toast("Email déjà utilisé", "warning"); btn.disabled = false; btn.textContent = "💾 Créer"; return; }
-throw e;
-}
-const profId = 'prof_' + Date.now();
-await setDoc(doc(db, "ecoles", ecole, SC.PROFESSEURS, profId), {
-_type: "prof", id: profId, profId: profId, nom: nom,
-email: email, emailProf: email, code: code, actif: true,
-school: ecole, createdAt: new Date().toISOString()
-});
-toast("✅ Enseignant créé", "success");
-document.getElementById("addTeacherForm").style.display = "none";
-loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
-finally { btn.disabled = false; btn.textContent = "💾 Créer"; }
-});
+window.showConnexionDetail = function(id, nom, estConnecte, dateConnexion, dateDeconnexion, derniereActivite) {
+    const status = estConnecte ? '🟢 Connecté' : '🔴 Déconnecté';
+    
+    function getTempsEcouleLocal(dateISO) {
+        if (!dateISO) return 'Jamais';
+        const now = new Date();
+        const date = new Date(dateISO);
+        const diffMs = now - date;
+        const diffMin = Math.floor(diffMs / (1000 * 60));
+        const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+        if (diffMin < 1) return 'À l\'instant';
+        if (diffMin < 60) return `Il y a ${diffMin} min`;
+        if (diffH < 24) return `Il y a ${diffH}h`;
+        return `Il y a ${Math.floor(diffH / 24)}j`;
+    }
+    
+    function getTempsConnecteLocal(dateConn, dateDeconn) {
+        if (!dateConn) return 'Jamais connecté';
+        const start = new Date(dateConn);
+        const end = dateDeconn ? new Date(dateDeconn) : new Date();
+        const diffMs = end - start;
+        const diffMin = Math.floor(diffMs / (1000 * 60));
+        const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+        if (diffH < 1) return `${diffMin} min`;
+        if (diffH < 24) return `${diffH}h ${diffMin % 60}min`;
+        return `${Math.floor(diffH / 24)}j ${diffH % 24}h`;
+    }
+    
+    let details = `
+        <div style="padding:16px;">
+            <div style="font-size:20px;font-weight:700;margin-bottom:12px;text-align:center;">
+                ${estConnecte ? '🟢' : '🔴'} ${status}
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;text-align:left;">
+                <div style="color:var(--text-muted);">👨‍🏫 Enseignant</div>
+                <div style="font-weight:600;">${nom}</div>
+                <div style="color:var(--text-muted);">🆔 ID</div>
+                <div style="font-weight:600;font-family:monospace;">${id}</div>
+    `;
+    
+    if (estConnecte) {
+        const tempsConnecte = getTempsConnecteLocal(dateConnexion, null);
+        details += `
+                <div style="color:var(--text-muted);">⏱️ Connecté depuis</div>
+                <div style="font-weight:600;color:var(--success);">${tempsConnecte}</div>
+                <div style="color:var(--text-muted);">🕐 Dernière activité</div>
+                <div style="font-weight:600;">${getTempsEcouleLocal(derniereActivite)}</div>
+                <div style="color:var(--text-muted);">📅 Date connexion</div>
+                <div style="font-weight:600;">${dateConnexion ? new Date(dateConnexion).toLocaleString('fr-FR') : 'N/A'}</div>
+        `;
+    } else {
+        details += `
+                <div style="color:var(--text-muted);">⏱️ Déconnecté depuis</div>
+                <div style="font-weight:600;color:var(--danger);">${dateDeconnexion ? getTempsEcouleLocal(dateDeconnexion) : 'Jamais'}</div>
+                <div style="color:var(--text-muted);">📅 Dernière connexion</div>
+                <div style="font-weight:600;">${dateConnexion ? new Date(dateConnexion).toLocaleString('fr-FR') : 'Jamais'}</div>
+                <div style="color:var(--text-muted);">📅 Date déconnexion</div>
+                <div style="font-weight:600;">${dateDeconnexion ? new Date(dateDeconnexion).toLocaleString('fr-FR') : 'N/A'}</div>
+        `;
+    }
+    
+    details += `
+            </div>
+        </div>
+    `;
+    
+    const modal = document.getElementById('confirmModal');
+    document.getElementById('confirmMessage').innerHTML = details;
+    document.getElementById('confirmYes').textContent = 'Fermer';
+    document.getElementById('confirmYes').onclick = () => modal.classList.remove('show');
+    document.getElementById('confirmNo').style.display = 'none';
+    modal.classList.add('show');
+};
 
 async function loadSheets() {
 const container = document.getElementById("sheetsBody");
@@ -1203,31 +1212,6 @@ html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml
 });
 container.innerHTML = html;
 }
-
-document.getElementById("showAddSheet")?.addEventListener("click", function() {
-document.getElementById("addSheetForm").style.display = "block";
-updateSelectors();
-});
-document.getElementById("cancelSheetBtn")?.addEventListener("click", function() {
-document.getElementById("addSheetForm").style.display = "none";
-});
-document.getElementById("saveSheetBtn")?.addEventListener("click", async function() {
-const cours = document.getElementById("sheetCours").value.trim();
-const classe = document.getElementById("sheetClasse").value.trim();
-const ecole = document.getElementById("sheetSchoolSelect").value;
-if (!cours || !classe || !ecole || ecole === 'all') { toast("Matière, classe et école requis", "error"); return; }
-try {
-await setDoc(doc(collection(db, "ecoles", ecole, SC.FICHES)), {
-cours, classe, option: document.getElementById("sheetOption").value.trim(),
-titulaire: document.getElementById("sheetTitulaire").value.trim(),
-createdBy: "DSI", eleves: [],
-dateCreation: new Date().toISOString()
-});
-toast("✅ Fiche ajoutée", "success");
-document.getElementById("addSheetForm").style.display = "none";
-loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
-});
 
 async function loadCodesEmails() {
 const container = document.getElementById("codesEmailsContainer");
@@ -2321,8 +2305,7 @@ const tabMap = {
 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
 'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
-'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); },
-'tab13': loadConnexions
+'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); }
 };
 if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
 };
@@ -2337,7 +2320,6 @@ document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheet
 document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
 document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
-document.getElementById("refreshConnexionsBtn")?.addEventListener("click", loadConnexions);
 
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
@@ -2349,6 +2331,7 @@ document.getElementById("memberEcoleFilterC")?.addEventListener('change', loadMe
 document.getElementById("memberSearchC")?.addEventListener('input', loadMembersC);
 document.getElementById("teacherEcoleFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("teacherSearch")?.addEventListener('input', loadTeachers);
+document.getElementById("teacherStatutFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("sheetEcoleFilter")?.addEventListener('change', loadSheets);
 document.getElementById("sheetSearch")?.addEventListener('input', loadSheets);
 document.getElementById("codesEmailsEcoleFilter")?.addEventListener('change', loadCodesEmails);
@@ -2358,8 +2341,6 @@ document.getElementById("alertesStatutFilter")?.addEventListener('change', loadA
 document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
 document.getElementById("rapportEcoleFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
 document.getElementById("rapportTypeFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
-document.getElementById("connexionEcoleFilter")?.addEventListener('change', loadConnexions);
-document.getElementById("connexionStatutFilter")?.addEventListener('change', loadConnexions);
 
 document.getElementById("exportPdfBtn")?.addEventListener("click", function() {
 const fiches = document.querySelectorAll('.audit-fiche');
@@ -2591,7 +2572,6 @@ loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 buildTendanceCharts();
-loadConnexions();
 }, 500);
 });
 
