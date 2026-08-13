@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>NeTubeX · Tableau de Bord</title>
+<title>NeTubeX · Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -80,6 +80,8 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .btn-code{background:var(--accent);color:#fff}
 .btn-excel{background:#217346;color:#fff;box-shadow:0 2px 8px rgba(33,115,70,0.2)}
 .btn-excel:hover{box-shadow:0 4px 16px rgba(33,115,70,0.3)}
+.btn-reveal{background:linear-gradient(135deg,#FF6584,#FF3D6B);color:#fff;box-shadow:0 2px 12px rgba(255,101,132,0.3)}
+.btn-reveal:hover{box-shadow:0 4px 20px rgba(255,101,132,0.4)}
 .w-100{width:100%}
 .mt-8{margin-top:8px}
 .mb-12{margin-bottom:12px}
@@ -355,248 +357,259 @@ body.light #tab0{background:#F4F6F9}
 body.light #tab0 .stats-header h2{color:#1A202C}
 body.light #tab0 .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
 body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
+
+/* Progress bar styles */
+.progress-container{width:100%;background:rgba(255,255,255,0.05);border-radius:8px;padding:20px;text-align:center;margin:10px 0}
+.progress-bar{width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-top:12px}
+.progress-bar .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#4A42D4);border-radius:4px;transition:width 0.3s ease}
+.progress-text{font-size:14px;font-weight:700;color:var(--text-secondary)}
+.progress-percent{font-size:24px;font-weight:900;color:var(--accent)}
+
+/* Reveal counter styles */
+.reveal-counter{display:inline-block;background:rgba(255,101,132,0.15);border:1px solid rgba(255,101,132,0.3);border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700;color:#FF6584;margin-left:10px}
+.reveal-counter .total{font-size:18px;color:#fff}
 </style>
 </head>
 <body>
 <div class="topbar" id="mainHeader">
 <div class="brand">
 <div class="logo">N</div>
-<h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Tableau de Bord</span></h1>
+<h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Dashboard</span></h1>
 </div>
 <div class="right">
 <button class="theme-toggle" id="themeToggle">🌙</button>
 </div>
 </div>
 <div class="space-filter">
-<span class="label">Filtre</span>
+<span class="label">Filter</span>
 <div class="btn-group" id="spaceSelector">
-<button class="active" data-space="all">📊 Toutes</button>
+<button class="active" data-space="all">📊 All</button>
 </div>
 </div>
 <div class="kpi-row">
-<div class="kpi-card"><div class="label">Établissement</div><div class="value blue" id="hdrEcoles">0</div></div>
-<div class="kpi-card"><div class="label">Enseignants</div><div class="value purple" id="hdrEnseignants">0</div></div>
-<div class="kpi-card"><div class="label">Fiches</div><div class="value green" id="hdrFiches">0</div></div>
-<div class="kpi-card"><div class="label">Alertes</div><div class="value red" id="hdrAlertes">0</div></div>
+<div class="kpi-card"><div class="label">Schools</div><div class="value blue" id="hdrEcoles">0</div></div>
+<div class="kpi-card"><div class="label">Teachers</div><div class="value purple" id="hdrEnseignants">0</div></div>
+<div class="kpi-card"><div class="label">Sheets</div><div class="value green" id="hdrFiches">0</div></div>
+<div class="kpi-card"><div class="label">Alerts</div><div class="value red" id="hdrAlertes">0</div></div>
 </div>
 <div id="bannerContainer"></div>
 <div class="tabs" id="tabContainer">
 <button class="tab-btn active" data-tab="tab0">📊 STATS</button>
-<button class="tab-btn" data-tab="tab1">🏫 ÉCOLES</button>
-<button class="tab-btn" data-tab="tab2">👥 MEMBRES ACTIFS A</button>
-<button class="tab-btn" data-tab="tab3">👥 MEMBRES ACTIFS B</button>
-<button class="tab-btn" data-tab="tab4">👥 MEMBRES ACTIFS C</button>
-<button class="tab-btn" data-tab="tab5">👨‍🏫 ENSEIGNANTS</button>
-<button class="tab-btn" data-tab="tab6">📄 FICHES</button>
+<button class="tab-btn" data-tab="tab1">🏫 SCHOOLS</button>
+<button class="tab-btn" data-tab="tab2">👥 ACTIVE MEMBERS A</button>
+<button class="tab-btn" data-tab="tab3">👥 ACTIVE MEMBERS B</button>
+<button class="tab-btn" data-tab="tab4">👥 ACTIVE MEMBERS C</button>
+<button class="tab-btn" data-tab="tab5">👨‍🏫 TEACHERS</button>
+<button class="tab-btn" data-tab="tab6">📄 SHEETS</button>
 <button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
-<button class="tab-btn" data-tab="tab8">⚠️ ALERTES</button>
-<button class="tab-btn" data-tab="tab9">📋 RAPPORT</button>
-<button class="tab-btn" data-tab="tab10">🔑 CODES PARENTS</button>
-<button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
-<button class="tab-btn" data-tab="tab12">🔍 EXPLORATEUR</button>
-<button class="tab-btn" data-tab="tab13">📈 TENDANCE</button>
+<button class="tab-btn" data-tab="tab8">⚠️ ALERTS</button>
+<button class="tab-btn" data-tab="tab9">📋 REPORT</button>
+<button class="tab-btn" data-tab="tab10">🔑 PARENT CODES</button>
+<button class="tab-btn" data-tab="tab11">❄️ WHITE MONTHS</button>
+<button class="tab-btn" data-tab="tab12">🔍 EXPLORER</button>
+<button class="tab-btn" data-tab="tab13">📈 TREND</button>
 </div>
 <div id="tab0" class="tab-panel active">
 <div class="stats-fullscreen">
 <div class="stats-header">
-<h2>📊 Statistiques Générales</h2>
-<button class="btn-back" id="statsBackBtn">← Retour</button>
+<h2>📊 General Statistics</h2>
+<button class="btn-back" id="statsBackBtn">← Back</button>
 </div>
 <div class="stats-chart-wrapper">
 <canvas id="statsChart"></canvas>
 </div>
 </div>
 </div>
-<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
+<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 School Management</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Add</button></div></div>
 <div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
-<div class="form-group"><label>Nom de l'école</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
-<div class="form-group"><label>ID</label><input type="text" id="schoolId" placeholder="auto-généré" readonly style="background:rgba(255,255,255,0.02);color:var(--accent);font-family:monospace;"></div>
+<div class="form-group"><label>School Name</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
+<div class="form-group"><label>ID</label><input type="text" id="schoolId" placeholder="auto-generated" readonly style="background:rgba(255,255,255,0.02);color:var(--accent);font-family:monospace;"></div>
 <div class="form-group"><label>Province</label><input type="text" id="schoolProvince" placeholder="Ex: Kinshasa"></div>
-<div class="form-group"><label>Ville</label><input type="text" id="schoolCity" placeholder="Ex: Gombe"></div>
-<div class="form-group"><label>Téléphone</label><input type="text" id="schoolPhone" placeholder="Ex: +2438..."></div>
-<div class="form-group"><label>Directeur</label><input type="text" id="schoolDirector" placeholder="Nom du directeur"></div>
-<div class="form-group"><label>Adresse</label><input type="text" id="schoolAddress" placeholder="Adresse complète"></div>
+<div class="form-group"><label>City</label><input type="text" id="schoolCity" placeholder="Ex: Gombe"></div>
+<div class="form-group"><label>Phone</label><input type="text" id="schoolPhone" placeholder="Ex: +2438..."></div>
+<div class="form-group"><label>Director</label><input type="text" id="schoolDirector" placeholder="Director name"></div>
+<div class="form-group"><label>Address</label><input type="text" id="schoolAddress" placeholder="Full address"></div>
 </div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveSchoolBtn">💾 Créer</button><button class="btn btn-outline" id="cancelSchoolBtn">Annuler</button></div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveSchoolBtn">💾 Create</button><button class="btn btn-outline" id="cancelSchoolBtn">Cancel</button></div>
 </div>
 <div class="card-body">
 <div class="filter-row">
-<label>🔍</label><input type="text" id="ecoleSearch" placeholder="Rechercher..." style="flex:1;min-width:140px;">
-<label>🏷️</label><select id="ecoleStatutFilter"><option value="all">Toutes</option><option value="actif">✅ Actives</option><option value="inactif">⛔ Inactives</option><option value="masque">👻 Masquées</option></select>
+<label>🔍</label><input type="text" id="ecoleSearch" placeholder="Search..." style="flex:1;min-width:140px;">
+<label>🏷️</label><select id="ecoleStatutFilter"><option value="all">All</option><option value="actif">✅ Active</option><option value="inactif">⛔ Inactive</option><option value="masque">👻 Hidden</option></select>
 </div>
-<div class="school-grid" id="ecolesContainer"><div class="empty-state">Chargement...</div></div>
+<div class="school-grid" id="ecolesContainer"><div class="empty-state">Loading...</div></div>
 </div>
 </div></div>
-<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS A (Compta)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS A (Accounting)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnA">🔓 REVEAL</button><span id="revealCounterA" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalA">0</span></span></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 All schools</option></select></div>
 </div>
-<div id="membersContainerA" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationA" style="display:none;"><div class="pagination-info" id="membersPaginationInfoA">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
+<div id="membersContainerA" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationA" style="display:none;"><div class="pagination-info" id="membersPaginationInfoA">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
 </div>
 </div></div>
-<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS B (Primaire)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS B (Primary)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnB">🔓 REVEAL</button><span id="revealCounterB" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalB">0</span></span></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 All schools</option></select></div>
 </div>
-<div id="membersContainerB" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationB" style="display:none;"><div class="pagination-info" id="membersPaginationInfoB">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
+<div id="membersContainerB" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationB" style="display:none;"><div class="pagination-info" id="membersPaginationInfoB">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
 </div>
 </div></div>
-<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS C (Maternelle)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS C (Nursery)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnC">🔓 REVEAL</button><span id="revealCounterC" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalC">0</span></span></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un élève..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Search student..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 All schools</option></select></div>
 </div>
-<div id="membersContainerC" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationC" style="display:none;"><div class="pagination-info" id="membersPaginationInfoC">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
+<div id="membersContainerC" style="display:grid;grid-template-columns:1fr;gap:12px;"><div class="empty-state" style="grid-column:1/-1;">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationC" style="display:none;"><div class="pagination-info" id="membersPaginationInfoC">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
 </div>
 </div></div>
-<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
+<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Teachers</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Add</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
 <div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
-<div class="form-group"><label>Nom</label><input type="text" id="teacherName" placeholder="Nom complet"></div>
-<div class="form-group"><label>École</label><select id="teacherSchoolSelect"><option value="">Sélectionner</option></select></div>
-<div class="form-group"><label>Code (6 chiffres)</label><div style="display:flex;gap:8px;"><input type="text" id="teacherCode" maxlength="6" placeholder="Auto" readonly style="flex:1;background:rgba(255,255,255,0.02);font-family:monospace;font-size:18px;letter-spacing:4px;color:var(--accent);"><button class="btn btn-sm btn-warning" id="generateTeacherCodeBtn">🔄 Générer</button></div></div>
+<div class="form-group"><label>Name</label><input type="text" id="teacherName" placeholder="Full name"></div>
+<div class="form-group"><label>School</label><select id="teacherSchoolSelect"><option value="">Select</option></select></div>
+<div class="form-group"><label>Code (6 digits)</label><div style="display:flex;gap:8px;"><input type="text" id="teacherCode" maxlength="6" placeholder="Auto" readonly style="flex:1;background:rgba(255,255,255,0.02);font-family:monospace;font-size:18px;letter-spacing:4px;color:var(--accent);"><button class="btn btn-sm btn-warning" id="generateTeacherCodeBtn">🔄 Generate</button></div></div>
 </div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveTeacherBtn">💾 Créer</button><button class="btn btn-outline" id="cancelTeacherBtn">Annuler</button></div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveTeacherBtn">💾 Create</button><button class="btn btn-outline" id="cancelTeacherBtn">Cancel</button></div>
 </div>
 <div class="card-body">
 <div class="filter-row">
-<label>🏫</label><select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
-<label>🔍</label><input type="text" id="teacherSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
-<label>📧</label><select id="teacherEmailFilter"><option value="all">Tous</option><option value="valid">Email valide</option><option value="invalid">Email invalide</option><option value="nocode">Sans code</option></select>
+<label>🏫</label><select id="teacherEcoleFilter"><option value="all">All</option></select>
+<label>🔍</label><input type="text" id="teacherSearch" placeholder="Search..." style="flex:1;min-width:120px;">
+<label>📧</label><select id="teacherEmailFilter"><option value="all">All</option><option value="valid">Valid email</option><option value="invalid">Invalid email</option><option value="nocode">No code</option></select>
 </div>
 <div id="teachersContainer"></div>
 </div>
 </div></div>
-<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Sheets</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Add</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
 <div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
-<div class="form-group"><label>Matière</label><input type="text" id="sheetCours" placeholder="Ex: Mathématiques"></div>
-<div class="form-group"><label>Classe</label><input type="text" id="sheetClasse" placeholder="Ex: 6ème A"></div>
+<div class="form-group"><label>Subject</label><input type="text" id="sheetCours" placeholder="Ex: Mathematics"></div>
+<div class="form-group"><label>Class</label><input type="text" id="sheetClasse" placeholder="Ex: 6th A"></div>
 <div class="form-group"><label>Option</label><input type="text" id="sheetOption" placeholder="Ex: Sciences"></div>
-<div class="form-group"><label>Enseignant</label><input type="text" id="sheetTitulaire" placeholder="Nom de l'enseignant"></div>
-<div class="form-group"><label>École</label><select id="sheetSchoolSelect"><option value="">Sélectionner</option></select></div>
+<div class="form-group"><label>Teacher</label><input type="text" id="sheetTitulaire" placeholder="Teacher name"></div>
+<div class="form-group"><label>School</label><select id="sheetSchoolSelect"><option value="">Select</option></select></div>
 </div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-primary" id="saveSheetBtn">💾 Enregistrer</button><button class="btn btn-outline" id="cancelSheetBtn">Annuler</button></div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-primary" id="saveSheetBtn">💾 Save</button><button class="btn btn-outline" id="cancelSheetBtn">Cancel</button></div>
 </div>
 <div class="card-body">
 <div class="filter-row">
-<label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
-<label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
+<label>🏫</label><select id="sheetEcoleFilter"><option value="all">All</option></select>
+<label>🔍</label><input type="text" id="sheetSearch" placeholder="Search..." style="flex:1;min-width:120px;">
 </div>
-<div class="table-wrapper"><table><thead><tr><th>#</th><th>Matière</th><th>Classe</th><th>Option</th><th>Enseignant</th><th>École</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>Subject</th><th>Class</th><th>Option</th><th>Teacher</th><th>School</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
 </div>
 </div></div>
 <div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
+<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">All</option></select></div>
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
-<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
+<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alerts</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Delete all</button></div>
 <div class="card-body">
 <div class="filter-row">
-<label>🏫</label><select id="alertesEcoleFilter"><option value="all">Toutes</option></select>
-<label>🔴</label><select id="alertesPriorityFilter"><option value="all">Toutes priorité</option><option value="critique">Critique</option><option value="important">Important</option><option value="mineure">Mineure</option></select>
-<label>📌</label><select id="alertesStatutFilter"><option value="all">Tous statuts</option><option value="nonresolu">Non résolu</option><option value="encours">En cours</option><option value="resolu">Résolu</option></select>
-<label>🏷️</label><select id="alertesCategorieFilter"><option value="all">Toutes catégories</option><option value="securite">🔐 Sécurité</option><option value="enseignant">👨‍🏫 Enseignant</option><option value="fiche">📄 Fiche</option><option value="ecole">🏫 École</option></select>
+<label>🏫</label><select id="alertesEcoleFilter"><option value="all">All</option></select>
+<label>🔴</label><select id="alertesPriorityFilter"><option value="all">All priorities</option><option value="critique">Critical</option><option value="important">Important</option><option value="mineure">Minor</option></select>
+<label>📌</label><select id="alertesStatutFilter"><option value="all">All statuses</option><option value="nonresolu">Unresolved</option><option value="encours">In progress</option><option value="resolu">Resolved</option></select>
+<label>🏷️</label><select id="alertesCategorieFilter"><option value="all">All categories</option><option value="securite">🔐 Security</option><option value="enseignant">👨‍🏫 Teacher</option><option value="fiche">📄 Sheet</option><option value="ecole">🏫 School</option></select>
 <label>📅</label><input type="date" id="alertesDateDebut" style="width:130px;">
 <label>→</label><input type="date" id="alertesDateFin" style="width:130px;">
 </div>
 <div id="alertesContainer"></div>
 </div>
 </div></div>
-<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Rapport & Suivi</div>
+<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Report & Monitoring</div>
 <div class="card-body">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📅 Aujourd'hui</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📅 Today</div>
 <div id="aujourdhuiContainer"></div>
 </div>
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📈 Tendances</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📈 Trends</div>
 <div id="tendancesContainer"></div>
 </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">🔑 Codes en double</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">🔑 Duplicate codes</div>
 <div id="doublonsContainer"></div>
 </div>
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📄 Fiches sans enseignant</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📄 Sheets without teacher</div>
 <div id="fichesSansEnseignantContainer"></div>
 </div>
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">⏱️ Taux de résolution</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">⏱️ Resolution rate</div>
 <div id="tempsResolutionContainer"></div>
 </div>
 </div>
 <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📊 Historique des backups</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📊 Backup history</div>
 <div id="historiqueBackupsContainer"></div>
 </div>
 </div>
 </div></div>
-<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 PARENT CODES</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>École :</label><select id="codeEcoleSelect"><option value="">-- Sélectionner --</option></select></div>
-<div><input type="text" id="codeSearchInput" placeholder="Tapez les premières lettres du nom..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
-<div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Sélectionnez une école</div></div>
+<div class="filter-row"><label>School :</label><select id="codeEcoleSelect"><option value="">-- Select --</option></select></div>
+<div><input type="text" id="codeSearchInput" placeholder="Type first letters of name..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
+<div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Select a school</div></div>
 </div>
 </div></div>
-<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
+<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ White Months</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>École :</label><select id="wmEcoleFilter"><option value="all">Toutes</option></select></div>
-<div class="table-wrapper"><table><thead><tr><th>Élève</th><th>Classe</th><th>Section</th><th>École</th><th>Mois</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
+<div class="filter-row"><label>School :</label><select id="wmEcoleFilter"><option value="all">All</option></select></div>
+<div class="table-wrapper"><table><thead><tr><th>Student</th><th>Class</th><th>Section</th><th>School</th><th>Month</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
 </div>
 </div></div>
-<div id="tab12" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
+<div id="tab12" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorer</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>École :</label><select id="explorerEcoleFilter"><option value="all">Toutes</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Appliquer</button></div>
-<div id="explorerContent"><div class="empty-state">Chargement...</div></div>
+<div class="filter-row"><label>School :</label><select id="explorerEcoleFilter"><option value="all">All</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Apply</button></div>
+<div id="explorerContent"><div class="empty-state">Loading...</div></div>
 </div>
 </div></div>
 <div id="tab13" class="tab-panel">
 <div class="card">
-<div class="card-header"><div>📈 TENDANCE</div></div>
+<div class="card-header"><div>📈 TREND</div></div>
 <div class="card-body">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📊 Aujourd'hui vs Hier</div>
+<div class="label" style="font-size:11px;color:var(--text-muted);">📊 Today vs Yesterday</div>
 <div class="value" id="tendanceDay" style="font-size:22px;font-weight:800;color:#6C63FF;">0%</div>
-<div class="sub" id="tendanceDaySub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+<div class="sub" id="tendanceDaySub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
 </div>
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📈 Cette semaine vs dernière</div>
+<div class="label" style="font-size:11px;color:var(--text-muted);">📈 This week vs last</div>
 <div class="value" id="tendanceWeek" style="font-size:22px;font-weight:800;color:#34D399;">0%</div>
-<div class="sub" id="tendanceWeekSub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+<div class="sub" id="tendanceWeekSub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
 </div>
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
-<div class="label" style="font-size:11px;color:var(--text-muted);">📅 Ce mois-ci vs dernier</div>
+<div class="label" style="font-size:11px;color:var(--text-muted);">📅 This month vs last</div>
 <div class="value" id="tendanceMonth" style="font-size:22px;font-weight:800;color:#FBBF24;">0%</div>
-<div class="sub" id="tendanceMonthSub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+<div class="sub" id="tendanceMonthSub" style="font-size:12px;color:var(--text-muted);">Evolution</div>
 </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr;gap:16px;">
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Aujourd'hui vs Hier</h4>
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Today vs Yesterday</h4>
 <div id="dayChartContainer" style="height:200px;"><canvas id="dayChart"></canvas></div>
 </div>
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Cette semaine vs Semaine dernière</h4>
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 This week vs Last week</h4>
 <div id="weekChartContainer" style="height:200px;"><canvas id="weekChart"></canvas></div>
 </div>
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
-<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Ce mois-ci vs Mois dernier</h4>
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 This month vs Last month</h4>
 <div id="monthChartContainer" style="height:200px;"><canvas id="monthChart"></canvas></div>
 </div>
 </div>
@@ -604,18 +617,18 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div>
 </div>
-<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Veuillez entrer le code d'accès</p>
-<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
+<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Verification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Please enter the access code</p>
+<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Validate</button></div>
 <div id="codeError" style="color:var(--danger);font-size:13px;text-align:center;min-height:20px;"></div>
-<div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Annuler</button></div>
+<div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Cancel</button></div>
 </div></div>
-<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Changer le logo</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Entrez l'URL de l'image</p>
-<div class="form-group"><label>URL du logo</label><input type="text" id="logoUrlInput" placeholder="https://exemple.com/logo.png" style="width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
-<div id="logoPreviewContainer" style="text-align:center;margin:8px 0;display:none;"><img id="logoPreviewImg" src="" alt="Aperçu" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
-<div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Enregistrer</button><button class="btn btn-outline" id="logoCancelBtn">Annuler</button></div>
+<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Change logo</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Enter the image URL</p>
+<div class="form-group"><label>Logo URL</label><input type="text" id="logoUrlInput" placeholder="https://example.com/logo.png" style="width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
+<div id="logoPreviewContainer" style="text-align:center;margin:8px 0;display:none;"><img id="logoPreviewImg" src="" alt="Preview" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
+<div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Save</button><button class="btn btn-outline" id="logoCancelBtn">Cancel</button></div>
 </div></div>
 <div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Confirmation</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
-<div class="modal-buttons"><button class="btn" id="confirmYes">OUI</button><button class="btn btn-outline" id="confirmNo">NON</button></div>
+<div class="modal-buttons"><button class="btn" id="confirmYes">YES</button><button class="btn btn-outline" id="confirmNo">NO</button></div>
 </div></div>
 <div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
 <div class="toast-container" id="toastContainer"></div>
@@ -648,11 +661,13 @@ let backupHistory = [];
 let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
 let dayChartInstance = null, weekChartInstance = null, monthChartInstance = null;
+let revealTimeoutA = null, revealTimeoutB = null, revealTimeoutC = null;
+let revealActiveA = false, revealActiveB = false, revealActiveC = false;
 
 function toast(msg, type = "success") {
 const container = document.getElementById('toastContainer');
 if (!container) return;
-const titles = { success: "✅ Succès", error: "❌ Erreur", warning: "⚠️ Attention", info: "ℹ️ Info" };
+const titles = { success: "✅ Success", error: "❌ Error", warning: "⚠️ Warning", info: "ℹ️ Info" };
 const el = document.createElement("div");
 el.className = 'toast ' + (type || 'success');
 el.innerHTML = '<div class="toast-title">' + titles[type] + '</div><div class="toast-msg">' + msg + '</div>';
@@ -680,7 +695,7 @@ if (code === NX_CODE) {
 modal.classList.remove('show');
 resolve(true);
 } else {
-error.textContent = '❌ Code incorrect. Veuillez réessayer.';
+error.textContent = '❌ Incorrect code. Please try again.';
 input.value = '';
 input.focus();
 }
@@ -705,7 +720,7 @@ document.getElementById('confirmNo').onclick = () => { modal.classList.remove('s
 }
 
 function escapeHtml(s) { if (!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
-function formatNumber(n) { return new Intl.NumberFormat('fr-FR').format(n); }
+function formatNumber(n) { return new Intl.NumberFormat('en-US').format(n); }
 function genererCode6Chiffres() { return Math.floor(100000 + Math.random() * 900000).toString(); }
 function genererEmailParent(ecoleId) { return `parent.${ecoleId}@gmail.com`; }
 function genererEmailDirection(ecoleId) { return `direction.${ecoleId}@gmail.com`; }
@@ -719,7 +734,7 @@ if (['1ère','2ème','3ème','4ème','5ème','6ème'].some(s => c.includes(s))) 
 return 'secondary';
 }
 function getSectionLabel(section) {
-const map = { 'secondary': 'SECONDAIRE', 'primary': 'PRIMAIRE', 'nursery': 'MATERNELLE' };
+const map = { 'secondary': 'SECONDARY', 'primary': 'PRIMARY', 'nursery': 'NURSERY' };
 return map[section] || section;
 }
 function getSectionBadge(section) {
@@ -727,8 +742,8 @@ const map = { 'secondary': 'badge-espace-secondary', 'primary': 'badge-espace-pr
 return map[section] || 'badge-primary';
 }
 function getCategoryLabel(cat) {
-const map = { 'securite': '🔐 Sécurité', 'enseignant': '👨‍🏫 Enseignant', 'fiche': '📄 Fiche', 'ecole': '🏫 École' };
-return map[cat] || cat || 'Général';
+const map = { 'securite': '🔐 Security', 'enseignant': '👨‍🏫 Teacher', 'fiche': '📄 Sheet', 'ecole': '🏫 School' };
+return map[cat] || cat || 'General';
 }
 async function loadAllData() {
 try {
@@ -744,7 +759,6 @@ if (ecoleData.masque === true) continue;
 if (seenSchools.has(id)) continue;
 seenSchools.add(id);
 allSchools.push({ id, ...ecoleData });
-// Chargement des membres A - compta_eleves
 try {
 const mSnap = await getDocs(collection(db, "ecoles", id, SC.COMPTA_ELEVES));
 mSnap.forEach(d => {
@@ -753,7 +767,7 @@ if (data._type === "compta_eleve" && !data.abandon && data.nom) {
 const key = `${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "", section: 'secondary', parentCode: data.parentCode || null };
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "", section: 'secondary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
 membersA.push(m);
 allMembers.push(m);
 }
@@ -767,7 +781,6 @@ allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom ||
 }
 });
 } catch (e) {}
-// Chargement des membres B - prima_eleves
 try {
 const pSnap = await getDocs(collection(db, "ecoles", id, "prima_eleves"));
 pSnap.forEach(d => {
@@ -776,7 +789,7 @@ if (data.nom && !data.abandon) {
 const key = `prim_${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Primaire", section: 'primary', parentCode: data.parentCode || null };
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Primary", section: 'primary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
 membersB.push(m);
 allMembers.push(m);
 }
@@ -785,12 +798,11 @@ if (data.parentCode) {
 const key = `prim_${d.id}_${id}`;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
-allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Primaire", section: 'primary' });
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Primary", section: 'primary' });
 }
 }
 });
 } catch (e) {}
-// Chargement des membres C - mater_eleves
 try {
 const matSnap = await getDocs(collection(db, "ecoles", id, "mater_eleves"));
 matSnap.forEach(d => {
@@ -799,7 +811,7 @@ if (data.nom && !data.abandon) {
 const key = `mat_${d.id}_${id}`;
 if (!seenMembers.has(key)) {
 seenMembers.add(key);
-const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Maternelle", section: 'nursery', parentCode: data.parentCode || null };
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Nursery", section: 'nursery', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
 membersC.push(m);
 allMembers.push(m);
 }
@@ -808,7 +820,7 @@ if (data.parentCode) {
 const key = `mat_${d.id}_${id}`;
 if (!seenCodes.has(key)) {
 seenCodes.add(key);
-allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Maternelle", section: 'nursery' });
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Nursery", section: 'nursery' });
 }
 }
 });
@@ -821,7 +833,7 @@ if (data._type === "prof") {
 const key = `${d.id}_${id}`;
 if (!seenTeachers.has(key)) {
 seenTeachers.add(key);
-allTeachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false, dateCreation: data.createdAt || null });
+allTeachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false, dateCreation: data.createdAt || null });
 }
 }
 });
@@ -834,7 +846,7 @@ if (!data._type) {
 const key = `${d.id}_${id}`;
 if (!seenSheets.has(key)) {
 seenSheets.add(key);
-allSheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "Sans matière", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "", dateCreation: data.dateCreation || null });
+allSheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "No subject", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "", dateCreation: data.dateCreation || null });
 }
 }
 });
@@ -865,8 +877,8 @@ loadWhiteMonths();
 loadExplorer();
 buildTendanceCharts();
 } catch (e) {
-console.error("Erreur chargement:", e);
-toast("Erreur de chargement: " + e.message, "error");
+console.error("Loading error:", e);
+toast("Loading error: " + e.message, "error");
 }
 }
 function updateSelectors() {
@@ -877,7 +889,7 @@ function updateSelectors() {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
-el.innerHTML = '<option value="all">📊 Toutes</option>';
+el.innerHTML = '<option value="all">📊 All</option>';
 allSchools.forEach(s => {
 const opt = document.createElement("option");
 opt.value = s.id;
@@ -907,67 +919,57 @@ if (critiques.length === 0) { container.innerHTML = ''; return; }
 container.innerHTML = critiques.map(a => `
 <div class="banner-alerte">
 <span style="font-size:18px;">🔴</span>
-<span class="msg">${escapeHtml(a.message || 'Alerte critique')}</span>
-<span class="date">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
+<span class="msg">${escapeHtml(a.message || 'Critical alert')}</span>
+<span class="date">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('en-US') : '-'}</span>
 </div>
 `).join('');
 }
 function buildStatsChart() {
-const filter = espaceActif;
-let members = allMembers;
-if (filter !== 'all') members = members.filter(m => m.section === filter);
-const total = members.length;
-const filles = members.filter(m => m.sexe === 'F').length;
-const garcons = total - filles;
-const sections = { secondary: 0, primary: 0, nursery: 0 };
-members.forEach(m => { if (sections[m.section] !== undefined) sections[m.section]++; });
-const ecoleCounts = {};
-members.forEach(m => { ecoleCounts[m.ecoleId] = (ecoleCounts[m.ecoleId] || 0) + 1; });
-const topEcoles = Object.entries(ecoleCounts).sort((a,b) => b[1] - a[1]).slice(0,5);
-const ecoleLabels = topEcoles.map(([id]) => {
-const s = allSchools.find(sch => sch.id === id);
-return s ? s.nom.substring(0, 15) : id.substring(0, 10);
-});
-const ecoleData = topEcoles.map(([,count]) => count);
 const ctx = document.getElementById('statsChart').getContext('2d');
 if (statsChartInstance) statsChartInstance.destroy();
+
+const teachersCount = allTeachers.length;
+const sheetsCount = allSheets.length;
+const alertsCount = allAlertes.length;
+const schoolsCount = allSchools.length;
+const criticalAlerts = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
+
 statsChartInstance = new Chart(ctx, {
 type: 'bar',
 data: {
-labels: ['Répartition', 'Genre', ...ecoleLabels],
-datasets: [
-{ label: 'Secondaire', data: [sections.secondary, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(187,143,206,0.8)', borderColor: '#bb8fce', borderWidth: 1, borderRadius: 4 },
-{ label: 'Primaire', data: [sections.primary, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(93,173,226,0.8)', borderColor: '#5dade2', borderWidth: 1, borderRadius: 4 },
-{ label: 'Maternelle', data: [sections.nursery, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
-{ label: 'Filles', data: [0, filles, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(248,113,113,0.7)', borderColor: '#F87171', borderWidth: 1, borderRadius: 4 },
-{ label: 'Garçons', data: [0, garcons, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(52,73,94,0.7)', borderColor: '#34495e', borderWidth: 1, borderRadius: 4 },
-...topEcoles.map(([id, count], i) => ({
-label: ecoleLabels[i] || 'École',
-data: [...Array(2).fill(0), ...Array(i).fill(0), count, ...Array(ecoleLabels.length - i - 1).fill(0)],
-backgroundColor: `hsla(${i * 60 + 200}, 70%, 60%, 0.7)`,
-borderColor: `hsl(${i * 60 + 200}, 70%, 50%)`,
-borderWidth: 1, borderRadius: 4, barPercentage: 0.8
-}))
-]
+labels: ['Schools', 'Teachers', 'Sheets', 'Alerts', 'Critical'],
+datasets: [{
+label: 'Platform Statistics',
+data: [schoolsCount, teachersCount, sheetsCount, alertsCount, criticalAlerts],
+backgroundColor: [
+'rgba(93,173,226,0.8)',
+'rgba(187,143,206,0.8)',
+'rgba(52,211,153,0.8)',
+'rgba(248,113,113,0.8)',
+'rgba(255,101,132,0.8)'
+],
+borderColor: ['#5dade2', '#bb8fce', '#34D399', '#F87171', '#FF6584'],
+borderWidth: 2,
+borderRadius: 6
+}]
 },
 options: {
 responsive: true,
 maintainAspectRatio: false,
 plugins: {
 legend: {
-position: 'top',
-labels: { color: 'rgba(255,255,255,0.7)', font: { size: 11, weight: '600' }, boxWidth: 15, padding: 10, usePointStyle: true, pointStyle: 'circle' }
+display: false
 },
 title: {
 display: true,
-text: `📊 Aperçu - ${filter === 'all' ? 'TOUTES LES SECTIONS' : filter.toUpperCase()}`,
+text: '📊 Platform Overview',
 color: 'rgba(255,255,255,0.8)',
 font: { size: 18, weight: '800' },
 padding: { bottom: 15 }
 }
 },
 scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } } },
+x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12, weight: '600' } } },
 y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, beginAtZero: true }
 },
 interaction: { mode: 'index', intersect: false }
@@ -1068,7 +1070,7 @@ countByDate(allSheets, 'dateCreation', lastMonthStart, monthStart),
 countByDate(allTeachers, 'dateCreation', lastMonthStart, monthStart)
 ];
 
-const labels = ['Élèves', 'Fiches', 'Enseignants'];
+const labels = ['Students', 'Sheets', 'Teachers'];
 
 function calcPct(current, previous) {
 const total = current + previous;
@@ -1099,13 +1101,13 @@ calcPct(monthValues[2], lastMonthValues[2])
 
 const dayEvol = calcEvol(todayValues[0], yesterdayValues[0]);
 document.getElementById('tendanceDay').textContent = (dayEvol > 0 ? '+' : '') + dayEvol + '%';
-document.getElementById('tendanceDaySub').textContent = dayEvol > 0 ? '⬆️ Hausse' : dayEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+document.getElementById('tendanceDaySub').textContent = dayEvol > 0 ? '⬆️ Up' : dayEvol < 0 ? '⬇️ Down' : '➖ Stable';
 const weekEvol = calcEvol(weekValues[0], lastWeekValues[0]);
 document.getElementById('tendanceWeek').textContent = (weekEvol > 0 ? '+' : '') + weekEvol + '%';
-document.getElementById('tendanceWeekSub').textContent = weekEvol > 0 ? '⬆️ Hausse' : weekEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+document.getElementById('tendanceWeekSub').textContent = weekEvol > 0 ? '⬆️ Up' : weekEvol < 0 ? '⬇️ Down' : '➖ Stable';
 const monthEvol = calcEvol(monthValues[0], lastMonthValues[0]);
 document.getElementById('tendanceMonth').textContent = (monthEvol > 0 ? '+' : '') + monthEvol + '%';
-document.getElementById('tendanceMonthSub').textContent = monthEvol > 0 ? '⬆️ Hausse' : monthEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+document.getElementById('tendanceMonthSub').textContent = monthEvol > 0 ? '⬆️ Up' : monthEvol < 0 ? '⬇️ Down' : '➖ Stable';
 
 const dayCtx = document.getElementById('dayChart').getContext('2d');
 if (dayChartInstance) dayChartInstance.destroy();
@@ -1114,8 +1116,8 @@ type: 'bar',
 data: {
 labels: labels,
 datasets: [
-{ label: 'Aujourd\'hui', data: dayPcts, backgroundColor: 'rgba(108,99,255,0.8)', borderColor: '#6C63FF', borderWidth: 1, borderRadius: 4 },
-{ label: 'Hier', data: dayPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+{ label: 'Today', data: dayPcts, backgroundColor: 'rgba(108,99,255,0.8)', borderColor: '#6C63FF', borderWidth: 1, borderRadius: 4 },
+{ label: 'Yesterday', data: dayPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
 ]
 },
 options: {
@@ -1128,7 +1130,7 @@ callbacks: {
 label: function(context) {
 const index = context.dataIndex;
 const values = [todayValues, yesterdayValues];
-const period = context.datasetIndex === 0 ? 'Aujourd\'hui' : 'Hier';
+const period = context.datasetIndex === 0 ? 'Today' : 'Yesterday';
 return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
 }
 }
@@ -1148,8 +1150,8 @@ type: 'bar',
 data: {
 labels: labels,
 datasets: [
-{ label: 'Cette semaine', data: weekPcts, backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
-{ label: 'Semaine dernière', data: weekPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+{ label: 'This week', data: weekPcts, backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
+{ label: 'Last week', data: weekPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
 ]
 },
 options: {
@@ -1162,7 +1164,7 @@ callbacks: {
 label: function(context) {
 const index = context.dataIndex;
 const values = [weekValues, lastWeekValues];
-const period = context.datasetIndex === 0 ? 'Cette semaine' : 'Semaine dernière';
+const period = context.datasetIndex === 0 ? 'This week' : 'Last week';
 return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
 }
 }
@@ -1182,8 +1184,8 @@ type: 'bar',
 data: {
 labels: labels,
 datasets: [
-{ label: 'Ce mois-ci', data: monthPcts, backgroundColor: 'rgba(251,191,36,0.8)', borderColor: '#FBBF24', borderWidth: 1, borderRadius: 4 },
-{ label: 'Mois dernier', data: monthPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+{ label: 'This month', data: monthPcts, backgroundColor: 'rgba(251,191,36,0.8)', borderColor: '#FBBF24', borderWidth: 1, borderRadius: 4 },
+{ label: 'Last month', data: monthPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
 ]
 },
 options: {
@@ -1196,7 +1198,7 @@ callbacks: {
 label: function(context) {
 const index = context.dataIndex;
 const values = [monthValues, lastMonthValues];
-const period = context.datasetIndex === 0 ? 'Ce mois-ci' : 'Mois dernier';
+const period = context.datasetIndex === 0 ? 'This month' : 'Last month';
 return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
 }
 }
@@ -1219,7 +1221,7 @@ if (search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search))
 if (statutFiltre === 'actif') schools = schools.filter(s => s.actif !== false && s.masque !== true);
 else if (statutFiltre === 'inactif') schools = schools.filter(s => s.actif === false);
 else if (statutFiltre === 'masque') schools = schools.filter(s => s.masque === true);
-if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 Aucune école trouvée</div>'; return; }
+if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 No schools found</div>'; return; }
 let html = '';
 for (const s of schools) {
 const count = allMembers.filter(m => m.ecoleId === s.id).length;
@@ -1237,9 +1239,9 @@ html += `
 <span class="name">${escapeHtml(s.nom)} <span class="id">🆔 ${escapeHtml(s.id)}</span></span>
 </div>
 <div>
-${estMasquee ? '<span class="badge badge-masque">👻 MASQUÉE</span>' : ''}
+${estMasquee ? '<span class="badge badge-masque">👻 HIDDEN</span>' : ''}
 ${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>'}
-${inscriptionActive ? '<span class="badge badge-success">📝 Inscription ON</span>' : '<span class="badge badge-warning">📝 Inscription OFF</span>'}
+${inscriptionActive ? '<span class="badge badge-success">📝 Registration ON</span>' : '<span class="badge badge-warning">📝 Registration OFF</span>'}
 </div>
 </div>
 <div class="info">
@@ -1248,7 +1250,7 @@ ${inscriptionActive ? '<span class="badge badge-success">📝 Inscription ON</sp
 <span>📞 ${escapeHtml(s.telephone || '-')}</span>
 </div>
 <div class="badges">
-<span class="badge badge-primary">👥 ${count} élèves</span>
+<span class="badge badge-primary">👥 ${count} students</span>
 <span class="badge badge-purple">👨‍🏫 ${allTeachers.filter(t => t.ecoleId === s.id).length}</span>
 <span class="badge badge-primary">📄 ${allSheets.filter(f => f.ecoleId === s.id).length}</span>
 ${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? `<span class="badge badge-warning">⚠️ ${allAlertes.filter(a => a.ecoleId === s.id).length}</span>` : ''}
@@ -1274,14 +1276,14 @@ const estMasquee = school.masque === true;
 const estActive = school.actif !== false;
 const inscriptionActive = school.inscriptionActive === true;
 items.innerHTML = `
-<button class="action-dropdown-item" data-action="voir" data-school="${schoolId}"><span class="icon">👁️</span> Voir l'école</button>
-<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer le logo</button>
+<button class="action-dropdown-item" data-action="voir" data-school="${schoolId}"><span class="icon">👁️</span> View school</button>
+<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Change logo</button>
 <div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item" data-action="inscription" data-school="${schoolId}"><span class="icon">📝</span> ${inscriptionActive ? '🔒 Désactiver inscriptions' : '🔓 Activer inscriptions'}</button>
-<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Afficher l\'école' : '👻 Masquer l\'école'}</button>
-<button class="action-dropdown-item" data-action="activer" data-school="${schoolId}"><span class="icon">${estActive ? '⛔' : '✅'}</span> ${estActive ? 'Désactiver l\'école' : 'Activer l\'école'}</button>
+<button class="action-dropdown-item" data-action="inscription" data-school="${schoolId}"><span class="icon">📝</span> ${inscriptionActive ? '🔒 Disable registration' : '🔓 Enable registration'}</button>
+<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Show school' : '👻 Hide school'}</button>
+<button class="action-dropdown-item" data-action="activer" data-school="${schoolId}"><span class="icon">${estActive ? '⛔' : '✅'}</span> ${estActive ? 'Deactivate school' : 'Activate school'}</button>
 <div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item danger" data-action="supprimer" data-school="${schoolId}"><span class="icon">🗑️</span> Supprimer l'école</button>
+<button class="action-dropdown-item danger" data-action="supprimer" data-school="${schoolId}"><span class="icon">🗑️</span> Delete school</button>
 `;
 overlay.classList.add('show');
 document.getElementById('actionDropdownClose').onclick = () => overlay.classList.remove('show');
@@ -1294,7 +1296,7 @@ const schoolId2 = this.dataset.school;
 const school2 = allSchools.find(s => s.id === schoolId2);
 if (!school2) return;
 switch(action) {
-case 'voir': toast(`👁️ Consultation de ${school2.nom}`, 'info'); break;
+case 'voir': toast(`👁️ Viewing ${school2.nom}`, 'info'); break;
 case 'logo': await handleLogoChange(schoolId2); break;
 case 'inscription': await handleToggleInscription(schoolId2); break;
 case 'masquer': await handleToggleMasquer(schoolId2); break;
@@ -1315,47 +1317,47 @@ exportBackup(this.dataset.ecole, this.dataset.nom, isExcel ? 'excel' : 'csv');
 async function handleToggleInscription(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
-const action = school.inscriptionActive === true ? 'désactiver' : 'activer';
-if (!await showCodeModal(`Inscriptions (${action})`, { schoolId })) return;
-if (!await showConfirm(`Voulez-vous vraiment ${action} les inscriptions pour <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+const action = school.inscriptionActive === true ? 'disable' : 'enable';
+if (!await showCodeModal(`Registration (${action})`, { schoolId })) return;
+if (!await showConfirm(`Are you sure you want to ${action} registration for <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
 try {
 const ref = doc(db, "ecoles", schoolId);
 await updateDoc(ref, { inscriptionActive: school.inscriptionActive !== true });
-toast(`✅ Inscriptions ${action === 'activer' ? 'activées' : 'désactivées'}`, 'success');
+toast(`✅ Registration ${action === 'enable' ? 'enabled' : 'disabled'}`, 'success');
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 }
 async function handleToggleMasquer(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
-const action = school.masque === true ? 'afficher' : 'masquer';
-if (!await showCodeModal(`Masquage (${action})`, { schoolId })) return;
-if (!await showConfirm(`Voulez-vous vraiment ${action} l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+const action = school.masque === true ? 'show' : 'hide';
+if (!await showCodeModal(`Hide/Show (${action})`, { schoolId })) return;
+if (!await showConfirm(`Are you sure you want to ${action} school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
 try {
 const ref = doc(db, "ecoles", schoolId);
 await updateDoc(ref, { masque: school.masque !== true });
-toast(`✅ École ${action === 'afficher' ? 'affichée' : 'masquée'}`, 'success');
+toast(`✅ School ${action === 'show' ? 'shown' : 'hidden'}`, 'success');
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 }
 async function handleToggleActif(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
-const action = school.actif !== false ? 'désactiver' : 'activer';
-if (!await showCodeModal(`Changement de statut (${action})`, { schoolId })) return;
-if (!await showConfirm(`Voulez-vous vraiment ${action} l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+const action = school.actif !== false ? 'deactivate' : 'activate';
+if (!await showCodeModal(`Status change (${action})`, { schoolId })) return;
+if (!await showConfirm(`Are you sure you want to ${action} school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
 try {
 const ref = doc(db, "ecoles", schoolId);
 await updateDoc(ref, { actif: school.actif !== false ? false : true });
-toast(`✅ École ${action === 'activer' ? 'activée' : 'désactivée'}`, 'success');
+toast(`✅ School ${action === 'activate' ? 'activated' : 'deactivated'}`, 'success');
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 }
 async function handleDeleteSchool(schoolId) {
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
-if (!await showCodeModal('Suppression d\'école', { schoolId })) return;
-if (!await showConfirm(`⚠️ Supprimer définitivement l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+if (!await showCodeModal('School deletion', { schoolId })) return;
+if (!await showConfirm(`⚠️ Permanently delete school <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
 try {
 const subs = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 for (const sub of subs) {
@@ -1365,12 +1367,12 @@ for (const d of snap.docs) { await deleteDoc(d.ref); }
 } catch(e) {}
 }
 await deleteDoc(doc(db, "ecoles", schoolId));
-toast("🗑️ École supprimée", "success");
+toast("🗑️ School deleted", "success");
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 }
 async function handleLogoChange(schoolId) {
-if (!await showCodeModal('Changement de logo', { schoolId })) return;
+if (!await showCodeModal('Logo change', { schoolId })) return;
 const modal = document.getElementById('logoModal');
 modal.classList.add('show');
 modal.dataset.schoolId = schoolId;
@@ -1387,14 +1389,14 @@ document.getElementById('logoPreviewContainer').style.display = 'none';
 });
 document.getElementById('logoValidateBtn').onclick = async function() {
 const url = document.getElementById('logoUrlInput').value.trim();
-if (!url) { toast('Veuillez entrer une URL', 'warning'); return; }
+if (!url) { toast('Please enter a URL', 'warning'); return; }
 try {
 const schoolRef = doc(db, "ecoles", schoolId);
 await updateDoc(schoolRef, { logoUrl: url });
 document.getElementById('logoModal').classList.remove('show');
-toast('✅ Logo mis à jour', 'success');
+toast('✅ Logo updated', 'success');
 await loadAllData();
-} catch (e) { toast('Erreur: ' + e.message, 'error'); }
+} catch (e) { toast('Error: ' + e.message, 'error'); }
 };
 document.getElementById('logoCancelBtn').onclick = () => {
 document.getElementById('logoModal').classList.remove('show');
@@ -1421,10 +1423,10 @@ const ws = XLSX.utils.json_to_sheet(docs);
 XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31));
 }
 XLSX.writeFile(wb, `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.xlsx`);
-backupHistory.push({ nom: ecoleNom, format: 'Excel', date: new Date().toLocaleString('fr-FR') });
-toast(`✅ Backup Excel de ${ecoleNom} téléchargé`, 'success');
+backupHistory.push({ nom: ecoleNom, format: 'Excel', date: new Date().toLocaleString('en-US') });
+toast(`✅ Excel backup of ${ecoleNom} downloaded`, 'success');
 } else {
-const rows = [['Collection', 'Document ID', 'Données']];
+const rows = [['Collection', 'Document ID', 'Data']];
 for (const [name, docs] of Object.entries(data.collections)) {
 for (const doc of docs) {
 rows.push([name, doc.id, JSON.stringify(doc)]);
@@ -1438,11 +1440,11 @@ a.href = url;
 a.download = `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.csv`;
 a.click();
 URL.revokeObjectURL(url);
-backupHistory.push({ nom: ecoleNom, format: 'CSV', date: new Date().toLocaleString('fr-FR') });
-toast(`✅ Backup CSV de ${ecoleNom} téléchargé`, 'success');
+backupHistory.push({ nom: ecoleNom, format: 'CSV', date: new Date().toLocaleString('en-US') });
+toast(`✅ CSV backup of ${ecoleNom} downloaded`, 'success');
 }
 loadRapport();
-} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
+} catch(e) { toast('❌ Error: ' + e.message, 'error'); }
 if (btn) { btn.textContent = format === 'excel' ? '📊 Excel' : '📄 CSV'; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
 }
 function loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage, filterEcoleId, searchId) {
@@ -1462,7 +1464,7 @@ const start = (currentPage - 1) * membersPerPage;
 const end = start + membersPerPage;
 const pageMembers = filtered.slice(start, end);
 if (filtered.length === 0) {
-container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">👥 Aucun membre trouvé</div>';
+container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">👥 No members found</div>';
 document.getElementById(paginationId).style.display = 'none';
 return;
 }
@@ -1482,7 +1484,7 @@ html += `
 <div class="eleve-group-body">
 `;
 ecoleData.members.forEach(e => {
-const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Inconnu";
+const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Unknown";
 html += `
 <div class="eleve-item">
 <span class="nom">${escapeHtml(nomComplet)}</span>
@@ -1541,10 +1543,10 @@ if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search
 if (emailFilter === 'valid') teachers = teachers.filter(t => t.email && t.email.includes('@'));
 else if (emailFilter === 'invalid') teachers = teachers.filter(t => !t.email || !t.email.includes('@'));
 else if (emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
-if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant</div>'; return; }
+if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 No teachers</div>'; return; }
 const ficheCounts = {};
 allSheets.forEach(s => { if (s.titulaire) { const key = s.titulaire.trim().toLowerCase(); ficheCounts[key] = (ficheCounts[key] || 0) + 1; } });
-let html = '<div class="teacher-item header"><span>Nom</span><span>Email</span><span>Code</span><span>Statut</span><span>Fiches</span></div>';
+let html = '<div class="teacher-item header"><span>Name</span><span>Email</span><span>Code</span><span>Status</span><span>Sheets</span></div>';
 teachers.forEach(t => {
 const emailValid = t.email && t.email.includes('@');
 const nbFiches = ficheCounts[t.nom.toLowerCase()] || 0;
@@ -1553,7 +1555,7 @@ html += `
 <span><strong>${escapeHtml(t.nom)}</strong></span>
 <span class="email ${emailValid ? 'valid' : 'invalid'}">${t.email ? escapeHtml(t.email) : '❌'}</span>
 <span class="code">${t.code || '---'}</span>
-<span>${t.actif ? '🟢 Actif' : '🔴 Inactif'}</span>
+<span>${t.actif ? '🟢 Active' : '🔴 Inactive'}</span>
 <span><span class="badge-fiches">${nbFiches}</span></span>
 </div>`;
 });
@@ -1573,14 +1575,14 @@ document.getElementById("saveTeacherBtn")?.addEventListener("click", async funct
 const nom = document.getElementById("teacherName").value.trim();
 const ecole = document.getElementById("teacherSchoolSelect").value;
 let code = document.getElementById("teacherCode").value.trim();
-if (!nom || !ecole || ecole === 'all') { toast("Nom et école requis", "error"); return; }
+if (!nom || !ecole || ecole === 'all') { toast("Name and school required", "error"); return; }
 if (!code) { code = genererCode6Chiffres(); document.getElementById("teacherCode").value = code; }
-if (!/^\d{6}$/.test(code)) { toast("Le code doit faire 6 chiffres", "error"); return; }
-const btn = this; btn.disabled = true; btn.textContent = "⏳ Création...";
+if (!/^\d{6}$/.test(code)) { toast("Code must be 6 digits", "error"); return; }
+const btn = this; btn.disabled = true; btn.textContent = "⏳ Creating...";
 try {
 const email = `prof.${nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.')}.${ecole}@gmail.com`;
 try { await createUserWithEmailAndPassword(auth, email, code); } catch (e) {
-if (e.code === 'auth/email-already-in-use') { toast("Email déjà utilisé", "warning"); btn.disabled = false; btn.textContent = "💾 Créer"; return; }
+if (e.code === 'auth/email-already-in-use') { toast("Email already in use", "warning"); btn.disabled = false; btn.textContent = "💾 Create"; return; }
 throw e;
 }
 const profId = 'prof_' + Date.now();
@@ -1589,11 +1591,11 @@ _type: "prof", id: profId, profId: profId, nom: nom,
 email: email, emailProf: email, code: code, actif: true,
 school: ecole, createdAt: new Date().toISOString()
 });
-toast("✅ Enseignant créé", "success");
+toast("✅ Teacher created", "success");
 document.getElementById("addTeacherForm").style.display = "none";
 loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
-finally { btn.disabled = false; btn.textContent = "💾 Créer"; }
+} catch (e) { toast("Error: " + e.message, "error"); }
+finally { btn.disabled = false; btn.textContent = "💾 Create"; }
 });
 async function loadSheets() {
 const container = document.getElementById("sheetsBody");
@@ -1603,7 +1605,7 @@ const search = document.getElementById("sheetSearch")?.value?.toLowerCase() || "
 let sheets = allSheets;
 if (filter !== "all") sheets = sheets.filter(s => s.ecoleId === filter);
 if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
-if (sheets.length === 0) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 Aucune fiche</td></tr>'; return; }
+if (sheets.length === 0) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 No sheets</td></tr>'; return; }
 let html = '';
 sheets.forEach((s, i) => {
 html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
@@ -1614,13 +1616,13 @@ btn.addEventListener('click', async function() {
 const id = this.dataset.id, ecole = this.dataset.ecole;
 const sheet = allSheets.find(s => s.id === id && s.ecoleId === ecole);
 if (!sheet) return;
-if (!await showCodeModal('Suppression de fiche', { sheetId: id })) return;
-if (!await showConfirm(`Supprimer la fiche ${sheet.cours} ?`)) return;
+if (!await showCodeModal('Sheet deletion', { sheetId: id })) return;
+if (!await showConfirm(`Delete sheet ${sheet.cours} ?`)) return;
 try {
 await deleteDoc(doc(db, "ecoles", ecole, SC.FICHES, id));
-toast("✅ Fiche supprimée", "success");
+toast("✅ Sheet deleted", "success");
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 });
 });
 }
@@ -1635,7 +1637,7 @@ document.getElementById("saveSheetBtn")?.addEventListener("click", async functio
 const cours = document.getElementById("sheetCours").value.trim();
 const classe = document.getElementById("sheetClasse").value.trim();
 const ecole = document.getElementById("sheetSchoolSelect").value;
-if (!cours || !classe || !ecole || ecole === 'all') { toast("Matière, classe et école requis", "error"); return; }
+if (!cours || !classe || !ecole || ecole === 'all') { toast("Subject, class and school required", "error"); return; }
 try {
 await setDoc(doc(collection(db, "ecoles", ecole, SC.FICHES)), {
 cours, classe, option: document.getElementById("sheetOption").value.trim(),
@@ -1643,10 +1645,10 @@ titulaire: document.getElementById("sheetTitulaire").value.trim(),
 createdBy: "DSI", eleves: [],
 dateCreation: new Date().toISOString()
 });
-toast("✅ Fiche ajoutée", "success");
+toast("✅ Sheet added", "success");
 document.getElementById("addSheetForm").style.display = "none";
 loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 });
 async function loadCodesEmails() {
 const container = document.getElementById("codesEmailsContainer");
@@ -1654,10 +1656,10 @@ if (!container) return;
 const filter = document.getElementById("codesEmailsEcoleFilter")?.value || "all";
 let schools = allSchools;
 if (filter !== "all") schools = schools.filter(s => s.id === filter);
-if (schools.length === 0) { container.innerHTML = '<div class="empty-state">🔐 Aucune école</div>'; return; }
+if (schools.length === 0) { container.innerHTML = '<div class="empty-state">🔐 No schools</div>'; return; }
 let html = '';
 for (const s of schools) {
-let codeDir = 'Non défini', codeCompta = 'Non défini', codePromoteur = 'Non défini';
+let codeDir = 'Not set', codeCompta = 'Not set', codePromoteur = 'Not set';
 let emailDir = s.directionEmail || genererEmailDirection(s.id);
 let emailCompta = s.comptaEmail || genererEmailCompta(s.id);
 let emailPromo = s.promoteurEmail || genererEmailPromoteur(s.id);
@@ -1665,9 +1667,9 @@ try {
 const snap = await getDoc(doc(db, "ecoles", s.id, "settings", "data"));
 if (snap.exists()) {
 const d = snap.data();
-codeDir = d.codeDirection || 'Non défini';
-codeCompta = d.codeComptabilite || 'Non défini';
-codePromoteur = d.codePromoteur || 'Non défini';
+codeDir = d.codeDirection || 'Not set';
+codeCompta = d.codeComptabilite || 'Not set';
+codePromoteur = d.codePromoteur || 'Not set';
 if (d.emailDirection) emailDir = d.emailDirection;
 if (d.emailComptabilite) emailCompta = d.emailComptabilite;
 if (d.emailPromoteur) emailPromo = d.emailPromoteur;
@@ -1677,12 +1679,12 @@ html += `
 <div class="code-email-card">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
 <span class="name">${escapeHtml(s.nom)}</span>
-<span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Actif' : '🔴 Inactif'}</span>
+<span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Active' : '🔴 Inactive'}</span>
 </div>
 <div class="grid">
-<div class="item"><div class="lbl">👔 Direction</div><div class="val dir">${escapeHtml(codeDir)}</div><div class="val email">${escapeHtml(emailDir)}</div></div>
-<div class="item"><div class="lbl">💰 Comptabilité</div><div class="val compta">${escapeHtml(codeCompta)}</div><div class="val email">${escapeHtml(emailCompta)}</div></div>
-<div class="item"><div class="lbl">👔 Promoteur</div><div class="val promo">${escapeHtml(codePromoteur)}</div><div class="val email">${escapeHtml(emailPromo)}</div></div>
+<div class="item"><div class="lbl">👔 Director</div><div class="val dir">${escapeHtml(codeDir)}</div><div class="val email">${escapeHtml(emailDir)}</div></div>
+<div class="item"><div class="lbl">💰 Accounting</div><div class="val compta">${escapeHtml(codeCompta)}</div><div class="val email">${escapeHtml(emailCompta)}</div></div>
+<div class="item"><div class="lbl">👔 Promoter</div><div class="val promo">${escapeHtml(codePromoteur)}</div><div class="val email">${escapeHtml(emailPromo)}</div></div>
 <div class="item"><div class="lbl">📧 Parent</div><div class="val email">${escapeHtml(s.parentEmail || genererEmailParent(s.id))}</div></div>
 </div>
 </div>`;
@@ -1706,24 +1708,24 @@ if (categorieFilter !== "all") alertes = alertes.filter(a => a.categorie === cat
 if (dateDebut) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) >= new Date(dateDebut));
 if (dateFin) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) <= new Date(dateFin));
 if (alertes.length === 0) {
-container.innerHTML = '<div class="alert-item header"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div><div class="empty-state">Aucune alerte</div>';
+container.innerHTML = '<div class="alert-item header"><span>Message</span><span>Category</span><span>Priority / Status</span><span>School</span></div><div class="empty-state">No alerts</div>';
 return;
 }
-const priorityLabels = { critique: '🔴 Critique', important: '🟡 Important', mineure: '🟢 Mineure' };
+const priorityLabels = { critique: '🔴 Critical', important: '🟡 Important', mineure: '🟢 Minor' };
 const priorityClass = { critique: 'critique', important: 'important', mineure: 'mineure' };
-const statutLabels = { nonresolu: '❌ Non résolu', encours: '⏳ En cours', resolu: '✅ Résolu' };
+const statutLabels = { nonresolu: '❌ Unresolved', encours: '⏳ In progress', resolu: '✅ Resolved' };
 const statutClass = { nonresolu: 'nonresolu', encours: 'encours', resolu: 'resolu' };
-let html = '<div class="alert-item header"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
+let html = '<div class="alert-item header"><span>Message</span><span>Category</span><span>Priority / Status</span><span>School</span></div>';
 alertes.forEach(a => {
-const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-';
+const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('en-US') : '-';
 html += `
 <div class="alert-item">
-<span><strong>${escapeHtml(a.message || 'Sans message')}</strong><br><span style="font-size:10px;color:var(--text-muted);">${date}</span></span>
+<span><strong>${escapeHtml(a.message || 'No message')}</strong><br><span style="font-size:10px;color:var(--text-muted);">${date}</span></span>
 <span><span class="badge badge-primary">${getCategoryLabel(a.categorie)}</span></span>
 <span>
-<span class="priority ${priorityClass[a.priorite] || 'mineure'}">${priorityLabels[a.priorite] || '🟢 Mineure'}</span>
+<span class="priority ${priorityClass[a.priorite] || 'mineure'}">${priorityLabels[a.priorite] || '🟢 Minor'}</span>
 <br>
-<span class="statut ${statutClass[a.statut] || 'nonresolu'}">${statutLabels[a.statut] || '❌ Non résolu'}</span>
+<span class="statut ${statutClass[a.statut] || 'nonresolu'}">${statutLabels[a.statut] || '❌ Unresolved'}</span>
 </span>
 <span>${escapeHtml(a.ecoleNom)}</span>
 </div>`;
@@ -1731,9 +1733,9 @@ html += `
 container.innerHTML = html;
 }
 document.getElementById('btnSupprimerAlertes').addEventListener('click', async function() {
-if (allAlertes.length === 0) { toast('Aucune alerte à supprimer', 'warning'); return; }
-if (!await showCodeModal('Suppression de toutes les alertes', { count: allAlertes.length })) return;
-if (!await showConfirm(`⚠️ Supprimer définitivement toutes les alertes (${allAlertes.length}) ?`)) return;
+if (allAlertes.length === 0) { toast('No alerts to delete', 'warning'); return; }
+if (!await showCodeModal('Delete all alerts', { count: allAlertes.length })) return;
+if (!await showConfirm(`⚠️ Permanently delete all alerts (${allAlertes.length}) ?`)) return;
 this.disabled = true; this.textContent = '⏳...';
 try {
 const batches = {};
@@ -1750,17 +1752,17 @@ batch.delete(ref);
 }
 await batch.commit();
 }
-toast(`✅ ${allAlertes.length} alertes supprimées`, 'success');
+toast(`✅ ${allAlertes.length} alerts deleted`, 'success');
 allAlertes = [];
 await loadAlertes();
 updateCounters();
 updateBanner();
-} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
-this.disabled = false; this.textContent = '🗑️ Supprimer toutes';
+} catch(e) { toast('❌ Error: ' + e.message, 'error'); }
+this.disabled = false; this.textContent = '🗑️ Delete all';
 });
 function loadRapport() {
 const today = new Date();
-const dateStr = today.toLocaleDateString('fr-FR');
+const dateStr = today.toLocaleDateString('en-US');
 const totalEcoles = allSchools.length;
 const totalEnseignants = allTeachers.length;
 const totalFiches = allSheets.length;
@@ -1772,22 +1774,22 @@ const emailInvalid = allTeachers.filter(t => !t.email || !t.email.includes('@'))
 document.getElementById('aujourdhuiContainer').innerHTML = `
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:13px;">
 <div>📅 ${dateStr}</div>
-<div>🏫 ${totalEcoles} écoles</div>
-<div>👨‍🏫 ${totalEnseignants} enseignants</div>
-<div>📄 ${totalFiches} fiches</div>
-<div>⚠️ ${totalAlertes} alertes</div>
-<div>🔴 ${alertesCritiques} critiques</div>
-<div>🔑 ${sansCode} sans code</div>
-<div>📧 ${emailInvalid} emails invalides</div>
+<div>🏫 ${totalEcoles} schools</div>
+<div>👨‍🏫 ${totalEnseignants} teachers</div>
+<div>📄 ${totalFiches} sheets</div>
+<div>⚠️ ${totalAlertes} alerts</div>
+<div>🔴 ${alertesCritiques} critical</div>
+<div>🔑 ${sansCode} no code</div>
+<div>📧 ${emailInvalid} invalid emails</div>
 </div>
 `;
 document.getElementById('tendancesContainer').innerHTML = `
 <div style="font-size:13px;line-height:1.8;">
-<div>📈 Évolution 7 jours</div>
-<div>👨‍🏫 Enseignants: ${totalEnseignants}</div>
-<div>📄 Fiches: ${totalFiches}</div>
-<div>⚠️ Alertes: ${totalAlertes}</div>
-<div style="font-size:11px;color:var(--text-muted);">🔄 ${new Date().toLocaleTimeString('fr-FR')}</div>
+<div>📈 7-day trend</div>
+<div>👨‍🏫 Teachers: ${totalEnseignants}</div>
+<div>📄 Sheets: ${totalFiches}</div>
+<div>⚠️ Alerts: ${totalAlertes}</div>
+<div style="font-size:11px;color:var(--text-muted);">🔄 ${new Date().toLocaleTimeString('en-US')}</div>
 </div>
 `;
 const codeCounts = {};
@@ -1795,9 +1797,9 @@ allTeachers.forEach(t => { if (t.code) { codeCounts[t.code] = (codeCounts[t.code
 const doublons = Object.entries(codeCounts).filter(([,count]) => count > 1);
 const doublonsContainer = document.getElementById('doublonsContainer');
 if (doublons.length === 0) {
-doublonsContainer.innerHTML = '<div class="empty-state">✅ Aucun code en double</div>';
+doublonsContainer.innerHTML = '<div class="empty-state">✅ No duplicate codes</div>';
 } else {
-doublonsContainer.innerHTML = `<div style="font-size:12px;">🔑 ${doublons.length} code(s) en double</div>` +
+doublonsContainer.innerHTML = `<div style="font-size:12px;">🔑 ${doublons.length} duplicate code(s)</div>` +
 doublons.slice(0, 5).map(([code, count]) => {
 const teachers = allTeachers.filter(t => t.code === code);
 return `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${code}: ${teachers.map(t => t.nom).join(', ')}</div>`;
@@ -1806,9 +1808,9 @@ return `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--b
 const fichesSans = allSheets.filter(s => !s.titulaire || s.titulaire.trim() === '');
 const fichesContainer = document.getElementById('fichesSansEnseignantContainer');
 if (fichesSans.length === 0) {
-fichesContainer.innerHTML = '<div class="empty-state">✅ Toutes les fiches ont un enseignant</div>';
+fichesContainer.innerHTML = '<div class="empty-state">✅ All sheets have a teacher</div>';
 } else {
-fichesContainer.innerHTML = `<div style="font-size:12px;">📄 ${fichesSans.length} fiche(s) sans enseignant</div>` +
+fichesContainer.innerHTML = `<div style="font-size:12px;">📄 ${fichesSans.length} sheet(s) without teacher</div>` +
 fichesSans.slice(0, 5).map(s => `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${s.cours} - ${s.classe} (${s.ecoleNom})</div>`).join('');
 }
 const alertesParStatut = { nonresolu: 0, encours: 0, resolu: 0 };
@@ -1817,15 +1819,15 @@ const totalA = allAlertes.length || 1;
 const tauxResolu = totalA > 0 ? Math.round((alertesParStatut.resolu / totalA) * 100) : 0;
 document.getElementById('tempsResolutionContainer').innerHTML = `
 <div style="font-size:13px;line-height:1.8;">
-<div>⏱️ Taux de résolution: ${tauxResolu}%</div>
-<div>✅ Résolues: ${alertesParStatut.resolu}</div>
-<div>⏳ En cours: ${alertesParStatut.encours}</div>
-<div>❌ Non résolues: ${alertesParStatut.nonresolu}</div>
+<div>⏱️ Resolution rate: ${tauxResolu}%</div>
+<div>✅ Resolved: ${alertesParStatut.resolu}</div>
+<div>⏳ In progress: ${alertesParStatut.encours}</div>
+<div>❌ Unresolved: ${alertesParStatut.nonresolu}</div>
 </div>
 `;
 const backupContainer = document.getElementById('historiqueBackupsContainer');
 if (backupHistory.length === 0) {
-backupContainer.innerHTML = '<div class="empty-state">Aucun backup effectué</div>';
+backupContainer.innerHTML = '<div class="empty-state">No backups performed</div>';
 } else {
 backupContainer.innerHTML = `<div style="font-size:12px;max-height:150px;overflow-y:auto;">` +
 backupHistory.slice(-10).reverse().map(b => `
@@ -1849,7 +1851,7 @@ codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().include
 }
 const container = document.getElementById("codeResultsContainer");
 if (codes.length === 0) {
-container.innerHTML = '<div class="empty-state">📭 Aucun code parent trouvé</div>';
+container.innerHTML = '<div class="empty-state">📭 No parent codes found</div>';
 return;
 }
 const groupedByEcole = {};
@@ -1870,7 +1872,7 @@ html += `
 </div>
 <div style="padding:4px 8px;">
 ${eleves.map(e => {
-const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Inconnu";
+const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Unknown";
 return `
 <div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:14px;">
 <span style="font-weight:600;">${escapeHtml(nomComplet)}</span>
@@ -1900,23 +1902,23 @@ snap.forEach(d => {
 const data = d.data();
 const blancs = data.moisBlancs || [];
 blancs.forEach(m => {
-wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Inconnu", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m });
+wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Unknown", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m });
 });
 });
 } catch(e) {}
 }
-if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ Aucun mois blanc</td></tr>'; return; }
+if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ No white months</td></tr>'; return; }
 let html = '';
 wm.slice(0, 100).forEach((w, i) => {
 const sectionBadge = getSectionBadge(w.section);
-html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restaurer</button></td></tr>`;
+html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restore</button></td></tr>`;
 });
 container.innerHTML = html;
 container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
 btn.addEventListener('click', async function() {
 const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
-if (!await showCodeModal('Restauration de mois blanc', { docId, ecole })) return;
-if (!await showConfirm(`Restaurer ${mois} ?`)) return;
+if (!await showCodeModal('Restore white month', { docId, ecole })) return;
+if (!await showConfirm(`Restore ${mois} ?`)) return;
 try {
 const ref = doc(db, "ecoles", ecole, SC.COMPTA_ELEVES, docId);
 const snap = await getDoc(ref);
@@ -1924,10 +1926,10 @@ if (snap.exists()) {
 const data = snap.data();
 const blancs = data.moisBlancs || [];
 await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
-toast("✅ Mois blanc restauré", "success");
+toast("✅ White month restored", "success");
 await loadAllData();
 }
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 });
 });
 }
@@ -1935,17 +1937,37 @@ let explorerData = {};
 async function loadExplorer() {
 const container = document.getElementById("explorerContent");
 if (!container) return;
-container.innerHTML = '<div class="empty-state">🔍 Chargement...</div>';
+
+// Show progress bar
+container.innerHTML = `
+<div class="progress-container">
+<div class="progress-text">🔍 Loading data...</div>
+<div class="progress-percent" id="explorerProgressPercent">0%</div>
+<div class="progress-bar">
+<div class="fill" id="explorerProgressFill" style="width:0%;"></div>
+</div>
+</div>
+`;
+
 try {
 const filter = document.getElementById("explorerEcoleFilter")?.value || "all";
 let schools = allSchools;
 if (filter !== "all") schools = schools.filter(s => s.id === filter);
+
+const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
+const totalSteps = schools.length * subCols.length;
+let currentStep = 0;
 const collections = {};
 let totalDocs = 0;
-const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
+
 for (const school of schools) {
 const id = school.id;
 for (const sub of subCols) {
+currentStep++;
+const progress = Math.round((currentStep / totalSteps) * 100);
+document.getElementById('explorerProgressPercent').textContent = progress + '%';
+document.getElementById('explorerProgressFill').style.width = progress + '%';
+
 try {
 const snap = await getDocs(collection(db, "ecoles", id, sub));
 const docs = [];
@@ -1956,11 +1978,14 @@ totalDocs += docs.length;
 } catch(e) {}
 }
 }
+
 explorerData = collections;
+
+// Build the final display
 let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;">
 <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">${Object.keys(collections).length}</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div>
 <div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">${totalDocs}</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div>
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">${schools.length}</div><div style="font-size:11px;color:var(--text-muted);">Écoles</div></div>
+<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">${schools.length}</div><div style="font-size:11px;color:var(--text-muted);">Schools</div></div>
 </div>`;
 let idx = 0;
 for (const [key, val] of Object.entries(collections)) {
@@ -1972,17 +1997,24 @@ html += `<div style="border:1px solid ${isVide ? 'var(--border-color)' : 'var(--
 <div><span class="badge badge-primary">${val.nb}</span></div>
 </div>
 <div id="exp-${idx}" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">
-${val.nb === 0 ? '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Vide</div>' :
+${val.nb === 0 ? '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Empty</div>' :
 val.docs.slice(0, 5).map(d => `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border-color);font-size:12px;color:var(--text-muted);"><span style="font-family:monospace;font-size:10px;color:#5dade2;">${d.id.substring(0,8)}…</span><span>${JSON.stringify(d.data).substring(0,40)}…</span></div>`).join('')}
-${val.nb > 5 ? `<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... et ${val.nb - 5} de plus</div>` : ''}
+${val.nb > 5 ? `<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... and ${val.nb - 5} more</div>` : ''}
 </div>
 </div>`;
 }
 container.innerHTML = html;
-} catch(e) { container.innerHTML = '<div class="empty-state">❌ Erreur de chargement</div>'; }
+
+// Clean up progress
+document.getElementById('explorerProgressPercent')?.remove();
+document.getElementById('explorerProgressFill')?.remove();
+
+} catch(e) {
+container.innerHTML = '<div class="empty-state">❌ Error loading data</div>';
+}
 }
 document.getElementById('exportExplorerExcel')?.addEventListener('click', function() {
-if (Object.keys(explorerData).length === 0) { toast('Aucune donnée à exporter', 'warning'); return; }
+if (Object.keys(explorerData).length === 0) { toast('No data to export', 'warning'); return; }
 try {
 const wb = XLSX.utils.book_new();
 for (const [key, val] of Object.entries(explorerData)) {
@@ -1997,9 +2029,9 @@ const ws = XLSX.utils.json_to_sheet(rows);
 XLSX.utils.book_append_sheet(wb, ws, key.substring(0, 31));
 }
 }
-XLSX.writeFile(wb, `explorateur_${new Date().toISOString().split('T')[0]}.xlsx`);
-toast('✅ Export Excel terminé', 'success');
-} catch(e) { toast('❌ Erreur export: ' + e.message, 'error'); }
+XLSX.writeFile(wb, `explorer_${new Date().toISOString().split('T')[0]}.xlsx`);
+toast('✅ Export complete', 'success');
+} catch(e) { toast('❌ Export error: ' + e.message, 'error'); }
 });
 document.getElementById("showAddSchool")?.addEventListener("click", function() {
 document.getElementById("addSchoolForm").style.display = "block";
@@ -2014,11 +2046,11 @@ document.getElementById("schoolId").value = val || "auto-" + Date.now().toString
 document.getElementById("saveSchoolBtn")?.addEventListener("click", async function() {
 const nom = document.getElementById("schoolName").value.trim();
 const id = document.getElementById("schoolId").value.trim();
-if (!nom || !id) { toast("Nom et ID requis", "error"); return; }
-if (!await showCodeModal('Création d\'école', { schoolName: nom })) return;
+if (!nom || !id) { toast("Name and ID required", "error"); return; }
+if (!await showCodeModal('School creation', { schoolName: nom })) return;
 try {
 const existing = await getDoc(doc(db, "ecoles", id));
-if (existing.exists()) { toast("ID déjà utilisé", "error"); return; }
+if (existing.exists()) { toast("ID already in use", "error"); return; }
 const codeDirection = genererCode6Chiffres();
 await setDoc(doc(db, "ecoles", id), {
 nom, id, province: document.getElementById("schoolProvince").value,
@@ -2043,10 +2075,10 @@ emailComptabilite: genererEmailCompta(id),
 emailPromoteur: genererEmailPromoteur(id),
 updatedAt: new Date().toISOString()
 });
-toast("✅ École créée", "success");
+toast("✅ School created", "success");
 document.getElementById("addSchoolForm").style.display = "none";
 await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
+} catch (e) { toast("Error: " + e.message, "error"); }
 });
 document.getElementById("themeToggle")?.addEventListener("click", function() {
 document.body.classList.toggle('light');
@@ -2057,7 +2089,7 @@ btn.onclick = function() {
 document.querySelectorAll('.space-btn').forEach(b => b.classList.remove('active'));
 this.classList.add('active');
 espaceActif = this.dataset.space;
-toast('🔁 Filtre: ' + this.textContent.trim(), 'info');
+toast('🔁 Filter: ' + this.textContent.trim(), 'info');
 loadAllData();
 if (isStatsFullscreen) buildStatsChart();
 };
@@ -2145,6 +2177,87 @@ document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMo
 document.getElementById("codeEcoleSelect")?.addEventListener('change', loadParentCodes);
 document.getElementById("explorerEcoleFilter")?.addEventListener('change', loadExplorer);
 document.getElementById("applyExplorerFilter")?.addEventListener('click', loadExplorer);
+
+// ============ REVEAL FUNCTIONALITY ============
+function setupRevealButton(btnId, counterId, totalId, membersArray) {
+const btn = document.getElementById(btnId);
+const counter = document.getElementById(counterId);
+const totalEl = document.getElementById(totalId);
+let timeout = null;
+let active = false;
+
+btn.addEventListener('click', async function() {
+// If already active, just hide
+if (active) {
+counter.style.display = 'none';
+active = false;
+if (timeout) { clearTimeout(timeout); timeout = null; }
+return;
+}
+
+// Ask for code
+const ok = await showCodeModal('Reveal members count', {});
+if (!ok) return;
+
+// Get total based on current filter
+const filterEcole = document.getElementById(btnId === 'revealBtnA' ? 'memberEcoleFilterA' :
+btnId === 'revealBtnB' ? 'memberEcoleFilterB' : 'memberEcoleFilterC')?.value || "all";
+let filtered = membersArray;
+if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
+const total = filtered.length;
+
+// Show counter
+totalEl.textContent = total;
+counter.style.display = 'inline-block';
+active = true;
+toast(`👥 Total: ${total} members revealed for 30 seconds`, 'info');
+
+// Auto-hide after 30s
+if (timeout) clearTimeout(timeout);
+timeout = setTimeout(() => {
+counter.style.display = 'none';
+active = false;
+timeout = null;
+}, 30000);
+});
+}
+
+setupRevealButton('revealBtnA', 'revealCounterA', 'revealTotalA', membersA);
+setupRevealButton('revealBtnB', 'revealCounterB', 'revealTotalB', membersB);
+setupRevealButton('revealBtnC', 'revealCounterC', 'revealTotalC', membersC);
+
+// Also refresh reveal counters when filters change
+['memberEcoleFilterA', 'memberSearchA'].forEach(id => {
+document.getElementById(id)?.addEventListener('change', () => {
+if (document.getElementById('revealCounterA').style.display !== 'none') {
+const filter = document.getElementById('memberEcoleFilterA').value;
+let filtered = membersA;
+if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
+document.getElementById('revealTotalA').textContent = filtered.length;
+}
+});
+});
+['memberEcoleFilterB', 'memberSearchB'].forEach(id => {
+document.getElementById(id)?.addEventListener('change', () => {
+if (document.getElementById('revealCounterB').style.display !== 'none') {
+const filter = document.getElementById('memberEcoleFilterB').value;
+let filtered = membersB;
+if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
+document.getElementById('revealTotalB').textContent = filtered.length;
+}
+});
+});
+['memberEcoleFilterC', 'memberSearchC'].forEach(id => {
+document.getElementById(id)?.addEventListener('change', () => {
+if (document.getElementById('revealCounterC').style.display !== 'none') {
+const filter = document.getElementById('memberEcoleFilterC').value;
+let filtered = membersC;
+if (filter !== "all") filtered = filtered.filter(m => m.ecoleId === filter);
+document.getElementById('revealTotalC').textContent = filtered.length;
+}
+});
+});
+
 document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
 setTimeout(() => {
@@ -2165,7 +2278,7 @@ enterStatsFullscreen();
 setTimeout(() => buildStatsChart(), 300);
 }, 500);
 });
-console.log('🔧 NeTubeX V2 - Tableau de Bord Entreprise');
+console.log('🔧 NeTubeX V2 - Enterprise Dashboard');
 </script>
 </body>
 </html>
