@@ -45,7 +45,6 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .kpi-card .value.blue{color:#5dade2}
 .kpi-card .value.green{color:var(--success)}
 .kpi-card .value.purple{color:#bb8fce}
-.kpi-card .value.red{color:var(--danger)}
 .tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
 .tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
 .tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
@@ -313,36 +312,6 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 .progress-percent{font-size:24px;font-weight:900;color:var(--accent)}
 .reveal-counter{display:inline-block;background:rgba(255,101,132,0.15);border:1px solid rgba(255,101,132,0.3);border-radius:8px;padding:4px 14px;font-size:13px;font-weight:700;color:#FF6584;margin-left:10px}
 .reveal-counter .total{font-size:18px;color:#fff}
-.rt-toggle-bar{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:6px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.rt-toggle-bar .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-.rt-toggle-bar .toggle-btn{background:rgba(52,211,153,0.15);border:1px solid rgba(52,211,153,0.3);padding:4px 16px;border-radius:20px;color:#34D399;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;gap:6px}
-.rt-toggle-bar .toggle-btn:hover{background:rgba(52,211,153,0.25)}
-.rt-toggle-bar .toggle-btn.inactive{background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.3);color:#F87171}
-.rt-toggle-bar .toggle-btn.inactive:hover{background:rgba(248,113,113,0.25)}
-.rt-toggle-bar .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-.rt-toggle-bar .status-dot.on{background:#34D399;box-shadow:0 0 8px rgba(52,211,153,0.4)}
-.rt-toggle-bar .status-dot.off{background:#F87171;box-shadow:0 0 8px rgba(248,113,113,0.4)}
-#rtNotificationContainer{position:fixed;top:80px;right:24px;z-index:9999999;display:flex;flex-direction:column;gap:10px;max-width:420px;width:100%;pointer-events:none;max-height:calc(100vh - 100px);overflow:hidden}
-.rt-toast{background:rgba(10,22,40,0.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(108,99,255,0.2);border-radius:16px;padding:14px 18px;box-shadow:0 16px 60px rgba(0,0,0,0.5);display:flex;align-items:center;gap:14px;pointer-events:auto;transform:translateY(-120px);opacity:0;transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease;min-width:300px;position:relative;border-left:3px solid #6C63FF}
-.rt-toast.rt-toast-enter{transform:translateY(0);opacity:1}
-.rt-toast.rt-toast-exit{transform:translateY(-120px);opacity:0;transition:transform 0.4s ease,opacity 0.3s ease}
-.rt-toast-icon{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,0.04);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center}
-.rt-toast-icon img{width:100%;height:100%;object-fit:cover}
-.rt-toast-icon .fallback{font-size:24px;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
-.rt-toast-content{flex:1;min-width:0}
-.rt-toast-title{font-size:12px;font-weight:700;color:#6C63FF;margin-bottom:1px;text-transform:uppercase;letter-spacing:0.3px}
-.rt-toast-message{font-size:15px;font-weight:600;color:#fff;line-height:1.3}
-.rt-toast-message .school-name{color:#5dade2;font-weight:700}
-.rt-toast-time-ago{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;display:flex;align-items:center;gap:4px}
-.rt-toast-time-ago .dot{width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;animation:pulse-dot 1.5s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.8)}}
-.rt-toast-time{font-size:11px;color:rgba(255,255,255,0.3);flex-shrink:0;padding-left:10px;border-left:1px solid rgba(255,255,255,0.06);font-variant-numeric:tabular-nums}
-body.light .rt-toast{background:rgba(255,255,255,0.97);border-color:rgba(108,99,255,0.15);box-shadow:0 16px 60px rgba(0,0,0,0.12)}
-body.light .rt-toast-message{color:#1A202C}
-body.light .rt-toast-message .school-name{color:#2563EB}
-body.light .rt-toast-time{color:rgba(0,0,0,0.3)}
-body.light .rt-toast-time-ago{color:rgba(0,0,0,0.35)}
-body.light .rt-toast{border-left:3px solid #6C63FF}
 .school-logo-large{width:150px !important;height:150px !important;border-radius:12px;object-fit:cover;background:rgba(255,255,255,0.03);border:1px solid var(--border-color)}
 .school-logo-wrapper{width:150px;height:150px;flex-shrink:0;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center}
 .school-logo-wrapper .fallback{font-size:60px}
@@ -371,6 +340,315 @@ body.light .rt-toast{border-left:3px solid #6C63FF}
 body.light .code-card .code-school-name{color:#1A202C}
 body.light .teacher-card .teacher-name{color:#1A202C}
 body.light .teacher-card .teacher-detail .value{color:#4A5568}
+
+/* ===== SCHOOL LIST - Logo Center Layout ===== */
+.school-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.school-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 80px;
+}
+.school-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(108,99,255,0.2);
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.school-item .school-left {
+    flex: 1;
+    min-width: 200px;
+}
+.school-item .school-left .school-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.school-item .school-left .school-id {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: monospace;
+    background: rgba(255,255,255,0.04);
+    padding: 1px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+.school-item .school-left .school-location {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.school-item .school-left .school-location span {
+    margin-right: 12px;
+}
+.school-item .school-left .school-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+.school-item .school-left .school-stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+.school-item .school-left .school-stats .stat {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,0.04);
+    padding: 1px 10px;
+    border-radius: 6px;
+}
+.school-item .school-left .school-stats .stat .num {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+.school-item .school-logo-center {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.04);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.school-item:hover .school-logo-center {
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+.school-item .school-logo-center img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.school-item .school-logo-center .fallback {
+    font-size: 24px;
+}
+.school-item .school-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+.school-item .school-right .btn {
+    font-size: 11px;
+    padding: 4px 12px;
+    white-space: nowrap;
+}
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 180px;
+}
+.filter-group input,
+.filter-group select {
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+    transition: var(--transition);
+    width: 100%;
+}
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: var(--accent);
+}
+.filter-group input::placeholder {
+    color: var(--text-muted);
+}
+.filter-icon {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+.card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.card-header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+#schoolCountBadge {
+    background: rgba(108,99,255,0.15);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 12px;
+    border-radius: 12px;
+}
+
+/* ===== Clear Cache Modal ===== */
+#clearCacheModal .modal-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 28px 24px 32px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+#clearCacheModal .modal-card .modal-icon {
+    text-align: center;
+    font-size: 48px;
+    display: block;
+    margin-bottom: 8px;
+}
+#clearCacheModal .modal-card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    text-align: center;
+}
+#clearCacheModal .modal-card h3::after {
+    display: none;
+}
+#clearCacheModal .modal-card .subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 0;
+}
+#clearCacheModal .modal-card .warning-box {
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.12);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+}
+#clearCacheModal .modal-card .warning-box .warning-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+#clearCacheModal .modal-card .warning-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+}
+#clearCacheModal .modal-card .warning-box ul li {
+    padding: 3px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#clearCacheModal .modal-card .warning-box ul li::before {
+    content: "•";
+    color: var(--danger);
+    font-weight: 700;
+}
+#clearCacheModal .modal-card .btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+#clearCacheModal .modal-card .btn-group .btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 10px 16px;
+}
+body.light #clearCacheModal .modal-card {
+    background: #FFFFFF;
+    border-color: #E2E8F0;
+}
+body.light #clearCacheModal .modal-card h3 {
+    color: #1A202C;
+}
+body.light #clearCacheModal .modal-card .warning-box {
+    background: rgba(248,113,113,0.04);
+    border-color: rgba(248,113,113,0.15);
+}
+body.light #clearCacheModal .modal-card .warning-box ul li {
+    color: #4A5568;
+}
+body.light #clearCacheModal .modal-card .subtitle {
+    color: #4A5568;
+}
+
+@media (max-width: 768px) {
+    .school-item {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+    .school-item .school-left {
+        flex: 1 1 100%;
+        min-width: unset;
+        order: 2;
+    }
+    .school-item .school-logo-center {
+        order: 1;
+        width: 48px;
+        height: 48px;
+    }
+    .school-item .school-right {
+        order: 3;
+        margin-left: 0;
+        flex-wrap: wrap;
+        width: 100%;
+        border-top: 1px solid var(--border-color);
+        padding-top: 10px;
+        justify-content: flex-start;
+    }
+    .filter-bar {
+        flex-direction: column;
+    }
+    .filter-group {
+        width: 100%;
+        min-width: unset;
+    }
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .card-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    #clearCacheModal .modal-card {
+        margin: 16px;
+        padding: 24px 16px;
+    }
+    #clearCacheModal .modal-card .btn-group {
+        flex-direction: column;
+    }
+}
 </style>
 </head>
 <body>
@@ -384,20 +662,10 @@ body.light .teacher-card .teacher-detail .value{color:#4A5568}
 <button class="theme-toggle" id="themeToggle">🌙</button>
 </div>
 </div>
-<div class="rt-toggle-bar">
-<span class="label">🔔 Live Notifications</span>
-<button class="toggle-btn active" id="rtToggleBtn">
-<span class="status-dot on" id="rtStatusDot"></span>
-<span id="rtStatusText">ON</span>
-</button>
-<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">(real-time · no cache)</span>
-</div>
-<div id="rtNotificationContainer"></div>
 <div class="kpi-row">
 <div class="kpi-card"><div class="label">Schools</div><div class="value blue" id="hdrEcoles">0</div></div>
 <div class="kpi-card"><div class="label">Teachers</div><div class="value purple" id="hdrEnseignants">0</div></div>
 <div class="kpi-card"><div class="label">Sheets</div><div class="value green" id="hdrFiches">0</div></div>
-<div class="kpi-card"><div class="label">Students</div><div class="value red" id="hdrStudents">0</div></div>
 </div>
 <div id="bannerContainer"></div>
 <div class="tabs" id="tabContainer">
@@ -424,27 +692,65 @@ body.light .teacher-card .teacher-detail .value{color:#4A5568}
 </div>
 </div>
 </div>
-<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 School Management</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Add</button></div></div>
-<div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div id="tab1" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<div class="card-header-left">
+<span class="card-icon">🏫</span>
+<span>School Management</span>
+<span class="badge badge-primary" id="schoolCountBadge">0</span>
+</div>
+<div class="card-header-actions">
+<button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳ Refresh</button>
+<button class="btn btn-add btn-sm" id="showAddSchool">+ Add School</button>
+</div>
+</div>
+<div id="addSchoolForm" class="card-body" style="display:none; border-bottom:1px solid var(--border-color); background:rgba(108,99,255,0.02);">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+<h3 style="font-size:16px; font-weight:700; color:var(--text-primary);">➕ New School</h3>
+<button class="btn btn-outline btn-sm" id="cancelSchoolBtn">✕ Close</button>
+</div>
 <div class="form-grid">
-<div class="form-group"><label>School Name</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
-<div class="form-group"><label>ID</label><input type="text" id="schoolId" placeholder="auto-generated" readonly style="background:rgba(255,255,255,0.02);color:var(--accent);font-family:monospace;"></div>
+<div class="form-group"><label>School Name *</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
+<div class="form-group"><label>ID (auto-generated)</label><input type="text" id="schoolId" readonly style="background:rgba(255,255,255,0.02); color:var(--accent); font-family:monospace; font-weight:600;"></div>
 <div class="form-group"><label>Province</label><input type="text" id="schoolProvince" placeholder="Ex: Kinshasa"></div>
 <div class="form-group"><label>City</label><input type="text" id="schoolCity" placeholder="Ex: Gombe"></div>
 <div class="form-group"><label>Phone</label><input type="text" id="schoolPhone" placeholder="Ex: +2438..."></div>
 <div class="form-group"><label>Director</label><input type="text" id="schoolDirector" placeholder="Director name"></div>
-<div class="form-group"><label>Address</label><input type="text" id="schoolAddress" placeholder="Full address"></div>
+<div class="form-group" style="grid-column:1/-1;"><label>Address</label><input type="text" id="schoolAddress" placeholder="Full address"></div>
 </div>
-<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveSchoolBtn">💾 Create</button><button class="btn btn-outline" id="cancelSchoolBtn">Cancel</button></div>
+<div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end;">
+<button class="btn btn-outline" id="cancelSchoolBtn2">Cancel</button>
+<button class="btn btn-success" id="saveSchoolBtn">💾 Create School</button>
 </div>
-<div class="card-body">
-<div class="filter-row">
-<label>🔍</label><input type="text" id="ecoleSearch" placeholder="Search..." style="flex:1;min-width:140px;">
-<label>🏷️</label><select id="ecoleStatutFilter"><option value="all">All</option><option value="actif">✅ Active</option><option value="inactif">⛔ Inactive</option><option value="masque">👻 Hidden</option></select>
 </div>
-<div class="school-grid" id="ecolesContainer"><div class="empty-state">Loading...</div></div>
+<div class="card-body" style="padding-bottom:0; background:rgba(255,255,255,0.01);">
+<div class="filter-bar">
+<div class="filter-group">
+<span class="filter-icon">🔍</span>
+<input type="text" id="ecoleSearch" placeholder="Search school...">
 </div>
-</div></div>
+<div class="filter-group">
+<span class="filter-icon">🏷️</span>
+<select id="ecoleStatutFilter">
+<option value="all">All Schools</option>
+<option value="actif">✅ Active</option>
+<option value="inactif">⛔ Inactive</option>
+<option value="masque">👻 Hidden</option>
+</select>
+</div>
+<div style="margin-left:auto; font-size:12px; color:var(--text-muted);">
+<span id="filteredCount">0</span> schools
+</div>
+</div>
+</div>
+<div class="card-body" style="padding-top:12px;">
+<div class="school-list" id="ecolesContainer">
+<div class="empty-state">Loading schools...</div>
+</div>
+</div>
+</div>
+</div>
 <div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 ACTIVE MEMBERS A (Accounting)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button><button class="btn btn-reveal btn-sm" id="revealBtnA">🔓 REVEAL</button><span id="revealCounterA" class="reveal-counter" style="display:none;">👥 Total: <span class="total" id="revealTotalA">0</span></span></div></div>
 <div class="card-body">
 <div class="filter-row">
@@ -551,6 +857,25 @@ body.light .teacher-card .teacher-detail .value{color:#4A5568}
 <div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Confirmation</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
 <div class="modal-buttons"><button class="btn" id="confirmYes">YES</button><button class="btn btn-outline" id="confirmNo">NO</button></div>
 </div></div>
+<div class="modal-overlay" id="clearCacheModal">
+<div class="modal-card">
+<span class="modal-icon">🧹</span>
+<h3>Clear Cache</h3>
+<p class="subtitle">This action will clear all cached data</p>
+<div class="warning-box">
+<div class="warning-title">⚠️ What will be cleared?</div>
+<ul>
+<li>Toast notifications cache</li>
+<li>Session storage data</li>
+<li>Temporary browser data</li>
+</ul>
+</div>
+<div class="btn-group">
+<button class="btn btn-outline" id="clearCacheCancel">Cancel</button>
+<button class="btn btn-danger" id="clearCacheConfirm">🧹 Clear Cache</button>
+</div>
+</div>
+</div>
 <div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
 <div class="toast-container" id="toastContainer"></div>
 <script type="module">
@@ -583,10 +908,6 @@ let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
 let revealTimeoutA = null, revealTimeoutB = null, revealTimeoutC = null;
 let revealActiveA = false, revealActiveB = false, revealActiveC = false;
-let notificationsActive = true;
-let rtQueue = [];
-let rtProcessing = false;
-let rtUnsubscribes = [];
 let lastToastTimestamp = 0;
 
 function toast(msg, type) {
@@ -671,145 +992,6 @@ function getCategoryLabel(cat) {
 const map = { 'securite': '🔐 Security', 'enseignant': '👨‍🏫 Teacher', 'fiche': '📄 Sheet', 'ecole': '🏫 School' };
 return map[cat] || cat || 'General';
 }
-
-function isNewNotification(ecoleId, eleveNom, timestamp) {
-const now = Date.now();
-if (now - lastToastTimestamp < 2000) return false;
-lastToastTimestamp = now;
-return true;
-}
-
-function getTimeAgo(timestamp) {
-const now = Date.now();
-const diff = now - timestamp;
-if (diff < 60000) return 'just now';
-if (diff < 120000) return '1 minute ago';
-if (diff < 3600000) return Math.floor(diff / 60000) + ' minutes ago';
-if (diff < 7200000) return '1 hour ago';
-if (diff < 86400000) return Math.floor(diff / 3600000) + ' hours ago';
-return Math.floor(diff / 86400000) + ' days ago';
-}
-
-function playNotificationSound() {
-try {
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const oscillator = audioCtx.createOscillator();
-const gainNode = audioCtx.createGain();
-oscillator.connect(gainNode);
-gainNode.connect(audioCtx.destination);
-oscillator.frequency.value = 880;
-oscillator.type = 'sine';
-gainNode.gain.value = 0.1;
-oscillator.start();
-oscillator.stop(audioCtx.currentTime + 0.12);
-setTimeout(() => oscillator.disconnect(), 300);
-} catch(e) {}
-}
-
-function showRealTimeNotification(ecoleNom, ecoleId, logoUrl, timeAgo, eleveNom, timestamp) {
-if (!isNewNotification(ecoleId, eleveNom, timestamp)) return;
-if (!notificationsActive) return;
-rtQueue.push({ ecoleNom, ecoleId, logoUrl, timeAgo, eleveNom, timestamp });
-processQueue();
-}
-
-function processQueue() {
-if (rtProcessing || rtQueue.length === 0) return;
-if (!notificationsActive) { rtQueue = []; return; }
-rtProcessing = true;
-const data = rtQueue.shift();
-const { ecoleNom, logoUrl, timeAgo } = data;
-const container = document.getElementById('rtNotificationContainer');
-if (!container) { rtProcessing = false; return; }
-const el = document.createElement('div');
-el.className = 'rt-toast';
-el.innerHTML = `
-<div class="rt-toast-icon">
-${logoUrl ? `<img src="${escapeHtml(logoUrl)}" alt="${escapeHtml(ecoleNom)}" />` : `<span class="fallback">🏫</span>`}
-</div>
-<div class="rt-toast-content">
-<div class="rt-toast-title">📝 New enrollment</div>
-<div class="rt-toast-message">School <span class="school-name">${escapeHtml(ecoleNom)}</span> just enrolled a new student</div>
-<div class="rt-toast-time-ago"><span class="dot"></span>${escapeHtml(timeAgo)}</div>
-</div>
-<div class="rt-toast-time">${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
-`;
-container.appendChild(el);
-requestAnimationFrame(() => { el.classList.add('rt-toast-enter'); });
-if (notificationsActive) playNotificationSound();
-setTimeout(() => {
-if (el.parentNode) {
-el.classList.remove('rt-toast-enter');
-el.classList.add('rt-toast-exit');
-setTimeout(() => {
-if (el.parentNode) el.remove();
-rtProcessing = false;
-if (rtQueue.length > 0) setTimeout(processQueue, 300);
-}, 400);
-} else { rtProcessing = false; }
-}, 5000);
-}
-
-function setupRealtimeListeners() {
-rtUnsubscribes.forEach(unsub => { try { unsub(); } catch(e) {} });
-rtUnsubscribes = [];
-if (!notificationsActive) return;
-allSchools.forEach(school => {
-try {
-const q = query(collection(db, "ecoles", school.id, SC.COMPTA_ELEVES), orderBy("dateCreation", "desc"), limit(1));
-const unsubscribe = onSnapshot(q, (snapshot) => {
-if (!notificationsActive) return;
-snapshot.docChanges().forEach(change => {
-if (change.type === 'added') {
-const data = change.doc.data();
-if (data._type === "compta_eleve" && data.nom && !data.abandon) {
-const timestamp = data.dateCreation ? new Date(data.dateCreation).getTime() : Date.now();
-const timeAgo = getTimeAgo(timestamp);
-const logoUrl = school.logoUrl || '';
-const eleveNom = data.nom + ' ' + (data.prenom || '');
-showRealTimeNotification(school.nom || school.id, school.id, logoUrl, timeAgo, eleveNom, timestamp);
-}
-}
-});
-}, () => {});
-rtUnsubscribes.push(unsubscribe);
-} catch(e) {}
-});
-}
-
-document.getElementById('rtToggleBtn')?.addEventListener('click', function() {
-notificationsActive = !notificationsActive;
-const dot = document.getElementById('rtStatusDot');
-const text = document.getElementById('rtStatusText');
-if (notificationsActive) {
-this.classList.remove('inactive');
-this.classList.add('active');
-dot.className = 'status-dot on';
-text.textContent = 'ON';
-toast('🔔 Notifications enabled', 'success');
-setupRealtimeListeners();
-} else {
-this.classList.remove('active');
-this.classList.add('inactive');
-dot.className = 'status-dot off';
-text.textContent = 'OFF';
-toast('🔕 Notifications disabled', 'info');
-rtUnsubscribes.forEach(unsub => { try { unsub(); } catch(e) {} });
-rtUnsubscribes = [];
-rtQueue = [];
-rtProcessing = false;
-document.getElementById('rtNotificationContainer').innerHTML = '';
-}
-});
-
-document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
-if (!confirm('🧹 Clear all cache?\n\nThis will clear:\n- Toast cache (notifications)\n- Session storage\n\nData from Firebase will reload automatically.')) return;
-const keys = Object.keys(sessionStorage);
-keys.forEach(key => { if (key.startsWith('rt_toast_')) sessionStorage.removeItem(key); });
-lastToastTimestamp = 0;
-toast('🧹 Cache cleared successfully!', 'success');
-loadAllData();
-});
 
 async function loadAllData() {
 try {
@@ -938,7 +1120,6 @@ loadParentCodes();
 loadWhiteMonths();
 loadExplorer();
 buildStatsChart();
-setupRealtimeListeners();
 } catch (e) {}
 }
 
@@ -965,7 +1146,6 @@ function updateCounters() {
 document.getElementById("hdrEcoles").textContent = allSchools.length;
 document.getElementById("hdrEnseignants").textContent = allTeachers.length;
 document.getElementById("hdrFiches").textContent = allSheets.length;
-document.getElementById("hdrStudents").textContent = allMembers.length;
 }
 
 function buildStatsChart() {
@@ -998,45 +1178,49 @@ const container = document.getElementById("ecolesContainer");
 if (!container) return;
 const search = document.getElementById("ecoleSearch")?.value?.toLowerCase() || "";
 const statutFiltre = document.getElementById("ecoleStatutFilter")?.value || "all";
+document.getElementById("schoolCountBadge").textContent = allSchools.length;
 let schools = allSchools;
 if (search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search));
 if (statutFiltre === 'actif') schools = schools.filter(s => s.actif !== false && s.masque !== true);
 else if (statutFiltre === 'inactif') schools = schools.filter(s => s.actif === false);
 else if (statutFiltre === 'masque') schools = schools.filter(s => s.masque === true);
-if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 No schools found</div>'; return; }
+document.getElementById("filteredCount").textContent = schools.length;
+if (schools.length === 0) {
+container.innerHTML = `<div class="empty-state" style="grid-column:1/-1; padding:60px 20px;">
+<span style="font-size:48px; display:block; margin-bottom:12px;">🏫</span>
+<div style="font-size:16px; font-weight:600; color:var(--text-secondary);">No schools found</div>
+<div style="font-size:13px; color:var(--text-muted); margin-top:4px;">${search ? 'Try adjusting your search filters' : 'Click "Add School" to create one'}</div>
+</div>`;
+return;
+}
 let html = '';
 for (const s of schools) {
 const estMasquee = s.masque === true;
 const estActive = s.actif !== false;
 const inscriptionActive = s.inscriptionActive === true;
+const teacherCount = allTeachers.filter(t => t.ecoleId === s.id).length;
+const sheetCount = allSheets.filter(f => f.ecoleId === s.id).length;
+const alertCount = allAlertes.filter(a => a.ecoleId === s.id).length;
 html += `
-<div class="school-card" data-school-id="${s.id}">
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-<div style="display:flex;align-items:center;gap:16px;">
-<div class="school-logo-wrapper">
-${s.logoUrl ? `<img src="${escapeHtml(s.logoUrl)}" alt="${escapeHtml(s.nom)}" class="school-logo-large" />` : `<span class="fallback">🏫</span>`}
-</div>
-<div>
-<span class="name">${escapeHtml(s.nom)} <span class="id">🆔 ${escapeHtml(s.id)}</span></span>
-<div style="font-size:12px;color:var(--text-muted);margin-top:2px;">📍 ${escapeHtml(s.province || '-')}, ${escapeHtml(s.ville || '-')}</div>
-</div>
-</div>
-<div>
+<div class="school-item" data-school-id="${s.id}">
+<div class="school-left">
+<div class="school-name">${escapeHtml(s.nom)} <span class="school-id">🆔 ${escapeHtml(s.id)}</span></div>
+<div class="school-location"><span>📍 ${escapeHtml(s.province || '-')}</span><span>🏙️ ${escapeHtml(s.ville || '-')}</span></div>
+<div class="school-badges">
 ${estMasquee ? '<span class="badge badge-masque">👻 HIDDEN</span>' : ''}
 ${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>'}
 ${inscriptionActive ? '<span class="badge badge-success">📝 Registration ON</span>' : '<span class="badge badge-warning">📝 Registration OFF</span>'}
 </div>
+<div class="school-stats">
+<span class="stat">👨‍🏫 <span class="num">${teacherCount}</span></span>
+<span class="stat">📄 <span class="num">${sheetCount}</span></span>
+${alertCount > 0 ? `<span class="stat">⚠️ <span class="num">${alertCount}</span></span>` : ''}
 </div>
-<div class="info">
-<span>👨‍💼 ${escapeHtml(s.directeur || '-')}</span>
-<span>📞 ${escapeHtml(s.telephone || '-')}</span>
 </div>
-<div class="badges">
-<span class="badge badge-purple">👨‍🏫 ${allTeachers.filter(t => t.ecoleId === s.id).length}</span>
-<span class="badge badge-primary">📄 ${allSheets.filter(f => f.ecoleId === s.id).length}</span>
-${allAlertes.filter(a => a.ecoleId === s.id).length > 0 ? '<span class="badge badge-warning">⚠️ ' + allAlertes.filter(a => a.ecoleId === s.id).length + '</span>' : ''}
+<div class="school-logo-center">
+${s.logoUrl ? `<img src="${escapeHtml(s.logoUrl)}" alt="${escapeHtml(s.nom)}" />` : `<span class="fallback">🏫</span>`}
 </div>
-<div class="actions">
+<div class="school-right">
 <button class="btn btn-sm btn-action" data-school-id="${s.id}">⚡ Actions</button>
 <button class="btn btn-sm btn-excel" data-ecole="${s.id}" data-nom="${escapeHtml(s.nom)}">📊 Excel</button>
 <button class="btn btn-sm btn-csv" data-ecole="${s.id}" data-nom="${escapeHtml(s.nom)}">📄 CSV</button>
@@ -1517,6 +1701,7 @@ toast('✅ Export complete', 'success');
 
 document.getElementById("showAddSchool")?.addEventListener("click", function() { document.getElementById("addSchoolForm").style.display = "block"; });
 document.getElementById("cancelSchoolBtn")?.addEventListener("click", function() { document.getElementById("addSchoolForm").style.display = "none"; });
+document.getElementById("cancelSchoolBtn2")?.addEventListener("click", function() { document.getElementById("addSchoolForm").style.display = "none"; });
 document.getElementById("schoolName")?.addEventListener("input", function() {
 const val = this.value.trim().toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
 document.getElementById("schoolId").value = val || "auto-" + Date.now().toString().slice(-6);
@@ -1646,6 +1831,34 @@ timeout = setTimeout(() => { counter.style.display = 'none'; active = false; tim
 setupRevealButton('revealBtnA', 'revealCounterA', 'revealTotalA', membersA);
 setupRevealButton('revealBtnB', 'revealCounterB', 'revealTotalB', membersB);
 setupRevealButton('revealBtnC', 'revealCounterC', 'revealTotalC', membersC);
+
+// Clear Cache - Professional Modal
+document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
+document.getElementById('clearCacheModal').classList.add('show');
+});
+
+document.getElementById('clearCacheCancel')?.addEventListener('click', function() {
+document.getElementById('clearCacheModal').classList.remove('show');
+});
+
+document.getElementById('clearCacheConfirm')?.addEventListener('click', function() {
+document.getElementById('clearCacheModal').classList.remove('show');
+const keys = Object.keys(sessionStorage);
+keys.forEach(key => { if (key.startsWith('rt_toast_')) sessionStorage.removeItem(key); });
+lastToastTimestamp = 0;
+toast('🧹 Cache cleared successfully!', 'success');
+loadAllData();
+});
+
+document.getElementById('clearCacheModal')?.addEventListener('click', function(e) {
+if (e.target === this) this.classList.remove('show');
+});
+
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape') {
+document.getElementById('clearCacheModal')?.classList.remove('show');
+}
+});
 
 document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
