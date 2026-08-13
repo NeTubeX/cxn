@@ -113,6 +113,8 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .badge-espace-nursery{background:rgba(52,211,153,0.15);color:var(--success)}
 .badge-masque{background:rgba(160,174,192,0.15);color:var(--text-muted)}
 .badge-compta{background:rgba(108,99,255,0.15);color:var(--accent)}
+.badge-excel-code{background:rgba(93,173,226,0.15);color:#5dade2}
+.badge-excel-id{background:rgba(255,255,255,0.05);color:var(--text-muted)}
 .empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:14px}
 .empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
@@ -139,30 +141,8 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .toast.success{border-left-color:var(--success)}
 @keyframes toastIn{from{transform:translateY(-80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 @keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
-.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.school-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:14px;transition:var(--transition)}
-.school-card:hover{background:rgba(255,255,255,0.04);transform:translateY(-1px)}
-.school-card .name{font-weight:700;font-size:15px;color:#fff}
-.school-card .id{font-size:11px;color:var(--text-muted);margin-left:6px}
-.school-card .info{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-top:4px}
-.school-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
-.school-card .actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-color);flex-wrap:wrap;align-items:center}
-.action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay 0.3s ease}
-.action-dropdown-overlay.show{display:flex}
-.action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);max-height:80vh;overflow-y:auto}
-.action-dropdown-box .close-btn{position:absolute;top:10px;right:14px;background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;transition:var(--transition)}
-.action-dropdown-box .close-btn:hover{color:#fff;transform:rotate(90deg)}
-.action-dropdown-box .title{font-size:14px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
-.action-dropdown-item{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:13px;font-weight:500;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
-.action-dropdown-item:hover{background:rgba(255,255,255,0.06);color:#fff}
-.action-dropdown-item .icon{font-size:16px;width:24px;text-align:center}
-.action-dropdown-item.danger{color:var(--danger)}
-.action-dropdown-item.danger:hover{background:rgba(248,113,113,0.12)}
-.action-dropdown-divider{height:1px;background:var(--border-color);margin:4px 8px}
-@keyframes slideUp{from{transform:translateY(30px) scale(0.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
 
-/* ===== STYLE EXCEL POUR MEMBRES ACTIFS ===== */
+/* ===== STYLE EXCEL ===== */
 .excel-table-wrapper {
   overflow-x: auto;
   border-radius: 8px;
@@ -197,91 +177,67 @@ body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bo
 .excel-table-wrapper tr:hover td {
   background: rgba(108,99,255,0.08);
 }
-.excel-table-wrapper .code-parent-cell {
+.excel-table-wrapper .code-cell {
   color: #5dade2;
   font-weight: 700;
   letter-spacing: 1px;
 }
-.excel-table-wrapper .unique-id-cell {
+.excel-table-wrapper .id-cell {
   color: var(--text-muted);
   font-size: 12px;
 }
-.excel-table-wrapper .badge-excel {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.badge-excel-code {
-  background: rgba(93,173,226,0.15);
-  color: #5dade2;
-}
-.badge-excel-id {
-  background: rgba(255,255,255,0.05);
-  color: var(--text-muted);
-}
-
-/* ===== STYLE ENSEIGNANTS ===== */
-.teacher-excel-table th {
-  background: #1a3a3a;
-  color: #fff;
-}
-.teacher-excel-table .gmail-cell {
+.excel-table-wrapper .gmail-cell {
   color: #34D399;
   font-size: 12px;
 }
-.teacher-excel-table .code-cell {
-  color: #bb8fce;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
 
-/* ===== PROGRESS BAR EXPLORATEUR ===== */
-.progress-container {
-  background: rgba(255,255,255,0.05);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 10px 0;
-  border: 1px solid var(--border-color);
-  text-align: center;
-}
-.progress-bar-bg {
-  width: 100%;
-  height: 8px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), #4A42D4, var(--accent-secondary));
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: 4px;
-  transition: width 0.5s ease;
-}
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-.progress-text {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-}
-.progress-sub {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-.progress-percent {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--accent);
-}
+.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.school-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:14px;transition:var(--transition)}
+.school-card:hover{background:rgba(255,255,255,0.04);transform:translateY(-1px)}
+.school-card .name{font-weight:700;font-size:15px;color:#fff}
+.school-card .id{font-size:11px;color:var(--text-muted);margin-left:6px}
+.school-card .info{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-top:4px}
+.school-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.school-card .actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-color);flex-wrap:wrap;align-items:center}
+.action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay 0.3s ease}
+.action-dropdown-overlay.show{display:flex}
+.action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);max-height:80vh;overflow-y:auto}
+.action-dropdown-box .close-btn{position:absolute;top:10px;right:14px;background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;transition:var(--transition)}
+.action-dropdown-box .close-btn:hover{color:#fff;transform:rotate(90deg)}
+.action-dropdown-box .title{font-size:14px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
+.action-dropdown-item{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:13px;font-weight:500;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
+.action-dropdown-item:hover{background:rgba(255,255,255,0.06);color:#fff}
+.action-dropdown-item .icon{font-size:16px;width:24px;text-align:center}
+.action-dropdown-item.danger{color:var(--danger)}
+.action-dropdown-item.danger:hover{background:rgba(248,113,113,0.12)}
+.action-dropdown-divider{height:1px;background:var(--border-color);margin:4px 8px}
+@keyframes slideUp{from{transform:translateY(30px) scale(0.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+
+.code-email-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.code-email-card .name{font-weight:700;font-size:14px;color:#fff}
+.code-email-card .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:6px}
+.code-email-card .item .lbl{font-size:9px;color:var(--text-muted);text-transform:uppercase;font-weight:600}
+.code-email-card .item .val{font-family:monospace;font-size:13px;font-weight:700}
+.code-email-card .item .val.dir{color:#bb8fce}
+.code-email-card .item .val.compta{color:var(--success)}
+.code-email-card .item .val.promo{color:#5dade2}
+.code-email-card .item .val.email{color:var(--accent);font-size:12px}
+
+/* Rapport simplifié */
+.rapport-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rapport-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:14px;text-align:center}
+.rapport-card .value{font-size:28px;font-weight:900}
+.rapport-card .label{font-size:11px;color:var(--text-muted);margin-top:4px;font-weight:600}
+
+/* Code parent search */
+.code-search-container{display:flex;gap:10px;margin-bottom:12px}
+.code-search-container input{flex:1;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;font-family:monospace;letter-spacing:2px;outline:none;transition:var(--transition)}
+.code-search-container input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.code-search-container input::placeholder{color:var(--text-muted);font-size:14px;letter-spacing:0}
+.code-result-item{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border-color);font-size:14px}
+.code-result-item .code{font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700}
+.code-result-item .nom{font-weight:600}
 
 body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
 body.light .topbar{background:#0A1628}
@@ -333,10 +289,14 @@ body.light .action-dropdown-item.danger{color:#DC2626}
 body.light .action-dropdown-item.danger:hover{background:rgba(220,38,38,0.08)}
 body.light .action-dropdown-box .close-btn{color:#A0AEC0}
 body.light .action-dropdown-box .close-btn:hover{color:#1A202C}
-body.light .progress-container{background:#F7FAFC;border-color:#E2E8F0}
-body.light .progress-text{color:#1A202C}
-body.light .progress-percent{color:#4F46E5}
-body.light .progress-bar-bg{background:#EDF2F7}
+body.light .rapport-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .rapport-card .value{color:#1A202C}
+body.light .code-email-card{background:#F7FAFC;border-color:#E2E8F0}
+body.light .code-email-card .name{color:#1A202C}
+body.light .code-email-card .item .lbl{color:#A0AEC0}
+body.light .code-result-item{border-bottom-color:#EDF2F7}
+body.light .code-search-container input{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .code-search-container input::placeholder{color:#A0AEC0}
 
 @media(max-width:768px){
 .topbar{padding:10px 16px}
@@ -358,21 +318,9 @@ body.light .progress-bar-bg{background:#EDF2F7}
 .filter-row select,.filter-row input{width:100%}
 .modal-card{padding:20px 16px 24px;margin:10px}
 .excel-table-wrapper th,.excel-table-wrapper td{padding:6px 10px;font-size:11px}
+.code-search-container{flex-direction:column}
+.rapport-grid{grid-template-columns:1fr 1fr}
 }
-
-#tab0{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;background:var(--bg-primary);padding:0;margin:0;display:none}
-#tab0.active{display:block}
-#tab0 .stats-fullscreen{width:100%;height:100%;display:flex;flex-direction:column;padding:20px 30px 30px 30px;position:relative}
-#tab0 .stats-header{display:flex;justify-content:space-between;align-items:center;padding:10px 0 20px 0;flex-shrink:0}
-#tab0 .stats-header h2{font-size:24px;font-weight:800;color:var(--accent)}
-#tab0 .stats-header .btn-back{background:rgba(255,255,255,0.06);border:1px solid var(--border-color);color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition)}
-#tab0 .stats-header .btn-back:hover{background:rgba(255,255,255,0.10)}
-#tab0 .stats-chart-wrapper{flex:1;min-height:0;position:relative}
-#tab0 .stats-chart-wrapper canvas{width:100% !important;height:100% !important;max-height:100%}
-body.light #tab0{background:#F4F6F9}
-body.light #tab0 .stats-header h2{color:#1A202C}
-body.light #tab0 .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
-body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </style>
 </head>
 <body>
@@ -399,33 +347,22 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 <div id="bannerContainer"></div>
 <div class="tabs" id="tabContainer">
-<button class="tab-btn active" data-tab="tab0">📊 STATS</button>
-<button class="tab-btn" data-tab="tab1">🏫 ÉCOLES</button>
-<button class="tab-btn" data-tab="tab2">👥 MEMBRES ACTIFS A</button>
-<button class="tab-btn" data-tab="tab3">👥 MEMBRES ACTIFS B</button>
-<button class="tab-btn" data-tab="tab4">👥 MEMBRES ACTIFS C</button>
+<button class="tab-btn active" data-tab="tab1">🏫 ÉCOLES</button>
+<button class="tab-btn" data-tab="tab2">👥 MEMBRES A</button>
+<button class="tab-btn" data-tab="tab3">👥 MEMBRES B</button>
+<button class="tab-btn" data-tab="tab4">👥 MEMBRES C</button>
 <button class="tab-btn" data-tab="tab5">👨‍🏫 ENSEIGNANTS</button>
 <button class="tab-btn" data-tab="tab6">📄 FICHES</button>
 <button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
 <button class="tab-btn" data-tab="tab8">⚠️ ALERTES</button>
 <button class="tab-btn" data-tab="tab9">📋 RAPPORT</button>
-<button class="tab-btn" data-tab="tab10">🔑 CODES PARENTS</button>
+<button class="tab-btn" data-tab="tab10">🔑 CODE PARENT</button>
 <button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
-<button class="tab-btn" data-tab="tab12">🔍 EXPLORATEUR</button>
-<button class="tab-btn" data-tab="tab13">📈 TENDANCE</button>
+<button class="tab-btn" data-tab="tab12">📈 TENDANCE</button>
 </div>
-<div id="tab0" class="tab-panel active">
-<div class="stats-fullscreen">
-<div class="stats-header">
-<h2>📊 Statistiques Générales</h2>
-<button class="btn-back" id="statsBackBtn">← Retour</button>
-</div>
-<div class="stats-chart-wrapper">
-<canvas id="statsChart"></canvas>
-</div>
-</div>
-</div>
-<div id="tab1" class="tab-panel"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
+
+<!-- ÉCOLES -->
+<div id="tab1" class="tab-panel active"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
 <div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
 <div class="form-group"><label>Nom de l'école</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
@@ -447,43 +384,40 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div></div>
 
-<!-- MEMBRES ACTIFS A - Style Excel -->
-<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS A (Compta)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
+<!-- MEMBRES A - Style Excel, pas de pagination -->
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS A</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
 <div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerA"><div class="empty-state">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationA" style="display:none;"><div class="pagination-info" id="membersPaginationInfoA">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
 </div>
 </div></div>
 
-<!-- MEMBRES ACTIFS B - Style Excel -->
-<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS B (Primaire)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
+<!-- MEMBRES B - Style Excel, pas de pagination -->
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS B</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
 <div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerB"><div class="empty-state">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationB" style="display:none;"><div class="pagination-info" id="membersPaginationInfoB">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
 </div>
 </div></div>
 
-<!-- MEMBRES ACTIFS C - Style Excel -->
-<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS C (Maternelle)</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
+<!-- MEMBRES C - Style Excel, pas de pagination -->
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBRES ACTIFS C</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
 <div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerC"><div class="empty-state">👥 Aucun membre trouvé</div></div>
-<div class="pagination-container" id="membersPaginationC" style="display:none;"><div class="pagination-info" id="membersPaginationInfoC">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
 </div>
 </div></div>
 
-<!-- ENSEIGNANTS - avec Gmail -->
+<!-- ENSEIGNANTS -->
 <div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
 <div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
@@ -497,12 +431,12 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <div class="filter-row">
 <label>🏫</label><select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
 <label>🔍</label><input type="text" id="teacherSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
-<label>📧</label><select id="teacherEmailFilter"><option value="all">Tous</option><option value="valid">Email valide</option><option value="invalid">Email invalide</option><option value="nocode">Sans code</option></select>
 </div>
 <div id="teachersContainer"></div>
 </div>
 </div></div>
 
+<!-- FICHES - UNIQUE ID de la fiche, UNIQUE ID du professeur, Nombre de fiches -->
 <div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
 <div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
 <div class="form-grid">
@@ -519,67 +453,68 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 <label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
 <label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
 </div>
-<div class="table-wrapper"><table><thead><tr><th>#</th><th>Matière</th><th>Classe</th><th>Option</th><th>Enseignant</th><th>École</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
+<div class="excel-table-wrapper">
+<table>
+<thead>
+<tr>
+<th>🆔 ID FICHE</th>
+<th>👨‍🏫 ID PROFESSEUR</th>
+<th>📊 NOMBRE DE FICHES</th>
+</tr>
+</thead>
+<tbody id="sheetsBody"></tbody>
+</table>
+</div>
 </div>
 </div></div>
+
+<!-- CODES & EMAILS - Nettoyé -->
 <div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
-<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn-danger-sm" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
+
+<!-- ALERTES -->
+<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn btn-sm btn-danger" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
 <div class="card-body">
 <div class="filter-row">
 <label>🏫</label><select id="alertesEcoleFilter"><option value="all">Toutes</option></select>
 <label>🔴</label><select id="alertesPriorityFilter"><option value="all">Toutes priorité</option><option value="critique">Critique</option><option value="important">Important</option><option value="mineure">Mineure</option></select>
 <label>📌</label><select id="alertesStatutFilter"><option value="all">Tous statuts</option><option value="nonresolu">Non résolu</option><option value="encours">En cours</option><option value="resolu">Résolu</option></select>
-<label>🏷️</label><select id="alertesCategorieFilter"><option value="all">Toutes catégories</option><option value="securite">🔐 Sécurité</option><option value="enseignant">👨‍🏫 Enseignant</option><option value="fiche">📄 Fiche</option><option value="ecole">🏫 École</option></select>
-<label>📅</label><input type="date" id="alertesDateDebut" style="width:130px;">
-<label>→</label><input type="date" id="alertesDateFin" style="width:130px;">
 </div>
 <div id="alertesContainer"></div>
 </div>
 </div></div>
-<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Rapport & Suivi</div>
+
+<!-- RAPPORT - Nettoyé -->
+<div id="tab9" class="tab-panel"><div class="card"><div class="card-header">📋 Rapport</div>
 <div class="card-body">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📅 Aujourd'hui</div>
-<div id="aujourdhuiContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📈 Tendances</div>
-<div id="tendancesContainer"></div>
-</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">🔑 Codes en double</div>
-<div id="doublonsContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📄 Fiches sans enseignant</div>
-<div id="fichesSansEnseignantContainer"></div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">⏱️ Taux de résolution</div>
-<div id="tempsResolutionContainer"></div>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid var(--border-color);">
-<div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">📊 Historique des backups</div>
-<div id="historiqueBackupsContainer"></div>
+<div class="rapport-grid">
+<div class="rapport-card"><div class="value" id="rptEcoles">0</div><div class="label">🏫 Écoles</div></div>
+<div class="rapport-card"><div class="value" id="rptEnseignants">0</div><div class="label">👨‍🏫 Enseignants</div></div>
+<div class="rapport-card"><div class="value" id="rptFiches">0</div><div class="label">📄 Fiches</div></div>
+<div class="rapport-card"><div class="value" id="rptAlertes">0</div><div class="label">⚠️ Alertes</div></div>
+<div class="rapport-card"><div class="value" id="rptCritiques">0</div><div class="label">🔴 Alertes critiques</div></div>
+<div class="rapport-card"><div class="value" id="rptTaux">0%</div><div class="label">⏱️ Taux résolution</div></div>
 </div>
 </div>
 </div></div>
-<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODES PARENTS</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+
+<!-- CODE PARENT - Supprimé le filtre école, barre de recherche par code -->
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODE PARENT</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>École :</label><select id="codeEcoleSelect"><option value="">-- Sélectionner --</option></select></div>
-<div><input type="text" id="codeSearchInput" placeholder="Tapez les premières lettres du nom..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
-<div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Sélectionnez une école</div></div>
+<div class="code-search-container">
+<input type="text" id="codeSearchInput" placeholder="🔍 Saisissez le code parent (ex: 123456)..." style="font-family:monospace;font-size:18px;letter-spacing:3px;">
+</div>
+<div id="codeResultsContainer" style="max-height:400px;overflow-y:auto;background:rgba(0,0,0,0.05);border-radius:8px;padding:8px;">
+<div class="empty-state">🔑 Saisissez un code parent pour rechercher un élève</div>
+</div>
 </div>
 </div></div>
+
+<!-- MOIS BLANCS -->
 <div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row"><label>École :</label><select id="wmEcoleFilter"><option value="all">Toutes</option></select></div>
@@ -587,15 +522,8 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div></div>
 
-<!-- EXPLORATEUR AVEC PROGRESS BAR -->
-<div id="tab12" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button><button class="btn btn-excel btn-sm" id="exportExplorerExcel">📊 Excel</button></div></div>
-<div class="card-body">
-<div class="filter-row"><label>École :</label><select id="explorerEcoleFilter"><option value="all">Toutes</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Appliquer</button></div>
-<div id="explorerContent"><div class="empty-state">Chargement...</div></div>
-</div>
-</div></div>
-
-<div id="tab13" class="tab-panel">
+<!-- TENDANCE - Corrigé -->
+<div id="tab12" class="tab-panel">
 <div class="card">
 <div class="card-header"><div>📈 TENDANCE</div></div>
 <div class="card-body">
@@ -634,6 +562,7 @@ body.light #tab0 .stats-header .btn-back:hover{background:#F7FAFC}
 </div>
 </div>
 </div>
+
 <div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Veuillez entrer le code d'accès</p>
 <div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
 <div id="codeError" style="color:var(--danger);font-size:13px;text-align:center;min-height:20px;"></div>
@@ -671,12 +600,6 @@ const SC = { PROFESSEURS: "professeurs", FICHES: "fiches", COMPTA_ELEVES: "compt
 let allSchools = [], allMembers = [], allTeachers = [], allSheets = [], allCodes = [], allAlertes = [];
 let membersA = [], membersB = [], membersC = [];
 let espaceActif = 'all';
-let statsChartInstance = null;
-let isStatsFullscreen = false;
-let currentContextSchoolId = null;
-let backupHistory = [];
-let membersPageA = 1, membersPageB = 1, membersPageC = 1;
-const membersPerPage = 20;
 let dayChartInstance = null, weekChartInstance = null, monthChartInstance = null;
 
 function toast(msg, type = "success") {
@@ -877,7 +800,6 @@ allAlertes.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, message:
 }
 updateSelectors();
 updateCounters();
-updateDashboard();
 updateBanner();
 loadSchools();
 loadMembersA();
@@ -890,7 +812,6 @@ loadAlertes();
 loadRapport();
 loadParentCodes();
 loadWhiteMonths();
-loadExplorer();
 buildTendanceCharts();
 } catch (e) {
 console.error("Erreur chargement:", e);
@@ -900,8 +821,7 @@ toast("Erreur de chargement: " + e.message, "error");
 
 function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
-'wmEcoleFilter', 'codeEcoleSelect', 'explorerEcoleFilter',
-'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
+'wmEcoleFilter', 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
 'teacherSchoolSelect', 'sheetSchoolSelect'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
@@ -924,86 +844,17 @@ document.getElementById("hdrFiches").textContent = allSheets.length;
 document.getElementById("hdrAlertes").textContent = allAlertes.length;
 }
 
-function updateDashboard() {
-const filter = espaceActif;
-let members = allMembers;
-if (filter !== 'all') members = members.filter(m => m.section === filter);
-}
-
 function updateBanner() {
 const container = document.getElementById('bannerContainer');
 const critiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu');
 if (critiques.length === 0) { container.innerHTML = ''; return; }
 container.innerHTML = critiques.map(a => `
-<div class="banner-alerte">
+<div style="background:rgba(248,113,113,0.10);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:8px 14px;margin:8px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
 <span style="font-size:18px;">🔴</span>
-<span class="msg">${escapeHtml(a.message || 'Alerte critique')}</span>
-<span class="date">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
+<span style="font-size:13px;font-weight:600;color:var(--danger);flex:1;">${escapeHtml(a.message || 'Alerte critique')}</span>
+<span style="font-size:11px;color:var(--danger);">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
 </div>
 `).join('');
-}
-
-function buildStatsChart() {
-const filter = espaceActif;
-let members = allMembers;
-if (filter !== 'all') members = members.filter(m => m.section === filter);
-const total = members.length;
-const filles = members.filter(m => m.sexe === 'F').length;
-const garcons = total - filles;
-const sections = { secondary: 0, primary: 0, nursery: 0 };
-members.forEach(m => { if (sections[m.section] !== undefined) sections[m.section]++; });
-const ecoleCounts = {};
-members.forEach(m => { ecoleCounts[m.ecoleId] = (ecoleCounts[m.ecoleId] || 0) + 1; });
-const topEcoles = Object.entries(ecoleCounts).sort((a,b) => b[1] - a[1]).slice(0,5);
-const ecoleLabels = topEcoles.map(([id]) => {
-const s = allSchools.find(sch => sch.id === id);
-return s ? s.nom.substring(0, 15) : id.substring(0, 10);
-});
-const ecoleData = topEcoles.map(([,count]) => count);
-const ctx = document.getElementById('statsChart').getContext('2d');
-if (statsChartInstance) statsChartInstance.destroy();
-statsChartInstance = new Chart(ctx, {
-type: 'bar',
-data: {
-labels: ['Répartition', 'Genre', ...ecoleLabels],
-datasets: [
-{ label: 'Secondaire', data: [sections.secondary, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(187,143,206,0.8)', borderColor: '#bb8fce', borderWidth: 1, borderRadius: 4 },
-{ label: 'Primaire', data: [sections.primary, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(93,173,226,0.8)', borderColor: '#5dade2', borderWidth: 1, borderRadius: 4 },
-{ label: 'Maternelle', data: [sections.nursery, 0, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
-{ label: 'Filles', data: [0, filles, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(248,113,113,0.7)', borderColor: '#F87171', borderWidth: 1, borderRadius: 4 },
-{ label: 'Garçons', data: [0, garcons, ...Array(ecoleLabels.length).fill(0)], backgroundColor: 'rgba(52,73,94,0.7)', borderColor: '#34495e', borderWidth: 1, borderRadius: 4 },
-...topEcoles.map(([id, count], i) => ({
-label: ecoleLabels[i] || 'École',
-data: [...Array(2).fill(0), ...Array(i).fill(0), count, ...Array(ecoleLabels.length - i - 1).fill(0)],
-backgroundColor: `hsla(${i * 60 + 200}, 70%, 60%, 0.7)`,
-borderColor: `hsl(${i * 60 + 200}, 70%, 50%)`,
-borderWidth: 1, borderRadius: 4, barPercentage: 0.8
-}))
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-plugins: {
-legend: {
-position: 'top',
-labels: { color: 'rgba(255,255,255,0.7)', font: { size: 11, weight: '600' }, boxWidth: 15, padding: 10, usePointStyle: true, pointStyle: 'circle' }
-},
-title: {
-display: true,
-text: `📊 Aperçu - ${filter === 'all' ? 'TOUTES LES SECTIONS' : filter.toUpperCase()}`,
-color: 'rgba(255,255,255,0.8)',
-font: { size: 18, weight: '800' },
-padding: { bottom: 15 }
-}
-},
-scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, beginAtZero: true }
-},
-interaction: { mode: 'index', intersect: false }
-}
-});
 }
 
 function buildTendanceCharts() {
@@ -1032,73 +883,71 @@ return d.getTime() === startDate.getTime();
 }).length;
 }
 
-const elevesAujourdhui = allMembers.filter(m => {
+// Comptage des membres par date d'inscription
+const todayCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d.getTime() === today.getTime();
-});
-const elevesHier = allMembers.filter(m => {
+}).length;
+
+const yesterdayCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d.getTime() === yesterday.getTime();
-});
-const elevesSemaine = allMembers.filter(m => {
+}).length;
+
+const weekCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d >= weekStart;
-});
-const elevesSemaineDerniere = allMembers.filter(m => {
+}).length;
+
+const lastWeekCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d >= lastWeekStart && d < weekStart;
-});
-const elevesMois = allMembers.filter(m => {
+}).length;
+
+const monthCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d >= monthStart;
-});
-const elevesMoisDernier = allMembers.filter(m => {
+}).length;
+
+const lastMonthCount = allMembers.filter(m => {
 if (!m.dateInscription) return false;
 const d = new Date(m.dateInscription);
 d.setHours(0, 0, 0, 0);
 return d >= lastMonthStart && d < monthStart;
-});
+}).length;
 
-const todayValues = [
-elevesAujourdhui.length,
-countByDate(allSheets, 'dateCreation', today),
-countByDate(allTeachers, 'dateCreation', today)
-];
-const yesterdayValues = [
-elevesHier.length,
-countByDate(allSheets, 'dateCreation', yesterday),
-countByDate(allTeachers, 'dateCreation', yesterday)
-];
-const weekValues = [
-elevesSemaine.length,
-countByDate(allSheets, 'dateCreation', weekStart, today),
-countByDate(allTeachers, 'dateCreation', weekStart, today)
-];
-const lastWeekValues = [
-elevesSemaineDerniere.length,
-countByDate(allSheets, 'dateCreation', lastWeekStart, weekStart),
-countByDate(allTeachers, 'dateCreation', lastWeekStart, weekStart)
-];
-const monthValues = [
-elevesMois.length,
-countByDate(allSheets, 'dateCreation', monthStart, today),
-countByDate(allTeachers, 'dateCreation', monthStart, today)
-];
-const lastMonthValues = [
-elevesMoisDernier.length,
-countByDate(allSheets, 'dateCreation', lastMonthStart, monthStart),
-countByDate(allTeachers, 'dateCreation', lastMonthStart, monthStart)
-];
+// Fiches par date
+const fichesToday = countByDate(allSheets, 'dateCreation', today);
+const fichesYesterday = countByDate(allSheets, 'dateCreation', yesterday);
+const fichesWeek = countByDate(allSheets, 'dateCreation', weekStart, today);
+const fichesLastWeek = countByDate(allSheets, 'dateCreation', lastWeekStart, weekStart);
+const fichesMonth = countByDate(allSheets, 'dateCreation', monthStart, today);
+const fichesLastMonth = countByDate(allSheets, 'dateCreation', lastMonthStart, monthStart);
+
+// Enseignants par date
+const teachersToday = countByDate(allTeachers, 'dateCreation', today);
+const teachersYesterday = countByDate(allTeachers, 'dateCreation', yesterday);
+const teachersWeek = countByDate(allTeachers, 'dateCreation', weekStart, today);
+const teachersLastWeek = countByDate(allTeachers, 'dateCreation', lastWeekStart, weekStart);
+const teachersMonth = countByDate(allTeachers, 'dateCreation', monthStart, today);
+const teachersLastMonth = countByDate(allTeachers, 'dateCreation', lastMonthStart, monthStart);
+
+const todayValues = [todayCount, fichesToday, teachersToday];
+const yesterdayValues = [yesterdayCount, fichesYesterday, teachersYesterday];
+const weekValues = [weekCount, fichesWeek, teachersWeek];
+const lastWeekValues = [lastWeekCount, fichesLastWeek, teachersLastWeek];
+const monthValues = [monthCount, fichesMonth, teachersMonth];
+const lastMonthValues = [lastMonthCount, fichesLastMonth, teachersLastMonth];
 
 const labels = ['Élèves', 'Fiches', 'Enseignants'];
 
@@ -1257,7 +1106,6 @@ let html = '';
 for (const s of schools) {
 const estMasquee = s.masque === true;
 const estActive = s.actif !== false;
-const inscriptionActive = s.inscriptionActive === true;
 html += `
 <div class="school-card" data-school-id="${s.id}">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
@@ -1271,7 +1119,6 @@ html += `
 <div>
 ${estMasquee ? '<span class="badge badge-masque">👻 MASQUÉE</span>' : ''}
 ${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>'}
-${inscriptionActive ? '<span class="badge badge-success">📝 Inscription ON</span>' : '<span class="badge badge-warning">📝 Inscription OFF</span>'}
 </div>
 </div>
 <div class="info">
@@ -1294,19 +1141,13 @@ const schoolId = this.dataset.schoolId;
 const school = allSchools.find(s => s.id === schoolId);
 if (!school) return;
 const overlay = document.getElementById('actionDropdownOverlay');
-const box = document.getElementById('actionDropdownBox');
 const items = document.getElementById('actionDropdownItems');
 const estMasquee = school.masque === true;
-const estActive = school.actif !== false;
-const inscriptionActive = school.inscriptionActive === true;
 items.innerHTML = `
 <button class="action-dropdown-item" data-action="voir" data-school="${schoolId}"><span class="icon">👁️</span> Voir l'école</button>
 <button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer le logo</button>
 <div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item" data-action="inscription" data-school="${schoolId}"><span class="icon">📝</span> ${inscriptionActive ? '🔒 Désactiver inscriptions' : '🔓 Activer inscriptions'}</button>
 <button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Afficher l\'école' : '👻 Masquer l\'école'}</button>
-<div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer le logo</button>
 `;
 overlay.classList.add('show');
 document.getElementById('actionDropdownClose').onclick = () => overlay.classList.remove('show');
@@ -1321,7 +1162,6 @@ if (!school2) return;
 switch(action) {
 case 'voir': toast(`👁️ Consultation de ${school2.nom}`, 'info'); break;
 case 'logo': await handleLogoChange(schoolId2); break;
-case 'inscription': await handleToggleInscription(schoolId2); break;
 case 'masquer': await handleToggleMasquer(schoolId2); break;
 }
 });
@@ -1334,20 +1174,6 @@ const isExcel = this.classList.contains('btn-excel');
 exportBackup(this.dataset.ecole, this.dataset.nom, isExcel ? 'excel' : 'csv');
 };
 });
-}
-
-async function handleToggleInscription(schoolId) {
-const school = allSchools.find(s => s.id === schoolId);
-if (!school) return;
-const action = school.inscriptionActive === true ? 'désactiver' : 'activer';
-if (!await showCodeModal(`Inscriptions (${action})`, { schoolId })) return;
-if (!await showConfirm(`Voulez-vous vraiment ${action} les inscriptions pour <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
-try {
-const ref = doc(db, "ecoles", schoolId);
-await updateDoc(ref, { inscriptionActive: school.inscriptionActive !== true });
-toast(`✅ Inscriptions ${action === 'activer' ? 'activées' : 'désactivées'}`, 'success');
-await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
 }
 
 async function handleToggleMasquer(schoolId) {
@@ -1417,7 +1243,6 @@ const ws = XLSX.utils.json_to_sheet(docs);
 XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31));
 }
 XLSX.writeFile(wb, `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.xlsx`);
-backupHistory.push({ nom: ecoleNom, format: 'Excel', date: new Date().toLocaleString('fr-FR') });
 toast(`✅ Backup Excel de ${ecoleNom} téléchargé`, 'success');
 } else {
 const rows = [['Collection', 'Document ID', 'Données']];
@@ -1434,7 +1259,6 @@ a.href = url;
 a.download = `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.csv`;
 a.click();
 URL.revokeObjectURL(url);
-backupHistory.push({ nom: ecoleNom, format: 'CSV', date: new Date().toLocaleString('fr-FR') });
 toast(`✅ Backup CSV de ${ecoleNom} téléchargé`, 'success');
 }
 loadRapport();
@@ -1442,8 +1266,8 @@ loadRapport();
 if (btn) { btn.textContent = format === 'excel' ? '📊 Excel' : '📄 CSV'; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
 }
 
-// ===== STYLE EXCEL POUR MEMBRES ACTIFS =====
-function renderExcelMembers(containerId, members, filterEcoleId, searchId, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage) {
+// ===== MEMBRES - Style Excel, pas de pagination =====
+function renderExcelMembers(containerId, members, filterEcoleId, searchId) {
 const container = document.getElementById(containerId);
 if (!container) return;
 const filterEcole = document.getElementById(filterEcoleId)?.value || "all";
@@ -1451,17 +1275,8 @@ const search = document.getElementById(searchId)?.value?.toLowerCase() || "";
 let filtered = members;
 if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
 if (search) filtered = filtered.filter(m => m.id.toLowerCase().includes(search));
-const totalPages = Math.ceil(filtered.length / membersPerPage);
-let currentPage = pageVar;
-if (currentPage > totalPages) currentPage = 1;
-if (currentPage < 1) currentPage = 1;
-setPage(currentPage);
-const start = (currentPage - 1) * membersPerPage;
-const end = start + membersPerPage;
-const pageMembers = filtered.slice(start, end);
 if (filtered.length === 0) {
 container.innerHTML = '<div class="empty-state">👥 Aucun membre trouvé</div>';
-document.getElementById(paginationId).style.display = 'none';
 return;
 }
 let html = `
@@ -1475,12 +1290,12 @@ let html = `
 </thead>
 <tbody>
 `;
-pageMembers.forEach(m => {
+filtered.forEach(m => {
 const parentCode = m.parentCode || '---';
 html += `
 <tr>
-<td class="unique-id-cell"><span class="badge-excel badge-excel-id">${escapeHtml(m.id)}</span></td>
-<td class="code-parent-cell"><span class="badge-excel badge-excel-code">${escapeHtml(parentCode)}</span></td>
+<td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(m.id)}</span></td>
+<td class="code-cell"><span class="badge badge-excel-code">${escapeHtml(parentCode)}</span></td>
 </tr>
 `;
 });
@@ -1490,59 +1305,30 @@ html += `
 </div>
 `;
 container.innerHTML = html;
-const paginationContainer = document.getElementById(paginationId);
-const paginationInfo = document.getElementById(paginationInfoId);
-const paginationButtons = document.getElementById(paginationButtonsId);
-if (totalPages > 1) {
-paginationContainer.style.display = 'flex';
-paginationInfo.textContent = `Page ${currentPage}/${totalPages} · ${filtered.length} membres`;
-let btns = '';
-if (currentPage > 1) btns += `<button class="pagination-btn" data-page="${currentPage - 1}">◀</button>`;
-for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
-btns += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-}
-if (currentPage < totalPages) btns += `<button class="pagination-btn" data-page="${currentPage + 1}">▶</button>`;
-paginationButtons.innerHTML = btns;
-paginationButtons.querySelectorAll('.pagination-btn').forEach(btn => {
-btn.addEventListener('click', function() {
-const newPage = parseInt(this.dataset.page);
-setPage(newPage);
-renderExcelMembers(containerId, members, filterEcoleId, searchId, paginationId, paginationInfoId, paginationButtonsId, newPage, setPage);
-});
-});
-} else {
-paginationContainer.style.display = 'none';
-}
 }
 
 function loadMembersA() {
-renderExcelMembers('membersContainerA', membersA, 'memberEcoleFilterA', 'memberSearchA', 'membersPaginationA', 'membersPaginationInfoA', 'membersPaginationButtonsA', membersPageA, (p) => { membersPageA = p; });
+renderExcelMembers('membersContainerA', membersA, 'memberEcoleFilterA', 'memberSearchA');
 }
-
 function loadMembersB() {
-renderExcelMembers('membersContainerB', membersB, 'memberEcoleFilterB', 'memberSearchB', 'membersPaginationB', 'membersPaginationInfoB', 'membersPaginationButtonsB', membersPageB, (p) => { membersPageB = p; });
+renderExcelMembers('membersContainerB', membersB, 'memberEcoleFilterB', 'memberSearchB');
 }
-
 function loadMembersC() {
-renderExcelMembers('membersContainerC', membersC, 'memberEcoleFilterC', 'memberSearchC', 'membersPaginationC', 'membersPaginationInfoC', 'membersPaginationButtonsC', membersPageC, (p) => { membersPageC = p; });
+renderExcelMembers('membersContainerC', membersC, 'memberEcoleFilterC', 'memberSearchC');
 }
 
-// ===== ENSEIGNANTS AVEC GMAIL =====
+// ===== ENSEIGNANTS =====
 async function loadTeachers() {
 const container = document.getElementById("teachersContainer");
 if (!container) return;
 const filter = document.getElementById("teacherEcoleFilter")?.value || "all";
 const search = document.getElementById("teacherSearch")?.value?.toLowerCase() || "";
-const emailFilter = document.getElementById("teacherEmailFilter")?.value || "all";
 let teachers = allTeachers;
 if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
 if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
-if (emailFilter === 'valid') teachers = teachers.filter(t => t.email && t.email.includes('@'));
-else if (emailFilter === 'invalid') teachers = teachers.filter(t => !t.email || !t.email.includes('@'));
-else if (emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
 if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant</div>'; return; }
 let html = `
-<div class="excel-table-wrapper teacher-excel-table">
+<div class="excel-table-wrapper">
 <table>
 <thead>
 <tr>
@@ -1559,7 +1345,7 @@ teachers.forEach(t => {
 const emailValid = t.email && t.email.includes('@');
 html += `
 <tr>
-<td class="unique-id-cell"><span class="badge-excel badge-excel-id">${escapeHtml(t.id)}</span></td>
+<td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(t.id)}</span></td>
 <td class="code-cell">${t.code || '---'}</td>
 <td class="gmail-cell">${t.email ? escapeHtml(t.email) : '❌'}</td>
 <td style="font-size:12px;color:var(--text-muted);">${escapeHtml(t.ecoleNom)}</td>
@@ -1612,6 +1398,7 @@ loadAllData();
 finally { btn.disabled = false; btn.textContent = "💾 Créer"; }
 });
 
+// ===== FICHES - ID Fiche + ID Professeur + Nombre de fiches =====
 async function loadSheets() {
 const container = document.getElementById("sheetsBody");
 if (!container) return;
@@ -1620,26 +1407,33 @@ const search = document.getElementById("sheetSearch")?.value?.toLowerCase() || "
 let sheets = allSheets;
 if (filter !== "all") sheets = sheets.filter(s => s.ecoleId === filter);
 if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
-if (sheets.length === 0) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 Aucune fiche</td></tr>'; return; }
+
+// Grouper par professeur pour compter les fiches
+const teacherSheetCount = {};
+sheets.forEach(s => {
+const key = s.titulaire || 'sans_enseignant';
+teacherSheetCount[key] = (teacherSheetCount[key] || 0) + 1;
+});
+
+if (sheets.length === 0) {
+container.innerHTML = '<tr><td colspan="3" class="empty-state">📄 Aucune fiche</td></tr>';
+return;
+}
+
 let html = '';
-sheets.forEach((s, i) => {
-html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
+sheets.forEach((s) => {
+// Trouver l'ID du professeur correspondant
+let profId = '---';
+const teacher = allTeachers.find(t => t.nom === s.titulaire && t.ecoleId === s.ecoleId);
+if (teacher) profId = teacher.id;
+
+html += `<tr>
+<td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(s.id)}</span></td>
+<td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(profId)}</span></td>
+<td><span class="badge badge-primary">${teacherSheetCount[s.titulaire] || 0}</span></td>
+</tr>`;
 });
 container.innerHTML = html;
-container.querySelectorAll('.delete-sheet-btn').forEach(btn => {
-btn.addEventListener('click', async function() {
-const id = this.dataset.id, ecole = this.dataset.ecole;
-const sheet = allSheets.find(s => s.id === id && s.ecoleId === ecole);
-if (!sheet) return;
-if (!await showCodeModal('Suppression de fiche', { sheetId: id })) return;
-if (!await showConfirm(`Supprimer la fiche ${sheet.cours} ?`)) return;
-try {
-await deleteDoc(doc(db, "ecoles", ecole, SC.FICHES, id));
-toast("✅ Fiche supprimée", "success");
-await loadAllData();
-} catch (e) { toast("Erreur: " + e.message, "error"); }
-});
-});
 }
 
 document.getElementById("showAddSheet")?.addEventListener("click", function() {
@@ -1667,6 +1461,7 @@ loadAllData();
 } catch (e) { toast("Erreur: " + e.message, "error"); }
 });
 
+// ===== CODES & EMAILS - Nettoyé =====
 async function loadCodesEmails() {
 const container = document.getElementById("codesEmailsContainer");
 if (!container) return;
@@ -1709,41 +1504,36 @@ html += `
 container.innerHTML = html;
 }
 
+// ===== ALERTES =====
 async function loadAlertes() {
 const container = document.getElementById("alertesContainer");
 if (!container) return;
 const filter = document.getElementById("alertesEcoleFilter")?.value || "all";
 const priorityFilter = document.getElementById("alertesPriorityFilter")?.value || "all";
 const statutFilter = document.getElementById("alertesStatutFilter")?.value || "all";
-const categorieFilter = document.getElementById("alertesCategorieFilter")?.value || "all";
-const dateDebut = document.getElementById("alertesDateDebut")?.value;
-const dateFin = document.getElementById("alertesDateFin")?.value;
 let alertes = allAlertes;
 if (filter !== "all") alertes = alertes.filter(a => a.ecoleId === filter);
 if (priorityFilter !== "all") alertes = alertes.filter(a => a.priorite === priorityFilter);
 if (statutFilter !== "all") alertes = alertes.filter(a => a.statut === statutFilter);
-if (categorieFilter !== "all") alertes = alertes.filter(a => a.categorie === categorieFilter);
-if (dateDebut) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) >= new Date(dateDebut));
-if (dateFin) alertes = alertes.filter(a => a.dateCreation && new Date(a.dateCreation) <= new Date(dateFin));
 if (alertes.length === 0) {
-container.innerHTML = '<div class="alert-item header"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div><div class="empty-state">Aucune alerte</div>';
+container.innerHTML = '<div class="empty-state">Aucune alerte</div>';
 return;
 }
 const priorityLabels = { critique: '🔴 Critique', important: '🟡 Important', mineure: '🟢 Mineure' };
 const priorityClass = { critique: 'critique', important: 'important', mineure: 'mineure' };
 const statutLabels = { nonresolu: '❌ Non résolu', encours: '⏳ En cours', resolu: '✅ Résolu' };
 const statutClass = { nonresolu: 'nonresolu', encours: 'encours', resolu: 'resolu' };
-let html = '<div class="alert-item header"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
+let html = '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center;font-weight:700;color:var(--text-muted);text-transform:uppercase;font-size:10px;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0;"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
 alertes.forEach(a => {
 const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-';
 html += `
-<div class="alert-item">
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center;">
 <span><strong>${escapeHtml(a.message || 'Sans message')}</strong><br><span style="font-size:10px;color:var(--text-muted);">${date}</span></span>
 <span><span class="badge badge-primary">${getCategoryLabel(a.categorie)}</span></span>
 <span>
-<span class="priority ${priorityClass[a.priorite] || 'mineure'}">${priorityLabels[a.priorite] || '🟢 Mineure'}</span>
+<span class="priority ${priorityClass[a.priorite] || 'mineure'}" style="${a.priorite === 'critique' ? 'color:var(--danger);font-weight:700;' : a.priorite === 'important' ? 'color:var(--warning);font-weight:700;' : 'color:#5dade2;font-weight:700;'}">${priorityLabels[a.priorite] || '🟢 Mineure'}</span>
 <br>
-<span class="statut ${statutClass[a.statut] || 'nonresolu'}">${statutLabels[a.statut] || '❌ Non résolu'}</span>
+<span class="statut ${statutClass[a.statut] || 'nonresolu'}" style="${a.statut === 'resolu' ? 'color:var(--success);font-weight:700;' : a.statut === 'encours' ? 'color:var(--warning);font-weight:700;' : 'color:var(--danger);font-weight:700;'}">${statutLabels[a.statut] || '❌ Non résolu'}</span>
 </span>
 <span>${escapeHtml(a.ecoleNom)}</span>
 </div>`;
@@ -1780,131 +1570,53 @@ updateBanner();
 this.disabled = false; this.textContent = '🗑️ Supprimer toutes';
 });
 
+// ===== RAPPORT - Nettoyé =====
 function loadRapport() {
-const today = new Date();
-const dateStr = today.toLocaleDateString('fr-FR');
-const totalEcoles = allSchools.length;
-const totalEnseignants = allTeachers.length;
-const totalFiches = allSheets.length;
-const totalAlertes = allAlertes.length;
-const alertesNonResolues = allAlertes.filter(a => a.statut !== 'resolu').length;
-const alertesCritiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
-const sansCode = allTeachers.filter(t => !t.code).length;
-const emailInvalid = allTeachers.filter(t => !t.email || !t.email.includes('@')).length;
-document.getElementById('aujourdhuiContainer').innerHTML = `
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:13px;">
-<div>📅 ${dateStr}</div>
-<div>🏫 ${totalEcoles} écoles</div>
-<div>👨‍🏫 ${totalEnseignants} enseignants</div>
-<div>📄 ${totalFiches} fiches</div>
-<div>⚠️ ${totalAlertes} alertes</div>
-<div>🔴 ${alertesCritiques} critiques</div>
-<div>🔑 ${sansCode} sans code</div>
-<div>📧 ${emailInvalid} emails invalides</div>
-</div>
-`;
-document.getElementById('tendancesContainer').innerHTML = `
-<div style="font-size:13px;line-height:1.8;">
-<div>📈 Évolution 7 jours</div>
-<div>👨‍🏫 Enseignants: ${totalEnseignants}</div>
-<div>📄 Fiches: ${totalFiches}</div>
-<div>⚠️ Alertes: ${totalAlertes}</div>
-<div style="font-size:11px;color:var(--text-muted);">🔄 ${new Date().toLocaleTimeString('fr-FR')}</div>
-</div>
-`;
-const codeCounts = {};
-allTeachers.forEach(t => { if (t.code) { codeCounts[t.code] = (codeCounts[t.code] || 0) + 1; } });
-const doublons = Object.entries(codeCounts).filter(([,count]) => count > 1);
-const doublonsContainer = document.getElementById('doublonsContainer');
-if (doublons.length === 0) {
-doublonsContainer.innerHTML = '<div class="empty-state">✅ Aucun code en double</div>';
-} else {
-doublonsContainer.innerHTML = `<div style="font-size:12px;">🔑 ${doublons.length} code(s) en double</div>` +
-doublons.slice(0, 5).map(([code, count]) => {
-const teachers = allTeachers.filter(t => t.code === code);
-return `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${code}: ${teachers.map(t => t.nom).join(', ')}</div>`;
-}).join('');
-}
-const fichesSans = allSheets.filter(s => !s.titulaire || s.titulaire.trim() === '');
-const fichesContainer = document.getElementById('fichesSansEnseignantContainer');
-if (fichesSans.length === 0) {
-fichesContainer.innerHTML = '<div class="empty-state">✅ Toutes les fiches ont un enseignant</div>';
-} else {
-fichesContainer.innerHTML = `<div style="font-size:12px;">📄 ${fichesSans.length} fiche(s) sans enseignant</div>` +
-fichesSans.slice(0, 5).map(s => `<div style="font-size:11px;padding:2px 0;border-bottom:1px solid var(--border-color);">${s.cours} - ${s.classe} (${s.ecoleNom})</div>`).join('');
-}
-const alertesParStatut = { nonresolu: 0, encours: 0, resolu: 0 };
-allAlertes.forEach(a => { if (alertesParStatut[a.statut] !== undefined) alertesParStatut[a.statut]++; });
+document.getElementById('rptEcoles').textContent = allSchools.length;
+document.getElementById('rptEnseignants').textContent = allTeachers.length;
+document.getElementById('rptFiches').textContent = allSheets.length;
+document.getElementById('rptAlertes').textContent = allAlertes.length;
+const critiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
+document.getElementById('rptCritiques').textContent = critiques;
 const totalA = allAlertes.length || 1;
-const tauxResolu = totalA > 0 ? Math.round((alertesParStatut.resolu / totalA) * 100) : 0;
-document.getElementById('tempsResolutionContainer').innerHTML = `
-<div style="font-size:13px;line-height:1.8;">
-<div>⏱️ Taux de résolution: ${tauxResolu}%</div>
-<div>✅ Résolues: ${alertesParStatut.resolu}</div>
-<div>⏳ En cours: ${alertesParStatut.encours}</div>
-<div>❌ Non résolues: ${alertesParStatut.nonresolu}</div>
-</div>
-`;
-const backupContainer = document.getElementById('historiqueBackupsContainer');
-if (backupHistory.length === 0) {
-backupContainer.innerHTML = '<div class="empty-state">Aucun backup effectué</div>';
-} else {
-backupContainer.innerHTML = `<div style="font-size:12px;max-height:150px;overflow-y:auto;">` +
-backupHistory.slice(-10).reverse().map(b => `
-<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border-color);font-size:11px;">
-<span>📁 ${b.nom}</span>
-<span>${b.format} · ${b.date}</span>
-</div>
-`).join('') + '</div>';
-}
+const resolues = allAlertes.filter(a => a.statut === 'resolu').length;
+const taux = Math.round((resolues / totalA) * 100);
+document.getElementById('rptTaux').textContent = taux + '%';
 }
 
+// ===== CODE PARENT - Recherche par code =====
 async function loadParentCodes() {
-const select = document.getElementById("codeEcoleSelect");
-const ecoleId = select?.value;
-const searchTerm = document.getElementById("codeSearchInput")?.value?.toLowerCase() || "";
-let codes = allCodes;
-if (ecoleId && ecoleId !== 'all' && ecoleId !== '') {
-codes = codes.filter(c => c.ecole === ecoleId);
-}
-if (searchTerm) {
-codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
-}
+const searchTerm = document.getElementById("codeSearchInput")?.value?.trim() || "";
 const container = document.getElementById("codeResultsContainer");
-if (codes.length === 0) {
-container.innerHTML = '<div class="empty-state">📭 Aucun code parent trouvé</div>';
+
+if (!searchTerm) {
+container.innerHTML = '<div class="empty-state">🔑 Saisissez un code parent pour rechercher un élève</div>';
 return;
 }
-const groupedByEcole = {};
-codes.forEach(c => {
-const key = c.ecole;
-if (!groupedByEcole[key]) {
-groupedByEcole[key] = [];
+
+// Recherche par code parent (exact ou partiel)
+let results = allCodes.filter(c => c.parentCode && c.parentCode.includes(searchTerm));
+
+if (results.length === 0) {
+container.innerHTML = `<div class="empty-state">🔑 Aucun élève trouvé avec le code <strong>${escapeHtml(searchTerm)}</strong></div>`;
+return;
 }
-groupedByEcole[key].push(c);
-});
-let html = ``;
-for (const [ecoleId, eleves] of Object.entries(groupedByEcole)) {
-const ecoleNom = allSchools.find(s => s.id === ecoleId)?.nom || ecoleId;
-html += `
-<div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;">
-<div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);">
-<span>🏫 ${escapeHtml(ecoleNom)}</span>
-</div>
-<div style="padding:4px 8px;">
-${eleves.map(e => {
+
+let html = `<div style="margin-bottom:8px;font-size:13px;color:var(--text-muted);">🔍 ${results.length} résultat(s) trouvé(s) pour le code <strong style="color:var(--accent);">${escapeHtml(searchTerm)}</strong></div>`;
+
+results.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Inconnu";
-return `
-<div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:14px;">
-<span style="font-weight:600;">${escapeHtml(nomComplet)}</span>
-<span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700;">${escapeHtml(e.parentCode)}</span>
+const ecoleNom = allSchools.find(s => s.id === e.ecole)?.nom || e.ecole;
+html += `
+<div class="code-result-item">
+<div>
+<span class="nom">${escapeHtml(nomComplet)}</span>
+<span style="font-size:12px;color:var(--text-muted);margin-left:8px;">🏫 ${escapeHtml(ecoleNom)}</span>
+</div>
+<span class="code">${escapeHtml(e.parentCode)}</span>
 </div>
 `;
-}).join('')}
-</div>
-</div>
-`;
-}
+});
 container.innerHTML = html;
 }
 
@@ -1912,6 +1624,7 @@ document.getElementById("codeSearchInput")?.addEventListener("input", function()
 loadParentCodes();
 });
 
+// ===== MOIS BLANCS =====
 async function loadWhiteMonths() {
 const container = document.getElementById("wmBody");
 if (!container) return;
@@ -1957,119 +1670,7 @@ await loadAllData();
 });
 }
 
-let explorerData = {};
-
-// ===== EXPLORATEUR AVEC PROGRESS BAR =====
-async function loadExplorer() {
-const container = document.getElementById("explorerContent");
-if (!container) return;
-
-// Afficher la progress bar
-container.innerHTML = `
-<div class="progress-container">
-<div class="progress-percent" id="explorerProgressPercent">0%</div>
-<div class="progress-text" id="explorerProgressText">🔄 Chargement des données...</div>
-<div class="progress-bar-bg">
-<div class="progress-bar-fill" id="explorerProgressFill" style="width:0%;"></div>
-</div>
-<div class="progress-sub" id="explorerProgressSub">Initialisation...</div>
-</div>
-`;
-
-try {
-const filter = document.getElementById("explorerEcoleFilter")?.value || "all";
-let schools = allSchools;
-if (filter !== "all") schools = schools.filter(s => s.id === filter);
-
-const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
-let totalTasks = schools.length * subCols.length;
-let completedTasks = 0;
-const collections = {};
-let totalDocs = 0;
-
-function updateProgress(message, subMessage) {
-completedTasks++;
-const pct = Math.min(Math.round((completedTasks / totalTasks) * 100), 100);
-document.getElementById('explorerProgressPercent').textContent = pct + '%';
-document.getElementById('explorerProgressFill').style.width = pct + '%';
-document.getElementById('explorerProgressText').textContent = message || `🔄 Chargement... ${pct}%`;
-document.getElementById('explorerProgressSub').textContent = subMessage || `${completedTasks}/${totalTasks} collections`;
-}
-
-for (let si = 0; si < schools.length; si++) {
-const school = schools[si];
-const id = school.id;
-updateProgress(`📂 ${school.nom || id}`, `École ${si+1}/${schools.length}`);
-
-for (let ci = 0; ci < subCols.length; ci++) {
-const sub = subCols[ci];
-try {
-const snap = await getDocs(collection(db, "ecoles", id, sub));
-const docs = [];
-snap.forEach(d => docs.push({ id: d.id, data: d.data() }));
-const key = `${school.nom || id}/${sub}`;
-collections[key] = { nb: docs.length, docs: docs, ecoleId: id, ecoleNom: school.nom || id };
-totalDocs += docs.length;
-} catch(e) {}
-updateProgress(`📄 ${sub}`, `${subCols[ci]} · ${school.nom || id}`);
-}
-}
-
-explorerData = collections;
-
-// Affichage final
-let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;">
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">${Object.keys(collections).length}</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div>
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">${totalDocs}</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div>
-<div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">${schools.length}</div><div style="font-size:11px;color:var(--text-muted);">Écoles</div></div>
-</div>`;
-
-let idx = 0;
-for (const [key, val] of Object.entries(collections)) {
-idx++;
-const isVide = val.nb === 0;
-html += `<div style="border:1px solid ${isVide ? 'var(--border-color)' : 'var(--border-color)'};border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,0.01);overflow:hidden;">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;cursor:pointer;" onclick="document.getElementById('exp-${idx}').classList.toggle('open')">
-<div><span>${isVide ? '📭' : '📂'}</span><span style="font-weight:600;font-size:13px;margin-left:6px;">${escapeHtml(key)}</span></div>
-<div><span class="badge badge-primary">${val.nb}</span></div>
-</div>
-<div id="exp-${idx}" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">
-${val.nb === 0 ? '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Vide</div>' :
-val.docs.slice(0, 5).map(d => `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border-color);font-size:12px;color:var(--text-muted);"><span style="font-family:monospace;font-size:10px;color:#5dade2;">${d.id.substring(0,8)}…</span><span>${JSON.stringify(d.data).substring(0,40)}…</span></div>`).join('')}
-${val.nb > 5 ? `<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... et ${val.nb - 5} de plus</div>` : ''}
-</div>
-</div>`;
-}
-container.innerHTML = html;
-toast('✅ Explorateur chargé avec succès', 'success');
-
-} catch(e) {
-container.innerHTML = '<div class="empty-state">❌ Erreur de chargement: ' + e.message + '</div>';
-toast('❌ Erreur explorateur: ' + e.message, 'error');
-}
-}
-
-document.getElementById('exportExplorerExcel')?.addEventListener('click', function() {
-if (Object.keys(explorerData).length === 0) { toast('Aucune donnée à exporter', 'warning'); return; }
-try {
-const wb = XLSX.utils.book_new();
-for (const [key, val] of Object.entries(explorerData)) {
-if (val.nb === 0) continue;
-const rows = [];
-val.docs.forEach(d => {
-const row = { ID: d.id, ...d.data };
-rows.push(row);
-});
-if (rows.length > 0) {
-const ws = XLSX.utils.json_to_sheet(rows);
-XLSX.utils.book_append_sheet(wb, ws, key.substring(0, 31));
-}
-}
-XLSX.writeFile(wb, `explorateur_${new Date().toISOString().split('T')[0]}.xlsx`);
-toast('✅ Export Excel terminé', 'success');
-} catch(e) { toast('❌ Erreur export: ' + e.message, 'error'); }
-});
-
+// ===== ÉVÉNEMENTS =====
 document.getElementById("showAddSchool")?.addEventListener("click", function() {
 document.getElementById("addSchoolForm").style.display = "block";
 });
@@ -2096,7 +1697,7 @@ telephone: document.getElementById("schoolPhone").value.trim(),
 directeur: document.getElementById("schoolDirector").value.trim(),
 adresse: document.getElementById("schoolAddress").value.trim(),
 actif: true,
-inscriptionActive: false, masque: false,
+masque: false,
 parentEmail: genererEmailParent(id),
 directionEmail: genererEmailDirection(id),
 comptaEmail: genererEmailCompta(id),
@@ -2130,62 +1731,24 @@ this.classList.add('active');
 espaceActif = this.dataset.space;
 toast('🔁 Filtre: ' + this.textContent.trim(), 'info');
 loadAllData();
-if (isStatsFullscreen) buildStatsChart();
 };
 });
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
 btn.onclick = function() {
-const tabId = this.dataset.tab;
-if (tabId === 'tab0') {
 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-enterStatsFullscreen();
-buildStatsChart();
-return;
-}
-if (isStatsFullscreen) exitStatsFullscreen();
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-this.classList.add('active');
-document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-document.getElementById(tabId).classList.add('active');
+document.getElementById(this.dataset.tab).classList.add('active');
 const tabMap = {
 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
 'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
-'tab11': loadWhiteMonths, 'tab12': loadExplorer,
-'tab13': () => { buildTendanceCharts(); }
+'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); }
 };
-if (tabMap[tabId]) tabMap[tabId]();
+if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
 };
 });
-
-document.getElementById('statsBackBtn')?.addEventListener('click', function() {
-exitStatsFullscreen();
-loadAllData();
-});
-
-function enterStatsFullscreen() {
-isStatsFullscreen = true;
-document.getElementById('mainHeader').classList.add('hidden');
-document.getElementById('tabContainer').classList.add('hidden');
-document.getElementById('tab0').classList.add('active');
-document.getElementById('tab0').style.display = 'block';
-document.querySelectorAll('.tab-panel:not(#tab0)').forEach(el => el.classList.remove('active'));
-setTimeout(() => { if (statsChartInstance) statsChartInstance.resize(); }, 100);
-}
-
-function exitStatsFullscreen() {
-isStatsFullscreen = false;
-document.getElementById('mainHeader').classList.remove('hidden');
-document.getElementById('tabContainer').classList.remove('hidden');
-document.getElementById('tab0').style.display = 'none';
-document.getElementById('tab0').classList.remove('active');
-document.getElementById('tab1').classList.add('active');
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-document.querySelector('[data-tab="tab1"]').classList.add('active');
-}
 
 document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
 document.getElementById("refreshMembersA")?.addEventListener("click", loadMembersA);
@@ -2196,7 +1759,7 @@ document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheet
 document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
 document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
-document.getElementById("refreshExplorerBtn")?.addEventListener("click", loadExplorer);
+
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
 document.getElementById("memberEcoleFilterA")?.addEventListener('change', loadMembersA);
@@ -2207,20 +1770,13 @@ document.getElementById("memberEcoleFilterC")?.addEventListener('change', loadMe
 document.getElementById("memberSearchC")?.addEventListener('input', loadMembersC);
 document.getElementById("teacherEcoleFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("teacherSearch")?.addEventListener('input', loadTeachers);
-document.getElementById("teacherEmailFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("sheetEcoleFilter")?.addEventListener('change', loadSheets);
 document.getElementById("sheetSearch")?.addEventListener('input', loadSheets);
 document.getElementById("codesEmailsEcoleFilter")?.addEventListener('change', loadCodesEmails);
 document.getElementById("alertesEcoleFilter")?.addEventListener('change', loadAlertes);
 document.getElementById("alertesPriorityFilter")?.addEventListener('change', loadAlertes);
 document.getElementById("alertesStatutFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesCategorieFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesDateDebut")?.addEventListener('change', loadAlertes);
-document.getElementById("alertesDateFin")?.addEventListener('change', loadAlertes);
 document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
-document.getElementById("codeEcoleSelect")?.addEventListener('change', loadParentCodes);
-document.getElementById("explorerEcoleFilter")?.addEventListener('change', loadExplorer);
-document.getElementById("applyExplorerFilter")?.addEventListener('click', loadExplorer);
 
 document.addEventListener('DOMContentLoaded', function() {
 loadAllData();
@@ -2236,14 +1792,11 @@ loadAlertes();
 loadRapport();
 loadParentCodes();
 loadWhiteMonths();
-loadExplorer();
 buildTendanceCharts();
-enterStatsFullscreen();
-setTimeout(() => buildStatsChart(), 300);
 }, 500);
 });
 
-console.log('🔧 NeTubeX V2 - Tableau de Bord Entreprise');
+console.log('🔧 NeTubeX V3 - Tableau de Bord');
 </script>
 </body>
 </html>
