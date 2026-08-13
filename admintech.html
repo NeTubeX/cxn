@@ -299,6 +299,21 @@ body.light .school-selector select option {
 .audit-fiche .fiche-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color)}
 .audit-fiche .fiche-actions .btn{padding:8px 18px;font-size:13px}
 
+.connexion-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:16px 20px;transition:var(--transition)}
+.connexion-card:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)}
+.connexion-card.actif{border-left:4px solid var(--success)}
+.connexion-card.inactif{border-left:4px solid var(--danger)}
+.connexion-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.connexion-header .status-dot{font-size:20px}
+.connexion-header .status-label{font-weight:700;font-size:16px}
+.connexion-header .status-label.actif{color:var(--success)}
+.connexion-header .status-label.inactif{color:var(--danger)}
+.connexion-header .status-time{font-size:13px;color:var(--text-muted);margin-left:auto}
+.connexion-body{display:flex;flex-direction:column;gap:4px}
+.connexion-row{display:flex;gap:12px;font-size:14px}
+.connexion-row .label{color:var(--text-muted);min-width:140px}
+.connexion-row .value{color:var(--text-primary);font-weight:500}
+
 body.light select,
 body.light .filter-row select,
 body.light .form-group select,
@@ -380,6 +395,10 @@ body.light .audit-fiche .section .text-area-manual{background:#F7FAFC;color:#1A2
 body.light .rapport-pagination .btns button{background:#FFFFFF;color:#4A5568;border-color:#E2E8F0}
 body.light .rapport-pagination .btns button:hover{background:#F7FAFC;color:#1A202C}
 body.light .rapport-pagination .btns button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+body.light .connexion-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .connexion-card.actif{border-left-color:var(--success)}
+body.light .connexion-card.inactif{border-left-color:var(--danger)}
+body.light .connexion-row .value{color:#1A202C}
 
 @media(max-width:768px){
 .topbar{padding:10px 16px}
@@ -409,6 +428,8 @@ body.light .rapport-pagination .btns button.active{background:var(--accent);colo
 .audit-fiche .daily-grid .header{display:none}
 .audit-fiche .evo-grid{grid-template-columns:1fr}
 .audit-fiche .fiche-numero input{width:140px}
+.connexion-row{flex-direction:column;gap:2px}
+.connexion-row .label{min-width:auto}
 }
 </style>
 </head>
@@ -448,6 +469,7 @@ body.light .rapport-pagination .btns button.active{background:var(--accent);colo
 <button class="tab-btn" data-tab="tab10">🔑 CODE PARENT</button>
 <button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
 <button class="tab-btn" data-tab="tab12">📈 TENDANCE</button>
+<button class="tab-btn" data-tab="tab13">🔌 CONNEXIONS</button>
 </div>
 
 <div id="tab1" class="tab-panel active"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
@@ -648,6 +670,26 @@ body.light .rapport-pagination .btns button.active{background:var(--accent);colo
 </div>
 </div>
 </div>
+
+<div id="tab13" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<div>🔌 CONNEXIONS À L'ESPACE PARENTAL</div>
+<div style="display:flex;gap:6px;">
+<button class="btn btn-refresh btn-sm" id="refreshConnexionsBtn">⟳</button>
+</div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label>
+<select id="connexionEcoleFilter"><option value="all">Toutes les écoles</option></select>
+<label>📌</label>
+<select id="connexionStatutFilter"><option value="all">Tous</option><option value="ACTIF">🟢 ACTIF</option><option value="INACTIF">🔴 INACTIF</option></select>
+</div>
+<div id="connexionsContainer"></div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:16px;margin-bottom:12px;">Veuillez entrer le code d'accès</p>
@@ -775,6 +817,90 @@ return map[section] || 'badge-primary';
 function getCategoryLabel(cat) {
 const map = { 'securite': '🔐 Sécurité', 'enseignant': '👨‍🏫 Enseignant', 'fiche': '📄 Fiche', 'ecole': '🏫 École' };
 return map[cat] || cat || 'Général';
+}
+
+function getTempsEcoule(dateISO) {
+const now = new Date();
+const date = new Date(dateISO);
+const diffMs = now - date;
+const diffMin = Math.floor(diffMs / (1000 * 60));
+const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+
+if (diffMin < 1) return 'à l\'instant';
+if (diffMin < 60) return `depuis ${diffMin} min`;
+if (diffH < 24) {
+const minutes = diffMin % 60;
+if (minutes === 0) return `depuis ${diffH}h`;
+return `depuis ${diffH}h ${minutes}min`;
+}
+return `depuis ${Math.floor(diffH / 24)}j`;
+}
+
+async function loadConnexions() {
+const container = document.getElementById("connexionsContainer");
+if (!container) return;
+
+const filterEcole = document.getElementById("connexionEcoleFilter")?.value || "all";
+const filterStatut = document.getElementById("connexionStatutFilter")?.value || "all";
+
+try {
+let connexions = [];
+const schoolsToCheck = filterEcole === "all" ? allSchools : allSchools.filter(s => s.id === filterEcole);
+
+for (const school of schoolsToCheck) {
+try {
+const ref = doc(db, "ecoles", school.id, SC.ALERTES_ADMIN, 'espace_parental_actuel');
+const snap = await getDoc(ref);
+if (snap.exists()) {
+const data = snap.data();
+connexions.push({
+ecoleId: school.id,
+ecoleNom: school.nom || school.id,
+...data
+});
+}
+} catch(e) {}
+}
+
+if (filterStatut !== "all") {
+connexions = connexions.filter(c => c.statut === filterStatut);
+}
+
+if (connexions.length === 0) {
+container.innerHTML = '<div class="empty-state">🔌 Aucune connexion enregistrée</div>';
+return;
+}
+
+let html = '<div style="display:grid;grid-template-columns:1fr;gap:12px;">';
+
+connexions.forEach(c => {
+const isActif = c.statut === 'ACTIF';
+const temps = getTempsEcoule(c.date);
+const dateObj = new Date(c.date);
+const dateStr = dateObj.toLocaleDateString('fr-FR');
+const heureStr = c.heure || dateObj.toLocaleTimeString('fr-FR');
+
+html += `
+<div class="connexion-card ${isActif ? 'actif' : 'inactif'}">
+<div class="connexion-header">
+<span class="status-dot">${isActif ? '🟢' : '🔴'}</span>
+<span class="status-label ${isActif ? 'actif' : 'inactif'}">${isActif ? 'ACTIF' : 'INACTIF'}</span>
+<span class="status-time">${isActif ? 'Actif' : 'Inactif'} ${temps}</span>
+</div>
+<div class="connexion-body">
+<div class="connexion-row"><span class="label">Dernière activité :</span><span class="value">${dateStr} à ${heureStr}</span></div>
+<div class="connexion-row"><span class="label">École :</span><span class="value">${escapeHtml(c.ecoleNom)}</span></div>
+</div>
+</div>`;
+});
+
+html += '</div>';
+container.innerHTML = html;
+
+} catch (e) {
+console.warn('Erreur chargement connexions:', e);
+container.innerHTML = '<div class="empty-state">🔌 Erreur de chargement des connexions</div>';
+}
 }
 
 async function loadAllData() {
@@ -914,6 +1040,7 @@ loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 buildTendanceCharts();
+loadConnexions();
 
 } catch (e) {
 console.error("Erreur chargement:", e);
@@ -924,7 +1051,7 @@ toast("Erreur de chargement: " + e.message, "error");
 function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
 'wmEcoleFilter', 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
-'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter'].forEach(id => {
+'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter', 'connexionEcoleFilter'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
@@ -2194,7 +2321,8 @@ const tabMap = {
 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
 'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
-'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); }
+'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); },
+'tab13': loadConnexions
 };
 if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
 };
@@ -2209,6 +2337,7 @@ document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheet
 document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
 document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
+document.getElementById("refreshConnexionsBtn")?.addEventListener("click", loadConnexions);
 
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
@@ -2229,6 +2358,8 @@ document.getElementById("alertesStatutFilter")?.addEventListener('change', loadA
 document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
 document.getElementById("rapportEcoleFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
 document.getElementById("rapportTypeFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
+document.getElementById("connexionEcoleFilter")?.addEventListener('change', loadConnexions);
+document.getElementById("connexionStatutFilter")?.addEventListener('change', loadConnexions);
 
 document.getElementById("exportPdfBtn")?.addEventListener("click", function() {
 const fiches = document.querySelectorAll('.audit-fiche');
@@ -2460,6 +2591,7 @@ loadRapport();
 loadParentCodes();
 loadWhiteMonths();
 buildTendanceCharts();
+loadConnexions();
 }, 500);
 });
 
