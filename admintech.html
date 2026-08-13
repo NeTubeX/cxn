@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>NeTubeX · Tableau de Bord</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script type="importmap">
+{"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/storage":"https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:'Inter',sans-serif}
+:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--accent-glow:rgba(108,99,255,0.3);--accent-secondary:#FF6584;--success:#34D399;--warning:#FBBF24;--danger:#F87171;--radius:16px;--radius-sm:10px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+html,body{overscroll-behavior:none;touch-action:pan-y;margin:0;padding:0;width:100%;min-height:100vh}
+body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:background 0.4s ease;font-size:16px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+.topbar .brand h1{font-size:24px}
+.topbar .brand .sub{font-size:14px}
+.space-filter .label{font-size:14px}
+.space-filter .btn-group button{font-size:15px;padding:8px 22px}
+.kpi-card .label{font-size:13px}
+.kpi-card .value{font-size:28px}
+.tab-btn{font-size:15px;padding:12px 22px}
+.card-header{font-size:17px}
+.card-header .count{font-size:13px}
+.card-body{font-size:15px}
+.btn{font-size:14px;padding:10px 22px}
+.btn-sm{font-size:12px;padding:6px 14px}
+.filter-row select,.filter-row input{font-size:14px;padding:10px 16px}
+.table-wrapper{font-size:15px}
+.table-wrapper th{font-size:13px}
+.table-wrapper td{font-size:14px}
+.excel-table-wrapper th{font-size:13px}
+.excel-table-wrapper td{font-size:14px}
+.badge{font-size:13px;padding:3px 14px}
+.empty-state{font-size:16px}
+.form-group label{font-size:14px}
+.form-group input,.form-group select{font-size:15px;padding:12px 16px}
+.modal-card h3{font-size:22px}
+.modal-card p{font-size:16px}
+.code-input-group input{font-size:20px}
+.toast .toast-title{font-size:17px}
+.toast .toast-msg{font-size:15px}
+.school-card .school-name{font-size:22px}
+.school-card .school-id{font-size:14px}
+.school-card .info{font-size:14px}
+
+select, .filter-row select, .form-group select, .school-selector select,
+select:focus, .filter-row select:focus, .form-group select:focus, .school-selector select:focus {
+  background: #0d0d1a !important;
+  color: #fff !important;
+  border: 1px solid var(--border-color) !important;
+}
+select option, .filter-row select option, .form-group select option, .school-selector select option {
+  background: #0d0d1a !important;
+  color: #fff !important;
+}
+select:hover, .filter-row select:hover, .form-group select:hover {
+  background: #1a1a2e !important;
+}
+
+body.light select,
+body.light .filter-row select,
+body.light .form-group select,
+body.light .school-selector select,
+body.light select:focus,
+body.light .filter-row select:focus,
+body.light .form-group select:focus {
+  background: #1a1a2e !important;
+  color: #fff !important;
+}
+body.light select option,
+body.light .filter-row select option,
+body.light .form-group select option,
+body.light .school-selector select option {
+  background: #1a1a2e !important;
+  color: #fff !important;
+}
+
+.school-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}
+.school-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:14px;padding:28px 32px;transition:var(--transition)}
+.school-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-2px);border-color:var(--accent)}
+.school-card .school-header{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.school-card .school-logo{width:90px;height:90px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:48px;border:2px solid var(--border-color)}
+.school-card .school-logo img{width:100%;height:100%;object-fit:cover}
+.school-card .school-logo .placeholder{font-size:48px}
+.school-card .school-name{font-size:24px;font-weight:800;color:#fff}
+.school-card .school-id{font-size:15px;color:var(--text-muted);font-weight:400}
+.school-card .badges{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.school-card .info{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--text-muted);margin-top:8px}
+.school-card .actions{display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color);flex-wrap:wrap;align-items:center}
+
+.rapport-pagination{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border-color);margin-top:12px}
+.rapport-pagination .info{font-size:14px;color:var(--text-muted)}
+.rapport-pagination .btns{display:flex;gap:4px;flex-wrap:wrap}
+.rapport-pagination .btns button{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);color:var(--text-muted);padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;transition:var(--transition)}
+.rapport-pagination .btns button:hover{background:rgba(255,255,255,0.06);color:#fff}
+.rapport-pagination .btns button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rapport-pagination .btns button:disabled{opacity:0.3;cursor:not-allowed}
+
+.audit-fiche .fiche-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color)}
+.audit-fiche .fiche-actions .btn{padding:8px 18px;font-size:13px}
+.audit-fiche .no-signature{text-align:center;padding:8px 0;color:var(--text-muted);font-size:12px;font-style:italic}
+
+.topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.topbar .brand{display:flex;align-items:center;gap:12px}
+.topbar .brand .logo{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),#4A42D4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff}
+.topbar .brand h1 span{color:var(--accent)}
+.topbar .right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:18px;transition:var(--transition)}
+.topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
+
+.space-filter{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:12px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.space-filter .btn-group{display:flex;gap:4px;background:rgba(255,255,255,0.03);padding:4px;border-radius:8px}
+.space-filter .btn-group button{background:transparent;border:none;padding:8px 22px;border-radius:6px;font-size:15px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+.space-filter .btn-group button:hover{color:var(--text-secondary)}
+.space-filter .btn-group button.active{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--accent-glow)}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding:20px 24px 8px 24px}
+.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:16px 20px;transition:var(--transition)}
+.kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
+.kpi-card .label{font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
+.kpi-card .value{font-size:28px;font-weight:800;color:#fff;margin-top:2px}
+.kpi-card .value.blue{color:#5dade2}
+.kpi-card .value.green{color:var(--success)}
+.kpi-card .value.purple{color:#bb8fce}
+.kpi-card .value.red{color:var(--danger)}
+
+.tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
+.tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:15px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
+.tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
+.tab-btn.active{color:#fff;background:rgba(255,255,255,0.06)}
+.tab-btn.active::after{content:'';position:absolute;bottom:2px;left:30%;right:30%;height:2px;background:var(--accent);border-radius:4px}
+.tab-panel{display:none;padding:16px 20px}
+.tab-panel.active{display:block}
+.card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition)}
+.card:hover{border-color:rgba(255,255,255,0.08)}
+.card-header{padding:14px 18px;background:rgba(255,255,255,0.02);font-weight:700;font-size:17px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.card-header .count{font-weight:400;font-size:13px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 12px;border-radius:12px}
+.card-body{padding:14px 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 22px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow)}
+.btn:active{transform:translateY(0)}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px}
+.btn-outline{background:transparent;border:1px solid var(--border-color);color:var(--text-secondary);box-shadow:none}
+.btn-outline:hover{background:rgba(255,255,255,0.05);color:#fff;box-shadow:none}
+.btn-danger{background:var(--danger);color:#fff;box-shadow:0 2px 8px rgba(248,113,113,0.2)}
+.btn-danger:hover{box-shadow:0 4px 16px rgba(248,113,113,0.3)}
+.btn-success{background:var(--success);color:#fff;box-shadow:0 2px 8px rgba(52,211,153,0.2)}
+.btn-success:hover{box-shadow:0 4px 16px rgba(52,211,153,0.3)}
+.btn-primary{background:#5dade2;color:#fff;box-shadow:0 2px 8px rgba(93,173,226,0.2)}
+.btn-primary:hover{box-shadow:0 4px 16px rgba(93,173,226,0.3)}
+.btn-warning{background:var(--warning);color:#1a202c;box-shadow:0 2px 8px rgba(251,191,36,0.2)}
+.btn-warning:hover{box-shadow:0 4px 16px rgba(251,191,36,0.3)}
+.btn-add{background:#bb8fce;color:#fff;box-shadow:0 2px 8px rgba(187,143,206,0.2)}
+.btn-add:hover{box-shadow:0 4px 16px rgba(187,143,206,0.3)}
+.btn-refresh{background:rgba(255,255,255,0.06);color:var(--text-secondary);box-shadow:none}
+.btn-refresh:hover{background:rgba(255,255,255,0.10);color:#fff}
+.btn-code{background:var(--accent);color:#fff}
+.btn-excel{background:#217346;color:#fff;box-shadow:0 2px 8px rgba(33,115,70,0.2)}
+.btn-excel:hover{box-shadow:0 4px 16px rgba(33,115,70,0.3)}
+.btn-pdf{background:#c0392b;color:#fff;box-shadow:0 2px 8px rgba(192,57,43,0.2)}
+.btn-pdf:hover{box-shadow:0 4px 16px rgba(192,57,43,0.3)}
+.btn-print{background:#2c3e50;color:#fff;box-shadow:0 2px 8px rgba(44,62,80,0.2)}
+.btn-print:hover{box-shadow:0 4px 16px rgba(44,62,80,0.3)}
+.w-100{width:100%}
+.mt-8{margin-top:8px}
+.mb-12{margin-bottom:12px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:14px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:12px 16px;border:1px solid var(--border-color);border-radius:8px;font-size:15px;background:#1a1a2e;color:#fff;outline:none;transition:var(--transition)}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:#1a1a2e}
+.form-group input::placeholder{color:var(--text-muted)}
+.form-group select option{background:#0d0d1a;color:#fff}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.filter-row select,.filter-row input{padding:10px 16px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition)}
+.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:#1a1a2e}
+.filter-row select option{background:#0d0d1a;color:#fff}
+.filter-row label{font-size:12px;color:var(--text-muted);font-weight:500}
+.table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
+.table-wrapper table{width:100%;border-collapse:collapse;font-size:15px}
+.table-wrapper th,.table-wrapper td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
+.table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.5px}
+.table-wrapper tr:hover td{background:rgba(255,255,255,0.02)}
+.badge{display:inline-block;padding:3px 14px;border-radius:20px;font-size:13px;font-weight:700}
+.badge-success{background:rgba(52,211,153,0.15);color:var(--success)}
+.badge-danger{background:rgba(248,113,113,0.15);color:var(--danger)}
+.badge-warning{background:rgba(251,191,36,0.15);color:var(--warning)}
+.badge-primary{background:rgba(93,173,226,0.15);color:#5dade2}
+.badge-purple{background:rgba(187,143,206,0.15);color:#bb8fce}
+.badge-masque{background:rgba(160,174,192,0.15);color:var(--text-muted)}
+.badge-excel-code{background:rgba(93,173,226,0.15);color:#5dade2}
+.badge-excel-id{background:rgba(255,255,255,0.05);color:var(--text-muted)}
+.empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:16px}
+.empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
+.modal-overlay.show{visibility:visible;opacity:1}
+.modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:440px;padding:28px 24px 32px;max-height:90vh;overflow-y:auto;transform:scale(0.9) translateZ(30px);box-shadow:0 30px 80px rgba(0,0,0,0.6);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.show .modal-card{transform:scale(1) translateZ(30px)}
+.modal-card h3{font-size:22px;font-weight:800;margin-bottom:14px;text-align:center;color:#fff}
+.modal-card h3::after{content:'';display:block;width:32px;height:3px;background:var(--accent);margin:8px auto 0;border-radius:4px}
+.modal-info-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);font-size:14px;color:var(--text-muted)}
+.modal-info-line span:last-child{color:#fff;font-weight:600}
+.modal-buttons{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.modal-buttons .btn{flex:1;min-width:80px;font-size:14px}
+.code-input-group{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 16px;border:1px solid var(--border-color);margin:10px 0}
+.code-input-group input{flex:1;padding:10px 14px;background:rgba(255,255,255,0.05);border:2px solid rgba(108,99,255,0.3);border-radius:8px;color:#fff;font-size:20px;text-align:center;letter-spacing:4px;font-family:monospace;outline:none;transition:var(--transition)}
+.code-input-group input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+.code-input-group input::placeholder{color:var(--text-muted);letter-spacing:2px;font-size:14px;text-align:center}
+.toast-container{position:fixed;top:16px;right:16px;z-index:999999;display:flex;flex-direction:column-reverse;gap:8px;max-width:90%;pointer-events:none}
+.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:14px 20px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:14px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:280px}
+.toast .toast-title{font-weight:700;font-size:17px;margin-bottom:2px}
+.toast .toast-msg{font-size:15px;opacity:0.9}
+.toast.removing{animation:toastOut .5s ease forwards}
+.toast.error{border-left-color:var(--danger)}
+.toast.warning{border-left-color:var(--warning)}
+.toast.success{border-left-color:var(--success)}
+@keyframes toastIn{from{transform:translateY(-80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
+
+.excel-table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
+.excel-table-wrapper table{width:100%;border-collapse:collapse;font-size:13px}
+.excel-table-wrapper th{background:#1a3a4a;color:#fff;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;padding:10px 14px;text-align:left;border-bottom:2px solid #2a5a6a}
+.excel-table-wrapper td{padding:8px 14px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:14px;font-family:'Consolas','Courier New',monospace}
+.excel-table-wrapper tr:nth-child(even) td{background:rgba(255,255,255,0.03)}
+.excel-table-wrapper tr:hover td{background:rgba(108,99,255,0.08)}
+.excel-table-wrapper .code-cell{color:#5dade2;font-weight:700;letter-spacing:1px}
+.excel-table-wrapper .id-cell{color:var(--text-muted);font-size:12px}
+.excel-table-wrapper .gmail-cell{color:#34D399;font-size:12px}
+
+.action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay 0.3s ease}
+.action-dropdown-overlay.show{display:flex}
+.action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);max-height:80vh;overflow-y:auto}
+.action-dropdown-box .close-btn{position:absolute;top:10px;right:14px;background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;transition:var(--transition)}
+.action-dropdown-box .close-btn:hover{color:#fff;transform:rotate(90deg)}
+.action-dropdown-box .title{font-size:14px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
+.action-dropdown-item{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:13px;font-weight:500;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
+.action-dropdown-item:hover{background:rgba(255,255,255,0.06);color:#fff}
+.action-dropdown-item .icon{font-size:16px;width:24px;text-align:center}
+.action-dropdown-item.danger{color:var(--danger)}
+.action-dropdown-item.danger:hover{background:rgba(248,113,113,0.12)}
+.action-dropdown-divider{height:1px;background:var(--border-color);margin:4px 8px}
+@keyframes slideUp{from{transform:translateY(30px) scale(0.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+
+.code-email-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.code-email-card .name{font-weight:700;font-size:14px;color:#fff}
+.code-email-card .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:6px}
+.code-email-card .item .lbl{font-size:9px;color:var(--text-muted);text-transform:uppercase;font-weight:600}
+.code-email-card .item .val{font-family:monospace;font-size:13px;font-weight:700}
+.code-email-card .item .val.dir{color:#bb8fce}
+.code-email-card .item .val.compta{color:var(--success)}
+.code-email-card .item .val.promo{color:#5dade2}
+.code-email-card .item .val.email{color:var(--accent);font-size:12px}
+
+.audit-fiche{background:rgba(255,255,255,0.02);border:2px solid var(--border-color);border-radius:12px;padding:24px;margin-bottom:20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.8}
+.audit-fiche .header{text-align:center;border-bottom:2px solid var(--border-color);padding-bottom:12px;margin-bottom:16px}
+.audit-fiche .header h2{font-size:20px;font-weight:900;color:var(--accent);font-family:'Inter',sans-serif}
+.audit-fiche .header .sub{font-size:12px;color:var(--text-muted);font-family:'Inter',sans-serif}
+.audit-fiche .section{border:1px solid var(--border-color);border-radius:8px;padding:12px 16px;margin-bottom:12px}
+.audit-fiche .section .title{font-weight:700;font-size:14px;color:var(--accent);margin-bottom:8px;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:0.5px}
+.audit-fiche .section .row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.audit-fiche .section .row .label{color:var(--text-muted)}
+.audit-fiche .section .row .value{font-weight:600;color:#fff}
+.audit-fiche .section .checkbox-group{display:flex;gap:20px;flex-wrap:wrap;padding:4px 0}
+.audit-fiche .section .checkbox-group .cb{display:flex;align-items:center;gap:6px}
+.audit-fiche .section .checkbox-group .cb input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.audit-fiche .section .checkbox-group .cb label{font-size:13px;color:var(--text-secondary);cursor:pointer}
+.audit-fiche .section .text-area{width:100%;min-height:40px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 12px;font-family:'Courier New',monospace;font-size:13px;resize:vertical}
+.audit-fiche .section .text-area:focus{outline:none;border-color:var(--accent)}
+.audit-fiche .section .text-area-manual{width:100%;padding:6px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;font-family:'Courier New',monospace;font-size:14px;outline:none}
+.audit-fiche .section .text-area-manual:focus{outline:none;border-color:var(--accent)}
+.audit-fiche .footer{text-align:center;border-top:2px solid var(--border-color);padding-top:12px;margin-top:16px;font-size:11px;color:var(--text-muted);font-family:'Inter',sans-serif}
+.audit-fiche .statut-ok{color:var(--success);font-weight:700}
+.audit-fiche .statut-nok{color:var(--danger);font-weight:700}
+.audit-fiche .statut-warning{color:var(--warning);font-weight:700}
+.audit-fiche .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.audit-fiche .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.audit-fiche .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.audit-fiche .daily-grid{display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:4px;font-size:12px}
+.audit-fiche .daily-grid .header{font-weight:700;color:var(--accent);border-bottom:1px solid var(--border-color);padding:4px 0}
+.audit-fiche .daily-grid .cell{padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.audit-fiche .evo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.audit-fiche .evo-grid .header{font-weight:700;color:var(--accent);border-bottom:1px solid var(--border-color);padding:4px 0}
+.audit-fiche .fiche-numero{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.audit-fiche .fiche-numero label{font-weight:700;color:var(--text-secondary);font-size:14px;font-family:'Inter',sans-serif}
+.audit-fiche .fiche-numero input{background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:6px 14px;font-size:14px;font-family:'Courier New',monospace;outline:none;width:180px}
+.audit-fiche .fiche-numero input:focus{border-color:var(--accent)}
+.audit-fiche .fiche-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color)}
+.audit-fiche .fiche-actions .btn{padding:8px 18px;font-size:13px}
+
+body.light select,
+body.light .filter-row select,
+body.light .form-group select,
+body.light .school-selector select,
+body.light select:focus,
+body.light .filter-row select:focus,
+body.light .form-group select:focus {
+  background: #1a1a2e !important;
+  color: #fff !important;
+}
+body.light select option,
+body.light .filter-row select option,
+body.light .form-group select option,
+body.light .school-selector select option {
+  background: #1a1a2e !important;
+  color: #fff !important;
+}
+body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
+body.light .topbar{background:#0A1628}
+body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .kpi-card .value{color:#1A202C}
+body.light .card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .card-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
+body.light .card-header .count{color:#4A5568;background:#EDF2F7}
+body.light .form-group input,body.light .form-group select{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .form-group input::placeholder{color:#A0AEC0}
+body.light .filter-row select,body.light .filter-row input{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .table-wrapper{background:#FFFFFF;border-color:#E2E8F0}
+body.light .table-wrapper th{color:#4A5568;background:#F7FAFC}
+body.light .table-wrapper td{color:#1A202C;border-bottom-color:#EDF2F7}
+body.light .table-wrapper tr:hover td{background:#F7FAFC}
+body.light .excel-table-wrapper{background:#FFFFFF}
+body.light .excel-table-wrapper th{background:#1a4a5a;color:#fff}
+body.light .excel-table-wrapper tr:nth-child(even) td{background:#F7FAFC}
+body.light .excel-table-wrapper tr:hover td{background:#EBF4FF}
+body.light .school-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .school-card .school-name{color:#1A202C}
+body.light .school-card .school-id{color:#A0AEC0}
+body.light .school-card .info{color:#4A5568}
+body.light .school-card .actions{border-top-color:#E2E8F0}
+body.light .modal-card{background:#FFFFFF}
+body.light .modal-card h3{color:#1A202C}
+body.light .modal-card h3::after{background:var(--accent)}
+body.light .modal-info-line{color:#4A5568;border-bottom-color:#E2E8F0}
+body.light .modal-info-line span:last-child{color:#1A202C}
+body.light .btn-outline{color:#4A5568;border-color:#E2E8F0}
+body.light .btn-outline:hover{background:#F7FAFC;color:#1A202C}
+body.light .toast{background:#FFFFFF;color:#1A202C;border-left-color:var(--accent)}
+body.light .toast .toast-title{color:#1A202C}
+body.light .toast .toast-msg{color:#4A5568}
+body.light .space-filter{background:#FFFFFF;border-color:#E2E8F0}
+body.light .space-filter .btn-group{background:#F7FAFC}
+body.light .space-filter .btn-group button{color:#A0AEC0}
+body.light .space-filter .btn-group button:hover{color:#4A5568}
+body.light .space-filter .btn-group button.active{background:var(--accent);color:#fff}
+body.light .tabs{background:#FFFFFF;border-color:#E2E8F0}
+body.light .tab-btn{color:#A0AEC0}
+body.light .tab-btn:hover{color:#4A5568}
+body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
+body.light .action-dropdown-box{background:#FFFFFF}
+body.light .action-dropdown-box .title{color:#1A202C;border-bottom-color:#E2E8F0}
+body.light .action-dropdown-item{color:#4A5568}
+body.light .action-dropdown-item:hover{background:#F7FAFC;color:#1A202C}
+body.light .action-dropdown-item.danger{color:#DC2626}
+body.light .action-dropdown-item.danger:hover{background:rgba(220,38,38,0.08)}
+body.light .action-dropdown-box .close-btn{color:#A0AEC0}
+body.light .action-dropdown-box .close-btn:hover{color:#1A202C}
+body.light .audit-fiche{background:#FFFFFF;border-color:#E2E8F0}
+body.light .audit-fiche .section .row .value{color:#1A202C}
+body.light .audit-fiche .section .checkbox-group .cb label{color:#4A5568}
+body.light .audit-fiche .section .row{border-bottom-color:#EDF2F7}
+body.light .code-email-card{background:#F7FAFC;border-color:#E2E8F0}
+body.light .code-email-card .name{color:#1A202C}
+body.light .code-email-card .item .lbl{color:#A0AEC0}
+body.light .audit-fiche .daily-grid .cell{border-bottom-color:#EDF2F7}
+body.light .audit-fiche .fiche-numero input{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
+body.light .audit-fiche .section .text-area{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
+body.light .audit-fiche .section .text-area-manual{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
+body.light .rapport-pagination .btns button{background:#FFFFFF;color:#4A5568;border-color:#E2E8F0}
+body.light .rapport-pagination .btns button:hover{background:#F7FAFC;color:#1A202C}
+body.light .rapport-pagination .btns button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+@media(max-width:768px){
+.topbar{padding:10px 16px}
+.topbar .brand h1{font-size:18px}
+.topbar .brand .sub{display:none}
+.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}
+.kpi-card{padding:10px 14px}
+.kpi-card .value{font-size:22px}
+.space-filter{padding:8px 16px}
+.space-filter .btn-group button{padding:4px 14px;font-size:13px}
+.tabs{padding:4px 10px;gap:2px}
+.tab-btn{padding:8px 12px;font-size:13px}
+.tab-panel{padding:12px}
+.card-header{padding:10px 14px;font-size:15px}
+.card-body{padding:10px 12px}
+.school-grid{grid-template-columns:1fr;gap:12px}
+.school-card{padding:18px 20px}
+.school-card .school-logo{width:70px;height:70px;font-size:36px}
+.school-card .school-name{font-size:20px}
+.filter-row{flex-direction:column;align-items:stretch}
+.filter-row select,.filter-row input{width:100%}
+.modal-card{padding:20px 16px 24px;margin:10px}
+.excel-table-wrapper th,.excel-table-wrapper td{padding:6px 10px;font-size:12px}
+.audit-fiche{padding:16px;font-size:12px}
+.audit-fiche .grid-2,.audit-fiche .grid-3,.audit-fiche .grid-4{grid-template-columns:1fr}
+.audit-fiche .daily-grid{grid-template-columns:1fr 1fr;font-size:11px}
+.audit-fiche .daily-grid .header{display:none}
+.audit-fiche .evo-grid{grid-template-columns:1fr}
+.audit-fiche .fiche-numero input{width:140px}
+}
+</style>
+</head>
+<body>
+<div class="topbar" id="mainHeader">
+<div class="brand">
+<div class="logo">N</div>
+<h1>NETUBEX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">TECHNIQUE</span></h1>
+</div>
+<div class="right">
+<button class="theme-toggle" id="themeToggle">🌙</button>
+</div>
+</div>
+<div class="space-filter">
+<span class="label">Filtre</span>
+<div class="btn-group" id="spaceSelector">
+<button class="active" data-space="all">📊 Toutes</button>
+</div>
+</div>
+<div class="kpi-row">
+<div class="kpi-card"><div class="label">Établissement</div><div class="value blue" id="hdrEcoles">0</div></div>
+<div class="kpi-card"><div class="label">Enseignants</div><div class="value purple" id="hdrEnseignants">0</div></div>
+<div class="kpi-card"><div class="label">Fiches</div><div class="value green" id="hdrFiches">0</div></div>
+<div class="kpi-card"><div class="label">Alertes</div><div class="value red" id="hdrAlertes">0</div></div>
+</div>
+<div id="bannerContainer"></div>
+<div class="tabs" id="tabContainer">
+<button class="tab-btn active" data-tab="tab1">🏫 ÉCOLES</button>
+<button class="tab-btn" data-tab="tab2">📦 Module A</button>
+<button class="tab-btn" data-tab="tab3">📦 Module B</button>
+<button class="tab-btn" data-tab="tab4">📦 Module C</button>
+<button class="tab-btn" data-tab="tab5">👨‍🏫 ENSEIGNANTS</button>
+<button class="tab-btn" data-tab="tab6">📄 FICHES</button>
+<button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
+<button class="tab-btn" data-tab="tab8">⚠️ ALERTES</button>
+<button class="tab-btn" data-tab="tab9">📋 RAPPORT</button>
+<button class="tab-btn" data-tab="tab10">🔑 CODE PARENT</button>
+<button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
+<button class="tab-btn" data-tab="tab12">📈 TENDANCE</button>
+</div>
+
+<div id="tab1" class="tab-panel active"><div class="card"><div class="card-header"><div>🏫 Gestion des Écoles</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button><button class="btn btn-add btn-sm" id="showAddSchool">+ Ajouter</button></div></div>
+<div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div class="form-group"><label>Nom de l'école</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
+<div class="form-group"><label>ID</label><input type="text" id="schoolId" placeholder="auto-généré" readonly style="background:rgba(255,255,255,0.02);color:var(--accent);font-family:monospace;"></div>
+<div class="form-group"><label>Province</label><input type="text" id="schoolProvince" placeholder="Ex: Kinshasa"></div>
+<div class="form-group"><label>Ville</label><input type="text" id="schoolCity" placeholder="Ex: Gombe"></div>
+<div class="form-group"><label>Téléphone</label><input type="text" id="schoolPhone" placeholder="Ex: +2438..."></div>
+<div class="form-group"><label>Directeur</label><input type="text" id="schoolDirector" placeholder="Nom du directeur"></div>
+<div class="form-group"><label>Adresse</label><input type="text" id="schoolAddress" placeholder="Adresse complète"></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveSchoolBtn">💾 Créer</button><button class="btn btn-outline" id="cancelSchoolBtn">Annuler</button></div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🔍</label><input type="text" id="ecoleSearch" placeholder="Rechercher..." style="flex:1;min-width:140px;">
+<label>🏷️</label><select id="ecoleStatutFilter"><option value="all">Toutes</option><option value="actif">✅ Actives</option><option value="inactif">⛔ Inactives</option><option value="masque">👻 Masquées</option></select>
+</div>
+<div class="school-grid" id="ecolesContainer"><div class="empty-state">Chargement...</div></div>
+</div>
+</div></div>
+
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module A</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+</div>
+<div id="membersContainerA"><div class="empty-state">👥 Aucun membre trouvé</div></div>
+</div>
+</div></div>
+
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module B</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+</div>
+<div id="membersContainerB"><div class="empty-state">👥 Aucun membre trouvé</div></div>
+</div>
+</div></div>
+
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module C</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un ID..." style="flex:1;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+</div>
+<div id="membersContainerC"><div class="empty-state">👥 Aucun membre trouvé</div></div>
+</div>
+</div></div>
+
+<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 Enseignants</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
+<div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div class="form-group"><label>Nom</label><input type="text" id="teacherName" placeholder="Nom complet"></div>
+<div class="form-group"><label>École</label><select id="teacherSchoolSelect"><option value="">Sélectionner</option></select></div>
+<div class="form-group"><label>Code (6 chiffres)</label><div style="display:flex;gap:8px;"><input type="text" id="teacherCode" maxlength="6" placeholder="Auto" readonly style="flex:1;background:rgba(255,255,255,0.02);font-family:monospace;font-size:18px;letter-spacing:4px;color:var(--accent);"><button class="btn btn-sm btn-warning" id="generateTeacherCodeBtn">🔄 Générer</button></div></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveTeacherBtn">💾 Créer</button><button class="btn btn-outline" id="cancelTeacherBtn">Annuler</button></div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label><select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
+<label>🔍</label><input type="text" id="teacherSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
+</div>
+<div id="teachersContainer"></div>
+</div>
+</div></div>
+
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 Fiches</div><div class="actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Ajouter</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
+<div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div class="form-group"><label>Matière</label><input type="text" id="sheetCours" placeholder="Ex: Mathématiques"></div>
+<div class="form-group"><label>Classe</label><input type="text" id="sheetClasse" placeholder="Ex: 6ème A"></div>
+<div class="form-group"><label>Option</label><input type="text" id="sheetOption" placeholder="Ex: Sciences"></div>
+<div class="form-group"><label>Enseignant</label><input type="text" id="sheetTitulaire" placeholder="Nom de l'enseignant"></div>
+<div class="form-group"><label>École</label><select id="sheetSchoolSelect"><option value="">Sélectionner</option></select></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-primary" id="saveSheetBtn">💾 Enregistrer</button><button class="btn btn-outline" id="cancelSheetBtn">Annuler</button></div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
+<label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
+</div>
+<div class="excel-table-wrapper">
+<table>
+<thead><tr><th>🆔 ID FICHE</th><th>👨‍🏫 ID PROFESSEUR</th><th>📊 NOMBRE DE FICHES</th></tr></thead>
+<tbody id="sheetsBody"></tbody>
+</table>
+</div>
+</div>
+</div></div>
+
+<div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
+<div id="codesEmailsContainer"></div>
+</div>
+</div></div>
+
+<div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn btn-sm btn-danger" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label><select id="alertesEcoleFilter"><option value="all">Toutes</option></select>
+<label>🔴</label><select id="alertesPriorityFilter"><option value="all">Toutes priorité</option><option value="critique">Critique</option><option value="important">Important</option><option value="mineure">Mineure</option></select>
+<label>📌</label><select id="alertesStatutFilter"><option value="all">Tous statuts</option><option value="nonresolu">Non résolu</option><option value="encours">En cours</option><option value="resolu">Résolu</option></select>
+</div>
+<div id="alertesContainer"></div>
+</div>
+</div></div>
+
+<div id="tab9" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<div>📋 RAPPORT D'AUDIT TECHNIQUE</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+<select id="rapportEcoleFilter" style="padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:13px;outline:none;">
+<option value="all">📊 Toutes les écoles</option>
+</select>
+<select id="rapportTypeFilter" style="padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:13px;outline:none;">
+<option value="all">📋 Tous les rapports</option>
+<option value="individuelle">Fiche individuelle</option>
+<option value="hebdomadaire">Fiche hebdomadaire</option>
+<option value="mensuelle">Fiche mensuelle</option>
+<option value="enseignants">Fiche enseignants</option>
+</select>
+<button class="btn btn-sm btn-pdf" id="exportPdfBtn">📄 PDF</button>
+<button class="btn btn-sm btn-excel" id="exportRapportExcelBtn">📊 Excel</button>
+</div>
+</div>
+<div class="card-body" id="rapportContainer">
+<div class="empty-state">📋 Sélectionnez une école pour générer le rapport d'audit</div>
+</div>
+<div class="rapport-pagination" id="rapportPagination" style="display:none;">
+<div class="info" id="rapportPaginationInfo">Page 1/1</div>
+<div class="btns" id="rapportPaginationBtns"></div>
+</div>
+</div>
+</div>
+
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODE PARENT</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+<div class="card-body">
+<div style="display:flex;gap:10px;margin-bottom:12px;">
+<input type="text" id="codeSearchInput" placeholder="🔍 Saisissez le code parent (ex: 123456)..." style="flex:1;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;font-family:monospace;letter-spacing:2px;outline:none;transition:var(--transition);">
+</div>
+<div id="codeResultsContainer" style="max-height:400px;overflow-y:auto;background:rgba(0,0,0,0.05);border-radius:8px;padding:8px;">
+<div class="empty-state">🔑 Saisissez un code parent pour rechercher un élève</div>
+</div>
+</div>
+</div></div>
+
+<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>École :</label><select id="wmEcoleFilter"><option value="all">Toutes</option></select></div>
+<div class="table-wrapper"><table><thead><tr><th>Élève</th><th>Classe</th><th>Section</th><th>École</th><th>Mois</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
+</div>
+</div></div>
+
+<div id="tab12" class="tab-panel">
+<div class="card">
+<div class="card-header"><div>📈 TENDANCE</div></div>
+<div class="card-body">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
+<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
+<div class="label" style="font-size:11px;color:var(--text-muted);">📊 Aujourd'hui vs Hier</div>
+<div class="value" id="tendanceDay" style="font-size:22px;font-weight:800;color:#6C63FF;">0%</div>
+<div class="sub" id="tendanceDaySub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+</div>
+<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
+<div class="label" style="font-size:11px;color:var(--text-muted);">📈 Cette semaine vs dernière</div>
+<div class="value" id="tendanceWeek" style="font-size:22px;font-weight:800;color:#34D399;">0%</div>
+<div class="sub" id="tendanceWeekSub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+</div>
+<div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center;">
+<div class="label" style="font-size:11px;color:var(--text-muted);">📅 Ce mois-ci vs dernier</div>
+<div class="value" id="tendanceMonth" style="font-size:22px;font-weight:800;color:#FBBF24;">0%</div>
+<div class="sub" id="tendanceMonthSub" style="font-size:12px;color:var(--text-muted);">Évolution</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr;gap:16px;">
+<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Aujourd'hui vs Hier</h4>
+<div id="dayChartContainer" style="height:200px;"><canvas id="dayChart"></canvas></div>
+</div>
+<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Cette semaine vs Semaine dernière</h4>
+<div id="weekChartContainer" style="height:200px;"><canvas id="weekChart"></canvas></div>
+</div>
+<div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px;">
+<h4 style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text-secondary);">📊 Ce mois-ci vs Mois dernier</h4>
+<div id="monthChartContainer" style="height:200px;"><canvas id="monthChart"></canvas></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:16px;margin-bottom:12px;">Veuillez entrer le code d'accès</p>
+<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
+<div id="codeError" style="color:var(--danger);font-size:13px;text-align:center;min-height:20px;"></div>
+<div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Annuler</button></div>
+</div></div>
+<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Changer le logo</h3><p style="text-align:center;color:var(--text-muted);font-size:16px;margin-bottom:12px;">Entrez l'URL de l'image</p>
+<div class="form-group"><label>URL du logo</label><input type="text" id="logoUrlInput" placeholder="https://exemple.com/logo.png" style="width:100%;padding:12px 16px;border:1px solid var(--border-color);border-radius:8px;font-size:15px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
+<div id="logoPreviewContainer" style="text-align:center;margin:8px 0;display:none;"><img id="logoPreviewImg" src="" alt="Aperçu" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
+<div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Enregistrer</button><button class="btn btn-outline" id="logoCancelBtn">Annuler</button></div>
+</div></div>
+<div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Confirmation</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
+<div class="modal-buttons"><button class="btn" id="confirmYes">OUI</button><button class="btn btn-outline" id="confirmNo">NON</button></div>
+</div></div>
+<div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, query, where, orderBy, limit, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+
+const firebaseConfig = {
+apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
+authDomain: "gesco-67c43.firebaseapp.com",
+projectId: "gesco-67c43",
+storageBucket: "gesco-67c43.firebasestorage.app",
+messagingSenderId: "333004443566",
+appId: "1:333004443566:web:de41f60000e418dce9023f"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const storage = getStorage(app);
+const NX_CODE = "NXTheone";
+const SC = { PROFESSEURS: "professeurs", FICHES: "fiches", COMPTA_ELEVES: "compta_eleves" };
+
+let allSchools = [], allMembers = [], allTeachers = [], allSheets = [], allCodes = [], allAlertes = [];
+let membersA = [], membersB = [], membersC = [];
+let dayChartInstance = null, weekChartInstance = null, monthChartInstance = null;
+let rapportPage = 1, rapportPerPage = 3;
+let fichesData = [];
+
+function toast(msg, type = "success") {
+const container = document.getElementById('toastContainer');
+if (!container) return;
+const titles = { success: "✅ Succès", error: "❌ Erreur", warning: "⚠️ Attention", info: "ℹ️ Info" };
+const el = document.createElement("div");
+el.className = 'toast ' + (type || 'success');
+el.innerHTML = '<div class="toast-title">' + titles[type] + '</div><div class="toast-msg">' + msg + '</div>';
+container.appendChild(el);
+setTimeout(() => {
+if (el.parentNode) {
+el.classList.add('removing');
+setTimeout(() => { if (el.parentNode) el.remove(); }, 500);
+}
+}, 4000);
+}
+
+function showCodeModal(action, data) {
+return new Promise((resolve) => {
+const modal = document.getElementById('codeModal');
+const input = document.getElementById('nxCodeInput');
+const error = document.getElementById('codeError');
+input.value = '';
+error.textContent = '';
+modal.classList.add('show');
+setTimeout(() => input.focus(), 300);
+const validate = () => {
+const code = input.value.trim();
+if (code === NX_CODE) {
+modal.classList.remove('show');
+resolve(true);
+} else {
+error.textContent = '❌ Code incorrect. Veuillez réessayer.';
+input.value = '';
+input.focus();
+}
+};
+document.getElementById('nxCodeValidate').onclick = validate;
+document.getElementById('nxCodeCancel').onclick = () => {
+modal.classList.remove('show');
+resolve(false);
+};
+input.onkeydown = (e) => { if (e.key === 'Enter') validate(); };
+});
+}
+
+function showConfirm(msg) {
+return new Promise((resolve) => {
+const modal = document.getElementById('confirmModal');
+document.getElementById('confirmMessage').innerHTML = msg;
+modal.classList.add('show');
+document.getElementById('confirmYes').onclick = () => { modal.classList.remove('show'); resolve(true); };
+document.getElementById('confirmNo').onclick = () => { modal.classList.remove('show'); resolve(false); };
+});
+}
+
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
+function formatNumber(n) { return new Intl.NumberFormat('fr-FR').format(n); }
+function genererCode6Chiffres() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+function genererEmailParent(ecoleId) { return `parent.${ecoleId}@gmail.com`; }
+function genererEmailDirection(ecoleId) { return `direction.${ecoleId}@gmail.com`; }
+function genererEmailCompta(ecoleId) { return `compta.${ecoleId}@gmail.com`; }
+function genererEmailPromoteur(ecoleId) { return `promoteur.${ecoleId}@gmail.com`; }
+function getSectionFromClasse(classe) {
+if (!classe) return 'secondary';
+const c = classe.toLowerCase();
+if (c.includes('level') || c.includes('nursery') || c.includes('maternelle')) return 'nursery';
+if (['1ère','2ème','3ème','4ème','5ème','6ème'].some(s => c.includes(s))) return 'primary';
+return 'secondary';
+}
+function getSectionLabel(section) {
+const map = { 'secondary': 'SECONDAIRE', 'primary': 'PRIMAIRE', 'nursery': 'MATERNELLE' };
+return map[section] || section;
+}
+function getSectionBadge(section) {
+const map = { 'secondary': 'badge-espace-secondary', 'primary': 'badge-espace-primary', 'nursery': 'badge-espace-nursery' };
+return map[section] || 'badge-primary';
+}
+function getCategoryLabel(cat) {
+const map = { 'securite': '🔐 Sécurité', 'enseignant': '👨‍🏫 Enseignant', 'fiche': '📄 Fiche', 'ecole': '🏫 École' };
+return map[cat] || cat || 'Général';
+}
+
+async function loadAllData() {
+try {
+const snap = await getDocs(collection(db, "ecoles"));
+allSchools = []; allMembers = []; allTeachers = []; allSheets = []; allCodes = []; allAlertes = [];
+membersA = []; membersB = []; membersC = [];
+const seenMembers = new Set(); const seenSchools = new Set(); const seenTeachers = new Set();
+const seenSheets = new Set(); const seenCodes = new Set();
+
+for (const ds of snap.docs) {
+const id = ds.id;
+const ecoleData = ds.data();
+if (ecoleData.masque === true) continue;
+if (seenSchools.has(id)) continue;
+seenSchools.add(id);
+allSchools.push({ id, ...ecoleData });
+
+try {
+const mSnap = await getDocs(collection(db, "ecoles", id, SC.COMPTA_ELEVES));
+mSnap.forEach(d => {
+const data = d.data();
+if (data._type === "compta_eleve" && !data.abandon && data.nom) {
+const key = `${d.id}_${id}`;
+if (!seenMembers.has(key)) {
+seenMembers.add(key);
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "", section: 'secondary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
+membersA.push(m);
+allMembers.push(m);
+}
+}
+if (data.parentCode) {
+const key = `${d.id}_${id}`;
+if (!seenCodes.has(key)) {
+seenCodes.add(key);
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "", section: 'secondary' });
+}
+}
+});
+} catch (e) {}
+
+try {
+const pSnap = await getDocs(collection(db, "ecoles", id, "prima_eleves"));
+pSnap.forEach(d => {
+const data = d.data();
+if (data.nom && !data.abandon) {
+const key = `prim_${d.id}_${id}`;
+if (!seenMembers.has(key)) {
+seenMembers.add(key);
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Primaire", section: 'primary', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
+membersB.push(m);
+allMembers.push(m);
+}
+}
+if (data.parentCode) {
+const key = `prim_${d.id}_${id}`;
+if (!seenCodes.has(key)) {
+seenCodes.add(key);
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Primaire", section: 'primary' });
+}
+}
+});
+} catch (e) {}
+
+try {
+const matSnap = await getDocs(collection(db, "ecoles", id, "mater_eleves"));
+matSnap.forEach(d => {
+const data = d.data();
+if (data.nom && !data.abandon) {
+const key = `mat_${d.id}_${id}`;
+if (!seenMembers.has(key)) {
+seenMembers.add(key);
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", prenom: data.prenom || "", sexe: data.sexe || "M", classe: data.classe || "Maternelle", section: 'nursery', parentCode: data.parentCode || null, dateInscription: data.dateCreation || null };
+membersC.push(m);
+allMembers.push(m);
+}
+}
+if (data.parentCode) {
+const key = `mat_${d.id}_${id}`;
+if (!seenCodes.has(key)) {
+seenCodes.add(key);
+allCodes.push({ id: d.id, ecole: id, nom: data.nom || "", prenom: data.prenom || "", parentCode: data.parentCode, classe: data.classe || "Maternelle", section: 'nursery' });
+}
+}
+});
+} catch (e) {}
+
+try {
+const pSnap = await getDocs(collection(db, "ecoles", id, SC.PROFESSEURS));
+pSnap.forEach(d => {
+const data = d.data();
+if (data._type === "prof") {
+const key = `${d.id}_${id}`;
+if (!seenTeachers.has(key)) {
+seenTeachers.add(key);
+allTeachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Inconnu", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false, dateCreation: data.createdAt || null });
+}
+}
+});
+} catch (e) {}
+
+try {
+const fSnap = await getDocs(collection(db, "ecoles", id, SC.FICHES));
+fSnap.forEach(d => {
+const data = d.data();
+if (!data._type) {
+const key = `${d.id}_${id}`;
+if (!seenSheets.has(key)) {
+seenSheets.add(key);
+allSheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "Sans matière", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "", dateCreation: data.dateCreation || null });
+}
+}
+});
+} catch (e) {}
+
+try {
+const aSnap = await getDocs(collection(db, "ecoles", id, "alertes_admin"));
+aSnap.forEach(d => {
+const a = d.data();
+allAlertes.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, message: a.message || "", priorite: a.priorite || "mineure", statut: a.statut || "nonresolu", dateCreation: a.dateCreation || null, categorie: a.categorie || "" });
+});
+} catch (e) {}
+}
+
+updateSelectors();
+updateCounters();
+updateBanner();
+loadSchools();
+loadMembersA();
+loadMembersB();
+loadMembersC();
+loadTeachers();
+loadSheets();
+loadCodesEmails();
+loadAlertes();
+loadRapport();
+loadParentCodes();
+loadWhiteMonths();
+buildTendanceCharts();
+
+} catch (e) {
+console.error("Erreur chargement:", e);
+toast("Erreur de chargement: " + e.message, "error");
+}
+}
+
+function updateSelectors() {
+['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
+'wmEcoleFilter', 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
+'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter'].forEach(id => {
+const el = document.getElementById(id);
+if (!el) return;
+const val = el.value;
+el.innerHTML = '<option value="all">📊 Toutes</option>';
+allSchools.forEach(s => {
+const opt = document.createElement("option");
+opt.value = s.id;
+opt.textContent = s.nom || s.id;
+el.appendChild(opt);
+});
+if (val && el.querySelector(`option[value="${val}"]`)) el.value = val;
+});
+}
+
+function updateCounters() {
+document.getElementById("hdrEcoles").textContent = allSchools.length;
+document.getElementById("hdrEnseignants").textContent = allTeachers.length;
+document.getElementById("hdrFiches").textContent = allSheets.length;
+document.getElementById("hdrAlertes").textContent = allAlertes.length;
+}
+
+function updateBanner() {
+const container = document.getElementById('bannerContainer');
+const critiques = allAlertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu');
+if (critiques.length === 0) { container.innerHTML = ''; return; }
+container.innerHTML = critiques.map(a => `
+<div style="background:rgba(248,113,113,0.10);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:8px 14px;margin:8px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+<span style="font-size:18px;">🔴</span>
+<span style="font-size:13px;font-weight:600;color:var(--danger);flex:1;">${escapeHtml(a.message || 'Alerte critique')}</span>
+<span style="font-size:11px;color:var(--danger);">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
+</div>
+`).join('');
+}
+
+function renderExcelMembers(containerId, members, filterEcoleId, searchId) {
+const container = document.getElementById(containerId);
+if (!container) return;
+const filterEcole = document.getElementById(filterEcoleId)?.value || "all";
+const search = document.getElementById(searchId)?.value?.toLowerCase() || "";
+let filtered = members;
+if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
+if (search) filtered = filtered.filter(m => m.id.toLowerCase().includes(search));
+if (filtered.length === 0) {
+container.innerHTML = '<div class="empty-state">👥 Aucun membre trouvé</div>';
+return;
+}
+let html = `
+<div class="excel-table-wrapper">
+<table>
+<thead><tr><th style="width:50%;">🆔 UNIQUE ID</th><th style="width:50%;">🔑 CODE PARENT</th></tr></thead>
+<tbody>
+`;
+filtered.forEach(m => {
+const parentCode = m.parentCode || '---';
+html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(m.id)}</span></td><td class="code-cell"><span class="badge badge-excel-code">${escapeHtml(parentCode)}</span></td></tr>`;
+});
+html += `</tbody></table></div>`;
+container.innerHTML = html;
+}
+
+function loadMembersA() { renderExcelMembers('membersContainerA', membersA, 'memberEcoleFilterA', 'memberSearchA'); }
+function loadMembersB() { renderExcelMembers('membersContainerB', membersB, 'memberEcoleFilterB', 'memberSearchB'); }
+function loadMembersC() { renderExcelMembers('membersContainerC', membersC, 'memberEcoleFilterC', 'memberSearchC'); }
+
+async function loadTeachers() {
+const container = document.getElementById("teachersContainer");
+if (!container) return;
+const filter = document.getElementById("teacherEcoleFilter")?.value || "all";
+const search = document.getElementById("teacherSearch")?.value?.toLowerCase() || "";
+let teachers = allTeachers;
+if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
+if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
+if (teachers.length === 0) { container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant</div>'; return; }
+let html = `
+<div class="excel-table-wrapper">
+<table>
+<thead><tr><th>🆔 ID</th><th>🔑 CODE</th><th>📧 GMAIL</th><th>🏫 ÉCOLE</th><th>📊 STATUT</th></tr></thead>
+<tbody>
+`;
+teachers.forEach(t => {
+html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(t.id)}</span></td><td class="code-cell">${t.code || '---'}</td><td class="gmail-cell">${t.email ? escapeHtml(t.email) : '❌'}</td><td style="font-size:12px;color:var(--text-muted);">${escapeHtml(t.ecoleNom)}</td><td>${t.actif ? '<span class="badge badge-success">✅ Actif</span>' : '<span class="badge badge-danger">⛔ Inactif</span>'}</td></tr>`;
+});
+html += `</tbody></table></div>`;
+container.innerHTML = html;
+}
+
+document.getElementById("showAddTeacher")?.addEventListener("click", function() {
+document.getElementById("addTeacherForm").style.display = "block";
+updateSelectors();
+});
+document.getElementById("cancelTeacherBtn")?.addEventListener("click", function() {
+document.getElementById("addTeacherForm").style.display = "none";
+});
+document.getElementById("generateTeacherCodeBtn")?.addEventListener("click", function() {
+document.getElementById("teacherCode").value = genererCode6Chiffres();
+});
+document.getElementById("saveTeacherBtn")?.addEventListener("click", async function() {
+const nom = document.getElementById("teacherName").value.trim();
+const ecole = document.getElementById("teacherSchoolSelect").value;
+let code = document.getElementById("teacherCode").value.trim();
+if (!nom || !ecole || ecole === 'all') { toast("Nom et école requis", "error"); return; }
+if (!code) { code = genererCode6Chiffres(); document.getElementById("teacherCode").value = code; }
+if (!/^\d{6}$/.test(code)) { toast("Le code doit faire 6 chiffres", "error"); return; }
+const btn = this; btn.disabled = true; btn.textContent = "⏳ Création...";
+try {
+const email = `prof.${nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.')}.${ecole}@gmail.com`;
+try { await createUserWithEmailAndPassword(auth, email, code); } catch (e) {
+if (e.code === 'auth/email-already-in-use') { toast("Email déjà utilisé", "warning"); btn.disabled = false; btn.textContent = "💾 Créer"; return; }
+throw e;
+}
+const profId = 'prof_' + Date.now();
+await setDoc(doc(db, "ecoles", ecole, SC.PROFESSEURS, profId), {
+_type: "prof", id: profId, profId: profId, nom: nom,
+email: email, emailProf: email, code: code, actif: true,
+school: ecole, createdAt: new Date().toISOString()
+});
+toast("✅ Enseignant créé", "success");
+document.getElementById("addTeacherForm").style.display = "none";
+loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+finally { btn.disabled = false; btn.textContent = "💾 Créer"; }
+});
+
+async function loadSheets() {
+const container = document.getElementById("sheetsBody");
+if (!container) return;
+const filter = document.getElementById("sheetEcoleFilter")?.value || "all";
+const search = document.getElementById("sheetSearch")?.value?.toLowerCase() || "";
+let sheets = allSheets;
+if (filter !== "all") sheets = sheets.filter(s => s.ecoleId === filter);
+if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
+
+const teacherSheetCount = {};
+sheets.forEach(s => {
+const key = s.titulaire || 'sans_enseignant';
+teacherSheetCount[key] = (teacherSheetCount[key] || 0) + 1;
+});
+
+if (sheets.length === 0) {
+container.innerHTML = '<tr><td colspan="3" class="empty-state">📄 Aucune fiche</td></tr>';
+return;
+}
+let html = '';
+sheets.forEach((s) => {
+let profId = '---';
+const teacher = allTeachers.find(t => t.nom === s.titulaire && t.ecoleId === s.ecoleId);
+if (teacher) profId = teacher.id;
+html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(s.id)}</span></td><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(profId)}</span></td><td><span class="badge badge-primary">${teacherSheetCount[s.titulaire] || 0}</span></td></tr>`;
+});
+container.innerHTML = html;
+}
+
+document.getElementById("showAddSheet")?.addEventListener("click", function() {
+document.getElementById("addSheetForm").style.display = "block";
+updateSelectors();
+});
+document.getElementById("cancelSheetBtn")?.addEventListener("click", function() {
+document.getElementById("addSheetForm").style.display = "none";
+});
+document.getElementById("saveSheetBtn")?.addEventListener("click", async function() {
+const cours = document.getElementById("sheetCours").value.trim();
+const classe = document.getElementById("sheetClasse").value.trim();
+const ecole = document.getElementById("sheetSchoolSelect").value;
+if (!cours || !classe || !ecole || ecole === 'all') { toast("Matière, classe et école requis", "error"); return; }
+try {
+await setDoc(doc(collection(db, "ecoles", ecole, SC.FICHES)), {
+cours, classe, option: document.getElementById("sheetOption").value.trim(),
+titulaire: document.getElementById("sheetTitulaire").value.trim(),
+createdBy: "DSI", eleves: [],
+dateCreation: new Date().toISOString()
+});
+toast("✅ Fiche ajoutée", "success");
+document.getElementById("addSheetForm").style.display = "none";
+loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+});
+
+async function loadCodesEmails() {
+const container = document.getElementById("codesEmailsContainer");
+if (!container) return;
+const filter = document.getElementById("codesEmailsEcoleFilter")?.value || "all";
+let schools = allSchools;
+if (filter !== "all") schools = schools.filter(s => s.id === filter);
+if (schools.length === 0) { container.innerHTML = '<div class="empty-state">🔐 Aucune école</div>'; return; }
+let html = '';
+for (const s of schools) {
+let codeDir = 'Non défini', codeCompta = 'Non défini', codePromoteur = 'Non défini';
+let emailDir = s.directionEmail || genererEmailDirection(s.id);
+let emailCompta = s.comptaEmail || genererEmailCompta(s.id);
+let emailPromo = s.promoteurEmail || genererEmailPromoteur(s.id);
+try {
+const snap = await getDoc(doc(db, "ecoles", s.id, "settings", "data"));
+if (snap.exists()) {
+const d = snap.data();
+codeDir = d.codeDirection || 'Non défini';
+codeCompta = d.codeComptabilite || 'Non défini';
+codePromoteur = d.codePromoteur || 'Non défini';
+if (d.emailDirection) emailDir = d.emailDirection;
+if (d.emailComptabilite) emailCompta = d.emailComptabilite;
+if (d.emailPromoteur) emailPromo = d.emailPromoteur;
+}
+} catch(e) {}
+html += `
+<div class="code-email-card">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
+<span class="name">${escapeHtml(s.nom)}</span>
+<span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Actif' : '🔴 Inactif'}</span>
+</div>
+<div class="grid">
+<div class="item"><div class="lbl">👔 Direction</div><div class="val dir">${escapeHtml(codeDir)}</div><div class="val email">${escapeHtml(emailDir)}</div></div>
+<div class="item"><div class="lbl">💰 Comptabilité</div><div class="val compta">${escapeHtml(codeCompta)}</div><div class="val email">${escapeHtml(emailCompta)}</div></div>
+<div class="item"><div class="lbl">👔 Promoteur</div><div class="val promo">${escapeHtml(codePromoteur)}</div><div class="val email">${escapeHtml(emailPromo)}</div></div>
+<div class="item"><div class="lbl">📧 Parent</div><div class="val email">${escapeHtml(s.parentEmail || genererEmailParent(s.id))}</div></div>
+</div>
+</div>`;
+}
+container.innerHTML = html;
+}
+
+async function loadAlertes() {
+const container = document.getElementById("alertesContainer");
+if (!container) return;
+const filter = document.getElementById("alertesEcoleFilter")?.value || "all";
+const priorityFilter = document.getElementById("alertesPriorityFilter")?.value || "all";
+const statutFilter = document.getElementById("alertesStatutFilter")?.value || "all";
+let alertes = allAlertes;
+if (filter !== "all") alertes = alertes.filter(a => a.ecoleId === filter);
+if (priorityFilter !== "all") alertes = alertes.filter(a => a.priorite === priorityFilter);
+if (statutFilter !== "all") alertes = alertes.filter(a => a.statut === statutFilter);
+if (alertes.length === 0) {
+container.innerHTML = '<div class="empty-state">Aucune alerte</div>';
+return;
+}
+const priorityLabels = { critique: '🔴 Critique', important: '🟡 Important', mineure: '🟢 Mineure' };
+const priorityClass = { critique: 'critique', important: 'important', mineure: 'mineure' };
+const statutLabels = { nonresolu: '❌ Non résolu', encours: '⏳ En cours', resolu: '✅ Résolu' };
+const statutClass = { nonresolu: 'nonresolu', encours: 'encours', resolu: 'resolu' };
+let html = '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center;font-weight:700;color:var(--text-muted);text-transform:uppercase;font-size:10px;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0;"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
+alertes.forEach(a => {
+const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-';
+html += `
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:12px;align-items:center;">
+<span><strong>${escapeHtml(a.message || 'Sans message')}</strong><br><span style="font-size:10px;color:var(--text-muted);">${date}</span></span>
+<span><span class="badge badge-primary">${getCategoryLabel(a.categorie)}</span></span>
+<span>
+<span class="priority ${priorityClass[a.priorite] || 'mineure'}" style="${a.priorite === 'critique' ? 'color:var(--danger);font-weight:700;' : a.priorite === 'important' ? 'color:var(--warning);font-weight:700;' : 'color:#5dade2;font-weight:700;'}">${priorityLabels[a.priorite] || '🟢 Mineure'}</span>
+<br>
+<span class="statut ${statutClass[a.statut] || 'nonresolu'}" style="${a.statut === 'resolu' ? 'color:var(--success);font-weight:700;' : a.statut === 'encours' ? 'color:var(--warning);font-weight:700;' : 'color:var(--danger);font-weight:700;'}">${statutLabels[a.statut] || '❌ Non résolu'}</span>
+</span>
+<span>${escapeHtml(a.ecoleNom)}</span>
+</div>`;
+});
+container.innerHTML = html;
+}
+
+document.getElementById('btnSupprimerAlertes').addEventListener('click', async function() {
+if (allAlertes.length === 0) { toast('Aucune alerte à supprimer', 'warning'); return; }
+if (!await showCodeModal('Suppression de toutes les alertes', { count: allAlertes.length })) return;
+if (!await showConfirm(`⚠️ Supprimer définitivement toutes les alertes (${allAlertes.length}) ?`)) return;
+this.disabled = true; this.textContent = '⏳...';
+try {
+const batches = {};
+for (const a of allAlertes) {
+const key = a.ecoleId;
+if (!batches[key]) batches[key] = [];
+batches[key].push(a.id);
+}
+for (const [ecoleId, ids] of Object.entries(batches)) {
+const batch = writeBatch(db);
+for (const id of ids) {
+const ref = doc(db, "ecoles", ecoleId, "alertes_admin", id);
+batch.delete(ref);
+}
+await batch.commit();
+}
+toast(`✅ ${allAlertes.length} alertes supprimées`, 'success');
+allAlertes = [];
+await loadAlertes();
+updateCounters();
+updateBanner();
+} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
+this.disabled = false; this.textContent = '🗑️ Supprimer toutes';
+});
+
+function genererFicheIndividuelle(school, teachers, sheets, alertes, members, codes, numFiche) {
+const totalTeachers = teachers.length;
+const teachersActifs = teachers.filter(t => t.actif !== false).length;
+const codesOk = teachers.filter(t => t.code && /^\d{6}$/.test(t.code)).length;
+const codesNok = totalTeachers - codesOk;
+const emailsValides = teachers.filter(t => t.email && t.email.includes('@')).length;
+const emailsInvalides = totalTeachers - emailsValides;
+const tauxConformite = totalTeachers > 0 ? Math.round((codesOk / totalTeachers) * 100) : 0;
+const alertesCritiques = alertes.filter(a => a.priorite === 'critique' && a.statut !== 'resolu').length;
+const now = new Date();
+const dateStr = now.toLocaleDateString('fr-FR');
+
+return `
+<div class="audit-fiche" id="fiche-individuelle-${school.id}">
+<div class="header">
+<h2>NETUBEX SARL · DSI</h2>
+<div style="font-size:16px;font-weight:700;color:#fff;">FICHE INDIVIDUELLE D'AUDIT TECHNIQUE D'ÉCOLE</div>
+<div class="sub">ID École : ${escapeHtml(school.id)}</div>
+</div>
+<div class="fiche-numero">
+<label>N° Fiche :</label>
+<input type="text" class="fiche-number-input" value="${numFiche || 'AUTO-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
+<label style="margin-left:12px;">Date :</label>
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:120px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:6px 12px;font-size:14px;font-family:'Courier New',monospace;outline:none;">
+</div>
+<div class="section">
+<div class="title">1. INFORMATIONS GÉNÉRALES</div>
+<div class="row"><span class="label">ID École :</span><span class="value">${escapeHtml(school.id)}</span></div>
+<div class="row"><span class="label">Statut :</span><span class="value">${school.actif !== false ? '☑ Actif' : '☐ Inactif'}</span></div>
+<div class="row"><span class="label">État général :</span><span class="value ${alertesCritiques > 0 ? 'statut-nok' : tauxConformite > 80 ? 'statut-ok' : 'statut-warning'}">${alertesCritiques > 0 ? '☐ Critique' : tauxConformite > 80 ? '☑ Conforme' : '☐ Attention'}</span></div>
+<div class="row"><span class="label">Heure début :</span><input type="text" class="text-area-manual" value="08:00" style="width:100px;text-align:center;"></div>
+<div class="row"><span class="label">Heure fin :</span><input type="text" class="text-area-manual" value="10:00" style="width:100px;text-align:center;"></div>
+</div>
+<div class="section">
+<div class="title">2. CONTRÔLE DES ENSEIGNANTS</div>
+<div class="row"><span class="label">Nombre total d'enseignants :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Codes conformes :</span><span class="value ${codesOk === totalTeachers ? 'statut-ok' : 'statut-warning'}">${codesOk}</span></div>
+<div class="row"><span class="label">Codes non conformes :</span><span class="value ${codesNok > 0 ? 'statut-nok' : 'statut-ok'}">${codesNok}</span></div>
+<div class="row"><span class="label">E-mails valides :</span><span class="value">${emailsValides}</span></div>
+<div class="row"><span class="label">E-mails invalides :</span><span class="value ${emailsInvalides > 0 ? 'statut-warning' : 'statut-ok'}">${emailsInvalides}</span></div>
+</div>
+<div class="section">
+<div class="title">3. CONTRÔLE DES COMPTES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" checked><label>Direction ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Comptabilité ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Promoteur ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Parent ☑ OK</label></div>
+</div>
+</div>
+<div class="section">
+<div class="title">4. CONTRÔLE DES CODES ET ACCÈS</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" checked><label>Codes enseignants vérifiés</label></div>
+<div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>Codes uniques</label></div>
+<div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>Aucun doublon détecté</label></div>
+<div class="cb"><input type="checkbox" ${codesNok > 0 ? '' : 'checked'}><label>Codes manquants vérifiés</label></div>
+<div class="cb"><input type="checkbox" checked><label>Accès sécurisés vérifiés</label></div>
+</div>
+</div>
+<div class="section">
+<div class="title">5. CONTRÔLE DES SAUVEGARDES</div>
+<div class="row"><span class="label">Dernier backup :</span><input type="text" class="text-area-manual" value="${dateStr} à 23:00" style="width:200px;"></div>
+<div class="row"><span class="label">Taille :</span><input type="text" class="text-area-manual" value="245 Mo" style="width:120px;"></div>
+<div class="row"><span class="label">Statut :</span><span class="value statut-ok">☑ Réussi</span></div>
+<div class="row"><span class="label">Vérification :</span><span class="value">☑ Oui</span></div>
+</div>
+<div class="section">
+<div class="title">6. ANOMALIES DÉTECTÉES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${codesNok > 0 || emailsInvalides > 0 ? 'checked' : ''}><label>☐ Mineure</label></div>
+<div class="cb"><input type="checkbox" ${codesNok > 3 || emailsInvalides > 5 ? 'checked' : ''}><label>☑ Importante</label></div>
+<div class="cb"><input type="checkbox" ${alertesCritiques > 0 ? 'checked' : ''}><label>☐ Critique</label></div>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="2" placeholder="Description des anomalies...">${codesNok > 0 ? codesNok + ' enseignant(s) sans code valide' : 'Aucune anomalie majeure'}${emailsInvalides > 0 ? '\n- ' + emailsInvalides + ' emails invalides à corriger' : ''}${alertesCritiques > 0 ? '\n- ' + alertesCritiques + ' alertes critiques non résolues' : ''}</textarea>
+</div>
+</div>
+<div class="section">
+<div class="title">7. ACTIONS RÉALISÉES</div>
+<div style="margin-bottom:6px;"><textarea class="text-area" rows="1" placeholder="Action réalisée...">${codesNok > 0 ? 'Génération des codes manquants' : 'Aucune action requise'}</textarea></div>
+<div class="checkbox-group"><div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>☑ OK</label></div><div class="cb"><input type="checkbox" ${codesNok > 0 ? 'checked' : ''}><label>☐ NOK</label></div></div>
+</div>
+<div class="section">
+<div class="title">8. INDICATEURS</div>
+<div class="row"><span class="label">Taux de conformité :</span><span class="value">${tauxConformite} %</span></div>
+<div class="row"><span class="label">Taux de comptes actifs :</span><span class="value">${totalTeachers > 0 ? Math.round((teachersActifs/totalTeachers)*100) : 0} %</span></div>
+<div class="row"><span class="label">Taux de réussite backup :</span><span class="value">95 %</span></div>
+</div>
+<div class="section">
+<div class="title">9. OBSERVATIONS</div>
+<textarea class="text-area" rows="2" placeholder="Observations...">Aucune observation majeure.</textarea>
+</div>
+<div class="no-signature">Document confidentiel · NETUBEX SARL · DSI · Classification : Interne</div>
+<div class="fiche-actions">
+<button class="btn btn-sm btn-pdf export-pdf-btn" data-fiche="individuelle-${school.id}">📄 PDF</button>
+<button class="btn btn-sm btn-excel export-excel-btn" data-fiche="individuelle-${school.id}">📊 Excel</button>
+</div>
+</div>`;
+}
+
+function genererFicheHebdomadaire(school, teachers, sheets, alertes, members, codes, numFiche) {
+const totalTeachers = teachers.length;
+const codesOk = teachers.filter(t => t.code && /^\d{6}$/.test(t.code)).length;
+const codesNok = totalTeachers - codesOk;
+const emailsValides = teachers.filter(t => t.email && t.email.includes('@')).length;
+const emailsInvalides = totalTeachers - emailsValides;
+const tauxConformite = totalTeachers > 0 ? Math.round((codesOk / totalTeachers) * 100) : 0;
+const now = new Date();
+const dateStr = now.toLocaleDateString('fr-FR');
+const semaine = Math.ceil((now - new Date(now.getFullYear(), 0, 1)) / 86400000 / 7);
+
+return `
+<div class="audit-fiche" id="fiche-hebdomadaire-${school.id}">
+<div class="header">
+<h2>NETUBEX SARL · DSI</h2>
+<div style="font-size:16px;font-weight:700;color:#fff;">FICHE HEBDOMADAIRE D'AUDIT TECHNIQUE</div>
+<div class="sub">Semaine : ${semaine} · Période : ${dateStr} · ID École : ${escapeHtml(school.id)}</div>
+</div>
+<div class="fiche-numero">
+<label>N° Fiche :</label>
+<input type="text" class="fiche-number-input" value="${numFiche || 'HEB-'+now.getFullYear()+'-'+String(semaine).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
+<label style="margin-left:12px;">Date :</label>
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:120px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:6px 12px;font-size:14px;font-family:'Courier New',monospace;outline:none;">
+</div>
+<div class="section">
+<div class="title">1. RÉSUMÉ DE LA SEMAINE</div>
+<div class="row"><span class="label">Audits réalisés :</span><span class="value">3</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Comptes vérifiés :</span><span class="value">4</span></div>
+<div class="row"><span class="label">Anomalies :</span><span class="value">${codesNok + emailsInvalides}</span></div>
+<div class="row"><span class="label">Actions réalisées :</span><span class="value">${codesNok > 0 ? 1 : 0}</span></div>
+<div class="row"><span class="label">Taux conformité :</span><span class="value">${tauxConformite}%</span></div>
+</div>
+<div class="section">
+<div class="title">2. SUIVI QUOTIDIEN</div>
+<div class="daily-grid">
+<div class="header">Jour</div><div class="header">Enseignants</div><div class="header">Comptes</div><div class="header">Anomalies</div><div class="header">Backup</div>
+<div class="cell">Lundi</div><div class="cell">${Math.round(totalTeachers/5)}</div><div class="cell">2</div><div class="cell">0</div><div class="cell statut-ok">✅</div>
+<div class="cell">Mardi</div><div class="cell">${Math.round(totalTeachers/5)}</div><div class="cell">1</div><div class="cell">${codesNok > 0 ? 1 : 0}</div><div class="cell statut-ok">✅</div>
+<div class="cell">Mercredi</div><div class="cell">${Math.round(totalTeachers/5)}</div><div class="cell">1</div><div class="cell">${emailsInvalides > 0 ? 1 : 0}</div><div class="cell statut-ok">✅</div>
+<div class="cell">Jeudi</div><div class="cell">0</div><div class="cell">0</div><div class="cell">0</div><div class="cell statut-nok">❌</div>
+<div class="cell">Vendredi</div><div class="cell">0</div><div class="cell">0</div><div class="cell">0</div><div class="cell statut-nok">❌</div>
+</div>
+</div>
+<div class="section">
+<div class="title">3. CONTRÔLE ENSEIGNANTS</div>
+<div class="row"><span class="label">Total :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Codes OK :</span><span class="value statut-ok">${codesOk}</span></div>
+<div class="row"><span class="label">Codes NOK :</span><span class="value ${codesNok > 0 ? 'statut-nok' : 'statut-ok'}">${codesNok}</span></div>
+<div class="row"><span class="label">Emails valides :</span><span class="value">${emailsValides}</span></div>
+<div class="row"><span class="label">Emails invalides :</span><span class="value ${emailsInvalides > 0 ? 'statut-warning' : 'statut-ok'}">${emailsInvalides}</span></div>
+</div>
+<div class="section">
+<div class="title">4. CONTRÔLE COMPTES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" checked><label>Direction ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Comptabilité ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Promoteur ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Parent ☑ OK</label></div>
+</div>
+</div>
+<div class="section">
+<div class="title">5. BACKUPS</div>
+<div class="row"><span class="label">Dernier backup :</span><input type="text" class="text-area-manual" value="${dateStr} à 23:00" style="width:200px;"></div>
+<div class="row"><span class="label">Taille :</span><input type="text" class="text-area-manual" value="245 Mo" style="width:120px;"></div>
+<div class="row"><span class="label">Statut :</span><span class="value statut-ok">✅ Réussi</span></div>
+</div>
+<div class="section">
+<div class="title">6. ANOMALIES</div>
+<div style="margin-bottom:6px;">
+<textarea class="text-area" rows="2" placeholder="Anomalies...">${codesNok > 0 ? codesNok + ' enseignant(s) sans code' : 'Aucune anomalie'}</textarea>
+</div>
+</div>
+<div class="section">
+<div class="title">7. ACTIONS</div>
+<div style="margin-bottom:6px;"><textarea class="text-area" rows="1" placeholder="Action...">${codesNok > 0 ? 'Génération des codes' : 'Aucune action'}</textarea></div>
+<div class="checkbox-group"><div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>✅ OK</label></div></div>
+</div>
+<div class="section">
+<div class="title">8. OBSERVATIONS</div>
+<textarea class="text-area" rows="2" placeholder="Observations...">Aucune</textarea>
+</div>
+<div class="no-signature">NETUBEX SARL · DSI · Document confidentiel – Interne</div>
+<div class="fiche-actions">
+<button class="btn btn-sm btn-pdf export-pdf-btn" data-fiche="hebdomadaire-${school.id}">📄 PDF</button>
+<button class="btn btn-sm btn-excel export-excel-btn" data-fiche="hebdomadaire-${school.id}">📊 Excel</button>
+</div>
+</div>`;
+}
+
+function genererFicheMensuelle(school, teachers, sheets, alertes, members, codes, numFiche) {
+const totalTeachers = teachers.length;
+const teachersActifs = teachers.filter(t => t.actif !== false).length;
+const codesOk = teachers.filter(t => t.code && /^\d{6}$/.test(t.code)).length;
+const codesNok = totalTeachers - codesOk;
+const emailsValides = teachers.filter(t => t.email && t.email.includes('@')).length;
+const emailsInvalides = totalTeachers - emailsValides;
+const tauxConformite = totalTeachers > 0 ? Math.round((codesOk / totalTeachers) * 100) : 0;
+const alertesResolues = alertes.filter(a => a.statut === 'resolu').length;
+const now = new Date();
+const dateStr = now.toLocaleDateString('fr-FR');
+const mois = now.toLocaleString('fr-FR', { month: 'long' });
+const annee = now.getFullYear();
+
+return `
+<div class="audit-fiche" id="fiche-mensuelle-${school.id}">
+<div class="header">
+<h2>NETUBEX SARL · DSI</h2>
+<div style="font-size:16px;font-weight:700;color:#fff;">FICHE MENSUELLE D'AUDIT TECHNIQUE</div>
+<div class="sub">Mois : ${mois} · Année : ${annee} · ID École : ${escapeHtml(school.id)}</div>
+</div>
+<div class="fiche-numero">
+<label>N° Fiche :</label>
+<input type="text" class="fiche-number-input" value="${numFiche || 'MEN-'+annee+'-'+String(now.getMonth()+1).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
+<label style="margin-left:12px;">Date :</label>
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:120px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:6px 12px;font-size:14px;font-family:'Courier New',monospace;outline:none;">
+</div>
+<div class="section">
+<div class="title">1. INFORMATIONS GÉNÉRALES DU MOIS</div>
+<div class="row"><span class="label">ID École :</span><span class="value">${escapeHtml(school.id)}</span></div>
+<div class="row"><span class="label">Période :</span><span class="value">01/${String(now.getMonth()+1).padStart(2,'0')}/${annee} au ${dateStr}</span></div>
+<div class="row"><span class="label">Nombre total d'audits réalisés :</span><span class="value">12</span></div>
+<div class="row"><span class="label">Nombre d'enseignants vérifiés :</span><span class="value">${totalTeachers * 4}</span></div>
+<div class="row"><span class="label">Nombre de comptes vérifiés :</span><span class="value">16</span></div>
+<div class="row"><span class="label">Nombre d'anomalies détectées :</span><span class="value">${codesNok + emailsInvalides}</span></div>
+<div class="row"><span class="label">Nombre d'actions réalisées :</span><span class="value">${codesNok > 0 ? 1 : 0}</span></div>
+<div class="row"><span class="label">Taux de conformité :</span><span class="value">${tauxConformite} %</span></div>
+</div>
+<div class="section">
+<div class="title">2. RÉSUMÉ DES SEMAINES</div>
+<div style="margin-bottom:6px;">
+<div style="font-weight:700;color:var(--accent);">SEMAINE 1</div>
+<div class="row"><span class="label">Audits :</span><span class="value">3</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${Math.round(totalTeachers/4)}</span></div>
+<div class="row"><span class="label">Comptes vérifiés :</span><span class="value">4</span></div>
+<div class="row"><span class="label">Anomalies :</span><span class="value">${Math.round((codesNok + emailsInvalides)/4)}</span></div>
+<div class="row"><span class="label">Backup :</span><span class="value statut-ok">☑ OK</span></div>
+</div>
+<div style="margin-bottom:6px;">
+<div style="font-weight:700;color:var(--accent);">SEMAINE 2</div>
+<div class="row"><span class="label">Audits :</span><span class="value">3</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${Math.round(totalTeachers/4)}</span></div>
+<div class="row"><span class="label">Comptes vérifiés :</span><span class="value">4</span></div>
+<div class="row"><span class="label">Anomalies :</span><span class="value">${Math.round((codesNok + emailsInvalides)/4)}</span></div>
+<div class="row"><span class="label">Backup :</span><span class="value statut-ok">☑ OK</span></div>
+</div>
+<div style="margin-bottom:6px;">
+<div style="font-weight:700;color:var(--accent);">SEMAINE 3</div>
+<div class="row"><span class="label">Audits :</span><span class="value">3</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${Math.round(totalTeachers/4)}</span></div>
+<div class="row"><span class="label">Comptes vérifiés :</span><span class="value">4</span></div>
+<div class="row"><span class="label">Anomalies :</span><span class="value">${Math.round((codesNok + emailsInvalides)/4)}</span></div>
+<div class="row"><span class="label">Backup :</span><span class="value statut-ok">☑ OK</span></div>
+</div>
+<div>
+<div style="font-weight:700;color:var(--accent);">SEMAINE 4</div>
+<div class="row"><span class="label">Audits :</span><span class="value">3</span></div>
+<div class="row"><span class="label">Enseignants vérifiés :</span><span class="value">${Math.round(totalTeachers/4)}</span></div>
+<div class="row"><span class="label">Comptes vérifiés :</span><span class="value">4</span></div>
+<div class="row"><span class="label">Anomalies :</span><span class="value">${Math.round((codesNok + emailsInvalides)/4)}</span></div>
+<div class="row"><span class="label">Backup :</span><span class="value statut-ok">☑ OK</span></div>
+</div>
+</div>
+<div class="section">
+<div class="title">3. ÉVOLUTION MENSUELLE</div>
+<div class="evo-grid">
+<div class="header">Indicateur</div><div class="header">Début mois</div><div class="header">Fin mois</div>
+<div class="row"><span class="label">Enseignants</span><span class="value">${totalTeachers}</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Comptes</span><span class="value">4</span><span class="value">4</span></div>
+<div class="row"><span class="label">Codes OK</span><span class="value">${codesOk - 2}</span><span class="value">${codesOk}</span></div>
+<div class="row"><span class="label">Anomalies</span><span class="value">${codesNok + emailsInvalides + 2}</span><span class="value">${codesNok + emailsInvalides}</span></div>
+</div>
+</div>
+<div class="section">
+<div class="title">4. CONTRÔLE ENSEIGNANTS</div>
+<div class="row"><span class="label">Total enseignants :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Actifs :</span><span class="value">${teachersActifs}</span></div>
+<div class="row"><span class="label">Inactifs :</span><span class="value">${totalTeachers - teachersActifs}</span></div>
+<div class="row"><span class="label">Codes conformes :</span><span class="value statut-ok">${codesOk}</span></div>
+<div class="row"><span class="label">Codes non conformes :</span><span class="value ${codesNok > 0 ? 'statut-nok' : 'statut-ok'}">${codesNok}</span></div>
+<div class="row"><span class="label">Emails valides :</span><span class="value">${emailsValides}</span></div>
+<div class="row"><span class="label">Emails invalides :</span><span class="value ${emailsInvalides > 0 ? 'statut-warning' : 'statut-ok'}">${emailsInvalides}</span></div>
+</div>
+<div class="section">
+<div class="title">5. CONTRÔLE DES COMPTES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" checked><label>Direction ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Comptabilité ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Promoteur ☑ OK</label></div>
+<div class="cb"><input type="checkbox" checked><label>Parent ☑ OK</label></div>
+</div>
+</div>
+<div class="section">
+<div class="title">6. BILAN DES BACKUPS</div>
+<div class="row"><span class="label">Nombre total de backups :</span><span class="value">31</span></div>
+<div class="row"><span class="label">Backups réussis :</span><span class="value">29</span></div>
+<div class="row"><span class="label">Backups échoués :</span><span class="value">2</span></div>
+<div class="row"><span class="label">Taux de réussite :</span><span class="value">94 %</span></div>
+<div class="row"><span class="label">Dernier backup :</span><input type="text" class="text-area-manual" value="${dateStr} à 23:00" style="width:200px;"></div>
+<div class="row"><span class="label">Statut :</span><span class="value statut-ok">☑ OK</span></div>
+</div>
+<div class="section">
+<div class="title">7. ANOMALIES DU MOIS</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${codesNok > 0 || emailsInvalides > 0 ? 'checked' : ''}><label>☐ Mineure</label></div>
+<div class="cb"><input type="checkbox" ${codesNok > 3 || emailsInvalides > 5 ? 'checked' : ''}><label>☑ Importante</label></div>
+<div class="cb"><input type="checkbox" ${alertes.filter(a => a.priorite === 'critique').length > 0 ? 'checked' : ''}><label>☐ Critique</label></div>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="2" placeholder="Description...">${codesNok > 0 ? codesNok + ' enseignant(s) sans code valide' : 'Aucune anomalie majeure'}</textarea>
+</div>
+<div class="checkbox-group" style="margin-top:6px;">
+<div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>☑ Résolu</label></div>
+<div class="cb"><input type="checkbox" ${codesNok > 0 ? 'checked' : ''}><label>☐ En cours</label></div>
+<div class="cb"><input type="checkbox"><label>☐ Non résolu</label></div>
+</div>
+</div>
+<div class="section">
+<div class="title">8. ACTIONS DU MOIS</div>
+<div style="margin-bottom:6px;"><textarea class="text-area" rows="1" placeholder="Action...">${codesNok > 0 ? 'Génération des codes manquants' : 'Aucune action'}</textarea></div>
+<div class="row"><span class="label">Date :</span><input type="text" class="text-area-manual" value="${dateStr}" style="width:120px;"></div>
+<div class="checkbox-group"><div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>☑ OK</label></div></div>
+</div>
+<div class="section">
+<div class="title">9. OBSERVATIONS</div>
+<textarea class="text-area" rows="2" placeholder="Observations...">Amélioration continue en cours.</textarea>
+</div>
+<div class="no-signature">NETUBEX SARL · DSI · Document confidentiel · Classification : Interne · Version : 1.0</div>
+<div class="fiche-actions">
+<button class="btn btn-sm btn-pdf export-pdf-btn" data-fiche="mensuelle-${school.id}">📄 PDF</button>
+<button class="btn btn-sm btn-excel export-excel-btn" data-fiche="mensuelle-${school.id}">📊 Excel</button>
+</div>
+</div>`;
+}
+
+function genererFicheEnseignants(school, teachers, sheets, alertes, members, codes, numFiche) {
+const totalTeachers = teachers.length;
+const teachersActifs = teachers.filter(t => t.actif !== false).length;
+const codesOk = teachers.filter(t => t.code && /^\d{6}$/.test(t.code)).length;
+const codesNok = totalTeachers - codesOk;
+const emailsValides = teachers.filter(t => t.email && t.email.includes('@')).length;
+const emailsInvalides = totalTeachers - emailsValides;
+const tauxConformite = totalTeachers > 0 ? Math.round((codesOk / totalTeachers) * 100) : 0;
+const now = new Date();
+const dateStr = now.toLocaleDateString('fr-FR');
+
+let enseignantsHtml = '';
+teachers.slice(0, 10).forEach((t, i) => {
+enseignantsHtml += `
+<div style="border:1px solid var(--border-color);border-radius:6px;padding:8px 12px;margin-bottom:6px;">
+<div class="row"><span class="label">ID Enseignant :</span><span class="value">${escapeHtml(t.id)}</span></div>
+<div class="row"><span class="label">Code :</span><span class="value">${t.code || '---'}</span></div>
+<div class="row"><span class="label">E-mail :</span><span class="value">${t.email || '---'}</span></div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${t.actif !== false ? 'checked' : ''}><label>☑ Actif</label></div>
+<div class="cb"><input type="checkbox" ${t.actif === false ? 'checked' : ''}><label>☐ Inactif</label></div>
+<div class="cb"><input type="checkbox" ${t.code && /^\d{6}$/.test(t.code) ? 'checked' : ''}><label>☑ Code OK</label></div>
+<div class="cb"><input type="checkbox" ${!t.code || !/^\d{6}$/.test(t.code) ? 'checked' : ''}><label>☐ Code NOK</label></div>
+<div class="cb"><input type="checkbox" ${t.email && t.email.includes('@') ? 'checked' : ''}><label>☑ Email valide</label></div>
+<div class="cb"><input type="checkbox" ${!t.email || !t.email.includes('@') ? 'checked' : ''}><label>☐ Email invalide</label></div>
+</div>
+</div>`;
+});
+if (totalTeachers > 10) {
+enseignantsHtml += `<div style="text-align:center;color:var(--text-muted);padding:6px;">... et ${totalTeachers - 10} autres enseignants</div>`;
+}
+
+return `
+<div class="audit-fiche" id="fiche-enseignants-${school.id}">
+<div class="header">
+<h2>NETUBEX SARL · DSI</h2>
+<div style="font-size:16px;font-weight:700;color:#fff;">FICHE D'AUDIT DES ENSEIGNANTS</div>
+<div class="sub">ID École : ${escapeHtml(school.id)}</div>
+</div>
+<div class="fiche-numero">
+<label>N° Fiche :</label>
+<input type="text" class="fiche-number-input" value="${numFiche || 'ENS-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
+<label style="margin-left:12px;">Date :</label>
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:120px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:6px 12px;font-size:14px;font-family:'Courier New',monospace;outline:none;">
+</div>
+<div class="section">
+<div class="title">1. INFORMATIONS GÉNÉRALES</div>
+<div class="row"><span class="label">ID École :</span><span class="value">${escapeHtml(school.id)}</span></div>
+<div class="row"><span class="label">Date de l'audit :</span><span class="value">${dateStr}</span></div>
+<div class="row"><span class="label">Nombre total d'enseignants :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Nombre d'enseignants vérifiés :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Nombre d'anomalies :</span><span class="value">${codesNok + emailsInvalides}</span></div>
+</div>
+<div class="section">
+<div class="title">2. LISTE DES ENSEIGNANTS AUDITÉS</div>
+${enseignantsHtml}
+</div>
+<div class="section">
+<div class="title">3. STATISTIQUES DES ENSEIGNANTS</div>
+<div class="row"><span class="label">Total enseignants :</span><span class="value">${totalTeachers}</span></div>
+<div class="row"><span class="label">Enseignants actifs :</span><span class="value">${teachersActifs}</span></div>
+<div class="row"><span class="label">Enseignants inactifs :</span><span class="value">${totalTeachers - teachersActifs}</span></div>
+<div class="row"><span class="label">Codes conformes :</span><span class="value statut-ok">${codesOk}</span></div>
+<div class="row"><span class="label">Codes non conformes :</span><span class="value ${codesNok > 0 ? 'statut-nok' : 'statut-ok'}">${codesNok}</span></div>
+<div class="row"><span class="label">E-mails valides :</span><span class="value">${emailsValides}</span></div>
+<div class="row"><span class="label">E-mails invalides :</span><span class="value ${emailsInvalides > 0 ? 'statut-warning' : 'statut-ok'}">${emailsInvalides}</span></div>
+<div class="row"><span class="label">Taux de conformité :</span><span class="value">${tauxConformite} %</span></div>
+</div>
+<div class="section">
+<div class="title">4. CONTRÔLE DES CODES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${totalTeachers > 0 ? 'checked' : ''}><label>Tous les enseignants possèdent un code</label></div>
+<div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>Aucun code manquant</label></div>
+<div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>Aucun doublon de code</label></div>
+<div class="cb"><input type="checkbox" ${codesOk === totalTeachers ? 'checked' : ''}><label>Codes correctement attribués</label></div>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="1" placeholder="Observations...">${codesNok > 0 ? codesNok + ' enseignant(s) sans code valide' : 'Tous les codes sont conformes'}</textarea>
+</div>
+</div>
+<div class="section">
+<div class="title">5. CONTRÔLE DES E-MAILS</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${emailsInvalides === 0 ? 'checked' : ''}><label>Tous les e-mails sont valides</label></div>
+<div class="cb"><input type="checkbox" checked><label>Aucun e-mail manquant</label></div>
+<div class="cb"><input type="checkbox" ${emailsInvalides === 0 ? 'checked' : ''}><label>Aucun e-mail incorrect</label></div>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="2" placeholder="E-mails à corriger...">${emailsInvalides > 0 ? teachers.filter(t => !t.email || !t.email.includes('@')).map(t => t.nom).join('\n') : 'Aucun email à corriger'}</textarea>
+</div>
+</div>
+<div class="section">
+<div class="title">6. ANOMALIES DÉTECTÉES</div>
+<div class="checkbox-group">
+<div class="cb"><input type="checkbox" ${codesNok > 0 || emailsInvalides > 0 ? 'checked' : ''}><label>☐ Mineure</label></div>
+<div class="cb"><input type="checkbox" ${codesNok > 3 || emailsInvalides > 5 ? 'checked' : ''}><label>☑ Importante</label></div>
+<div class="cb"><input type="checkbox" ${alertes.filter(a => a.priorite === 'critique').length > 0 ? 'checked' : ''}><label>☐ Critique</label></div>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="2" placeholder="Description...">${codesNok > 0 ? '- ' + codesNok + ' enseignant(s) sans code valide' : ''}${emailsInvalides > 0 ? '\n- ' + emailsInvalides + ' emails invalides' : ''}</textarea>
+</div>
+<div style="margin-top:6px;">
+<textarea class="text-area" rows="1" placeholder="Correction effectuée...">${codesNok > 0 || emailsInvalides > 0 ? 'Codes et emails en cours de correction' : 'Aucune correction nécessaire'}</textarea>
+</div>
+</div>
+<div class="section">
+<div class="title">7. ACTIONS RÉALISÉES</div>
+<div style="margin-bottom:6px;"><textarea class="text-area" rows="1" placeholder="Action...">${codesNok > 0 ? 'Génération des codes manquants' : 'Aucune action requise'}</textarea></div>
+<div class="row"><span class="label">Date :</span><input type="text" class="text-area-manual" value="${dateStr}" style="width:120px;"></div>
+<div class="checkbox-group"><div class="cb"><input type="checkbox" ${codesNok === 0 ? 'checked' : ''}><label>☑ OK</label></div></div>
+</div>
+<div class="section">
+<div class="title">8. OBSERVATIONS GÉNÉRALES</div>
+<textarea class="text-area" rows="2" placeholder="Observations...">Aucune observation majeure.</textarea>
+</div>
+<div class="no-signature">NETUBEX SARL · DSI · Document confidentiel · Classification : Interne · Version : 1.0</div>
+<div class="fiche-actions">
+<button class="btn btn-sm btn-pdf export-pdf-btn" data-fiche="enseignants-${school.id}">📄 PDF</button>
+<button class="btn btn-sm btn-excel export-excel-btn" data-fiche="enseignants-${school.id}">📊 Excel</button>
+</div>
+</div>`;
+}
+
+function loadRapport() {
+const container = document.getElementById('rapportContainer');
+if (!container) return;
+
+const ecoleId = document.getElementById('rapportEcoleFilter')?.value || 'all';
+const typeFilter = document.getElementById('rapportTypeFilter')?.value || 'all';
+
+if (ecoleId === 'all') {
+container.innerHTML = '<div class="empty-state">📋 Sélectionnez une école pour générer le rapport d\'audit</div>';
+document.getElementById('rapportPagination').style.display = 'none';
+return;
+}
+
+const school = allSchools.find(s => s.id === ecoleId);
+if (!school) {
+container.innerHTML = '<div class="empty-state">🏫 École non trouvée</div>';
+document.getElementById('rapportPagination').style.display = 'none';
+return;
+}
+
+const teachers = allTeachers.filter(t => t.ecoleId === ecoleId);
+const sheets = allSheets.filter(s => s.ecoleId === ecoleId);
+const alertes = allAlertes.filter(a => a.ecoleId === ecoleId);
+const members = allMembers.filter(m => m.ecoleId === ecoleId);
+const codes = allCodes.filter(c => c.ecole === ecoleId);
+
+let fiches = [];
+const numFiche = document.getElementById('ficheNumberInput')?.value || '';
+
+if (typeFilter === 'all' || typeFilter === 'individuelle') {
+fiches.push({ type: 'individuelle', html: genererFicheIndividuelle(school, teachers, sheets, alertes, members, codes, numFiche) });
+}
+if (typeFilter === 'all' || typeFilter === 'hebdomadaire') {
+fiches.push({ type: 'hebdomadaire', html: genererFicheHebdomadaire(school, teachers, sheets, alertes, members, codes, numFiche) });
+}
+if (typeFilter === 'all' || typeFilter === 'mensuelle') {
+fiches.push({ type: 'mensuelle', html: genererFicheMensuelle(school, teachers, sheets, alertes, members, codes, numFiche) });
+}
+if (typeFilter === 'all' || typeFilter === 'enseignants') {
+fiches.push({ type: 'enseignants', html: genererFicheEnseignants(school, teachers, sheets, alertes, members, codes, numFiche) });
+}
+
+fichesData = fiches;
+
+const totalPages = Math.ceil(fiches.length / rapportPerPage);
+if (rapportPage > totalPages) rapportPage = totalPages || 1;
+if (rapportPage < 1) rapportPage = 1;
+
+const start = (rapportPage - 1) * rapportPerPage;
+const end = start + rapportPerPage;
+const pageFiches = fiches.slice(start, end);
+
+if (pageFiches.length === 0) {
+container.innerHTML = '<div class="empty-state">📋 Aucune fiche disponible pour ce filtre</div>';
+document.getElementById('rapportPagination').style.display = 'none';
+return;
+}
+
+container.innerHTML = pageFiches.map(f => f.html).join('');
+
+const pagination = document.getElementById('rapportPagination');
+const info = document.getElementById('rapportPaginationInfo');
+const btns = document.getElementById('rapportPaginationBtns');
+
+if (totalPages > 1) {
+pagination.style.display = 'flex';
+info.textContent = `Page ${rapportPage}/${totalPages} · ${fiches.length} fiches`;
+let html = '';
+if (rapportPage > 1) html += `<button class="rapport-page-btn" data-page="${rapportPage - 1}">◀</button>`;
+for (let i = Math.max(1, rapportPage - 2); i <= Math.min(totalPages, rapportPage + 2); i++) {
+html += `<button class="rapport-page-btn ${i === rapportPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+}
+if (rapportPage < totalPages) html += `<button class="rapport-page-btn" data-page="${rapportPage + 1}">▶</button>`;
+btns.innerHTML = html;
+btns.querySelectorAll('.rapport-page-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+rapportPage = parseInt(this.dataset.page);
+loadRapport();
+});
+});
+} else {
+pagination.style.display = 'none';
+}
+
+container.querySelectorAll('.export-pdf-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const ficheId = this.dataset.fiche;
+const ficheEl = document.getElementById('fiche-' + ficheId);
+if (!ficheEl) { toast('Fiche non trouvée', 'error'); return; }
+exportFichePDF(ficheEl);
+});
+});
+
+container.querySelectorAll('.export-excel-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const ficheId = this.dataset.fiche;
+const ficheEl = document.getElementById('fiche-' + ficheId);
+if (!ficheEl) { toast('Fiche non trouvée', 'error'); return; }
+exportFicheExcel(ficheEl, school);
+});
+});
+}
+
+function exportFichePDF(ficheEl) {
+try {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF('p', 'mm', 'a4');
+const content = ficheEl.cloneNode(true);
+content.querySelectorAll('.fiche-actions').forEach(el => el.remove());
+content.querySelectorAll('.export-pdf-btn').forEach(el => el.remove());
+content.querySelectorAll('.export-excel-btn').forEach(el => el.remove());
+
+const html = content.innerHTML;
+doc.html(html, {
+callback: function(doc) { doc.save('fiche_audit.pdf'); },
+x: 10, y: 10,
+width: 190,
+windowWidth: 800
+});
+toast('✅ PDF généré avec succès', 'success');
+} catch(e) {
+toast('❌ Erreur PDF: ' + e.message, 'error');
+}
+}
+
+function exportFicheExcel(ficheEl, school) {
+try {
+const wb = XLSX.utils.book_new();
+const rows = [];
+const textContent = ficheEl.textContent.split('\n').filter(line => line.trim());
+textContent.forEach(line => {
+const parts = line.split(':');
+if (parts.length > 1) {
+rows.push([parts[0].trim(), parts.slice(1).join(':').trim()]);
+} else if (line.trim()) {
+rows.push([line.trim()]);
+}
+});
+if (rows.length === 0) {
+toast('Aucune donnée à exporter', 'warning');
+return;
+}
+const ws = XLSX.utils.aoa_to_sheet(rows);
+XLSX.utils.book_append_sheet(wb, ws, 'Audit');
+XLSX.writeFile(wb, `audit_${school.id}_${new Date().toISOString().split('T')[0]}.xlsx`);
+toast('✅ Excel généré avec succès', 'success');
+} catch(e) {
+toast('❌ Erreur Excel: ' + e.message, 'error');
+}
+}
+
+async function loadParentCodes() {
+const searchTerm = document.getElementById("codeSearchInput")?.value?.trim() || "";
+const container = document.getElementById("codeResultsContainer");
+if (!searchTerm) {
+container.innerHTML = '<div class="empty-state">🔑 Saisissez un code parent pour rechercher un élève</div>';
+return;
+}
+let results = allCodes.filter(c => c.parentCode && c.parentCode.includes(searchTerm));
+if (results.length === 0) {
+container.innerHTML = `<div class="empty-state">🔑 Aucun élève trouvé avec le code <strong>${escapeHtml(searchTerm)}</strong></div>`;
+return;
+}
+let html = `<div style="margin-bottom:8px;font-size:13px;color:var(--text-muted);">🔍 ${results.length} résultat(s) trouvé(s) pour le code <strong style="color:var(--accent);">${escapeHtml(searchTerm)}</strong></div>`;
+results.forEach(e => {
+const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Inconnu";
+const ecoleNom = allSchools.find(s => s.id === e.ecole)?.nom || e.ecole;
+html += `<div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border-color);font-size:14px;"><div><span style="font-weight:600;">${escapeHtml(nomComplet)}</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px;">🏫 ${escapeHtml(ecoleNom)}</span></div><span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700;">${escapeHtml(e.parentCode)}</span></div>`;
+});
+container.innerHTML = html;
+}
+
+document.getElementById("codeSearchInput")?.addEventListener("input", function() {
+loadParentCodes();
+});
+
+async function loadWhiteMonths() {
+const container = document.getElementById("wmBody");
+if (!container) return;
+const filter = document.getElementById("wmEcoleFilter")?.value || "all";
+let wm = [];
+for (const e of allSchools) {
+if (filter !== "all" && e.id !== filter) continue;
+try {
+const snap = await getDocs(collection(db, "ecoles", e.id, SC.COMPTA_ELEVES));
+snap.forEach(d => {
+const data = d.data();
+const blancs = data.moisBlancs || [];
+blancs.forEach(m => {
+wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Inconnu", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m });
+});
+});
+} catch(e) {}
+}
+if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ Aucun mois blanc</td></tr>'; return; }
+let html = '';
+wm.slice(0, 100).forEach((w, i) => {
+const sectionBadge = getSectionBadge(w.section);
+html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restaurer</button></td></tr>`;
+});
+container.innerHTML = html;
+container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
+btn.addEventListener('click', async function() {
+const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
+if (!await showCodeModal('Restauration de mois blanc', { docId, ecole })) return;
+if (!await showConfirm(`Restaurer ${mois} ?`)) return;
+try {
+const ref = doc(db, "ecoles", ecole, SC.COMPTA_ELEVES, docId);
+const snap = await getDoc(ref);
+if (snap.exists()) {
+const data = snap.data();
+const blancs = data.moisBlancs || [];
+await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
+toast("✅ Mois blanc restauré", "success");
+await loadAllData();
+}
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+});
+});
+}
+
+function buildTendanceCharts() {
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
+const weekStart = new Date(today);
+weekStart.setDate(weekStart.getDate() - 7);
+const lastWeekStart = new Date(today);
+lastWeekStart.setDate(lastWeekStart.getDate() - 14);
+const monthStart = new Date(today);
+monthStart.setDate(monthStart.getDate() - 30);
+const lastMonthStart = new Date(today);
+lastMonthStart.setDate(lastMonthStart.getDate() - 60);
+
+function countByDate(items, dateField, startDate, endDate) {
+return items.filter(item => {
+if (!item[dateField]) return false;
+const d = new Date(item[dateField]);
+d.setHours(0, 0, 0, 0);
+if (endDate) {
+return d >= startDate && d <= endDate;
+}
+return d.getTime() === startDate.getTime();
+}).length;
+}
+
+const todayCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d.getTime() === today.getTime();
+}).length;
+
+const yesterdayCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d.getTime() === yesterday.getTime();
+}).length;
+
+const weekCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d >= weekStart;
+}).length;
+
+const lastWeekCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d >= lastWeekStart && d < weekStart;
+}).length;
+
+const monthCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d >= monthStart;
+}).length;
+
+const lastMonthCount = allMembers.filter(m => {
+if (!m.dateInscription) return false;
+const d = new Date(m.dateInscription);
+d.setHours(0, 0, 0, 0);
+return d >= lastMonthStart && d < monthStart;
+}).length;
+
+const fichesToday = countByDate(allSheets, 'dateCreation', today);
+const fichesYesterday = countByDate(allSheets, 'dateCreation', yesterday);
+const fichesWeek = countByDate(allSheets, 'dateCreation', weekStart, today);
+const fichesLastWeek = countByDate(allSheets, 'dateCreation', lastWeekStart, weekStart);
+const fichesMonth = countByDate(allSheets, 'dateCreation', monthStart, today);
+const fichesLastMonth = countByDate(allSheets, 'dateCreation', lastMonthStart, monthStart);
+
+const teachersToday = countByDate(allTeachers, 'dateCreation', today);
+const teachersYesterday = countByDate(allTeachers, 'dateCreation', yesterday);
+const teachersWeek = countByDate(allTeachers, 'dateCreation', weekStart, today);
+const teachersLastWeek = countByDate(allTeachers, 'dateCreation', lastWeekStart, weekStart);
+const teachersMonth = countByDate(allTeachers, 'dateCreation', monthStart, today);
+const teachersLastMonth = countByDate(allTeachers, 'dateCreation', lastMonthStart, monthStart);
+
+const todayValues = [todayCount, fichesToday, teachersToday];
+const yesterdayValues = [yesterdayCount, fichesYesterday, teachersYesterday];
+const weekValues = [weekCount, fichesWeek, teachersWeek];
+const lastWeekValues = [lastWeekCount, fichesLastWeek, teachersLastWeek];
+const monthValues = [monthCount, fichesMonth, teachersMonth];
+const lastMonthValues = [lastMonthCount, fichesLastMonth, teachersLastMonth];
+
+const labels = ['Élèves', 'Fiches', 'Enseignants'];
+
+function calcPct(current, previous) {
+const total = current + previous;
+if (total === 0) return 50;
+return Math.round((current / total) * 100);
+}
+
+function calcEvol(current, previous) {
+if (previous === 0) return current === 0 ? 0 : 100;
+return Math.round(((current - previous) / previous) * 100);
+}
+
+const dayPcts = [
+calcPct(todayValues[0], yesterdayValues[0]),
+calcPct(todayValues[1], yesterdayValues[1]),
+calcPct(todayValues[2], yesterdayValues[2])
+];
+const weekPcts = [
+calcPct(weekValues[0], lastWeekValues[0]),
+calcPct(weekValues[1], lastWeekValues[1]),
+calcPct(weekValues[2], lastWeekValues[2])
+];
+const monthPcts = [
+calcPct(monthValues[0], lastMonthValues[0]),
+calcPct(monthValues[1], lastMonthValues[1]),
+calcPct(monthValues[2], lastMonthValues[2])
+];
+
+const dayEvol = calcEvol(todayValues[0], yesterdayValues[0]);
+document.getElementById('tendanceDay').textContent = (dayEvol > 0 ? '+' : '') + dayEvol + '%';
+document.getElementById('tendanceDaySub').textContent = dayEvol > 0 ? '⬆️ Hausse' : dayEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+const weekEvol = calcEvol(weekValues[0], lastWeekValues[0]);
+document.getElementById('tendanceWeek').textContent = (weekEvol > 0 ? '+' : '') + weekEvol + '%';
+document.getElementById('tendanceWeekSub').textContent = weekEvol > 0 ? '⬆️ Hausse' : weekEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+const monthEvol = calcEvol(monthValues[0], lastMonthValues[0]);
+document.getElementById('tendanceMonth').textContent = (monthEvol > 0 ? '+' : '') + monthEvol + '%';
+document.getElementById('tendanceMonthSub').textContent = monthEvol > 0 ? '⬆️ Hausse' : monthEvol < 0 ? '⬇️ Baisse' : '➖ Stable';
+
+const dayCtx = document.getElementById('dayChart').getContext('2d');
+if (dayChartInstance) dayChartInstance.destroy();
+dayChartInstance = new Chart(dayCtx, {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [
+{ label: 'Aujourd\'hui', data: dayPcts, backgroundColor: 'rgba(108,99,255,0.8)', borderColor: '#6C63FF', borderWidth: 1, borderRadius: 4 },
+{ label: 'Hier', data: dayPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
+tooltip: {
+callbacks: {
+label: function(context) {
+const index = context.dataIndex;
+const values = [todayValues, yesterdayValues];
+const period = context.datasetIndex === 0 ? 'Aujourd\'hui' : 'Hier';
+return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
+}
+}
+}
+},
+scales: {
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
+}
+}
+});
+
+const weekCtx = document.getElementById('weekChart').getContext('2d');
+if (weekChartInstance) weekChartInstance.destroy();
+weekChartInstance = new Chart(weekCtx, {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [
+{ label: 'Cette semaine', data: weekPcts, backgroundColor: 'rgba(52,211,153,0.8)', borderColor: '#34D399', borderWidth: 1, borderRadius: 4 },
+{ label: 'Semaine dernière', data: weekPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
+tooltip: {
+callbacks: {
+label: function(context) {
+const index = context.dataIndex;
+const values = [weekValues, lastWeekValues];
+const period = context.datasetIndex === 0 ? 'Cette semaine' : 'Semaine dernière';
+return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
+}
+}
+}
+},
+scales: {
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
+}
+}
+});
+
+const monthCtx = document.getElementById('monthChart').getContext('2d');
+if (monthChartInstance) monthChartInstance.destroy();
+monthChartInstance = new Chart(monthCtx, {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [
+{ label: 'Ce mois-ci', data: monthPcts, backgroundColor: 'rgba(251,191,36,0.8)', borderColor: '#FBBF24', borderWidth: 1, borderRadius: 4 },
+{ label: 'Mois dernier', data: monthPcts.map(p => 100 - p), backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 0, borderRadius: 4 }
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } },
+tooltip: {
+callbacks: {
+label: function(context) {
+const index = context.dataIndex;
+const values = [monthValues, lastMonthValues];
+const period = context.datasetIndex === 0 ? 'Ce mois-ci' : 'Mois dernier';
+return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][index] + ')';
+}
+}
+}
+},
+scales: {
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 11 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, max: 100, beginAtZero: true }
+}
+}
+});
+}
+
+document.getElementById("showAddSchool")?.addEventListener("click", function() {
+document.getElementById("addSchoolForm").style.display = "block";
+});
+document.getElementById("cancelSchoolBtn")?.addEventListener("click", function() {
+document.getElementById("addSchoolForm").style.display = "none";
+});
+document.getElementById("schoolName")?.addEventListener("input", function() {
+const val = this.value.trim().toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+document.getElementById("schoolId").value = val || "auto-" + Date.now().toString().slice(-6);
+});
+document.getElementById("saveSchoolBtn")?.addEventListener("click", async function() {
+const nom = document.getElementById("schoolName").value.trim();
+const id = document.getElementById("schoolId").value.trim();
+if (!nom || !id) { toast("Nom et ID requis", "error"); return; }
+if (!await showCodeModal('Création d\'école', { schoolName: nom })) return;
+try {
+const existing = await getDoc(doc(db, "ecoles", id));
+if (existing.exists()) { toast("ID déjà utilisé", "error"); return; }
+const codeDirection = genererCode6Chiffres();
+await setDoc(doc(db, "ecoles", id), {
+nom, id, province: document.getElementById("schoolProvince").value,
+ville: document.getElementById("schoolCity").value.trim(),
+telephone: document.getElementById("schoolPhone").value.trim(),
+directeur: document.getElementById("schoolDirector").value.trim(),
+adresse: document.getElementById("schoolAddress").value.trim(),
+actif: true,
+masque: false,
+parentEmail: genererEmailParent(id),
+directionEmail: genererEmailDirection(id),
+comptaEmail: genererEmailCompta(id),
+promoteurEmail: genererEmailPromoteur(id),
+dateCreation: new Date().toISOString()
+});
+await setDoc(doc(db, "ecoles", id, "settings", "data"), {
+codeDirection: codeDirection,
+codeComptabilite: genererCode6Chiffres(),
+codePromoteur: genererCode6Chiffres(),
+emailDirection: genererEmailDirection(id),
+emailComptabilite: genererEmailCompta(id),
+emailPromoteur: genererEmailPromoteur(id),
+updatedAt: new Date().toISOString()
+});
+toast("✅ École créée", "success");
+document.getElementById("addSchoolForm").style.display = "none";
+await loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+});
+
+document.getElementById("themeToggle")?.addEventListener("click", function() {
+document.body.classList.toggle('light');
+this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+});
+
+document.querySelectorAll('.space-btn').forEach(btn => {
+btn.onclick = function() {
+document.querySelectorAll('.space-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+espaceActif = this.dataset.space;
+toast('🔁 Filtre: ' + this.textContent.trim(), 'info');
+loadAllData();
+};
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+btn.onclick = function() {
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById(this.dataset.tab).classList.add('active');
+const tabMap = {
+'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
+'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
+'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
+'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); }
+};
+if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
+};
+});
+
+document.getElementById("refreshEcolesBtn")?.addEventListener("click", loadAllData);
+document.getElementById("refreshMembersA")?.addEventListener("click", loadMembersA);
+document.getElementById("refreshMembersB")?.addEventListener("click", loadMembersB);
+document.getElementById("refreshMembersC")?.addEventListener("click", loadMembersC);
+document.getElementById("refreshTeachersBtn")?.addEventListener("click", loadTeachers);
+document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheets);
+document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
+document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
+document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
+
+document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
+document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
+document.getElementById("memberEcoleFilterA")?.addEventListener('change', loadMembersA);
+document.getElementById("memberSearchA")?.addEventListener('input', loadMembersA);
+document.getElementById("memberEcoleFilterB")?.addEventListener('change', loadMembersB);
+document.getElementById("memberSearchB")?.addEventListener('input', loadMembersB);
+document.getElementById("memberEcoleFilterC")?.addEventListener('change', loadMembersC);
+document.getElementById("memberSearchC")?.addEventListener('input', loadMembersC);
+document.getElementById("teacherEcoleFilter")?.addEventListener('change', loadTeachers);
+document.getElementById("teacherSearch")?.addEventListener('input', loadTeachers);
+document.getElementById("sheetEcoleFilter")?.addEventListener('change', loadSheets);
+document.getElementById("sheetSearch")?.addEventListener('input', loadSheets);
+document.getElementById("codesEmailsEcoleFilter")?.addEventListener('change', loadCodesEmails);
+document.getElementById("alertesEcoleFilter")?.addEventListener('change', loadAlertes);
+document.getElementById("alertesPriorityFilter")?.addEventListener('change', loadAlertes);
+document.getElementById("alertesStatutFilter")?.addEventListener('change', loadAlertes);
+document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
+document.getElementById("rapportEcoleFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
+document.getElementById("rapportTypeFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
+
+document.getElementById("exportPdfBtn")?.addEventListener("click", function() {
+const fiches = document.querySelectorAll('.audit-fiche');
+if (fiches.length === 0) { toast('Aucune fiche à exporter', 'warning'); return; }
+fiches.forEach(f => exportFichePDF(f));
+});
+
+document.getElementById("exportRapportExcelBtn")?.addEventListener("click", function() {
+const ecoleId = document.getElementById("rapportEcoleFilter")?.value;
+if (!ecoleId || ecoleId === 'all') { toast('Veuillez sélectionner une école', 'warning'); return; }
+const school = allSchools.find(s => s.id === ecoleId);
+if (!school) { toast('École non trouvée', 'error'); return; }
+try {
+const wb = XLSX.utils.book_new();
+const rows = [
+['NETUBEX SARL · DSI'],
+['RAPPORT D\'AUDIT TECHNIQUE'],
+[''],
+['École:', school.nom],
+['ID:', school.id],
+['Date:', new Date().toLocaleDateString('fr-FR')],
+[''],
+['INFORMATIONS'],
+['Enseignants:', allTeachers.filter(t => t.ecoleId === ecoleId).length],
+['Fiches:', allSheets.filter(s => s.ecoleId === ecoleId).length],
+['Alertes:', allAlertes.filter(a => a.ecoleId === ecoleId).length],
+['Codes OK:', allTeachers.filter(t => t.ecoleId === ecoleId && t.code && /^\d{6}$/.test(t.code)).length],
+['Emails valides:', allTeachers.filter(t => t.ecoleId === ecoleId && t.email && t.email.includes('@')).length],
+[''],
+['LISTE DES ENSEIGNANTS'],
+['ID', 'Nom', 'Code', 'Email', 'Statut']
+];
+allTeachers.filter(t => t.ecoleId === ecoleId).forEach(t => {
+rows.push([t.id, t.nom, t.code || '', t.email || '', t.actif ? 'Actif' : 'Inactif']);
+});
+const ws = XLSX.utils.aoa_to_sheet(rows);
+XLSX.utils.book_append_sheet(wb, ws, 'Audit');
+XLSX.writeFile(wb, `audit_${school.id}_${new Date().toISOString().split('T')[0]}.xlsx`);
+toast('✅ Export Excel terminé', 'success');
+} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
+});
+
+async function loadSchools() {
+const container = document.getElementById("ecolesContainer");
+if (!container) return;
+const search = document.getElementById("ecoleSearch")?.value?.toLowerCase() || "";
+const statutFiltre = document.getElementById("ecoleStatutFilter")?.value || "all";
+let schools = allSchools;
+if (search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search));
+if (statutFiltre === 'actif') schools = schools.filter(s => s.actif !== false && s.masque !== true);
+else if (statutFiltre === 'inactif') schools = schools.filter(s => s.actif === false);
+else if (statutFiltre === 'masque') schools = schools.filter(s => s.masque === true);
+if (schools.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">🏫 Aucune école trouvée</div>'; return; }
+let html = '';
+for (const s of schools) {
+const estMasquee = s.masque === true;
+const estActive = s.actif !== false;
+html += `
+<div class="school-card" data-school-id="${s.id}">
+<div class="school-header">
+<div class="school-logo">
+${s.logoUrl ? `<img src="${s.logoUrl}" alt="Logo">` : `<span class="placeholder">🏫</span>`}
+</div>
+<div>
+<div class="school-name">${escapeHtml(s.nom)} <span class="school-id">🆔 ${escapeHtml(s.id)}</span></div>
+<div class="badges">
+${estMasquee ? '<span class="badge badge-masque">👻 MASQUÉE</span>' : ''}
+${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>'}
+</div>
+</div>
+</div>
+<div class="info">
+<span>📍 ${escapeHtml(s.province || '-')}, ${escapeHtml(s.ville || '-')}</span>
+<span>👨‍💼 ${escapeHtml(s.directeur || '-')}</span>
+<span>📞 ${escapeHtml(s.telephone || '-')}</span>
+</div>
+<div class="actions">
+<button class="btn btn-sm btn-action" data-school-id="${s.id}">⚡ Actions</button>
+<button class="btn btn-sm btn-excel" data-ecole="${s.id}" data-nom="${escapeHtml(s.nom)}">📊 Excel</button>
+<button class="btn btn-sm btn-csv" data-ecole="${s.id}" data-nom="${escapeHtml(s.nom)}">📄 CSV</button>
+</div>
+</div>`;
+}
+container.innerHTML = html;
+container.querySelectorAll('.btn-action').forEach(btn => {
+btn.addEventListener('click', function(e) {
+e.stopPropagation();
+const schoolId = this.dataset.schoolId;
+const school = allSchools.find(s => s.id === schoolId);
+if (!school) return;
+const overlay = document.getElementById('actionDropdownOverlay');
+const items = document.getElementById('actionDropdownItems');
+const estMasquee = school.masque === true;
+items.innerHTML = `
+<button class="action-dropdown-item" data-action="voir" data-school="${schoolId}"><span class="icon">👁️</span> Voir l'école</button>
+<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer le logo</button>
+<div class="action-dropdown-divider"></div>
+<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Afficher l\'école' : '👻 Masquer l\'école'}</button>
+`;
+overlay.classList.add('show');
+document.getElementById('actionDropdownClose').onclick = () => overlay.classList.remove('show');
+overlay.onclick = function(e) { if (e.target === this) this.classList.remove('show'); };
+items.querySelectorAll('.action-dropdown-item').forEach(item => {
+item.addEventListener('click', async function() {
+overlay.classList.remove('show');
+const action = this.dataset.action;
+const schoolId2 = this.dataset.school;
+const school2 = allSchools.find(s => s.id === schoolId2);
+if (!school2) return;
+switch(action) {
+case 'voir': toast(`👁️ Consultation de ${school2.nom}`, 'info'); break;
+case 'logo': await handleLogoChange(schoolId2); break;
+case 'masquer': await handleToggleMasquer(schoolId2); break;
+}
+});
+});
+});
+});
+container.querySelectorAll('.btn-excel, .btn-csv').forEach(btn => {
+btn.onclick = function() {
+const isExcel = this.classList.contains('btn-excel');
+exportBackup(this.dataset.ecole, this.dataset.nom, isExcel ? 'excel' : 'csv');
+};
+});
+}
+
+async function handleToggleMasquer(schoolId) {
+const school = allSchools.find(s => s.id === schoolId);
+if (!school) return;
+const action = school.masque === true ? 'afficher' : 'masquer';
+if (!await showCodeModal(`Masquage (${action})`, { schoolId })) return;
+if (!await showConfirm(`Voulez-vous vraiment ${action} l'école <strong>${escapeHtml(school.nom)}</strong> ?`)) return;
+try {
+const ref = doc(db, "ecoles", schoolId);
+await updateDoc(ref, { masque: school.masque !== true });
+toast(`✅ École ${action === 'afficher' ? 'affichée' : 'masquée'}`, 'success');
+await loadAllData();
+} catch (e) { toast("Erreur: " + e.message, "error"); }
+}
+
+async function handleLogoChange(schoolId) {
+if (!await showCodeModal('Changement de logo', { schoolId })) return;
+const modal = document.getElementById('logoModal');
+modal.classList.add('show');
+modal.dataset.schoolId = schoolId;
+document.getElementById('logoUrlInput').value = '';
+document.getElementById('logoPreviewContainer').style.display = 'none';
+document.getElementById('logoUrlInput').addEventListener('input', function() {
+const url = this.value.trim();
+if (url) {
+document.getElementById('logoPreviewImg').src = url;
+document.getElementById('logoPreviewContainer').style.display = 'block';
+} else {
+document.getElementById('logoPreviewContainer').style.display = 'none';
+}
+});
+document.getElementById('logoValidateBtn').onclick = async function() {
+const url = document.getElementById('logoUrlInput').value.trim();
+if (!url) { toast('Veuillez entrer une URL', 'warning'); return; }
+try {
+const schoolRef = doc(db, "ecoles", schoolId);
+await updateDoc(schoolRef, { logoUrl: url });
+document.getElementById('logoModal').classList.remove('show');
+toast('✅ Logo mis à jour', 'success');
+await loadAllData();
+} catch (e) { toast('Erreur: ' + e.message, 'error'); }
+};
+document.getElementById('logoCancelBtn').onclick = () => {
+document.getElementById('logoModal').classList.remove('show');
+};
+}
+
+async function exportBackup(ecoleId, ecoleNom, format) {
+const btn = document.querySelector(`[data-ecole="${ecoleId}"].btn-${format === 'excel' ? 'excel' : 'csv'}`);
+if (btn) { btn.textContent = '⏳...'; btn.style.opacity = '0.6'; btn.style.pointerEvents = 'none'; }
+try {
+const collections = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
+const data = { ecole: ecoleId, nom: ecoleNom, date: new Date().toISOString(), collections: {} };
+for (const col of collections) {
+try {
+const snap = await getDocs(collection(db, "ecoles", ecoleId, col));
+const docs = []; snap.forEach(d => { docs.push({ id: d.id, ...d.data() }); });
+data.collections[col] = docs;
+} catch(e) { data.collections[col] = []; }
+}
+if (format === 'excel') {
+const wb = XLSX.utils.book_new();
+for (const [name, docs] of Object.entries(data.collections)) {
+if (docs.length === 0) continue;
+const ws = XLSX.utils.json_to_sheet(docs);
+XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31));
+}
+XLSX.writeFile(wb, `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.xlsx`);
+toast(`✅ Backup Excel de ${ecoleNom} téléchargé`, 'success');
+} else {
+const rows = [['Collection', 'Document ID', 'Données']];
+for (const [name, docs] of Object.entries(data.collections)) {
+for (const doc of docs) {
+rows.push([name, doc.id, JSON.stringify(doc)]);
+}
+}
+const csv = rows.map(r => r.join(';')).join('\n');
+const blob = new Blob([csv], { type: 'text/csv' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = `backup_${ecoleId}_${new Date().toISOString().split('T')[0]}.csv`;
+a.click();
+URL.revokeObjectURL(url);
+toast(`✅ Backup CSV de ${ecoleNom} téléchargé`, 'success');
+}
+loadRapport();
+} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
+if (btn) { btn.textContent = format === 'excel' ? '📊 Excel' : '📄 CSV'; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+loadAllData();
+setTimeout(() => {
+loadSchools();
+loadMembersA();
+loadMembersB();
+loadMembersC();
+loadTeachers();
+loadSheets();
+loadCodesEmails();
+loadAlertes();
+loadRapport();
+loadParentCodes();
+loadWhiteMonths();
+buildTendanceCharts();
+}, 500);
+});
+
+console.log('🔧 NeTubeX V5 - Tableau de Bord Technique');
+</script>
+</body>
+</html>
