@@ -6,8 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0e1a">
-<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-<meta name="googlebot" content="noindex, nofollow">
+<meta name="robots" content="noindex">
 <title>ESPACE PARENTAL</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -26,7 +25,7 @@ body{overscroll-behavior:none;-webkit-overscroll-behavior:none;}
 .refresh-fiches-btn:active{transform:rotate(90deg);}
 .refresh-fiches-btn.spinning{animation:spin 0.8s ease-in-out;}
 @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-.school-header{background:linear-gradient(135deg,#0f2b44,#071a2c);border-radius:20px;padding:14px 20px;text-align:center;margin-bottom:20px;cursor:pointer;}
+.school-header{background:linear-gradient(135deg,#0f2b44,#071a2c);border-radius:20px;padding:20px;text-align:center;margin-bottom:20px;cursor:pointer;}
 .school-name{font-size:22px;font-weight:700;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .school-sub{font-size:11px;opacity:0.8;margin-top:4px;color:#cbd5e1;}
 .tabs-container{overflow-x:auto;margin-bottom:20px;white-space:nowrap;-webkit-overflow-scrolling:touch;}
@@ -251,27 +250,128 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
 .tab-content .card .assistant-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px;}
 @media(min-width:768px){.tab-content .card .assistant-grid{grid-template-columns:repeat(2,1fr);}}
 .tab-content .card .result-area-full{margin-top:20px;}
-.parent-floating-btn{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:240px;height:240px;border-radius:50%;background:transparent;border:none;padding:0;cursor:pointer;z-index:10001;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;box-shadow:0 0 0 0 rgba(16,185,129,0.6);animation:breathe 2.5s ease-in-out infinite;}
-.parent-floating-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;border:4px solid #10b981;box-sizing:border-box;}
-@keyframes breathe{0%{transform:translate(-50%, -50%) scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}50%{transform:translate(-50%, -50%) scale(1.08);box-shadow:0 0 35px 15px rgba(16,185,129,0.25);}100%{transform:translate(-50%, -50%) scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}}
+
+.parent-floating-btn{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    background:transparent;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    z-index:10001;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    color:#fff;
+}
+
+.parent-floating-btn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    border-radius:50%;
+    border:4px solid #10b981;
+    box-sizing:border-box;
+    position:relative;
+    z-index:2;
+    animation:breathe 2.5s ease-in-out infinite;
+}
+
+.parent-floating-btn::before,
+.parent-floating-btn::after{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    border:3px solid rgba(16,185,129,0.3);
+    animation:signal 2.5s ease-out infinite;
+    z-index:1;
+}
+
+.parent-floating-btn::after{
+    animation-delay:0.8s;
+}
+
+@keyframes signal{
+    0%{
+        transform:translate(-50%, -50%) scale(1);
+        opacity:1;
+        border-color:rgba(16,185,129,0.5);
+    }
+    100%{
+        transform:translate(-50%, -50%) scale(1.5);
+        opacity:0;
+        border-color:rgba(16,185,129,0);
+    }
+}
+
+@keyframes breathe{
+    0%{transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}
+    50%{transform:scale(1.06);box-shadow:0 0 40px 15px rgba(16,185,129,0.2);}
+    100%{transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}
+}
+
 .parent-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(16px);z-index:10002;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:all 0.3s ease;}
 .parent-modal-overlay.active{visibility:visible;opacity:1;}
 .parent-modal{background:linear-gradient(135deg,#1e293b,#0f172a);width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
 @keyframes pulse{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(59,130,246,0.4);}50%{transform:scale(1.05);box-shadow:0 0 30px 10px rgba(59,130,246,0.15);}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(59,130,246,0.4);}}
-.parent-modal .header-fixe{position:sticky;top:0;z-index:999;background:#0a0e1a;padding:8px 20px;border-bottom:1px solid rgba(59,130,246,0.1);}
+
+.parent-modal .header-fixe {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: #0a0e1a;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(59,130,246,0.1);
+}
+
 .parent-modal-body{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0;}
 .parent-chat{display:flex;flex-direction:column;height:100%;width:100%;}
 .parent-info{background:linear-gradient(135deg,#0f2b44,#071a2c);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(59,130,246,0.2);flex-shrink:0;}
-.parent-info-left{display:flex;flex-direction:column;gap:2px;}
-.parent-info-left span:first-child{color:#ffd700;font-size:14px;font-weight:600;}
-.parent-info-left span:last-child{color:#94a3b8;font-size:11px;}
+.parent-info-left{display:flex;flex-direction:column;gap:4px;}
+.parent-info-left span:first-child{color:#ffd700;font-size:15px;font-weight:600;}
+.parent-info-left span:last-child{color:#94a3b8;font-size:12px;}
 .parent-info-right{display:flex;align-items:center;gap:12px;}
 .parent-info-right span:first-child{font-size:12px;color:#94a3b8;}
-.parent-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(circle at 20% 30%, rgba(59,130,246,0.05), transparent 80%);min-height:0;}
+.parent-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px;background:radial-gradient(circle at 20% 30%, rgba(59,130,246,0.05), transparent 80%);min-height:0;max-height:calc(100vh - 200px);}
 .parent-msg{display:flex;width:100%;animation:fadeInUp 0.3s ease-out;}
 .parent-msg.user{justify-content:flex-end;}
 .parent-msg.bot{justify-content:flex-start;}
-.parent-msg .bubble{max-width:85%;padding:14px 20px;border-radius:24px;font-size:17px;line-height:1.6;word-wrap:break-word;font-weight:400;transition:all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);white-space:pre-wrap;font-family:'Inter',sans-serif;}
+
+/* Carte d'accueil - EXACTEMENT comme l'ancien code */
+.parent-msg.bot:first-child .bubble {
+    max-width: 85%;
+    padding: 18px 24px;
+    border-radius: 24px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Tous les autres messages - MÊME TAILLE que l'ancien code */
+.parent-msg .bubble {
+    max-width: 85%;
+    padding: 18px 24px;
+    border-radius: 24px;
+    font-size: 18px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    font-weight: 400;
+    transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+    white-space: pre-wrap;
+    font-family: 'Inter', sans-serif;
+}
+
 .parent-msg.user .bubble{background:linear-gradient(135deg,rgba(59,130,246,0.95),rgba(30,64,175,0.95));backdrop-filter:blur(12px);color:#fff;font-weight:500;box-shadow:0 15px 30px -10px rgba(59,130,246,0.5),0 5px 10px -3px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2),inset 0 -2px 0 rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:24px 24px 8px 24px;}
 .parent-msg.user .bubble:hover{transform:translateY(-3px);box-shadow:0 22px 35px -12px rgba(59,130,246,0.6),0 8px 12px -4px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.3);}
 .parent-msg.bot .bubble{background:rgba(18,25,45,0.85);backdrop-filter:blur(16px);color:#e2e8f0;border:2px solid rgba(255,107,107,0.3);animation:rainbowSoft 4s linear infinite, rainbowGlowSoft 4s linear infinite;box-shadow:0 12px 28px -8px rgba(0,0,0,0.4),0 4px 8px -2px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.08);border-radius:24px 24px 24px 8px;overflow:hidden;position:relative;}
@@ -279,10 +379,10 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
 @keyframes rainbowGlowSoft{0%{box-shadow:0 0 15px rgba(255,107,107,0.1),0 0 30px rgba(255,107,107,0.03)}16%{box-shadow:0 0 15px rgba(255,159,67,0.1),0 0 30px rgba(255,159,67,0.03)}33%{box-shadow:0 0 15px rgba(254,202,87,0.1),0 0 30px rgba(254,202,87,0.03)}50%{box-shadow:0 0 15px rgba(29,209,161,0.1),0 0 30px rgba(29,209,161,0.03)}66%{box-shadow:0 0 15px rgba(84,160,255,0.1),0 0 30px rgba(84,160,255,0.03)}83%{box-shadow:0 0 15px rgba(162,155,254,0.1),0 0 30px rgba(162,155,254,0.03)}100%{box-shadow:0 0 15px rgba(255,107,107,0.1),0 0 30px rgba(255,107,107,0.03)}}
 .parent-msg.bot .bubble strong,.parent-msg.bot .bubble b{color:#60a5fa;font-weight:600;}
 .parent-msg.bot .bubble hr{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.5),rgba(96,165,250,0.8),rgba(59,130,246,0.5),transparent);margin:14px 0;}
-.parent-input-area{flex-shrink:0;display:flex;gap:12px;background:#0f172a;padding:10px 16px;border-top:1px solid #334155;}
-.parent-input{flex:1;padding:10px 16px;background:#0f172a;border:1px solid #334155;border-radius:40px;color:#fff;font-size:15px;outline:none;resize:none;font-family:'Inter',sans-serif;line-height:1.4;min-height:42px;max-height:120px;}
+.parent-input-area{flex-shrink:0;display:flex;gap:10px;background:#0f172a;padding:8px 14px;border-top:1px solid #334155;}
+.parent-input{flex:1;padding:8px 14px;background:#0f172a;border:1px solid #334155;border-radius:40px;color:#fff;font-size:14px;outline:none;resize:none;font-family:'Inter',sans-serif;line-height:1.4;min-height:36px;max-height:120px;}
 .parent-input:focus{border-color:#3b82f6;}
-.parent-send{background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:40px;padding:0 20px;color:#fff;font-weight:600;cursor:pointer;transition:all 0.2s;font-size:18px;min-height:42px;}
+.parent-send{background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:40px;padding:0 16px;color:#fff;font-weight:600;cursor:pointer;transition:all 0.2s;font-size:16px;min-height:36px;}
 .parent-send:active{transform:scale(0.97);}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -463,10 +563,27 @@ body.light-mode #loginError{color:#b91c1c !important;}
 <body>
 <div id="loadingScreen" class="show"><img src="https://www.netubex.com/favicon.png.png" alt="NeTubeX" onerror="this.style.display='none'"><div class="brand">NeTubeX SARL</div><div class="spinner"></div></div>
 <div class="container" id="mainApp" style="display:block">
-<div class="school-header" id="schoolHeader"><div class="school-name" id="schoolNameHeader">COMPLEXE SCOLAIRE</div><div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div><div style="font-size:13px;margin-top:8px;color:#fff;">SYSTÈME DE GESTION DE SCOLARITÉ</div></div>
+<div class="school-header"><div class="school-name" id="schoolNameHeader">COMPLEXE SCOLAIRE</div><div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div><div style="font-size:13px;margin-top:8px;color:#fff;">GESTION DE SCOLARITÉ</div></div>
 </div>
-<button class="parent-floating-btn" id="parentFloatingBtn" style="display:flex;padding:0;border-radius:50%;overflow:hidden;background:transparent;border:3px solid #10b981;box-shadow:0 0 0 0 rgba(16,185,129,0.5);"><img src="https://www.netubex.com/parent.jpg" alt="Espace Parental" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;"></button>
-<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:60px;height:60px;flex-shrink:0;animation:pulse 2s ease-in-out infinite;"><div style="position:absolute;inset:-4px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:4px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:8px;"><div style="font-size:18px;font-weight:700;color:#fff;letter-spacing:1px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:12px;color:#10b981;font-weight:600;">Systeme Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:12px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:20px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">X</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 12px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">🔋</span><span style="color:#4ade80;font-size:10px;font-weight:600;">CHARGE ILLIMITEE</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
+<button class="parent-floating-btn" id="parentFloatingBtn"><img src="https://www.netubex.com/parent.jpg" alt="Espace Parental"></button>
+<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe" style="padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <div style="position:relative;width:36px;height:36px;flex-shrink:0;">
+            <div style="position:absolute;inset:-2px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:2px;">
+                <div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;">
+                    <img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+            </div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#fff;letter-spacing:0.5px;">ESPACE PARENTAL</div>
+        <div style="font-size:10px;color:#10b981;font-weight:600;">Systeme Intelligent</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:16px;font-weight:700;cursor:pointer;padding:0 4px;line-height:1;">✕</button>
+        <button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:30px;padding:2px 8px;color:#fff;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button>
+    </div>
+</div>
+<div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:36px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
 
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"}}
@@ -496,11 +613,41 @@ let schoolId = urlParams.get('ecole');
 if (!schoolId) { window.location.href = '/schoolchoice'; throw new Error('Redirection'); }
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g,'_');
 
+const STATUT_ID = "espace_parental";
+let dernierInteraction = Date.now();
+const DELAI_INACTIVITE = 5 * 60 * 1000;
+
+async function mettreAJourStatutEspaceParental(actif) {
+    try {
+        const ref = doc(db, "ecoles", ECOLET_ID, "settings", STATUT_ID);
+        await setDoc(ref, {
+            actif: actif,
+            derniereInteraction: new Date().toISOString(),
+            timestamp: Date.now()
+        });
+    } catch (e) {}
+}
+
+function enregistrerInteraction() {
+    dernierInteraction = Date.now();
+    mettreAJourStatutEspaceParental(true);
+}
+
+setInterval(() => {
+    if (Date.now() - dernierInteraction > DELAI_INACTIVITE) {
+        mettreAJourStatutEspaceParental(false);
+    }
+}, 30000);
+
+enregistrerInteraction();
+
 const SC = {
 FICHES: 'fiches',
 PUNITIONS: 'punitions',
 COMMUNIQUES: 'communiques',
-COMPTA_ELEVES: 'compta_eleves'
+COMPTA_ELEVES: 'compta_eleves',
+PRIMA_ELEVES: 'prima_eleves',
+MATER_ELEVES: 'mater_eleves'
 };
 
 let currentProf = null;
@@ -626,14 +773,6 @@ if(idxActuel === -1) return false;
 return idx <= idxActuel;
 }
 
-function getWeekNumber(date) {
-const d = new Date(date);
-d.setHours(0, 0, 0, 0);
-d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-const week1 = new Date(d.getFullYear(), 0, 4);
-return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-}
-
 function getSessionId() {
 if (!sessionId) {
 sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
@@ -658,7 +797,8 @@ sexe: eleveData.sexe,
 classe: eleveData.classe,
 notes: eleveData.notes,
 frais: eleveData.frais,
-punitions: eleveData.punitions
+punitions: eleveData.punitions,
+presences: eleveData.presences
 });
 let hash = 0;
 for (let i = 0; i < dataStr.length; i++) {
@@ -681,7 +821,7 @@ try {
 const eleves = [];
 const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
 const moisActuel = getMoisActuel();
-const collections = ['compta_eleves', 'prima_eleves', 'mater_eleves'];
+const collections = [SC.COMPTA_ELEVES, SC.PRIMA_ELEVES, SC.MATER_ELEVES];
 for (const coll of collections) {
 const q = query(collection(db, "ecoles", ECOLET_ID, coll), where("parentCode", "==", code));
 const snap = await getDocs(q);
@@ -689,8 +829,8 @@ snap.forEach(doc => {
 const data = doc.data();
 if (data.nom) {
 let espace = 'secondaire';
-if (coll === 'prima_eleves') espace = 'primaire';
-else if (coll === 'mater_eleves') espace = 'maternelle';
+if (coll === SC.PRIMA_ELEVES) espace = 'primaire';
+else if (coll === SC.MATER_ELEVES) espace = 'maternelle';
 eleves.push({ id: doc.id, espace: espace, ...data });
 }
 });
@@ -807,6 +947,7 @@ option: fiche.option || ''
 }
 }
 const punitions = await chercherPunitionsParNom(eleve.nom);
+const presences = await chercherPresencesParNom(eleve.nom);
 resultats.push({
 eleveNom: eleve.nom,
 sexe: eleve.sexe || 'M',
@@ -815,7 +956,8 @@ option: fiche.option || '',
 titulaire: fiche.titulaire || null,
 epreuves: epreuvesList,
 nombreElevesClasse: fiche.eleves ? fiche.eleves.length : 0,
-punitions: punitions
+punitions: punitions,
+presences: presences
 });
 }
 }
@@ -839,6 +981,38 @@ classe: data.classe
 });
 });
 return punitions;
+} catch (e) { return []; }
+}
+
+async function chercherPresencesParNom(nom) {
+try {
+const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PRESENCES));
+const presences = [];
+const maintenant = new Date();
+const heureActuelle = maintenant.getHours() + maintenant.getMinutes() / 60;
+const aujourdhui = maintenant.toISOString().slice(0, 10);
+snap.forEach(ds => {
+const data = ds.data();
+if (!data.eleves) return;
+data.eleves.forEach(e => {
+if (e.nom === nom) {
+const dateStr = data.date ? data.date.slice(0, 10) : '';
+if (dateStr === aujourdhui) {
+if (heureActuelle >= 12 && heureActuelle < 17.5) {
+presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: true, enCours: true, heureActuelle: heureActuelle });
+} else if (heureActuelle < 12) {
+presences.push({ date: data.date, present: null, classe: data.classe, option: data.option || '', estAujourdhui: true, avantCours: true, heureActuelle: heureActuelle });
+} else {
+presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: true, apresCours: true, heureActuelle: heureActuelle });
+}
+} else {
+presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: false });
+}
+}
+});
+});
+presences.sort((a, b) => b.date.localeCompare(a.date));
+return presences.slice(0, 5);
 } catch (e) { return []; }
 }
 
@@ -928,24 +1102,54 @@ window.speechSynthesis.cancel();
 
 let texteParle = texte;
 
-if (texte.includes("J'ai trouvé") && texte.includes("dans notre système")) {
-texteParle = texteParle.replace(/J'ai trouvé .*? dans notre système/, "J'ai trouvé votre enfant dans notre système");
+if (texte.includes("Bonjour cher parent") && texte.includes("J'ai trouvé")) {
+let sexe = "";
+let classe = "";
+let section = "";
+
+if (texte.includes("C'est un garçon")) {
+sexe = "C'est un garçon.";
+} else if (texte.includes("C'est une fille")) {
+sexe = "C'est une fille.";
 }
 
-if (texte.includes("La meilleure note de")) {
-texteParle = texteParle.replace(/La meilleure note de .*? est/, "La meilleure note de votre enfant est");
+const classeMatch = texte.match(/Il est en (.*?)(\n|\.|,|$)/);
+if (classeMatch) {
+classe = classeMatch[1].trim();
 }
 
-if (texte.includes("Plusieurs élèves sont associés")) {
-texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité ou tapez suivant pour passer au prochain élève.";
+if (texte.includes("Section")) {
+const sectionMatch = texte.match(/Section (.*?)(\n|\.|,|$)/);
+if (sectionMatch) {
+section = `Section ${sectionMatch[1].trim()}.`;
+}
+}
+
+texteParle = `Bonjour cher parent, j'ai trouvé votre enfant dans notre système. ${sexe} Il est en ${classe}. ${section} Je peux vous parler de sa situation financière, ses notes de cours et de ses punitions, par quoi voulez-vous que je commence ?`;
+parler(texteParle);
+return;
 }
 
 if (texte.includes("Situation financière") || texte.includes("minerval") || texte.includes("francs") || texte.includes("payé") || texte.includes("reste") || texte.includes("impayé") || texte.includes("mois")) {
 texteParle = "Voici sa situation financière.";
+parler(texteParle);
+return;
+}
+
+if (texte.includes("La meilleure note de")) {
+texteParle = texteParle.replace(/La meilleure note de .*? est/, "La meilleure note de votre enfant est");
+parler(texteParle);
+return;
+}
+
+if (texte.includes("présence") && texte.includes("aujourd'hui")) {
+return;
 }
 
 if (texte.includes("Aucune punition")) {
 texteParle = "Votre enfant a un bon comportement, c'est excellent !";
+parler(texteParle);
+return;
 }
 
 if (texte.includes("punition") || texte.includes("punitions")) {
@@ -956,16 +1160,97 @@ texteParle = "Votre enfant a une punition.";
 } else {
 texteParle = `Votre enfant a ${matches.length} punitions.`;
 }
+parler(texteParle);
+return;
 }
+}
+
+if (texte.includes("Voici ce que je peux faire pour vous")) {
+texteParle = "Voici ce que je peux faire pour vous.";
+parler(texteParle);
+return;
 }
 
 if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
 texteParle = "Au revoir, bonne journée.";
+parler(texteParle);
+return;
 }
 
 if (texte.includes("Veuillez taper un autre code parent")) {
 texteParle = "Vous avez déjà vu toutes les informations disponibles pour votre enfant. Veuillez taper un autre code parent. Je suis là pour vous aider.";
+parler(texteParle);
+return;
 }
+
+if (texte.includes("Entrez votre code parent") && texte.includes("4 ou 6 chiffres")) {
+const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
+const h = new Date().getHours();
+const salutation = h < 12 ? "Bonjour" : (h < 18 ? "Bon après-midi" : "Bonsoir");
+texteParle = `${salutation} ! Entrez votre code parent à 4 ou 6 chiffres. Si vous n'en avez pas, contactez la comptabilité de l'école ${nomEcole}.`;
+parler(texteParle);
+return;
+}
+
+if (texte.includes("Bienvenue") && texte.includes("code parent") && !texte.includes("Communique")) {
+const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
+texteParle = `Bienvenue à l'ecole ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`;
+parler(texteParle);
+return;
+}
+
+if (texte.includes("Bienvenue") && texte.includes("Communique")) {
+const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
+const commMatch = texte.match(/Communique du jour: (.*?)\./);
+if (commMatch) {
+texteParle = `Bienvenue à l'ecole ${nomEcole}. Voici le Communiqué du jour: ${commMatch[1]}.`;
+parler(texteParle);
+return;
+}
+}
+
+if (texte.includes("Plusieurs élèves sont associés")) {
+texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité ou tapez suivant pour passer au prochain élève.";
+parler(texteParle);
+return;
+}
+
+if (texte.includes("J'ai trouvé") && texte.includes("dans notre système") && !texte.includes("Bonjour cher parent")) {
+let sexe = "";
+let classe = "";
+let section = "";
+
+if (texte.includes("C'est un garçon")) {
+sexe = "C'est un garçon.";
+} else if (texte.includes("C'est une fille")) {
+sexe = "C'est une fille.";
+}
+
+const classeMatch = texte.match(/Il est en (.*?)(\n|\.|,|$)/);
+if (classeMatch) {
+classe = classeMatch[1].trim();
+}
+
+if (texte.includes("Section")) {
+const sectionMatch = texte.match(/Section (.*?)(\n|\.|,|$)/);
+if (sectionMatch) {
+section = `Section ${sectionMatch[1].trim()}.`;
+}
+}
+
+texteParle = `J'ai trouvé votre enfant dans notre système. ${sexe} Il est en ${classe}. ${section} Je peux vous parler de sa situation financière, ses notes de cours et de ses punitions, par quoi voulez-vous que je commence ?`;
+parler(texteParle);
+return;
+}
+
+return;
+}
+
+function parler(texte) {
+if (!texte) return;
+if (!window.speechSynthesis) return;
+
+let texteParle = texte;
 
 texteParle = texteParle.replace(/[📊💰📝📅⚠️✅❌👨‍👩‍👧‍👦🔑💡📌👉💬🏫👋🎯🌟👍👌📖🔒❌⚠️✅💰📝📅]/g, '');
 texteParle = texteParle.replace(/\*\*/g, '');
@@ -985,6 +1270,7 @@ texteParle = texteParle.replace(/\.\s+\./g, '. ');
 texteParle = texteParle.replace(/\?\s+\?/g, '? ');
 texteParle = texteParle.replace(/\!\s+\!/g, '! ');
 texteParle = texteParle.replace(/BLESSING/gi, 'blé-ssingue');
+
 texteParle = texteParle.replace(/\b1ère\s+Année\b/gi, 'première Année');
 texteParle = texteParle.replace(/\b1ere\s+Annee\b/gi, 'première Année');
 texteParle = texteParle.replace(/\b2ème\s+Année\b/gi, 'deuxième Année');
@@ -1011,6 +1297,7 @@ texteParle = texteParle.replace(/\b5ème\b/gi, 'cinquième');
 texteParle = texteParle.replace(/\b6ème\b/gi, 'sixième');
 texteParle = texteParle.replace(/\b7ème\b/gi, 'septième');
 texteParle = texteParle.replace(/\b8ème\b/gi, 'huitième');
+
 texteParle = texteParle.replace(/(\d+)\s*FC/g, (match, p1) => {
 const num = parseInt(p1);
 if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
@@ -1070,6 +1357,7 @@ function genererPropositions(eleveData) {
 const sections = {
 frais: { emoji: '', nom: 'les frais' },
 notes: { emoji: '', nom: 'les notes' },
+presence: { emoji: '', nom: 'la présence' },
 punitions: { emoji: '', nom: 'les punitions' }
 };
 const nonVisitees = Object.keys(sections).filter(section => !sectionDejaVisitee(section));
@@ -1124,11 +1412,17 @@ const punitionsDejaVues = sectionDejaVisitee('punitions');
 const aDesPunitions = eleveData.punitions && eleveData.punitions.length > 0;
 
 if (aDesPunitions && !punitionsDejaVues) {
-reponse += `\n\nVoulez-vous voir ses punitions ?`;
+reponse += `\n\nVoulez-vous aussi consulter ses punitions ?`;
 derniereQuestion = "notes_punitions";
+} else {
+const fraisDejaVus = sectionDejaVisitee('frais');
+if (!fraisDejaVus) {
+reponse += `\n\nVoulez-vous aussi consulter sa situation financière ?`;
+derniereQuestion = "notes_frais";
 } else {
 reponse += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 derniereQuestion = "fin";
+}
 }
 
 return reponse;
@@ -1207,7 +1501,6 @@ reponseEcran += `Reste à payer : ${resteTotal.toLocaleString()} FC`;
 
 const notesDejaVues = sectionDejaVisitee('notes');
 const punitionsDejaVues = sectionDejaVisitee('punitions');
-
 const aDesNotes = eleveData.notes && eleveData.notes.filter(n => n.note > 0).length > 0;
 const aDesPunitions = eleveData.punitions && eleveData.punitions.length > 0;
 
@@ -1223,11 +1516,19 @@ propositions.push("ses punitions");
 }
 
 if (propositions.length === 2) {
-reponseEcran += `\n\nVoulez-vous consulter ${propositions[0]} ou ${propositions[1]} ?`;
-derniereQuestion = "finance_notes_punitions";
+reponseEcran += `\n\nVoulez-vous aussi consulter ${propositions[0]} ou ${propositions[1]} ?`;
+derniereQuestion = "frais_notes_punitions";
 } else if (propositions.length === 1) {
-reponseEcran += `\n\nVoulez-vous consulter ${propositions[0]} ?`;
-derniereQuestion = "finance_" + (propositions[0].includes("notes") ? "notes" : "punitions");
+reponseEcran += `\n\nVoulez-vous aussi consulter ${propositions[0]} ?`;
+derniereQuestion = "frais_" + (propositions[0].includes("notes") ? "notes" : "punitions");
+} else {
+reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+derniereQuestion = "fin";
+}
+} else {
+if (!notesDejaVues && !punitionsDejaVues) {
+reponseEcran += `\n\nVoulez-vous consulter autre chose ?`;
+derniereQuestion = "frais_autre";
 } else {
 reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 derniereQuestion = "fin";
@@ -1265,14 +1566,38 @@ if (p.classe) reponseEcran += `\n   Classe : ${p.classe}`;
 }
 
 const notesDejaVues = sectionDejaVisitee('notes');
+const fraisDejaVus = sectionDejaVisitee('frais');
 const aDesNotes = eleveData.notes && eleveData.notes.filter(n => n.note > 0).length > 0;
 
+const section = eleveData.section;
+if (section === "SECONDAIRE") {
+let propositions = [];
+
 if (aDesNotes && !notesDejaVues) {
-reponseEcran += `\n\nVoulez-vous voir ses notes ?`;
-derniereQuestion = "punitions_notes";
+propositions.push("ses notes de cours");
+}
+if (!fraisDejaVus) {
+propositions.push("sa situation financière");
+}
+
+if (propositions.length === 2) {
+reponseEcran += `\n\nVoulez-vous aussi consulter ${propositions[0]} ou ${propositions[1]} ?`;
+derniereQuestion = "punitions_notes_frais";
+} else if (propositions.length === 1) {
+reponseEcran += `\n\nVoulez-vous aussi consulter ${propositions[0]} ?`;
+derniereQuestion = "punitions_" + (propositions[0].includes("notes") ? "notes" : "frais");
 } else {
 reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 derniereQuestion = "fin";
+}
+} else {
+if (!fraisDejaVus) {
+reponseEcran += `\n\nVoulez-vous consulter autre chose ?`;
+derniereQuestion = "punitions_autre";
+} else {
+reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+derniereQuestion = "fin";
+}
 }
 
 return reponseEcran;
@@ -1307,7 +1632,7 @@ const msg = message.toLowerCase().trim();
 if (msg.length < 2) {
 return "Je n'ai pas compris votre demande. Pouvez-vous reformuler ? Par exemple : finance, notes ou punitions.";
 }
-const motsCles = ['finance', 'notes', 'punitions', 'suivant', 'aide', 'au revoir'];
+const motsCles = ['finance', 'notes', 'punitions', 'suivant', 'presence', 'présence', 'aide', 'au revoir'];
 const contientMotCle = motsCles.some(mot => msg.includes(mot));
 if (!contientMotCle && dernierEleveData) {
 const estSecondaire = (dernierEleveData.section === "SECONDAIRE");
@@ -1325,7 +1650,37 @@ return null;
 }
 
 async function genererReponsePresence(eleveData) {
-return "Les informations de présence ne sont plus disponibles.";
+ajouterSectionVisitee('presence');
+const nomComplet = `${eleveData.nom} ${eleveData.prenom||''}`.trim();
+const presences = eleveData.presences || [];
+const maintenant = new Date();
+const heureActuelle = maintenant.getHours() + maintenant.getMinutes() / 60;
+
+let reponse = `Je regarde la présence de ${nomComplet}.`;
+if (presences.length === 0) {
+reponse += `\n\nJe n'ai pas d'informations sur sa présence pour le moment.`;
+reponse += await genererPropositions(eleveData);
+return reponse;
+}
+
+const aujourdhui = presences.find(p => p.estAujourdhui);
+if (aujourdhui && aujourdhui.present !== null) {
+if (heureActuelle >= 17.5) {
+reponse += `\n\nAujourd'hui, ${nomComplet} était ${aujourdhui.present?'présent':'absent'}.`;
+} else {
+reponse += `\n\nAujourd'hui, ${nomComplet} est ${aujourdhui.present?'présent':'absent'}.`;
+}
+} else if (aujourdhui && aujourdhui.avantCours) {
+reponse += `\n\nLes cours n'ont pas encore commencé.`;
+} else {
+const derniere = presences[0];
+if (derniere) {
+const dateDerniere = new Date(derniere.date).toLocaleDateString('fr-FR');
+reponse += `\n\nLa dernière présence enregistrée date du ${dateDerniere}. ${derniere.present?'Présent':'Absent'}`;
+}
+}
+reponse += await genererPropositions(eleveData);
+return reponse;
 }
 
 async function chargerInstructionsIA() {
@@ -1380,11 +1735,13 @@ reponse = `Je n'ai pas d'information sur l'effectif de sa classe.`;
 } else if (msg.includes('résumé') || msg.includes('tout') || msg.includes('complet') || msg.includes('global') || msg.includes('info') || msg.includes('informations')) {
 const frais = await genererReponseFrais(eleveData);
 const notes = await genererReponseNotes(eleveData);
+const presence = await genererReponsePresence(eleveData);
 const punitions = await genererReponsePunitions(eleveData);
 const fraisClean = frais.split('Voulez-vous voir')[0];
 const notesClean = notes.split('Voulez-vous voir')[0];
+const presenceClean = presence.split('Voulez-vous voir')[0];
 const punitionsClean = punitions.split('Voulez-vous voir')[0];
-reponse = `RÉSUMÉ\n\n${fraisClean}\n\n${notesClean}\n\n${punitionsClean}\n\nVoilà ce que je sais sur ${eleveData.nom} ${eleveData.prenom||''}.`;
+reponse = `RÉSUMÉ\n\n${fraisClean}\n\n${notesClean}\n\n${presenceClean}\n\n${punitionsClean}\n\nVoilà ce que je sais sur ${eleveData.nom} ${eleveData.prenom||''}.`;
 } else {
 const { pronom } = getSexePronom(eleveData.sexe);
 let contexte = `École: ${nomEcole}. L'élève s'appelle ${eleveData.nom} ${eleveData.prenom||''}. `;
@@ -1412,6 +1769,18 @@ if (eleveData.frais.moisImpayes && eleveData.frais.moisImpayes.length > 0) {
 contexte += `Mois impayés : ${eleveData.frais.moisImpayes.join(", ")}. `;
 }
 }
+if (eleveData.presences && eleveData.presences.length > 0) {
+const today = eleveData.presences[0];
+if (today && today.estAujourdhui && today.present !== null) {
+contexte += `Aujourd'hui, ${pronom2==='il'?'il':'elle'} est ${today.present?'présent':'absent'}. `;
+}
+const total = eleveData.presences.filter(p => p.present !== null).length;
+const presents = eleveData.presences.filter(p => p.present === true).length;
+if (total > 0) {
+const taux = Math.round((presents / total) * 100);
+contexte += `Taux de présence : ${taux}%. `;
+}
+}
 if (eleveData.punitions && eleveData.punitions.length > 0) {
 contexte += `Punitions actives : ${eleveData.punitions.map(p=>p.motif).join(", ")}. `;
 }
@@ -1426,7 +1795,7 @@ headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ question: prompt })
 });
 const data = await response.json();
-reponse = data.answer || `Je prends le temps de rassembler les informations concernant ${eleveData.nom} ${eleveData.prenom||''}. En attendant, je peux vous renseigner sur ses notes, sa situation financière et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.`;
+reponse = data.answer || `Je prends le temps de rassembler les informations concernant ${eleveData.nom} ${eleveData.prenom||''}. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.`;
 reponse = reponse.replace(/\d+%/g, '');
 reponse = reponse.replace(/\d+,\d+%/g, '');
 reponse = reponse.replace(/pourcent/g, 'points');
@@ -1447,7 +1816,7 @@ let classeInfo = `${eleveData.classe}`;
 if (section === "MATERNELLE") classeInfo += ", Section MATERNELLE";
 else if (section === "PRIMAIRE") classeInfo += ", Section PRIMAIRE";
 else classeInfo += ` option ${eleveData.option}, Section SECONDAIRE`;
-reponse = `${salutation} cher parent. Je prends le temps de rassembler les informations concernant ${nomComplet}. ${pronom === 'il' ? 'Il' : 'Elle'} est en ${classeInfo}. En attendant, je peux vous renseigner sur ses notes, sa situation financière et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.`;
+reponse = `${salutation} cher parent. Je prends le temps de rassembler les informations concernant ${nomComplet}. ${pronom === 'il' ? 'Il' : 'Elle'} est en ${classeInfo}. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.`;
 }
 }
 
@@ -1497,6 +1866,7 @@ moisBlancs: eleve.moisBlancs || [],
 paiements: eleve.paiements || {}
 },
 punitions: noteData ? noteData.punitions : [],
+presences: noteData ? noteData.presences : [],
 sectionsVisitees: historiqueSections[eleveId] || []
 };
 
@@ -1549,6 +1919,8 @@ return reponseEcran;
 async function traiterMessage(message) {
 const msg = message.trim().toLowerCase();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
+
+enregistrerInteraction();
 
 if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
 const code = msg;
@@ -1707,7 +2079,7 @@ if (derniereQuestion === "fin") {
 return `Vous avez déjà vu toutes les informations disponibles pour ${dernierEleveData.nom} ${dernierEleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
 
-if (derniereQuestion === "finance_notes_punitions") {
+if (derniereQuestion === "frais_notes_punitions") {
 const section = dernierEleveData.section;
 if (section === "SECONDAIRE") {
 const notesDejaVues = sectionDejaVisitee('notes');
@@ -1722,12 +2094,12 @@ return await genererReponsePunitions(dernierEleveData);
 }
 }
 
-if (derniereQuestion === "finance_notes") {
+if (derniereQuestion === "frais_notes") {
 derniereQuestion = null;
 return await genererReponseNotes(dernierEleveData);
 }
 
-if (derniereQuestion === "finance_punitions") {
+if (derniereQuestion === "frais_punitions") {
 derniereQuestion = null;
 return await genererReponsePunitions(dernierEleveData);
 }
@@ -1737,9 +2109,39 @@ derniereQuestion = null;
 return await genererReponsePunitions(dernierEleveData);
 }
 
+if (derniereQuestion === "notes_frais") {
+derniereQuestion = null;
+return await genererReponseFrais(dernierEleveData);
+}
+
 if (derniereQuestion === "punitions_notes") {
 derniereQuestion = null;
 return await genererReponseNotes(dernierEleveData);
+}
+
+if (derniereQuestion === "punitions_frais") {
+derniereQuestion = null;
+return await genererReponseFrais(dernierEleveData);
+}
+
+if (derniereQuestion === "punitions_notes_frais") {
+const section = dernierEleveData.section;
+if (section === "SECONDAIRE") {
+const notesDejaVues = sectionDejaVisitee('notes');
+const fraisDejaVus = sectionDejaVisitee('frais');
+if (!notesDejaVues) {
+derniereQuestion = null;
+return await genererReponseNotes(dernierEleveData);
+} else if (!fraisDejaVus) {
+derniereQuestion = null;
+return await genererReponseFrais(dernierEleveData);
+}
+}
+}
+
+if (derniereQuestion === "frais_autre" || derniereQuestion === "punitions_autre") {
+derniereQuestion = null;
+return `Voulez-vous consulter autre chose ?`;
 }
 
 derniereQuestion = null;
@@ -1777,6 +2179,11 @@ return await genererReponsePunitions(eleveData);
 } else {
 return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}.`;
 }
+}
+
+const motsPresence = ['présence', 'present', 'présent', 'absent', 'absence', 'assiduité', 'venir', 'viens', 'vient', 'venu', 'école', 'jour', 'aujourd\'hui', 'hier', 'semaine', 'retard', 'retards', 'ponctualité', 'cours'];
+if (motsPresence.some(m => texteComplet.includes(m))) {
+return await genererReponsePresence(eleveData);
 }
 
 const motsAurevoir = ['au revoir', 'bye', 'bye bye', 'ciao', 'adieu', 'à bientôt', 'à plus', 'à tout à l\'heure', 'à demain', 'à la prochaine', 'bonne journée', 'bonne soirée', 'bonne nuit'];
@@ -1843,20 +2250,40 @@ const schoolSubElement = document.querySelector('.school-sub');
 if (schoolNameElement) schoolNameElement.textContent = `COMPLEXE SCOLAIRE ${schoolNameForDisplay}`;
 if (schoolSubElement) schoolSubElement.textContent = `Année scolaire 2026-2027`;
 
-const schoolHeader = document.getElementById('schoolHeader');
+let headerClickCount = 0;
+let headerClickTimer = null;
+
+const schoolHeader = document.querySelector('.school-header');
 if (schoolHeader) {
-let clickCount = 0;
-let clickTimer = null;
-schoolHeader.addEventListener('click', function(e) {
-clickCount++;
-if (clickTimer) clearTimeout(clickTimer);
-clickTimer = setTimeout(() => { clickCount = 0; }, 500);
-if (clickCount === 3) {
-const ecoleName = schoolId;
-window.location.href = `https://www.netubex.com/schooling?ecole=${encodeURIComponent(ecoleName)}`;
-clickCount = 0;
-}
-});
+    schoolHeader.style.cursor = 'pointer';
+    schoolHeader.addEventListener('click', function(e) {
+        headerClickCount++;
+        
+        if (headerClickTimer) {
+            clearTimeout(headerClickTimer);
+        }
+        
+        headerClickTimer = setTimeout(() => {
+            headerClickCount = 0;
+        }, 3000);
+        
+        if (headerClickCount >= 3) {
+            headerClickCount = 0;
+            if (headerClickTimer) {
+                clearTimeout(headerClickTimer);
+                headerClickTimer = null;
+            }
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            let schoolId = urlParams.get('ecole');
+            
+            if (schoolId) {
+                window.location.href = `https://www.netubex.com/schooling?ecole=${encodeURIComponent(schoolId)}`;
+            } else {
+                window.location.href = 'https://www.netubex.com/schooling';
+            }
+        }
+    });
 }
 
 const parentModalOverlayNew = document.getElementById('parentModalOverlay');
@@ -1869,6 +2296,7 @@ const parentInfoEleveNew = document.getElementById('parentInfoEleve');
 
 if (parentFloatingBtnNew) {
 parentFloatingBtnNew.onclick = async () => {
+enregistrerInteraction();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
 parentModalOverlayNew.classList.add('active');
 document.body.style.overflow = 'hidden';
@@ -1877,25 +2305,54 @@ listeElevesComplets = [];
 
 const dernierComm = await getDernierCommunique();
 let messageComm = '';
+
 if (dernierComm) {
-const prioEmoji = dernierComm.priorite === 'haute' ? '🔴' : (dernierComm.priorite === 'moyenne' ? '🟡' : '🟢');
-const prioLabel = dernierComm.priorite === 'haute' ? 'Haute priorité' : (dernierComm.priorite === 'moyenne' ? 'Priorité moyenne' : 'Information');
-messageComm = `<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:14px 16px;margin:8px 0;"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-weight:700;color:#ffd700;font-size:15px;">${escapeHtml(dernierComm.titre)}</span><span style="font-size:11px;color:#94a3b8;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:30px;">${prioEmoji} ${prioLabel}</span><span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,0.1);padding:2px 12px;border-radius:30px;">${dernierComm.statut}</span></div><div style="color:#e2e8f0;font-size:14px;margin-top:8px;line-height:1.6;">${escapeHtml(dernierComm.contenu)}</div><div style="font-size:10px;color:#64748b;margin-top:6px;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;">Publié par la Direction</div></div>`;
+const priorite = dernierComm.priorite === 'haute' ? 'Haute priorite' : (dernierComm.priorite === 'moyenne' ? 'Priorite moyenne' : 'Information');
+messageComm = `
+<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:14px 16px;margin:8px 0;">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+<span style="font-weight:700;color:#ffd700;font-size:15px;">${escapeHtml(dernierComm.titre)}</span>
+<span style="font-size:11px;color:#94a3b8;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:30px;">${priorite}</span>
+<span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,0.1);padding:2px 12px;border-radius:30px;">${dernierComm.statut}</span>
+</div>
+<div style="color:#e2e8f0;font-size:14px;margin-top:8px;line-height:1.6;">${escapeHtml(dernierComm.contenu)}</div>
+<div style="font-size:10px;color:#64748b;margin-top:6px;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;">Publie par la Direction</div>
+</div>
+`;
 }
 
-parentChatMessagesNew.innerHTML = `<div class="parent-msg bot"><div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;"><div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">ÉCOLE ${nomEcole}</div>${messageComm}<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">Entrez votre code parent à 4 ou 6 chiffres</div><div style="color:#fbbf24;font-size:16px;background:rgba(245,158,11,0.1);border-radius:10px;padding:10px 14px;border:1px solid rgba(245,158,11,0.2);">Si vous n'avez pas de code, contactez la comptabilité</div><div style="color:#64748b;font-size:13px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">Service du lundi au dimanche</div></div></div>`;
+let accueilHtml = `
+<div class="parent-msg bot">
+<div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;">
+<div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">ECOLE ${nomEcole}</div>
+${messageComm}
+<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">Entrez votre code parent à 4 ou 6 chiffres</div>
+`;
 
-parentInfoEleveNew.innerHTML = `ÉCOLE ${nomEcole}`;
+if (!dernierComm) {
+accueilHtml += `
+<div style="color:#fbbf24;font-size:16px;background:rgba(245,158,11,0.1);border-radius:10px;padding:10px 14px;border:1px solid rgba(245,158,11,0.2);">Si vous n'avez pas de code, contactez la comptabilite</div>
+<div style="color:#64748b;font-size:13px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">Service du lundi au dimanche</div>
+`;
+}
+
+accueilHtml += `
+</div>
+</div>
+`;
+
+parentChatMessagesNew.innerHTML = accueilHtml;
+parentInfoEleveNew.innerHTML = `ECOLE ${nomEcole}`;
 parentQuestionInputNew.value = '';
 parentQuestionInputNew.focus();
 
 if (dernierComm) {
-setTimeout(() => { 
-voixParentale(`Voici le communiqué du jour : ${dernierComm.titre}. ${dernierComm.contenu}. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
+setTimeout(() => {
+voixParentale(`Bienvenue à l'ecole ${nomEcole}. Voici le Communiqué du jour: ${dernierComm.titre}. ${dernierComm.contenu}.`);
 }, 800);
 } else {
-setTimeout(() => { 
-voixParentale(`Bienvenue à l'école ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
+setTimeout(() => {
+voixParentale(`Bienvenue à l'ecole ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`);
 }, 800);
 }
 };
@@ -1921,6 +2378,7 @@ estEnAttenteReponse = false;
 
 if (parentSendBtnNew) {
 parentSendBtnNew.onclick = async () => {
+enregistrerInteraction();
 if (estEnAttenteReponse) {
 toast("Veuillez patienter, je suis en train d'écrire", 'warning');
 return;
@@ -1967,7 +2425,7 @@ const msgBotDiv = document.createElement('div');
 msgBotDiv.className = 'parent-msg bot';
 const bubbleBot = document.createElement('div');
 bubbleBot.className = 'bubble';
-bubbleBot.textContent = "Je prends le temps de rassembler les informations. En attendant, je peux vous renseigner sur ses notes, sa situation financière et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.";
+bubbleBot.textContent = "Je prends le temps de rassembler les informations. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.";
 msgBotDiv.appendChild(bubbleBot);
 parentChatMessagesNew.appendChild(msgBotDiv);
 parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
