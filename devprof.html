@@ -593,75 +593,6 @@ let triAlphabetiqueActif = false;
 let toastQueue = [];
 let isToastProcessing = false;
 
-// ============================================
-// GESTION DES CONNEXIONS PROFESSEURS (INVISIBLE)
-// ============================================
-
-async function enregistrerConnexionProfesseur(userId, nom, ecoleId) {
-    try {
-        const docId = "prof_" + userId;
-        await setDoc(doc(db, "professeurs_connexions", docId), {
-            userId: userId,
-            professeurNom: nom,
-            ecoleId: ecoleId,
-            statut: "connecte",
-            derniereActivite: new Date().toISOString(),
-            dateConnexion: new Date().toISOString(),
-            dateDeconnexion: null
-        });
-    } catch(e) {}
-}
-
-async function enregistrerDeconnexionProfesseur(userId) {
-    try {
-        const docId = "prof_" + userId;
-        const ref = doc(db, "professeurs_connexions", docId);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-            await updateDoc(ref, {
-                statut: "deconnecte",
-                dateDeconnexion: new Date().toISOString(),
-                derniereActivite: new Date().toISOString()
-            });
-        }
-    } catch(e) {}
-}
-
-async function mettreAJourActiviteProfesseur(userId) {
-    try {
-        const docId = "prof_" + userId;
-        const ref = doc(db, "professeurs_connexions", docId);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-            await updateDoc(ref, {
-                derniereActivite: new Date().toISOString()
-            });
-        }
-    } catch(e) {}
-}
-
-let activiteInterval = null;
-
-function demarrerSuiviActivite() {
-    if (activiteInterval) clearInterval(activiteInterval);
-    activiteInterval = setInterval(async function() {
-        if (currentProf) {
-            await mettreAJourActiviteProfesseur(currentProf.id);
-        }
-    }, 60000);
-}
-
-function updateActivity() {
-    if (currentProf) {
-        mettreAJourActiviteProfesseur(currentProf.id);
-    }
-}
-
-document.addEventListener('click', updateActivity);
-document.addEventListener('keydown', updateActivity);
-document.addEventListener('scroll', updateActivity);
-document.addEventListener('touchstart', updateActivity);
-
 function toast(message, type = "success") {
 toastQueue.push({ message, type });
 if (!isToastProcessing) processToastQueue();
@@ -690,88 +621,37 @@ processToastQueue();
 }, 3500);
 }
 
-function speak(text, onEnd) {
-if (!text) return;
-if (window.speechSynthesis) window.speechSynthesis.cancel();
-let texteParle = text;
-const optionsMap = {
-'LATIN-PHILO': 'latin-philo',
-'SCIENCES': 'sciences',
-'PEDAGOGIE GENERALE': 'pédagogie générale',
-'COMMERCIALE ET GESTION': 'commerciale et gestion',
-'ELECTRICITE': 'électricité',
-'MECANIQUE GENERALE': 'mécanique générale',
-'COUPE ET COUTURE': 'coupe et couture',
-'TOUTES': 'toutes'
-};
-for (const [key, value] of Object.entries(optionsMap)) {
-texteParle = texteParle.replace(new RegExp('\\b' + key + '\\b', 'g'), value);
+async function genererCodeProfesseurUnique() {
+let codesExistants = new Set();
+if (navigator.onLine) {
+try {
+const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEURS));
+snap.forEach(ds => {
+const data = ds.data();
+if (data.code) codesExistants.add(data.code);
+});
+} catch (e) { console.error("Erreur récupération codes Firebase:", e); }
 }
-const classesMap = {
-'1ère': 'première', '2ème': 'deuxième', '3ème': 'troisième',
-'4ème': 'quatrième', '5ème': 'cinquième', '6ème': 'sixième',
-'7ème': 'septième', '8ème': 'huitième',
-'1er': 'premier', '2e': 'deuxième', '3e': 'troisième',
-'4e': 'quatrième', '5e': 'cinquième', '6e': 'sixième',
-'7e': 'septième', '8e': 'huitième',
-'1ere': 'première', '2eme': 'deuxième', '3eme': 'troisième',
-'4eme': 'quatrième', '5eme': 'cinquième', '6eme': 'sixième',
-'7eme': 'septième', '8eme': 'huitième'
-};
-for (const [key, value] of Object.entries(classesMap)) {
-texteParle = texteParle.replace(new RegExp('\\b' + key + '\\b', 'g'), value);
-}
-texteParle = texteParle.replace(/[📊💰📝📅⚠️✅❌👨‍👩‍👧‍👦🔑💡📌👉💬🏫👋🎯🌟👍👌📖🔒❌⚠️✅💰📝📅]/g, '');
-texteParle = texteParle.replace(/\*\*/g, '');
-texteParle = texteParle.replace(/[\(\)]/g, '');
-texteParle = texteParle.replace(/[|]/g, '');
-texteParle = texteParle.replace(/\n/g, '. ');
-texteParle = texteParle.replace(/\.\./g, '.');
-texteParle = texteParle.replace(/\./g, '. ');
-texteParle = texteParle.replace(/\?/g, '? ');
-texteParle = texteParle.replace(/\!/g, '! ');
-texteParle = texteParle.replace(/:/g, ': ');
-texteParle = texteParle.replace(/-\s/g, '. ');
-texteParle = texteParle.replace(/\d+\.\s/g, (match) => { return match.replace(/\./, '. '); });
-texteParle = texteParle.replace(/,/g, ', ');
-texteParle = texteParle.replace(/\s+/g, ' ');
-texteParle = texteParle.replace(/\.\s+\./g, '. ');
-texteParle = texteParle.replace(/\?\s+\?/g, '? ');
-texteParle = texteParle.replace(/\!\s+\!/g, '! ');
-texteParle = texteParle.replace(/BLESSING/gi, 'blé-ssingue');
-texteParle = texteParle.replace(/(\d{1,3}(?:[\s.,]\d{3})*)\s*FC/g, (match, p1) => {
-const num = parseInt(p1.replace(/[\s.,]/g, ''));
-if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
-return convertirNombreEnFrancais(num) + ' francs congolais';
-});
-texteParle = texteParle.replace(/(\d+)\s*FC/g, (match, p1) => {
-const num = parseInt(p1);
-if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
-return convertirNombreEnFrancais(num) + ' francs congolais';
-});
-texteParle = texteParle.replace(/\b(\d{1,3}(?:[\s.,]\d{3})*)\b/g, (match, p1) => {
-if (match.includes('FC') || match.includes('/')) return match;
-const num = parseInt(p1.replace(/[\s.,]/g, ''));
-if (num >= 1000) return convertirNombreEnFrancais(num);
-return convertirNombreEnFrancais(num);
-});
-texteParle = texteParle.replace(/(\d+)\/(\d+)/g, (match, p1, p2) => {
-return convertirNombreEnFrancais(parseInt(p1)) + ' sur ' + convertirNombreEnFrancais(parseInt(p2));
-});
-texteParle = texteParle.replace(/\s+/g, ' ');
-const utterance = new SpeechSynthesisUtterance(texteParle);
-utterance.lang = 'fr-FR';
-utterance.rate = 0.65;
-utterance.pitch = 1;
-const voices = window.speechSynthesis.getVoices();
-const frenchVoice = voices.find(v => v.lang === 'fr-FR' || v.lang.startsWith('fr'));
-if (frenchVoice) utterance.voice = frenchVoice;
-utterance.onend = () => { if (onEnd) onEnd(); };
-utterance.onerror = () => { if (onEnd) onEnd(); };
-window.speechSynthesis.speak(utterance);
+let code, tentative = 0;
+do {
+code = Math.floor(100000 + Math.random() * 900000).toString();
+tentative++;
+} while (codesExistants.has(code) && tentative < 100);
+return code;
 }
 
-function convertirNombreEnFrancais(n) { if (n === 0) return 'zéro'; if (n < 0) return 'moins ' + convertirNombreEnFrancais(-n); const unite = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf']; const dizaine = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingt', 'quatre-vingt-dix']; if (n < 20) return unite[n]; if (n < 100) { const d = Math.floor(n / 10); const u = n % 10; if (d === 7 || d === 9) { const base = (d === 7) ? 'soixante' : 'quatre-vingt'; const reste = (d === 7) ? n - 60 : n - 80; return base + '-' + convertirNombreEnFrancais(reste); } if (u === 0) { if (d === 8) return 'quatre-vingts'; return dizaine[d]; } if (d === 8) return 'quatre-vingt-' + unite[u]; return dizaine[d] + '-' + unite[u]; } if (n < 1000) { const c = Math.floor(n / 100); const r = n % 100; if (c === 1) { if (r === 0) return 'cent'; return 'cent ' + convertirNombreEnFrancais(r); } if (r === 0) return unite[c] + ' cents'; return unite[c] + ' cent ' + convertirNombreEnFrancais(r); } if (n < 1000000) { const m = Math.floor(n / 1000); const r = n % 1000; if (m === 1) { if (r === 0) return 'mille'; return 'mille ' + convertirNombreEnFrancais(r); } if (r === 0) return convertirNombreEnFrancais(m) + ' mille'; return convertirNombreEnFrancais(m) + ' mille ' + convertirNombreEnFrancais(r); } if (n < 1000000000) { const m = Math.floor(n / 1000000); const r = n % 1000000; if (m === 1) { if (r === 0) return 'un million'; return 'un million ' + convertirNombreEnFrancais(r); } if (r === 0) return convertirNombreEnFrancais(m) + ' millions'; return convertirNombreEnFrancais(m) + ' millions ' + convertirNombreEnFrancais(r); } return n.toString(); }
+async function verifierCodeExistant(code) {
+if (navigator.onLine) {
+try {
+const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEURS));
+for (const ds of snap.docs) {
+const data = ds.data();
+if (data.code === code && data.profId !== currentProf?.id) return true;
+}
+} catch (e) { console.error("Erreur vérification Firebase:", e); }
+}
+return false;
+}
 
 async function verifierCompteActif(profId) {
 try {
@@ -864,11 +744,7 @@ return;
 if (c === fp.code) {
 currentProf = { id: fp.id, nom: n, code: fp.code, createdAt: Date.now() };
 sauvegarderSession(currentProf);
-
-await enregistrerConnexionProfesseur(fp.id, n, ECOLET_ID);
-demarrerSuiviActivite();
 await enregistrerLog("connexion", currentProf.nom + " s'est connecté");
-
 document.getElementById('loginOverlay').remove();
 document.getElementById('mainApp').style.display = 'block';
 toutesFiches = await loadAllFiches();
@@ -917,11 +793,7 @@ localStorage.removeItem('gloria_session_prof');
 return false;
 }
 currentProf = { id: prof.id, nom: prof.nom, code: prof.code, createdAt: prof.createdAt || Date.now() };
-
-await enregistrerConnexionProfesseur(prof.id, prof.nom, ECOLET_ID);
-demarrerSuiviActivite();
 await enregistrerLog("connexion", currentProf.nom + " s'est connecté");
-
 document.getElementById('mainApp').style.display = 'block';
 toutesFiches = await loadAllFiches();
 if (toutesFiches.length) await selectFiche(toutesFiches[0].id);
@@ -1239,7 +1111,7 @@ function afficherHoraire() { let c = document.getElementById('horaireContainer')
 else { let classeAffichee = p.classe || "Non définie"; let optionAffichee = p.option || "-"; let coursAffiche = p.cours || "Non défini"; html += '<div class="horaire-item" onclick=\'window.afficherModalCours(' + JSON.stringify({ libelle: ht + " HEURE", classe: classeAffichee, option: optionAffichee, cours: coursAffiche }) + ')\'><div class="horaire-numero">' + ht + ' HEURE</div><div class="horaire-info-hidden">' + classeAffichee + ' | ' + optionAffichee + ' | ' + coursAffiche + '</div></div>'; } }); html += '</div><div style="margin-top:20px;display:flex;gap:10px;justify-content:center"><button class="btn btn-sm btn-outline" onclick="window.allerHier()">◀ Hier</button><button class="btn btn-sm btn-primary" onclick="window.revenirAujourdhui()" style="background:#3b82f6">Aujourd\'hui</button><button class="btn btn-sm btn-outline" onclick="window.allerDemain()">Demain ▶</button></div>'; c.innerHTML = html; }
 
 function afficherConfigHoraire() { let c = document.getElementById('configHoraireList'); if (!c) return; let jour = document.getElementById('configJourSelect').value; let h = horaireProf[jour] || []; c.innerHTML = ''; h.sort((a, b) => a.heure - b.heure); h.forEach((p, idx) => { let div = document.createElement('div'); div.className = 'horaire-config-item'; let ht = { 1: "1ère", 2: "2ème", 3: "3ème", 4: "4ème", 5: "5ème", 6: "6ème", 7: "7ème", 8: "8ème" }[p.heure] || p.heure + "ème"; if (p.pause) div.innerHTML = '<strong style="min-width:70px;color:#60a5fa;">' + ht + '</strong><span style="flex:1;color:#fbbf24;">PAUSE</span><button class="btn-sm btn-danger" data-idx="' + idx + '">X</button>';
-else { div.innerHTML = '<strong style="min-width:70px;color:#60a5fa;">' + ht + '</strong><select id="conf_classe_' + idx + '" style="width:110px;"><option value="">Classe</option>' + document.getElementById('classeSelect').innerHTML + '</select><select id="conf_option_' + idx + '" style="width:90px;"><option value="">Option</option></select><input type="text" id="conf_cours_' + idx + '" placeholder="Cours" value="' + escapeHtml(p.cours || '') + '" style="width:120px;"><button class="btn-sm btn-danger" data-idx="' + idx + '">X</button>'; let clsSel = div.querySelector('#conf_classe_' + idx); if (clsSel && p.classe) clsSel.value = p.classe; let optSel = div.querySelector('#conf_option_' + idx); if (optSel) { let opts = optionsParClasse[p.classe] || []; optSel.innerHTML = '<option value="">Option</option>'; opts.forEach(o => { optSel.innerHTML += '<option value="' + escapeHtml(o) + '" ' + (p.option === o ? 'selected' : '') + '>' + escapeHtml(o) + '</option>'; }); } } c.appendChild(div); div.querySelector('.btn-danger')?.addEventListener('click', () => { horaireProf[jour].splice(idx, 1); horaireProf[jour].forEach((h2, i2) => h2.heure = i2 + 1); afficherConfigHoraire(); }); let cls = div.querySelector('#conf_classe_' + idx); if (cls) cls.onchange = function() { let optDiv = div.querySelector('#conf_option_' + idx); if (optDiv) { let opts = optionsParClasse[this.value] || []; optDiv.innerHTML = '<option value="">Option</option>'; opts.forEach(o => { optDiv.innerHTML += '<option value="' + escapeHtml(o) + '">' + escapeHtml(o) + '</option>'); }); } }; }); }
+else { div.innerHTML = '<strong style="min-width:70px;color:#60a5fa;">' + ht + '</strong><select id="conf_classe_' + idx + '" style="width:110px;"><option value="">Classe</option>' + document.getElementById('classeSelect').innerHTML + '</select><select id="conf_option_' + idx + '" style="width:90px;"><option value="">Option</option></select><input type="text" id="conf_cours_' + idx + '" placeholder="Cours" value="' + escapeHtml(p.cours || '') + '" style="width:120px;"><button class="btn-sm btn-danger" data-idx="' + idx + '">X</button>'; let clsSel = div.querySelector('#conf_classe_' + idx); if (clsSel && p.classe) clsSel.value = p.classe; let optSel = div.querySelector('#conf_option_' + idx); if (optSel) { let opts = optionsParClasse[p.classe] || []; optSel.innerHTML = '<option value="">Option</option>'; opts.forEach(o => { optSel.innerHTML += '<option value="' + escapeHtml(o) + '" ' + (p.option === o ? 'selected' : '') + '>' + escapeHtml(o) + '</option>'; }); } } c.appendChild(div); div.querySelector('.btn-danger')?.addEventListener('click', () => { horaireProf[jour].splice(idx, 1); horaireProf[jour].forEach((h2, i2) => h2.heure = i2 + 1); afficherConfigHoraire(); }); let cls = div.querySelector('#conf_classe_' + idx); if (cls) cls.onchange = function() { let optDiv = div.querySelector('#conf_option_' + idx); if (optDiv) { let opts = optionsParClasse[this.value] || []; optDiv.innerHTML = '<option value="">Option</option>'; opts.forEach(o => { optDiv.innerHTML += '<option value="' + escapeHtml(o) + '">' + escapeHtml(o) + '</option>'; }); } }; }); }
 
 function sauvegarderHoraireAuto() { let jour = document.getElementById('configJourSelect').value; let h = horaireProf[jour] || []; for (let i = 0; i < h.length; i++) { if (!h[i].pause) { let cls = document.getElementById('conf_classe_' + i); let opt = document.getElementById('conf_option_' + i); let crs = document.getElementById('conf_cours_' + i); if (cls) h[i].classe = cls.value; if (opt) h[i].option = opt.value; if (crs) h[i].cours = crs.value; } } if (currentProf) { sauvegarderHoraireFirebase(); } afficherHoraire(); toast("Horaire mis à jour", 'success'); }
 
@@ -1462,12 +1334,6 @@ if (!eleves[window.correctionMode.currentIndex].notes['p' + window.correctionMod
 eleves[window.correctionMode.currentIndex].notes['p' + window.correctionMode.periode][window.correctionMode.epreuveIdx] = noteValue;
 saveCurrentFiche();
 afficherCotation();
-speak(eleveNom + ' a obtenu ' + noteValue + ' sur ' + window.correctionMode.noteMax + '.', () => {
-setTimeout(() => {
-if (window.correctionMode && window.correctionMode.currentIndex + 1 < eleves.length) correctionNextStudent(true);
-else if (window.correctionMode) { toast("Tous les élèves ont été notés !", 'success'); speak("Félicitations. Tous les élèves ont été notés."); document.getElementById('saisieModal').classList.remove('show'); if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy(); window.correctionMode = null; }
-}, 500);
-});
 }
 
 function correctionNextStudent(autoMode) {
@@ -1480,10 +1346,8 @@ window.correctionMode.currentNote = eleves[window.correctionMode.currentIndex]?.
 document.getElementById('saisieModalStudentName').textContent = eleves[window.correctionMode.currentIndex]?.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 if (window.correctionMode.type === 'gesture') { const disp = document.querySelector('#gestureZone div:first-child'); if (disp) disp.textContent = window.correctionMode.currentNote; }
-if (autoMode) setTimeout(() => { speak('Passage à ' + eleves[window.correctionMode.currentIndex]?.nom + '.'); }, 500);
 } else {
 toast("Tous les élèves ont été notés !", 'success');
-speak("Félicitations. Tous les élèves ont été notés.");
 document.getElementById('saisieModal').classList.remove('show');
 if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy();
 window.correctionMode = null;
@@ -1500,8 +1364,7 @@ window.correctionMode.currentNote = eleves[window.correctionMode.currentIndex]?.
 document.getElementById('saisieModalStudentName').textContent = eleves[window.correctionMode.currentIndex]?.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 if (window.correctionMode.type === 'gesture') { const disp = document.querySelector('#gestureZone div:first-child'); if (disp) disp.textContent = window.correctionMode.currentNote; }
-setTimeout(() => { speak('Retour à ' + eleves[window.correctionMode.currentIndex]?.nom + '.'); }, 500);
-} else speak("Vous êtes déjà au premier élève.");
+}
 }
 
 function getGreetingTitu() { const h = new Date().getHours(); if (h < 12) return "Bonjour"; if (h < 18) return "Bon après-midi"; return "Bonsoir"; }
@@ -2649,7 +2512,6 @@ document.getElementById('quickSave').onclick = () => correctionSaveCurrentNote()
 document.getElementById('quickNext').onclick = () => correctionNextStudent(false);
 document.getElementById('quickPrev').onclick = () => correctionPrevStudent();
 document.getElementById('saisieModal').classList.add('show');
-setTimeout(() => { speak('Mode rapide activé. Élève actuel: ' + (eleves[0]?.nom || 'aucun')); }, 500);
 });
 
 document.getElementById('correctionGestureBtn')?.addEventListener('click', () => {
@@ -2675,35 +2537,25 @@ if (zone && window.Hammer) {
 if (window.correctionMode.hammer) window.correctionMode.hammer.destroy();
 window.correctionMode.hammer = new Hammer(zone);
 window.correctionMode.hammer.on('swipeleft', () => {
-if (window.correctionMode.currentNote > 0) { window.correctionMode.currentNote--; updateGestureDisplay(); if (navigator.vibrate) navigator.vibrate(30); speak(window.correctionMode.currentNote.toString()); }
+if (window.correctionMode.currentNote > 0) { window.correctionMode.currentNote--; updateGestureDisplay(); if (navigator.vibrate) navigator.vibrate(30); }
 });
 window.correctionMode.hammer.on('swiperight', () => {
-if (window.correctionMode.currentNote < window.correctionMode.noteMax) { window.correctionMode.currentNote++; updateGestureDisplay(); if (navigator.vibrate) navigator.vibrate(30); speak(window.correctionMode.currentNote.toString()); }
+if (window.correctionMode.currentNote < window.correctionMode.noteMax) { window.correctionMode.currentNote++; updateGestureDisplay(); if (navigator.vibrate) navigator.vibrate(30); }
 });
 window.correctionMode.hammer.on('tap', () => { correctionSaveCurrentNote(); });
 function updateGestureDisplay() { document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote; const disp = document.querySelector('#gestureZone div:first-child'); if (disp) disp.textContent = window.correctionMode.currentNote; }
 }
 document.getElementById('gestureSkip')?.addEventListener('click', () => correctionNextStudent(false));
 document.getElementById('saisieModal').classList.add('show');
-setTimeout(() => { speak('Mode gestuel activé. Élève actuel: ' + (eleves[0]?.nom || 'aucun')); }, 500);
 });
 
-document.getElementById('closeSaisieModal')?.addEventListener('click', () => { document.getElementById('saisieModal').classList.remove('show'); if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy(); window.correctionMode = null; stopSpeaking(); });
-
-window.speechSynthesis.onvoiceschanged = () => { const voices = window.speechSynthesis.getVoices(); };
+document.getElementById('closeSaisieModal')?.addEventListener('click', () => { document.getElementById('saisieModal').classList.remove('show'); if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy(); window.correctionMode = null; });
 
 document.getElementById('changeSchoolBtn')?.addEventListener('click', () => { showStyledConfirm("Changer d'école ?", "⚠️ Attention : Toutes les données seront définitivement perdues.<br><br>Souhaitez-vous continuer ?", () => { window.location.href = 'https://www.netubex.com/schoolchoice'; }); });
 
 document.getElementById('logoutBtnParam').addEventListener('click', function() {
     showStyledConfirm("Déconnexion", "Êtes-vous sûr de vouloir vous déconnecter ?", async function() {
-        if (currentProf) {
-            await enregistrerDeconnexionProfesseur(currentProf.id);
-            if (activiteInterval) {
-                clearInterval(activiteInterval);
-                activiteInterval = null;
-            }
-            await enregistrerLog("deconnexion", currentProf.nom + " s'est déconnecté");
-        }
+        await enregistrerLog("deconnexion", currentProf.nom + " s'est déconnecté");
         localStorage.removeItem('gloria_session_prof');
         document.cookie.split(";").forEach(function(c) {
             document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
