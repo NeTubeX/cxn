@@ -7,11 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0e1a">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
-<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-<meta name="googlebot-news" content="noindex, nofollow">
-<meta name="bingbot" content="noindex, nofollow">
-<meta name="slurp" content="noindex, nofollow">
-<meta name="duckduckbot" content="noindex, nofollow">
 <title>GESTION DE SCOLARITÉ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -56,7 +51,6 @@ body{overscroll-behavior:none;-webkit-overscroll-behavior:none;}
 .form-field input:focus,.form-field select:focus{outline:none;border-color:#3b82f6;}
 .hidden-field{display:none !important;}
 .field-required label::after{content:" *";color:#ef4444;}
-.field-optional label::after{content:" (facultatif)";color:#94a3b8;font-size:10px;font-weight:normal;}
 .btn{background:#1e3a5f;color:#fff;border:none;padding:10px 20px;border-radius:40px;font-weight:500;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
 .btn:hover{opacity:0.9;transform:scale(0.98);}
 .btn-sm{padding:6px 14px;font-size:12px;}
@@ -543,14 +537,10 @@ return collection(db, "ecoles", ECOLET_ID, sousCollection);
 const SC = {
 PROFESSEURS: 'professeurs',
 FICHES: 'fiches',
-LOGS: 'logs',
 HORAIRES: 'horaires',
-PUNITIONS: 'punitions',
-PRESENCES: 'presences',
 CORBEILLE: 'corbeille',
 COMPTEUR: 'compteur',
 CONFIG: 'config',
-COMMUNIQUES: 'communiques',
 COMPTA_ELEVES: 'compta_eleves',
 SETTINGS: 'settings'
 };
@@ -592,71 +582,6 @@ const classesSansOptionsTitu = ["7ème EB", "8ème EB"];
 let triAlphabetiqueActif = false;
 let toastQueue = [];
 let isToastProcessing = false;
-
-async function enregistrerConnexionProfesseur(userId, nom, ecoleId) {
-    try {
-        const docId = "prof_" + userId;
-        await setDoc(doc(db, "professeurs_connexions", docId), {
-            userId: userId,
-            professeurNom: nom,
-            ecoleId: ecoleId,
-            statut: "connecte",
-            derniereActivite: new Date().toISOString(),
-            dateConnexion: new Date().toISOString(),
-            dateDeconnexion: null
-        });
-    } catch(e) {}
-}
-
-async function enregistrerDeconnexionProfesseur(userId) {
-    try {
-        const docId = "prof_" + userId;
-        const ref = doc(db, "professeurs_connexions", docId);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-            await updateDoc(ref, {
-                statut: "deconnecte",
-                dateDeconnexion: new Date().toISOString(),
-                derniereActivite: new Date().toISOString()
-            });
-        }
-    } catch(e) {}
-}
-
-async function mettreAJourActiviteProfesseur(userId) {
-    try {
-        const docId = "prof_" + userId;
-        const ref = doc(db, "professeurs_connexions", docId);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-            await updateDoc(ref, {
-                derniereActivite: new Date().toISOString()
-            });
-        }
-    } catch(e) {}
-}
-
-let activiteInterval = null;
-
-function demarrerSuiviActivite() {
-    if (activiteInterval) clearInterval(activiteInterval);
-    activiteInterval = setInterval(async function() {
-        if (currentProf) {
-            await mettreAJourActiviteProfesseur(currentProf.id);
-        }
-    }, 60000);
-}
-
-function updateActivity() {
-    if (currentProf) {
-        mettreAJourActiviteProfesseur(currentProf.id);
-    }
-}
-
-document.addEventListener('click', updateActivity);
-document.addEventListener('keydown', updateActivity);
-document.addEventListener('scroll', updateActivity);
-document.addEventListener('touchstart', updateActivity);
 
 function toast(message, type = "success") {
 toastQueue.push({ message, type });
@@ -711,24 +636,6 @@ document.body.appendChild(d);
 setTimeout(() => d.classList.add('show'), 10);
 d.querySelector('#styledConfirmOk').onclick = () => { d.remove(); if (onConfirm) onConfirm(); };
 d.querySelector('#styledConfirmCancel').onclick = () => { d.remove(); if (onCancel) onCancel(); };
-}
-
-async function enregistrerLog(action, message) {
-    if (action !== "connexion" && action !== "deconnexion") {
-        return;
-    }
-    try {
-        const docId = "statut_prof_" + currentProf.id;
-        await setDoc(doc(db, "ecoles", ECOLET_ID, SC.LOGS, docId), {
-            professeur: currentProf.nom,
-            professeurId: currentProf.id,
-            action: action,
-            date: new Date().toISOString(),
-            timestamp: Date.now(),
-            message: message,
-            ecole: ECOLET_ID
-        });
-    } catch(e) {}
 }
 
 function showLogin() {
@@ -806,9 +713,6 @@ return;
 if (c === fp.code) {
 currentProf = { id: fp.id, nom: n, code: fp.code, createdAt: Date.now() };
 sauvegarderSession(currentProf);
-await enregistrerConnexionProfesseur(fp.id, n, ECOLET_ID);
-demarrerSuiviActivite();
-await enregistrerLog("connexion", currentProf.nom + " s'est connecté");
 document.getElementById('loginOverlay').remove();
 document.getElementById('mainApp').style.display = 'block';
 toutesFiches = await loadAllFiches();
@@ -857,9 +761,6 @@ localStorage.removeItem('gloria_session_prof');
 return false;
 }
 currentProf = { id: prof.id, nom: prof.nom, code: prof.code, createdAt: prof.createdAt || Date.now() };
-await enregistrerConnexionProfesseur(prof.id, prof.nom, ECOLET_ID);
-demarrerSuiviActivite();
-await enregistrerLog("connexion", currentProf.nom + " s'est connecté");
 document.getElementById('mainApp').style.display = 'block';
 toutesFiches = await loadAllFiches();
 if (toutesFiches.length) await selectFiche(toutesFiches[0].id);
@@ -2622,12 +2523,10 @@ document.getElementById('changeSchoolBtn')?.addEventListener('click', () => { sh
 document.getElementById('logoutBtnParam').addEventListener('click', function() {
     showStyledConfirm("Déconnexion", "Êtes-vous sûr de vouloir vous déconnecter ?", async function() {
         if (currentProf) {
-            await enregistrerDeconnexionProfesseur(currentProf.id);
             if (activiteInterval) {
                 clearInterval(activiteInterval);
                 activiteInterval = null;
             }
-            await enregistrerLog("deconnexion", currentProf.nom + " s'est déconnecté");
         }
         localStorage.removeItem('gloria_session_prof');
         document.cookie.split(";").forEach(function(c) {
