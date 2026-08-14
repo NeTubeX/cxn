@@ -17,58 +17,83 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:'Inter',sans-serif}
-:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--accent-glow:rgba(108,99,255,0.3);--accent-secondary:#FF6584;--success:#34D399;--warning:#FBBF24;--danger:#F87171;--radius:16px;--radius-sm:10px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+
+:root{
+  --bg-primary: #111827;
+  --bg-secondary: #1e293b;
+  --bg-card: rgba(255,255,255,0.06);
+  --bg-card-hover: rgba(255,255,255,0.10);
+  --bg-input: #1e293b;
+  --border-color: rgba(255,255,255,0.10);
+  --border-light: rgba(255,255,255,0.06);
+  --text-primary: #f1f5f9;
+  --text-secondary: rgba(255,255,255,0.80);
+  --text-muted: rgba(255,255,255,0.50);
+  --text-dim: rgba(255,255,255,0.30);
+  --accent: #8b5cf6;
+  --accent-glow: rgba(139,92,246,0.30);
+  --accent-secondary: #f472b6;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.40);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.30);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1)
+}
+
 html,body{overscroll-behavior:none;touch-action:pan-y;margin:0;padding:0;width:100%;min-height:100vh}
-body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:background 0.4s ease;font-size:18px}
+body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:background 0.4s ease;font-size:20px}
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
 ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
 
-.topbar .brand h1{font-size:28px}
-.topbar .brand .sub{font-size:16px}
-.space-filter .label{font-size:16px}
-.space-filter .btn-group button{font-size:17px;padding:10px 26px}
-.kpi-card .label{font-size:15px}
-.kpi-card .value{font-size:32px}
-.tab-btn{font-size:17px;padding:14px 26px}
-.card-header{font-size:20px}
-.card-header .count{font-size:15px}
-.card-body{font-size:17px}
-.btn{font-size:16px;padding:12px 26px}
-.btn-sm{font-size:14px;padding:8px 18px}
-.filter-row select,.filter-row input{font-size:16px;padding:12px 20px}
-.table-wrapper{font-size:17px}
-.table-wrapper th{font-size:15px}
-.table-wrapper td{font-size:16px}
-.excel-table-wrapper th{font-size:15px}
-.excel-table-wrapper td{font-size:16px}
-.badge{font-size:15px;padding:4px 16px}
-.empty-state{font-size:18px}
-.form-group label{font-size:16px}
-.form-group input,.form-group select{font-size:17px;padding:14px 18px}
-.modal-card h3{font-size:24px}
-.modal-card p{font-size:18px}
-.code-input-group input{font-size:22px}
-.toast .toast-title{font-size:19px}
-.toast .toast-msg{font-size:17px}
-.school-card .school-name{font-size:26px}
-.school-card .school-id{font-size:16px}
-.school-card .info{font-size:16px}
-
+.topbar .brand h1{font-size:32px;color:#fff}
+.topbar .brand .sub{font-size:18px;color:var(--text-muted)}
+.space-filter .label{font-size:18px;color:var(--text-secondary)}
+.space-filter .btn-group button{font-size:19px;padding:12px 30px}
+.kpi-card .label{font-size:17px;color:var(--text-muted)}
+.kpi-card .value{font-size:38px;color:#fff}
+.tab-btn{font-size:19px;padding:16px 28px}
+.card-header{font-size:22px;color:#fff}
+.card-header .count{font-size:17px;color:var(--text-muted)}
+.card-body{font-size:19px}
+.btn{font-size:18px;padding:14px 28px}
+.btn-sm{font-size:16px;padding:10px 20px}
+.filter-row select,.filter-row input{font-size:18px;padding:14px 22px}
+.table-wrapper{font-size:19px}
+.table-wrapper th{font-size:17px;color:var(--text-secondary)}
+.table-wrapper td{font-size:18px;color:var(--text-primary)}
+.excel-table-wrapper th{font-size:17px;color:#fff}
+.excel-table-wrapper td{font-size:18px;color:var(--text-primary)}
+.badge{font-size:17px;padding:6px 18px}
+.empty-state{font-size:20px;color:var(--text-muted)}
+.form-group label{font-size:18px;color:var(--text-secondary)}
+.form-group input,.form-group select{font-size:19px;padding:16px 20px;background:var(--bg-input);border:1px solid var(--border-color);color:#fff}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:var(--bg-input)}
+.modal-card h3{font-size:26px;color:#fff}
+.modal-card p{font-size:20px;color:var(--text-secondary)}
+.code-input-group input{font-size:24px;background:var(--bg-input);color:#fff}
+.toast .toast-title{font-size:21px}
+.toast .toast-msg{font-size:19px}
+.school-card .school-name{font-size:28px;color:#fff}
+.school-card .school-id{font-size:18px;color:var(--text-muted)}
+.school-card .info{font-size:18px;color:var(--text-muted)}
+.school-card .actions .btn{font-size:17px;padding:10px 22px}
 select, .filter-row select, .form-group select, .school-selector select,
 select:focus, .filter-row select:focus, .form-group select:focus, .school-selector select:focus {
-  background: #0d0d1a !important;
+  background: #1e293b !important;
   color: #fff !important;
   border: 1px solid var(--border-color) !important;
 }
 select option, .filter-row select option, .form-group select option, .school-selector select option {
-  background: #0d0d1a !important;
+  background: #1e293b !important;
   color: #fff !important;
 }
 select:hover, .filter-row select:hover, .form-group select:hover {
-  background: #1a1a2e !important;
+  background: #2d3748 !important;
 }
-
 body.light select,
 body.light .filter-row select,
 body.light .form-group select,
@@ -76,82 +101,76 @@ body.light .school-selector select,
 body.light select:focus,
 body.light .filter-row select:focus,
 body.light .form-group select:focus {
-  background: #1a1a2e !important;
-  color: #fff !important;
+  background: #e2e6ea !important;
+  color: #1a2332 !important;
 }
 body.light select option,
 body.light .filter-row select option,
 body.light .form-group select option,
 body.light .school-selector select option {
-  background: #1a1a2e !important;
-  color: #fff !important;
+  background: #e2e6ea !important;
+  color: #1a2332 !important;
 }
-
 .school-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}
-.school-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:14px;padding:28px 32px;transition:var(--transition)}
-.school-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-2px);border-color:var(--accent)}
+.school-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:28px 32px;transition:var(--transition)}
+.school-card:hover{background:var(--bg-card-hover);transform:translateY(-2px);border-color:var(--accent)}
 .school-card .school-header{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 .school-card .school-logo{width:90px;height:90px;border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:48px;border:2px solid var(--border-color)}
 .school-card .school-logo img{width:100%;height:100%;object-fit:cover}
 .school-card .school-logo .placeholder{font-size:48px}
-.school-card .school-name{font-size:26px;font-weight:800;color:#fff}
-.school-card .school-id{font-size:16px;color:var(--text-muted);font-weight:400}
+.school-card .school-name{font-size:28px;font-weight:800;color:#fff}
+.school-card .school-id{font-size:18px;color:var(--text-muted);font-weight:400}
 .school-card .badges{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
-.school-card .info{display:flex;gap:20px;flex-wrap:wrap;font-size:16px;color:var(--text-muted);margin-top:8px}
+.school-card .info{display:flex;gap:20px;flex-wrap:wrap;font-size:18px;color:var(--text-muted);margin-top:8px}
 .school-card .actions{display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color);flex-wrap:wrap;align-items:center}
-
+.school-card .actions .btn{font-size:17px;padding:10px 22px}
 .rapport-pagination{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;flex-wrap:wrap;gap:8px;border-top:1px solid var(--border-color);margin-top:12px}
-.rapport-pagination .info{font-size:16px;color:var(--text-muted)}
+.rapport-pagination .info{font-size:18px;color:var(--text-muted)}
 .rapport-pagination .btns{display:flex;gap:4px;flex-wrap:wrap}
-.rapport-pagination .btns button{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);color:var(--text-muted);padding:8px 16px;border-radius:6px;font-size:15px;cursor:pointer;transition:var(--transition)}
+.rapport-pagination .btns button{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);color:var(--text-muted);padding:10px 18px;border-radius:6px;font-size:17px;cursor:pointer;transition:var(--transition)}
 .rapport-pagination .btns button:hover{background:rgba(255,255,255,0.06);color:#fff}
 .rapport-pagination .btns button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .rapport-pagination .btns button:disabled{opacity:0.3;cursor:not-allowed}
-
 .audit-fiche .fiche-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color)}
-.audit-fiche .fiche-actions .btn{padding:8px 18px;font-size:15px}
-.audit-fiche .no-signature{text-align:center;padding:8px 0;color:var(--text-muted);font-size:14px;font-style:italic}
-
-.topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.audit-fiche .fiche-actions .btn{padding:10px 20px;font-size:17px}
+.audit-fiche .no-signature{text-align:center;padding:8px 0;color:var(--text-muted);font-size:16px;font-style:italic}
+.topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
 .topbar .brand{display:flex;align-items:center;gap:14px}
-.topbar .brand .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#4A42D4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#fff}
+.topbar .brand .logo{width:48px;height:48px;background:linear-gradient(135deg,var(--accent),#6d28d9);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;color:#fff}
 .topbar .brand h1 span{color:var(--accent)}
 .topbar .right{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:10px 14px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:20px;transition:var(--transition)}
+.topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:12px 16px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:22px;transition:var(--transition)}
 .topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
-
-.space-filter{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:14px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.space-filter{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .space-filter .btn-group{display:flex;gap:4px;background:rgba(255,255,255,0.03);padding:4px;border-radius:8px}
-.space-filter .btn-group button{background:transparent;border:none;padding:10px 26px;border-radius:6px;font-size:17px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+.space-filter .btn-group button{background:transparent;border:none;padding:12px 28px;border-radius:6px;font-size:19px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
 .space-filter .btn-group button:hover{color:var(--text-secondary)}
 .space-filter .btn-group button.active{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--accent-glow)}
-
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:24px 28px 12px 28px}
-.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:18px 24px;transition:var(--transition)}
-.kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
-.kpi-card .label{font-size:15px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
-.kpi-card .value{font-size:32px;font-weight:800;color:#fff;margin-top:2px}
+.kpi-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:20px 24px;transition:var(--transition)}
+.kpi-card:hover{background:var(--bg-card-hover);transform:translateY(-1px)}
+.kpi-card .label{font-size:17px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
+.kpi-card .value{font-size:38px;font-weight:800;color:#fff;margin-top:2px}
 .kpi-card .value.blue{color:#5dade2}
 .kpi-card .value.green{color:var(--success)}
 .kpi-card .value.purple{color:#bb8fce}
 .kpi-card .value.red{color:var(--danger)}
-
-.tabs{display:flex;background:rgba(255,255,255,0.02);padding:8px 20px;gap:4px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
-.tab-btn{background:transparent;border:none;padding:12px 22px;border-radius:8px;font-size:17px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
+.tabs{display:flex;background:rgba(255,255,255,0.02);padding:10px 20px;gap:4px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
+.tab-btn{background:transparent;border:none;padding:14px 24px;border-radius:8px;font-size:19px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
 .tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
 .tab-btn.active{color:#fff;background:rgba(255,255,255,0.06)}
 .tab-btn.active::after{content:'';position:absolute;bottom:2px;left:30%;right:30%;height:2px;background:var(--accent);border-radius:4px}
 .tab-panel{display:none;padding:20px 24px}
 .tab-panel.active{display:block}
-.card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;transition:var(--transition)}
+.card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;transition:var(--transition)}
 .card:hover{border-color:rgba(255,255,255,0.08)}
-.card-header{padding:16px 22px;background:rgba(255,255,255,0.02);font-weight:700;font-size:20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.card-header .count{font-weight:400;font-size:15px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 14px;border-radius:12px}
-.card-body{padding:18px 20px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 26px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
+.card-header{padding:18px 22px;background:rgba(255,255,255,0.02);font-weight:700;font-size:22px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.card-header .count{font-weight:400;font-size:17px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 14px;border-radius:12px}
+.card-body{padding:20px 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border:none;border-radius:8px;font-size:18px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow)}
 .btn:active{transform:translateY(0)}
-.btn-sm{padding:8px 18px;font-size:14px;border-radius:6px}
+.btn-sm{padding:10px 20px;font-size:16px;border-radius:6px}
 .btn-outline{background:transparent;border:1px solid var(--border-color);color:var(--text-secondary);box-shadow:none}
 .btn-outline:hover{background:rgba(255,255,255,0.05);color:#fff;box-shadow:none}
 .btn-danger{background:var(--danger);color:#fff;box-shadow:0 2px 8px rgba(248,113,113,0.2)}
@@ -177,22 +196,22 @@ body.light .school-selector select option {
 .mt-8{margin-top:8px}
 .mb-12{margin-bottom:12px}
 .form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:16px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
-.form-group input,.form-group select{width:100%;padding:14px 18px;border:1px solid var(--border-color);border-radius:8px;font-size:17px;background:#1a1a2e;color:#fff;outline:none;transition:var(--transition)}
-.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:#1a1a2e}
+.form-group label{display:block;font-size:18px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:16px 20px;border:1px solid var(--border-color);border-radius:8px;font-size:19px;background:var(--bg-input);color:#fff;outline:none;transition:var(--transition)}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:var(--bg-input)}
 .form-group input::placeholder{color:var(--text-muted)}
-.form-group select option{background:#0d0d1a;color:#fff}
+.form-group select option{background:#1e293b;color:#fff}
 .filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
-.filter-row select,.filter-row input{padding:12px 20px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;transition:var(--transition)}
-.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:#1a1a2e}
-.filter-row select option{background:#0d0d1a;color:#fff}
-.filter-row label{font-size:14px;color:var(--text-muted);font-weight:500}
+.filter-row select,.filter-row input{padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;transition:var(--transition)}
+.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:var(--bg-input)}
+.filter-row select option{background:#1e293b;color:#fff}
+.filter-row label{font-size:16px;color:var(--text-muted);font-weight:500}
 .table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
-.table-wrapper table{width:100%;border-collapse:collapse;font-size:17px}
-.table-wrapper th,.table-wrapper td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
-.table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:0.5px}
+.table-wrapper table{width:100%;border-collapse:collapse;font-size:19px}
+.table-wrapper th,.table-wrapper td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
+.table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:0.5px}
 .table-wrapper tr:hover td{background:rgba(255,255,255,0.02)}
-.badge{display:inline-block;padding:4px 16px;border-radius:20px;font-size:15px;font-weight:700}
+.badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:17px;font-weight:700}
 .badge-success{background:rgba(52,211,153,0.15);color:var(--success)}
 .badge-danger{background:rgba(248,113,113,0.15);color:var(--danger)}
 .badge-warning{background:rgba(251,191,36,0.15);color:var(--warning)}
@@ -201,26 +220,26 @@ body.light .school-selector select option {
 .badge-masque{background:rgba(160,174,192,0.15);color:var(--text-muted)}
 .badge-excel-code{background:rgba(93,173,226,0.15);color:#5dade2}
 .badge-excel-id{background:rgba(255,255,255,0.05);color:var(--text-muted)}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:18px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:20px}
 .empty-state .empty-icon{font-size:36px;display:block;margin-bottom:8px}
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
 .modal-overlay.show{visibility:visible;opacity:1}
 .modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:480px;padding:32px 28px 36px;max-height:90vh;overflow-y:auto;transform:scale(0.9) translateZ(30px);box-shadow:0 30px 80px rgba(0,0,0,0.6);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1)}
 .modal-overlay.show .modal-card{transform:scale(1) translateZ(30px)}
-.modal-card h3{font-size:24px;font-weight:800;margin-bottom:16px;text-align:center;color:#fff}
+.modal-card h3{font-size:26px;font-weight:800;margin-bottom:16px;text-align:center;color:#fff}
 .modal-card h3::after{content:'';display:block;width:32px;height:3px;background:var(--accent);margin:8px auto 0;border-radius:4px}
-.modal-info-line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);font-size:16px;color:var(--text-muted)}
+.modal-info-line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);font-size:18px;color:var(--text-muted)}
 .modal-info-line span:last-child{color:#fff;font-weight:600}
 .modal-buttons{display:flex;gap:12px;margin-top:18px;justify-content:center;flex-wrap:wrap}
-.modal-buttons .btn{flex:1;min-width:90px;font-size:16px}
+.modal-buttons .btn{flex:1;min-width:90px;font-size:18px}
 .code-input-group{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.03);border-radius:10px;padding:14px 20px;border:1px solid var(--border-color);margin:12px 0}
-.code-input-group input{flex:1;padding:12px 16px;background:rgba(255,255,255,0.05);border:2px solid rgba(108,99,255,0.3);border-radius:8px;color:#fff;font-size:22px;text-align:center;letter-spacing:4px;font-family:monospace;outline:none;transition:var(--transition)}
+.code-input-group input{flex:1;padding:12px 16px;background:rgba(255,255,255,0.05);border:2px solid rgba(108,99,255,0.3);border-radius:8px;color:#fff;font-size:24px;text-align:center;letter-spacing:4px;font-family:monospace;outline:none;transition:var(--transition)}
 .code-input-group input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
-.code-input-group input::placeholder{color:var(--text-muted);letter-spacing:2px;font-size:16px;text-align:center}
+.code-input-group input::placeholder{color:var(--text-muted);letter-spacing:2px;font-size:18px;text-align:center}
 .toast-container{position:fixed;top:16px;right:16px;z-index:999999;display:flex;flex-direction:column-reverse;gap:8px;max-width:90%;pointer-events:none}
-.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:16px 24px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:16px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:300px}
-.toast .toast-title{font-weight:700;font-size:19px;margin-bottom:2px}
-.toast .toast-msg{font-size:17px;opacity:0.9}
+.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:16px 24px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:18px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:300px}
+.toast .toast-title{font-weight:700;font-size:21px;margin-bottom:2px}
+.toast .toast-msg{font-size:19px;opacity:0.9}
 .toast.removing{animation:toastOut .5s ease forwards}
 .toast.error{border-left-color:var(--danger)}
 .toast.warning{border-left-color:var(--warning)}
@@ -229,22 +248,22 @@ body.light .school-selector select option {
 @keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
 
 .excel-table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
-.excel-table-wrapper table{width:100%;border-collapse:collapse;font-size:15px}
-.excel-table-wrapper th{background:#1a3a4a;color:#fff;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:0.8px;padding:12px 16px;text-align:left;border-bottom:2px solid #2a5a6a}
-.excel-table-wrapper td{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:16px;font-family:'Consolas','Courier New',monospace}
+.excel-table-wrapper table{width:100%;border-collapse:collapse;font-size:17px}
+.excel-table-wrapper th{background:#1a3a4a;color:#fff;font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:0.8px;padding:12px 16px;text-align:left;border-bottom:2px solid #2a5a6a}
+.excel-table-wrapper td{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:18px;font-family:'Consolas','Courier New',monospace}
 .excel-table-wrapper tr:nth-child(even) td{background:rgba(255,255,255,0.03)}
 .excel-table-wrapper tr:hover td{background:rgba(108,99,255,0.08)}
 .excel-table-wrapper .code-cell{color:#5dade2;font-weight:700;letter-spacing:1px}
-.excel-table-wrapper .id-cell{color:var(--text-muted);font-size:14px}
-.excel-table-wrapper .gmail-cell{color:#34D399;font-size:14px}
+.excel-table-wrapper .id-cell{color:var(--text-muted);font-size:16px}
+.excel-table-wrapper .gmail-cell{color:#34D399;font-size:16px}
 
 .action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay 0.3s ease}
 .action-dropdown-overlay.show{display:flex}
 .action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:20px;min-width:280px;max-width:400px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);max-height:80vh;overflow-y:auto}
 .action-dropdown-box .close-btn{position:absolute;top:10px;right:14px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition)}
 .action-dropdown-box .close-btn:hover{color:#fff;transform:rotate(90deg)}
-.action-dropdown-box .title{font-size:16px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
-.action-dropdown-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:15px;font-weight:500;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
+.action-dropdown-box .title{font-size:18px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
+.action-dropdown-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:17px;font-weight:500;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
 .action-dropdown-item:hover{background:rgba(255,255,255,0.06);color:#fff}
 .action-dropdown-item .icon{font-size:18px;width:24px;text-align:center}
 .action-dropdown-item.danger{color:var(--danger)}
@@ -254,65 +273,50 @@ body.light .school-selector select option {
 @keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
 
 .code-email-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:10px;padding:12px 18px;margin-bottom:12px}
-.code-email-card .name{font-weight:700;font-size:16px;color:#fff}
+.code-email-card .name{font-weight:700;font-size:18px;color:#fff}
 .code-email-card .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:8px}
-.code-email-card .item .lbl{font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:600}
-.code-email-card .item .val{font-family:monospace;font-size:15px;font-weight:700}
+.code-email-card .item .lbl{font-size:13px;color:var(--text-muted);text-transform:uppercase;font-weight:600}
+.code-email-card .item .val{font-family:monospace;font-size:17px;font-weight:700}
 .code-email-card .item .val.dir{color:#bb8fce}
 .code-email-card .item .val.compta{color:var(--success)}
 .code-email-card .item .val.promo{color:#5dade2}
-.code-email-card .item .val.email{color:var(--accent);font-size:14px}
+.code-email-card .item .val.email{color:var(--accent);font-size:16px}
 
-.audit-fiche{background:rgba(255,255,255,0.02);border:2px solid var(--border-color);border-radius:12px;padding:28px;margin-bottom:24px;font-family:'Courier New',monospace;font-size:15px;line-height:1.8}
+.audit-fiche{background:rgba(255,255,255,0.02);border:2px solid var(--border-color);border-radius:12px;padding:28px;margin-bottom:24px;font-family:'Courier New',monospace;font-size:17px;line-height:1.8}
 .audit-fiche .header{text-align:center;border-bottom:2px solid var(--border-color);padding-bottom:14px;margin-bottom:18px}
-.audit-fiche .header h2{font-size:22px;font-weight:900;color:var(--accent);font-family:'Inter',sans-serif}
-.audit-fiche .header .sub{font-size:14px;color:var(--text-muted);font-family:'Inter',sans-serif}
+.audit-fiche .header h2{font-size:24px;font-weight:900;color:var(--accent);font-family:'Inter',sans-serif}
+.audit-fiche .header .sub{font-size:16px;color:var(--text-muted);font-family:'Inter',sans-serif}
 .audit-fiche .section{border:1px solid var(--border-color);border-radius:8px;padding:14px 18px;margin-bottom:14px}
-.audit-fiche .section .title{font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:0.5px}
+.audit-fiche .section .title{font-weight:700;font-size:18px;color:var(--accent);margin-bottom:8px;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:0.5px}
 .audit-fiche .section .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
 .audit-fiche .section .row .label{color:var(--text-muted)}
 .audit-fiche .section .row .value{font-weight:600;color:#fff}
 .audit-fiche .section .checkbox-group{display:flex;gap:20px;flex-wrap:wrap;padding:4px 0}
 .audit-fiche .section .checkbox-group .cb{display:flex;align-items:center;gap:6px}
 .audit-fiche .section .checkbox-group .cb input[type="checkbox"]{accent-color:var(--accent);width:18px;height:18px;cursor:pointer}
-.audit-fiche .section .checkbox-group .cb label{font-size:15px;color:var(--text-secondary);cursor:pointer}
-.audit-fiche .section .text-area{width:100%;min-height:44px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:10px 14px;font-family:'Courier New',monospace;font-size:15px;resize:vertical}
+.audit-fiche .section .checkbox-group .cb label{font-size:17px;color:var(--text-secondary);cursor:pointer}
+.audit-fiche .section .text-area{width:100%;min-height:44px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:10px 14px;font-family:'Courier New',monospace;font-size:17px;resize:vertical}
 .audit-fiche .section .text-area:focus{outline:none;border-color:var(--accent)}
-.audit-fiche .section .text-area-manual{width:100%;padding:8px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;font-family:'Courier New',monospace;font-size:16px;outline:none}
+.audit-fiche .section .text-area-manual{width:100%;padding:8px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:6px;color:#fff;font-family:'Courier New',monospace;font-size:18px;outline:none}
 .audit-fiche .section .text-area-manual:focus{outline:none;border-color:var(--accent)}
-.audit-fiche .footer{text-align:center;border-top:2px solid var(--border-color);padding-top:14px;margin-top:18px;font-size:13px;color:var(--text-muted);font-family:'Inter',sans-serif}
+.audit-fiche .footer{text-align:center;border-top:2px solid var(--border-color);padding-top:14px;margin-top:18px;font-size:15px;color:var(--text-muted);font-family:'Inter',sans-serif}
 .audit-fiche .statut-ok{color:var(--success);font-weight:700}
 .audit-fiche .statut-nok{color:var(--danger);font-weight:700}
 .audit-fiche .statut-warning{color:var(--warning);font-weight:700}
 .audit-fiche .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .audit-fiche .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .audit-fiche .grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-.audit-fiche .daily-grid{display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:4px;font-size:14px}
+.audit-fiche .daily-grid{display:grid;grid-template-columns:100px 1fr 1fr 1fr 1fr;gap:4px;font-size:16px}
 .audit-fiche .daily-grid .header{font-weight:700;color:var(--accent);border-bottom:1px solid var(--border-color);padding:4px 0}
 .audit-fiche .daily-grid .cell{padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
 .audit-fiche .evo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .audit-fiche .evo-grid .header{font-weight:700;color:var(--accent);border-bottom:1px solid var(--border-color);padding:4px 0}
 .audit-fiche .fiche-numero{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.audit-fiche .fiche-numero label{font-weight:700;color:var(--text-secondary);font-size:16px;font-family:'Inter',sans-serif}
-.audit-fiche .fiche-numero input{background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 16px;font-size:16px;font-family:'Courier New',monospace;outline:none;width:200px}
+.audit-fiche .fiche-numero label{font-weight:700;color:var(--text-secondary);font-size:18px;font-family:'Inter',sans-serif}
+.audit-fiche .fiche-numero input{background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 16px;font-size:18px;font-family:'Courier New',monospace;outline:none;width:200px}
 .audit-fiche .fiche-numero input:focus{border-color:var(--accent)}
 .audit-fiche .fiche-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color)}
-.audit-fiche .fiche-actions .btn{padding:10px 20px;font-size:15px}
-
-.connexion-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 24px;transition:var(--transition)}
-.connexion-card:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)}
-.connexion-card.actif{border-left:4px solid var(--success)}
-.connexion-card.inactif{border-left:4px solid var(--danger)}
-.connexion-header{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-.connexion-header .status-dot{font-size:22px}
-.connexion-header .status-label{font-weight:700;font-size:18px}
-.connexion-header .status-label.actif{color:var(--success)}
-.connexion-header .status-label.inactif{color:var(--danger)}
-.connexion-header .status-time{font-size:15px;color:var(--text-muted);margin-left:auto}
-.connexion-body{display:flex;flex-direction:column;gap:4px}
-.connexion-row{display:flex;gap:14px;font-size:16px}
-.connexion-row .label{color:var(--text-muted);min-width:160px}
-.connexion-row .value{color:var(--text-primary);font-weight:500}
+.audit-fiche .fiche-actions .btn{padding:10px 20px;font-size:17px}
 
 body.light select,
 body.light .filter-row select,
@@ -321,115 +325,109 @@ body.light .school-selector select,
 body.light select:focus,
 body.light .filter-row select:focus,
 body.light .form-group select:focus {
-  background: #1a1a2e !important;
-  color: #fff !important;
+  background: #e2e6ea !important;
+  color: #1a2332 !important;
 }
 body.light select option,
 body.light .filter-row select option,
 body.light .form-group select option,
 body.light .school-selector select option {
-  background: #1a1a2e !important;
-  color: #fff !important;
+  background: #e2e6ea !important;
+  color: #1a2332 !important;
 }
-body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
-body.light .topbar{background:#0A1628}
-body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
-body.light .kpi-card .value{color:#1A202C}
-body.light .card{background:#FFFFFF;border-color:#E2E8F0}
-body.light .card-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
-body.light .card-header .count{color:#4A5568;background:#EDF2F7}
-body.light .form-group input,body.light .form-group select{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
-body.light .form-group input::placeholder{color:#A0AEC0}
-body.light .filter-row select,body.light .filter-row input{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
-body.light .table-wrapper{background:#FFFFFF;border-color:#E2E8F0}
-body.light .table-wrapper th{color:#4A5568;background:#F7FAFC}
-body.light .table-wrapper td{color:#1A202C;border-bottom-color:#EDF2F7}
-body.light .table-wrapper tr:hover td{background:#F7FAFC}
-body.light .excel-table-wrapper{background:#FFFFFF}
+body.light{--bg-primary:#f1f5f9;--bg-secondary:#ffffff;--bg-card:#ffffff;--border-color:#e2e8f0;--text-primary:#1a202c;--text-secondary:#4a5568;--text-muted:#a0aec0}
+body.light .topbar{background:#0a1628}
+body.light .kpi-card{background:#ffffff;border-color:#e2e8f0}
+body.light .kpi-card .value{color:#1a202c}
+body.light .card{background:#ffffff;border-color:#e2e8f0}
+body.light .card-header{color:#1a202c;border-bottom-color:#e2e8f0;background:#f7fafc}
+body.light .card-header .count{color:#4a5568;background:#edf2f7}
+body.light .form-group input,body.light .form-group select{background:#ffffff;color:#1a202c;border-color:#e2e8f0}
+body.light .form-group input::placeholder{color:#a0aec0}
+body.light .filter-row select,body.light .filter-row input{background:#ffffff;color:#1a202c;border-color:#e2e8f0}
+body.light .table-wrapper{background:#ffffff;border-color:#e2e8f0}
+body.light .table-wrapper th{color:#4a5568;background:#f7fafc}
+body.light .table-wrapper td{color:#1a202c;border-bottom-color:#edf2f7}
+body.light .table-wrapper tr:hover td{background:#f7fafc}
+body.light .excel-table-wrapper{background:#ffffff}
 body.light .excel-table-wrapper th{background:#1a4a5a;color:#fff}
-body.light .excel-table-wrapper tr:nth-child(even) td{background:#F7FAFC}
-body.light .excel-table-wrapper tr:hover td{background:#EBF4FF}
-body.light .school-card{background:#FFFFFF;border-color:#E2E8F0}
-body.light .school-card .school-name{color:#1A202C}
-body.light .school-card .school-id{color:#A0AEC0}
-body.light .school-card .info{color:#4A5568}
-body.light .school-card .actions{border-top-color:#E2E8F0}
-body.light .modal-card{background:#FFFFFF}
-body.light .modal-card h3{color:#1A202C}
+body.light .excel-table-wrapper tr:nth-child(even) td{background:#f7fafc}
+body.light .excel-table-wrapper tr:hover td{background:#ebf4ff}
+body.light .school-card{background:#ffffff;border-color:#e2e8f0}
+body.light .school-card .school-name{color:#1a202c}
+body.light .school-card .school-id{color:#a0aec0}
+body.light .school-card .info{color:#4a5568}
+body.light .school-card .actions{border-top-color:#e2e8f0}
+body.light .modal-card{background:#ffffff}
+body.light .modal-card h3{color:#1a202c}
 body.light .modal-card h3::after{background:var(--accent)}
-body.light .modal-info-line{color:#4A5568;border-bottom-color:#E2E8F0}
-body.light .modal-info-line span:last-child{color:#1A202C}
-body.light .btn-outline{color:#4A5568;border-color:#E2E8F0}
-body.light .btn-outline:hover{background:#F7FAFC;color:#1A202C}
-body.light .toast{background:#FFFFFF;color:#1A202C;border-left-color:var(--accent)}
-body.light .toast .toast-title{color:#1A202C}
-body.light .toast .toast-msg{color:#4A5568}
-body.light .space-filter{background:#FFFFFF;border-color:#E2E8F0}
-body.light .space-filter .btn-group{background:#F7FAFC}
-body.light .space-filter .btn-group button{color:#A0AEC0}
-body.light .space-filter .btn-group button:hover{color:#4A5568}
+body.light .modal-info-line{color:#4a5568;border-bottom-color:#e2e8f0}
+body.light .modal-info-line span:last-child{color:#1a202c}
+body.light .btn-outline{color:#4a5568;border-color:#e2e8f0}
+body.light .btn-outline:hover{background:#f7fafc;color:#1a202c}
+body.light .toast{background:#ffffff;color:#1a202c;border-left-color:var(--accent)}
+body.light .toast .toast-title{color:#1a202c}
+body.light .toast .toast-msg{color:#4a5568}
+body.light .space-filter{background:#ffffff;border-color:#e2e8f0}
+body.light .space-filter .btn-group{background:#f7fafc}
+body.light .space-filter .btn-group button{color:#a0aec0}
+body.light .space-filter .btn-group button:hover{color:#4a5568}
 body.light .space-filter .btn-group button.active{background:var(--accent);color:#fff}
-body.light .tabs{background:#FFFFFF;border-color:#E2E8F0}
-body.light .tab-btn{color:#A0AEC0}
-body.light .tab-btn:hover{color:#4A5568}
-body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
-body.light .action-dropdown-box{background:#FFFFFF}
-body.light .action-dropdown-box .title{color:#1A202C;border-bottom-color:#E2E8F0}
-body.light .action-dropdown-item{color:#4A5568}
-body.light .action-dropdown-item:hover{background:#F7FAFC;color:#1A202C}
-body.light .action-dropdown-item.danger{color:#DC2626}
+body.light .tabs{background:#ffffff;border-color:#e2e8f0}
+body.light .tab-btn{color:#a0aec0}
+body.light .tab-btn:hover{color:#4a5568}
+body.light .tab-btn.active{color:#1a202c;background:#f7fafc}
+body.light .action-dropdown-box{background:#ffffff}
+body.light .action-dropdown-box .title{color:#1a202c;border-bottom-color:#e2e8f0}
+body.light .action-dropdown-item{color:#4a5568}
+body.light .action-dropdown-item:hover{background:#f7fafc;color:#1a202c}
+body.light .action-dropdown-item.danger{color:#dc2626}
 body.light .action-dropdown-item.danger:hover{background:rgba(220,38,38,0.08)}
-body.light .action-dropdown-box .close-btn{color:#A0AEC0}
-body.light .action-dropdown-box .close-btn:hover{color:#1A202C}
-body.light .audit-fiche{background:#FFFFFF;border-color:#E2E8F0}
-body.light .audit-fiche .section .row .value{color:#1A202C}
-body.light .audit-fiche .section .checkbox-group .cb label{color:#4A5568}
-body.light .audit-fiche .section .row{border-bottom-color:#EDF2F7}
-body.light .code-email-card{background:#F7FAFC;border-color:#E2E8F0}
-body.light .code-email-card .name{color:#1A202C}
-body.light .code-email-card .item .lbl{color:#A0AEC0}
-body.light .audit-fiche .daily-grid .cell{border-bottom-color:#EDF2F7}
-body.light .audit-fiche .fiche-numero input{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
-body.light .audit-fiche .section .text-area{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
-body.light .audit-fiche .section .text-area-manual{background:#F7FAFC;color:#1A202C;border-color:#E2E8F0}
-body.light .rapport-pagination .btns button{background:#FFFFFF;color:#4A5568;border-color:#E2E8F0}
-body.light .rapport-pagination .btns button:hover{background:#F7FAFC;color:#1A202C}
+body.light .action-dropdown-box .close-btn{color:#a0aec0}
+body.light .action-dropdown-box .close-btn:hover{color:#1a202c}
+body.light .audit-fiche{background:#ffffff;border-color:#e2e8f0}
+body.light .audit-fiche .section .row .value{color:#1a202c}
+body.light .audit-fiche .section .checkbox-group .cb label{color:#4a5568}
+body.light .audit-fiche .section .row{border-bottom-color:#edf2f7}
+body.light .code-email-card{background:#f7fafc;border-color:#e2e8f0}
+body.light .code-email-card .name{color:#1a202c}
+body.light .code-email-card .item .lbl{color:#a0aec0}
+body.light .audit-fiche .daily-grid .cell{border-bottom-color:#edf2f7}
+body.light .audit-fiche .fiche-numero input{background:#f7fafc;color:#1a202c;border-color:#e2e8f0}
+body.light .audit-fiche .section .text-area{background:#f7fafc;color:#1a202c;border-color:#e2e8f0}
+body.light .audit-fiche .section .text-area-manual{background:#f7fafc;color:#1a202c;border-color:#e2e8f0}
+body.light .rapport-pagination .btns button{background:#ffffff;color:#4a5568;border-color:#e2e8f0}
+body.light .rapport-pagination .btns button:hover{background:#f7fafc;color:#1a202c}
 body.light .rapport-pagination .btns button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-body.light .connexion-card{background:#FFFFFF;border-color:#E2E8F0}
-body.light .connexion-card.actif{border-left-color:var(--success)}
-body.light .connexion-card.inactif{border-left-color:var(--danger)}
-body.light .connexion-row .value{color:#1A202C}
 
 @media(max-width:768px){
 .topbar{padding:12px 18px}
-.topbar .brand h1{font-size:20px}
+.topbar .brand h1{font-size:24px}
 .topbar .brand .sub{display:none}
 .kpi-row{padding:14px 18px 6px 18px;grid-template-columns:repeat(2,1fr)}
 .kpi-card{padding:12px 16px}
-.kpi-card .value{font-size:24px}
+.kpi-card .value{font-size:28px}
 .space-filter{padding:10px 18px}
-.space-filter .btn-group button{padding:6px 16px;font-size:15px}
+.space-filter .btn-group button{padding:8px 18px;font-size:17px}
 .tabs{padding:6px 12px;gap:2px}
-.tab-btn{padding:10px 14px;font-size:15px}
+.tab-btn{padding:10px 14px;font-size:17px}
 .tab-panel{padding:14px}
-.card-header{padding:12px 16px;font-size:17px}
+.card-header{padding:12px 16px;font-size:20px}
 .card-body{padding:12px 14px}
 .school-grid{grid-template-columns:1fr;gap:14px}
 .school-card{padding:20px}
 .school-card .school-logo{width:70px;height:70px;font-size:36px}
-.school-card .school-name{font-size:22px}
+.school-card .school-name{font-size:24px}
 .filter-row{flex-direction:column;align-items:stretch}
 .filter-row select,.filter-row input{width:100%}
 .modal-card{padding:22px 18px 26px;margin:10px;max-width:95%}
-.excel-table-wrapper th,.excel-table-wrapper td{padding:8px 12px;font-size:14px}
-.audit-fiche{padding:18px;font-size:14px}
+.excel-table-wrapper th,.excel-table-wrapper td{padding:8px 12px;font-size:16px}
+.audit-fiche{padding:18px;font-size:16px}
 .audit-fiche .grid-2,.audit-fiche .grid-3,.audit-fiche .grid-4{grid-template-columns:1fr}
-.audit-fiche .daily-grid{grid-template-columns:1fr 1fr;font-size:13px}
+.audit-fiche .daily-grid{grid-template-columns:1fr 1fr;font-size:15px}
 .audit-fiche .daily-grid .header{display:none}
 .audit-fiche .evo-grid{grid-template-columns:1fr}
 .audit-fiche .fiche-numero input{width:160px}
-.connexion-row{flex-direction:column;gap:2px}
-.connexion-row .label{min-width:auto}
 }
 </style>
 </head>
@@ -437,7 +435,7 @@ body.light .connexion-row .value{color:#1A202C}
 <div class="topbar" id="mainHeader">
 <div class="brand">
 <div class="logo">N</div>
-<h1>NETUBEX <span>·</span> <span style="font-weight:400;font-size:16px;color:var(--text-muted);">TECHNIQUE</span></h1>
+<h1>NETUBEX <span>·</span> <span style="font-weight:400;font-size:18px;color:var(--text-muted);">TECHNIQUE</span></h1>
 </div>
 <div class="right">
 <button class="theme-toggle" id="themeToggle">🌙</button>
@@ -467,7 +465,6 @@ body.light .connexion-row .value{color:#1A202C}
 <button class="tab-btn" data-tab="tab8">⚠️ ALERTES</button>
 <button class="tab-btn" data-tab="tab9">📋 RAPPORT</button>
 <button class="tab-btn" data-tab="tab10">🔑 CODE PARENT</button>
-<button class="tab-btn" data-tab="tab11">❄️ MOIS BLANCS</button>
 <button class="tab-btn" data-tab="tab12">📈 TENDANCE</button>
 </div>
 
@@ -496,8 +493,8 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module A</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un ID..." style="flex:1;padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher un ID..." style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterA" style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerA"><div class="empty-state">👥 Aucun membre trouvé</div></div>
 </div>
@@ -506,8 +503,8 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module B</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un ID..." style="flex:1;padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher un ID..." style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterB" style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerB"><div class="empty-state">👥 Aucun membre trouvé</div></div>
 </div>
@@ -516,8 +513,8 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>📦 Module C</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
 <div class="card-body">
 <div class="filter-row">
-<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un ID..." style="flex:1;padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;transition:var(--transition);"></div>
-<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;"><span>🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher un ID..." style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;transition:var(--transition);"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:180px;"><span>🏫</span><select id="memberEcoleFilterC" style="flex:1;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;cursor:pointer;"><option value="all">📊 Toutes les écoles</option></select></div>
 </div>
 <div id="membersContainerC"><div class="empty-state">👥 Aucun membre trouvé</div></div>
 </div>
@@ -536,9 +533,7 @@ body.light .connexion-row .value{color:#1A202C}
 <label>🏫</label>
 <select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
 <label>🔍</label>
-<input type="text" id="teacherSearch" placeholder="Rechercher un ID..." style="flex:1;min-width:140px;padding:12px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;">
-<label>📌</label>
-<select id="teacherStatutFilter"><option value="all">Tous statuts</option><option value="connecte">🟢 Connecté</option><option value="deconnecte">🔴 Déconnecté</option></select>
+<input type="text" id="teacherSearch" placeholder="Rechercher un ID..." style="flex:1;min-width:140px;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;">
 </div>
 <div id="teachersContainer"></div>
 </div>
@@ -548,11 +543,11 @@ body.light .connexion-row .value{color:#1A202C}
 <div class="card-body">
 <div class="filter-row">
 <label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
-<label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:140px;padding:12px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:16px;outline:none;">
+<label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:140px;padding:14px 22px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;outline:none;">
 </div>
 <div class="excel-table-wrapper">
 <table>
-<thead><tr><th>🆔 ID FICHE</th><th>👨‍🏫 ID PROFESSEUR</th><th>📊 NOMBRE DE FICHES</th></tr></thead>
+<thead><tr><th>🆔 ID FICHE</th><th>👨‍🏫 ID PROFESSEUR</th></tr></thead>
 <tbody id="sheetsBody"></tbody>
 </table>
 </div>
@@ -561,7 +556,7 @@ body.light .connexion-row .value{color:#1A202C}
 
 <div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
 <div class="card-body">
-<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter" style="padding:12px 20px;font-size:16px;"><option value="all">Toutes</option></select></div>
+<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter" style="padding:14px 22px;font-size:18px;"><option value="all">Toutes</option></select></div>
 <div id="codesEmailsContainer"></div>
 </div>
 </div></div>
@@ -569,9 +564,9 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="tab8" class="tab-panel"><div class="card"><div class="card-header"><div>⚠️ Alertes</div><button class="btn btn-sm btn-danger" id="btnSupprimerAlertes">🗑️ Supprimer toutes</button></div>
 <div class="card-body">
 <div class="filter-row">
-<label>🏫</label><select id="alertesEcoleFilter" style="padding:12px 20px;font-size:16px;"><option value="all">Toutes</option></select>
-<label>🔴</label><select id="alertesPriorityFilter" style="padding:12px 20px;font-size:16px;"><option value="all">Toutes priorité</option><option value="critique">Critique</option><option value="important">Important</option><option value="mineure">Mineure</option></select>
-<label>📌</label><select id="alertesStatutFilter" style="padding:12px 20px;font-size:16px;"><option value="all">Tous statuts</option><option value="nonresolu">Non résolu</option><option value="encours">En cours</option><option value="resolu">Résolu</option></select>
+<label>🏫</label><select id="alertesEcoleFilter" style="padding:14px 22px;font-size:18px;"><option value="all">Toutes</option></select>
+<label>🔴</label><select id="alertesPriorityFilter" style="padding:14px 22px;font-size:18px;"><option value="all">Toutes priorité</option><option value="critique">Critique</option><option value="important">Important</option><option value="mineure">Mineure</option></select>
+<label>📌</label><select id="alertesStatutFilter" style="padding:14px 22px;font-size:18px;"><option value="all">Tous statuts</option><option value="nonresolu">Non résolu</option><option value="encours">En cours</option><option value="resolu">Résolu</option></select>
 </div>
 <div id="alertesContainer"></div>
 </div>
@@ -582,10 +577,10 @@ body.light .connexion-row .value{color:#1A202C}
 <div class="card-header">
 <div>📋 RAPPORT D'AUDIT TECHNIQUE</div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-<select id="rapportEcoleFilter" style="padding:8px 14px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:15px;outline:none;">
+<select id="rapportEcoleFilter" style="padding:8px 14px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:17px;outline:none;">
 <option value="all">📊 Toutes les écoles</option>
 </select>
-<select id="rapportTypeFilter" style="padding:8px 14px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:15px;outline:none;">
+<select id="rapportTypeFilter" style="padding:8px 14px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:#fff;font-size:17px;outline:none;">
 <option value="all">📋 Tous les rapports</option>
 <option value="individuelle">Fiche individuelle</option>
 <option value="hebdomadaire">Fiche hebdomadaire</option>
@@ -609,18 +604,11 @@ body.light .connexion-row .value{color:#1A202C}
 <div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 CODE PARENT</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
 <div class="card-body">
 <div style="display:flex;gap:12px;margin-bottom:14px;">
-<input type="text" id="codeSearchInput" placeholder="🔍 Saisissez le code parent (ex: 123456)..." style="flex:1;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:18px;font-family:monospace;letter-spacing:2px;outline:none;transition:var(--transition);">
+<input type="text" id="codeSearchInput" placeholder="🔍 Saisissez le code parent (ex: 123456)..." style="flex:1;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:20px;font-family:monospace;letter-spacing:2px;outline:none;transition:var(--transition);">
 </div>
 <div id="codeResultsContainer" style="max-height:400px;overflow-y:auto;background:rgba(0,0,0,0.05);border-radius:8px;padding:10px;">
 <div class="empty-state">🔑 Saisissez un code parent pour rechercher un élève</div>
 </div>
-</div>
-</div></div>
-
-<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ Mois Blancs</div><div class="actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
-<div class="card-body">
-<div class="filter-row"><label>École :</label><select id="wmEcoleFilter" style="padding:12px 20px;font-size:16px;"><option value="all">Toutes</option></select></div>
-<div class="table-wrapper"><table><thead><tr><th>Élève</th><th>Classe</th><th>Section</th><th>École</th><th>Mois</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
 </div>
 </div></div>
 
@@ -630,32 +618,32 @@ body.light .connexion-row .value{color:#1A202C}
 <div class="card-body">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px;text-align:center;">
-<div class="label" style="font-size:13px;color:var(--text-muted);">📊 Aujourd'hui vs Hier</div>
-<div class="value" id="tendanceDay" style="font-size:24px;font-weight:800;color:#6C63FF;">0%</div>
-<div class="sub" id="tendanceDaySub" style="font-size:14px;color:var(--text-muted);">Évolution</div>
+<div class="label" style="font-size:15px;color:var(--text-muted);">📊 Aujourd'hui vs Hier</div>
+<div class="value" id="tendanceDay" style="font-size:26px;font-weight:800;color:#8b5cf6;">0%</div>
+<div class="sub" id="tendanceDaySub" style="font-size:16px;color:var(--text-muted);">Évolution</div>
 </div>
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px;text-align:center;">
-<div class="label" style="font-size:13px;color:var(--text-muted);">📈 Cette semaine vs dernière</div>
-<div class="value" id="tendanceWeek" style="font-size:24px;font-weight:800;color:#34D399;">0%</div>
-<div class="sub" id="tendanceWeekSub" style="font-size:14px;color:var(--text-muted);">Évolution</div>
+<div class="label" style="font-size:15px;color:var(--text-muted);">📈 Cette semaine vs dernière</div>
+<div class="value" id="tendanceWeek" style="font-size:26px;font-weight:800;color:#34d399;">0%</div>
+<div class="sub" id="tendanceWeekSub" style="font-size:16px;color:var(--text-muted);">Évolution</div>
 </div>
 <div class="kpi-card" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px;text-align:center;">
-<div class="label" style="font-size:13px;color:var(--text-muted);">📅 Ce mois-ci vs dernier</div>
-<div class="value" id="tendanceMonth" style="font-size:24px;font-weight:800;color:#FBBF24;">0%</div>
-<div class="sub" id="tendanceMonthSub" style="font-size:14px;color:var(--text-muted);">Évolution</div>
+<div class="label" style="font-size:15px;color:var(--text-muted);">📅 Ce mois-ci vs dernier</div>
+<div class="value" id="tendanceMonth" style="font-size:26px;font-weight:800;color:#fbbf24;">0%</div>
+<div class="sub" id="tendanceMonthSub" style="font-size:16px;color:var(--text-muted);">Évolution</div>
 </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr;gap:16px;">
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
-<h4 style="font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Aujourd'hui vs Hier</h4>
+<h4 style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Aujourd'hui vs Hier</h4>
 <div id="dayChartContainer" style="height:200px;"><canvas id="dayChart"></canvas></div>
 </div>
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
-<h4 style="font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Cette semaine vs Semaine dernière</h4>
+<h4 style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Cette semaine vs Semaine dernière</h4>
 <div id="weekChartContainer" style="height:200px;"><canvas id="weekChart"></canvas></div>
 </div>
 <div class="card" style="background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
-<h4 style="font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Ce mois-ci vs Mois dernier</h4>
+<h4 style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">📊 Ce mois-ci vs Mois dernier</h4>
 <div id="monthChartContainer" style="height:200px;"><canvas id="monthChart"></canvas></div>
 </div>
 </div>
@@ -664,17 +652,17 @@ body.light .connexion-row .value{color:#1A202C}
 </div>
 </div>
 
-<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:18px;margin-bottom:14px;">Veuillez entrer le code d'accès</p>
-<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:22px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
-<div id="codeError" style="color:var(--danger);font-size:15px;text-align:center;min-height:22px;"></div>
+<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:20px;margin-bottom:14px;">Veuillez entrer le code d'accès</p>
+<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:24px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
+<div id="codeError" style="color:var(--danger);font-size:17px;text-align:center;min-height:22px;"></div>
 <div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Annuler</button></div>
 </div></div>
-<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Changer le logo</h3><p style="text-align:center;color:var(--text-muted);font-size:18px;margin-bottom:14px;">Entrez l'URL de l'image</p>
-<div class="form-group"><label>URL du logo</label><input type="text" id="logoUrlInput" placeholder="https://exemple.com/logo.png" style="width:100%;padding:14px 18px;border:1px solid var(--border-color);border-radius:8px;font-size:17px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
+<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Changer le logo</h3><p style="text-align:center;color:var(--text-muted);font-size:20px;margin-bottom:14px;">Entrez l'URL de l'image</p>
+<div class="form-group"><label>URL du logo</label><input type="text" id="logoUrlInput" placeholder="https://exemple.com/logo.png" style="width:100%;padding:16px 20px;border:1px solid var(--border-color);border-radius:8px;font-size:19px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
 <div id="logoPreviewContainer" style="text-align:center;margin:10px 0;display:none;"><img id="logoPreviewImg" src="" alt="Aperçu" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
 <div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Enregistrer</button><button class="btn btn-outline" id="logoCancelBtn">Annuler</button></div>
 </div></div>
-<div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Détails de connexion</h3><div id="confirmMessage" style="text-align:center;padding:16px;font-size:18px;color:var(--text-secondary);"></div>
+<div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Détails</h3><div id="confirmMessage" style="text-align:center;padding:16px;font-size:20px;color:var(--text-secondary);"></div>
 <div class="modal-buttons"><button class="btn" id="confirmYes">Fermer</button><button class="btn btn-outline" id="confirmNo" style="display:none;">Annuler</button></div>
 </div></div>
 <div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
@@ -789,31 +777,6 @@ return map[section] || 'badge-primary';
 function getCategoryLabel(cat) {
 const map = { 'securite': '🔐 Sécurité', 'enseignant': '👨‍🏫 Enseignant', 'fiche': '📄 Fiche', 'ecole': '🏫 École' };
 return map[cat] || cat || 'Général';
-}
-
-function getTempsEcoule(dateISO) {
-if (!dateISO) return 'Jamais';
-const now = new Date();
-const date = new Date(dateISO);
-const diffMs = now - date;
-const diffMin = Math.floor(diffMs / (1000 * 60));
-const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-if (diffMin < 1) return 'À l\'instant';
-if (diffMin < 60) return `Il y a ${diffMin} min`;
-if (diffH < 24) return `Il y a ${diffH}h`;
-return `Il y a ${Math.floor(diffH / 24)}j`;
-}
-
-function getTempsConnecte(dateConnexion, dateDeconnexion) {
-if (!dateConnexion) return 'Jamais connecté';
-const start = new Date(dateConnexion);
-const end = dateDeconnexion ? new Date(dateDeconnexion) : new Date();
-const diffMs = end - start;
-const diffMin = Math.floor(diffMs / (1000 * 60));
-const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-if (diffH < 1) return `${diffMin} min`;
-if (diffH < 24) return `${diffH}h ${diffMin % 60}min`;
-return `${Math.floor(diffH / 24)}j ${diffH % 24}h`;
 }
 
 async function loadAllData() {
@@ -951,7 +914,6 @@ loadCodesEmails();
 loadAlertes();
 loadRapport();
 loadParentCodes();
-loadWhiteMonths();
 buildTendanceCharts();
 
 } catch (e) {
@@ -962,8 +924,8 @@ toast("Erreur de chargement: " + e.message, "error");
 
 function updateSelectors() {
 ['teacherEcoleFilter', 'sheetEcoleFilter', 'codesEmailsEcoleFilter', 'alertesEcoleFilter',
-'wmEcoleFilter', 'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
-'teacherSchoolSelect', 'sheetSchoolSelect', 'rapportEcoleFilter'].forEach(id => {
+'memberEcoleFilterA', 'memberEcoleFilterB', 'memberEcoleFilterC',
+'rapportEcoleFilter'].forEach(id => {
 const el = document.getElementById(id);
 if (!el) return;
 const val = el.value;
@@ -992,8 +954,8 @@ if (critiques.length === 0) { container.innerHTML = ''; return; }
 container.innerHTML = critiques.map(a => `
 <div style="background:rgba(248,113,113,0.10);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:10px 16px;margin:10px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
 <span style="font-size:20px;">🔴</span>
-<span style="font-size:15px;font-weight:600;color:var(--danger);flex:1;">${escapeHtml(a.message || 'Alerte critique')}</span>
-<span style="font-size:13px;color:var(--danger);">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
+<span style="font-size:17px;font-weight:600;color:var(--danger);flex:1;">${escapeHtml(a.message || 'Alerte critique')}</span>
+<span style="font-size:15px;color:var(--danger);">${a.ecoleNom} · ${a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-'}</span>
 </div>
 `).join('');
 }
@@ -1013,7 +975,7 @@ return;
 let html = `
 <div class="excel-table-wrapper">
 <table>
-<thead><tr><th style="width:50%;">🆔 UNIQUE ID</th><th style="width:50%;">🔑 CODE PARENT</th></tr></thead>
+<thead><tr><th style="width:50%;">🆔 ID</th><th style="width:50%;">🔑 CODE PARENT</th></tr></thead>
 <tbody>
 `;
 filtered.forEach(m => {
@@ -1034,35 +996,10 @@ async function loadTeachers() {
     
     const filter = document.getElementById("teacherEcoleFilter")?.value || "all";
     const search = document.getElementById("teacherSearch")?.value?.toLowerCase() || "";
-    const statutFilter = document.getElementById("teacherStatutFilter")?.value || "all";
     
     let teachers = allTeachers;
     if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
     if (search) teachers = teachers.filter(t => t.id?.toLowerCase().includes(search));
-    
-    const connexionsMap = new Map();
-    try {
-        const snap = await getDocs(collection(db, "professeurs_connexions"));
-        snap.forEach(doc => {
-            const data = doc.data();
-            connexionsMap.set(data.userId || doc.id, data);
-        });
-    } catch(e) {}
-    
-    teachers = teachers.map(t => {
-        const conn = connexionsMap.get(t.id);
-        return {
-            ...t,
-            statut: conn?.statut || "deconnecte",
-            derniereActivite: conn?.derniereActivite || null,
-            dateConnexion: conn?.dateConnexion || null,
-            dateDeconnexion: conn?.dateDeconnexion || null
-        };
-    });
-    
-    if (statutFilter !== "all") {
-        teachers = teachers.filter(t => t.statut === statutFilter);
-    }
     
     if (teachers.length === 0) {
         container.innerHTML = '<div class="empty-state">👨‍🏫 Aucun enseignant trouvé</div>';
@@ -1074,115 +1011,25 @@ async function loadTeachers() {
     <table>
     <thead><tr>
         <th>🆔 ID</th>
-        <th>🔑 Code</th>
+        <th>🔑 Code d'accès</th>
         <th>📧 Gmail</th>
         <th>📊 Statut</th>
-        <th style="text-align:center;width:80px;">🟢 Connexion</th>
     </tr></thead>
     <tbody>
     `;
     
     teachers.forEach(t => {
-        const estConnecte = t.statut === "connecte";
-        const lampe = estConnecte ? '🟢' : '🔴';
-        const bgColor = estConnecte ? 'rgba(52,211,153,0.2)' : 'rgba(248,113,113,0.2)';
-        const temps = getTempsEcoule(t.derniereActivite || t.dateConnexion);
-        const tempsConnecte = getTempsConnecte(t.dateConnexion, t.dateDeconnexion);
-        
-        const detail = estConnecte 
-            ? `✅ Connecté depuis ${tempsConnecte}\n🕐 Dernière activité : ${temps}`
-            : `❌ Déconnecté depuis ${temps}\n🕐 Dernière connexion : ${t.dateConnexion ? getTempsEcoule(t.dateConnexion) : 'Jamais'}`;
-        
         html += `<tr>
             <td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(t.id)}</span></td>
             <td class="code-cell">${t.code || '---'}</td>
             <td class="gmail-cell">${t.email ? escapeHtml(t.email) : '❌'}</td>
             <td>${t.actif ? '<span class="badge badge-success">✅ Actif</span>' : '<span class="badge badge-danger">⛔ Inactif</span>'}</td>
-            <td style="text-align:center;cursor:pointer;padding:8px;" 
-                onclick="window.showConnexionDetail('${t.id}', '${escapeHtml(t.nom)}', ${estConnecte}, '${t.dateConnexion || ''}', '${t.dateDeconnexion || ''}', '${t.derniereActivite || ''}')"
-                title="${detail}">
-                <span style="display:inline-block;width:48px;height:48px;border-radius:50%;background:${bgColor};border:3px solid ${estConnecte ? '#34D399' : '#F87171'};font-size:28px;line-height:48px;text-align:center;transition:all 0.3s ease;box-shadow:0 2px 8px ${estConnecte ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)'};">${lampe}</span>
-            </td>
         </tr>`;
     });
     
     html += `</tbody></table></div>`;
     container.innerHTML = html;
 }
-
-window.showConnexionDetail = function(id, nom, estConnecte, dateConnexion, dateDeconnexion, derniereActivite) {
-    const status = estConnecte ? '🟢 Connecté' : '🔴 Déconnecté';
-    
-    function getTempsEcouleLocal(dateISO) {
-        if (!dateISO) return 'Jamais';
-        const now = new Date();
-        const date = new Date(dateISO);
-        const diffMs = now - date;
-        const diffMin = Math.floor(diffMs / (1000 * 60));
-        const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-        if (diffMin < 1) return 'À l\'instant';
-        if (diffMin < 60) return `Il y a ${diffMin} min`;
-        if (diffH < 24) return `Il y a ${diffH}h`;
-        return `Il y a ${Math.floor(diffH / 24)}j`;
-    }
-    
-    function getTempsConnecteLocal(dateConn, dateDeconn) {
-        if (!dateConn) return 'Jamais connecté';
-        const start = new Date(dateConn);
-        const end = dateDeconn ? new Date(dateDeconn) : new Date();
-        const diffMs = end - start;
-        const diffMin = Math.floor(diffMs / (1000 * 60));
-        const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-        if (diffH < 1) return `${diffMin} min`;
-        if (diffH < 24) return `${diffH}h ${diffMin % 60}min`;
-        return `${Math.floor(diffH / 24)}j ${diffH % 24}h`;
-    }
-    
-    let details = `
-        <div style="padding:16px;">
-            <div style="font-size:22px;font-weight:700;margin-bottom:14px;text-align:center;">
-                ${estConnecte ? '🟢' : '🔴'} ${status}
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:16px;text-align:left;">
-                <div style="color:var(--text-muted);">👨‍🏫 Enseignant</div>
-                <div style="font-weight:600;">${nom}</div>
-                <div style="color:var(--text-muted);">🆔 ID</div>
-                <div style="font-weight:600;font-family:monospace;">${id}</div>
-    `;
-    
-    if (estConnecte) {
-        const tempsConnecte = getTempsConnecteLocal(dateConnexion, null);
-        details += `
-                <div style="color:var(--text-muted);">⏱️ Connecté depuis</div>
-                <div style="font-weight:600;color:var(--success);">${tempsConnecte}</div>
-                <div style="color:var(--text-muted);">🕐 Dernière activité</div>
-                <div style="font-weight:600;">${getTempsEcouleLocal(derniereActivite)}</div>
-                <div style="color:var(--text-muted);">📅 Date connexion</div>
-                <div style="font-weight:600;">${dateConnexion ? new Date(dateConnexion).toLocaleString('fr-FR') : 'N/A'}</div>
-        `;
-    } else {
-        details += `
-                <div style="color:var(--text-muted);">⏱️ Déconnecté depuis</div>
-                <div style="font-weight:600;color:var(--danger);">${dateDeconnexion ? getTempsEcouleLocal(dateDeconnexion) : 'Jamais'}</div>
-                <div style="color:var(--text-muted);">📅 Dernière connexion</div>
-                <div style="font-weight:600;">${dateConnexion ? new Date(dateConnexion).toLocaleString('fr-FR') : 'Jamais'}</div>
-                <div style="color:var(--text-muted);">📅 Date déconnexion</div>
-                <div style="font-weight:600;">${dateDeconnexion ? new Date(dateDeconnexion).toLocaleString('fr-FR') : 'N/A'}</div>
-        `;
-    }
-    
-    details += `
-            </div>
-        </div>
-    `;
-    
-    const modal = document.getElementById('confirmModal');
-    document.getElementById('confirmMessage').innerHTML = details;
-    document.getElementById('confirmYes').textContent = 'Fermer';
-    document.getElementById('confirmYes').onclick = () => modal.classList.remove('show');
-    document.getElementById('confirmNo').style.display = 'none';
-    modal.classList.add('show');
-};
 
 async function loadSheets() {
 const container = document.getElementById("sheetsBody");
@@ -1193,14 +1040,8 @@ let sheets = allSheets;
 if (filter !== "all") sheets = sheets.filter(s => s.ecoleId === filter);
 if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
 
-const teacherSheetCount = {};
-sheets.forEach(s => {
-const key = s.titulaire || 'sans_enseignant';
-teacherSheetCount[key] = (teacherSheetCount[key] || 0) + 1;
-});
-
 if (sheets.length === 0) {
-container.innerHTML = '<tr><td colspan="3" class="empty-state">📄 Aucune fiche</td></tr>';
+container.innerHTML = '<tr><td colspan="2" class="empty-state">📄 Aucune fiche</td></tr>';
 return;
 }
 let html = '';
@@ -1208,7 +1049,7 @@ sheets.forEach((s) => {
 let profId = '---';
 const teacher = allTeachers.find(t => t.nom === s.titulaire && t.ecoleId === s.ecoleId);
 if (teacher) profId = teacher.id;
-html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(s.id)}</span></td><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(profId)}</span></td><td><span class="badge badge-primary">${teacherSheetCount[s.titulaire] || 0}</span></td></tr>`;
+html += `<tr><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(s.id)}</span></td><td class="id-cell"><span class="badge badge-excel-id">${escapeHtml(profId)}</span></td></tr>`;
 });
 container.innerHTML = html;
 }
@@ -1273,12 +1114,12 @@ const priorityLabels = { critique: '🔴 Critique', important: '🟡 Important',
 const priorityClass = { critique: 'critique', important: 'important', mineure: 'mineure' };
 const statutLabels = { nonresolu: '❌ Non résolu', encours: '⏳ En cours', resolu: '✅ Résolu' };
 const statutClass = { nonresolu: 'nonresolu', encours: 'encours', resolu: 'resolu' };
-let html = '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border-color);font-size:14px;align-items:center;font-weight:700;color:var(--text-muted);text-transform:uppercase;font-size:12px;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0;"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
+let html = '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border-color);font-size:16px;align-items:center;font-weight:700;color:var(--text-muted);text-transform:uppercase;font-size:14px;letter-spacing:0.3px;background:rgba(255,255,255,0.02);border-radius:6px 6px 0 0;"><span>Message</span><span>Catégorie</span><span>Priorité / Statut</span><span>École</span></div>';
 alertes.forEach(a => {
 const date = a.dateCreation ? new Date(a.dateCreation).toLocaleDateString('fr-FR') : '-';
 html += `
-<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border-color);font-size:14px;align-items:center;">
-<span><strong>${escapeHtml(a.message || 'Sans message')}</strong><br><span style="font-size:12px;color:var(--text-muted);">${date}</span></span>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border-color);font-size:16px;align-items:center;">
+<span><strong>${escapeHtml(a.message || 'Sans message')}</strong><br><span style="font-size:14px;color:var(--text-muted);">${date}</span></span>
 <span><span class="badge badge-primary">${getCategoryLabel(a.categorie)}</span></span>
 <span>
 <span class="priority ${priorityClass[a.priorite] || 'mineure'}" style="${a.priorite === 'critique' ? 'color:var(--danger);font-weight:700;' : a.priorite === 'important' ? 'color:var(--warning);font-weight:700;' : 'color:#5dade2;font-weight:700;'}">${priorityLabels[a.priorite] || '🟢 Mineure'}</span>
@@ -1343,7 +1184,7 @@ return `
 <label>N° Fiche :</label>
 <input type="text" class="fiche-number-input" value="${numFiche || 'AUTO-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
 <label style="margin-left:14px;">Date :</label>
-<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:16px;font-family:'Courier New',monospace;outline:none;">
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:18px;font-family:'Courier New',monospace;outline:none;">
 </div>
 <div class="section">
 <div class="title">1. INFORMATIONS GÉNÉRALES</div>
@@ -1444,7 +1285,7 @@ return `
 <label>N° Fiche :</label>
 <input type="text" class="fiche-number-input" value="${numFiche || 'HEB-'+now.getFullYear()+'-'+String(semaine).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
 <label style="margin-left:14px;">Date :</label>
-<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:16px;font-family:'Courier New',monospace;outline:none;">
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:18px;font-family:'Courier New',monospace;outline:none;">
 </div>
 <div class="section">
 <div class="title">1. RÉSUMÉ DE LA SEMAINE</div>
@@ -1537,7 +1378,7 @@ return `
 <label>N° Fiche :</label>
 <input type="text" class="fiche-number-input" value="${numFiche || 'MEN-'+annee+'-'+String(now.getMonth()+1).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
 <label style="margin-left:14px;">Date :</label>
-<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:16px;font-family:'Courier New',monospace;outline:none;">
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:18px;font-family:'Courier New',monospace;outline:none;">
 </div>
 <div class="section">
 <div class="title">1. INFORMATIONS GÉNÉRALES DU MOIS</div>
@@ -1700,7 +1541,7 @@ return `
 <label>N° Fiche :</label>
 <input type="text" class="fiche-number-input" value="${numFiche || 'ENS-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')}" placeholder="Saisir le numéro de fiche">
 <label style="margin-left:14px;">Date :</label>
-<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:16px;font-family:'Courier New',monospace;outline:none;">
+<input type="text" class="fiche-date-input" value="${dateStr}" placeholder="JJ/MM/AAAA" style="width:140px;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:6px;color:#fff;padding:8px 14px;font-size:18px;font-family:'Courier New',monospace;outline:none;">
 </div>
 <div class="section">
 <div class="title">1. INFORMATIONS GÉNÉRALES</div>
@@ -1943,11 +1784,11 @@ if (results.length === 0) {
 container.innerHTML = `<div class="empty-state">🔑 Aucun élève trouvé avec le code <strong>${escapeHtml(searchTerm)}</strong></div>`;
 return;
 }
-let html = `<div style="margin-bottom:10px;font-size:15px;color:var(--text-muted);">🔍 ${results.length} résultat(s) trouvé(s) pour le code <strong style="color:var(--accent);">${escapeHtml(searchTerm)}</strong></div>`;
+let html = `<div style="margin-bottom:10px;font-size:17px;color:var(--text-muted);">🔍 ${results.length} résultat(s) trouvé(s) pour le code <strong style="color:var(--accent);">${escapeHtml(searchTerm)}</strong></div>`;
 results.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Inconnu";
 const ecoleNom = allSchools.find(s => s.id === e.ecole)?.nom || e.ecole;
-html += `<div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border-color);font-size:16px;"><div><span style="font-weight:600;">${escapeHtml(nomComplet)}</span><span style="font-size:14px;color:var(--text-muted);margin-left:10px;">🏫 ${escapeHtml(ecoleNom)}</span></div><span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:4px 14px;border-radius:4px;color:var(--accent);font-weight:700;">${escapeHtml(e.parentCode)}</span></div>`;
+html += `<div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border-color);font-size:18px;"><div><span style="font-weight:600;">${escapeHtml(nomComplet)}</span><span style="font-size:16px;color:var(--text-muted);margin-left:10px;">🏫 ${escapeHtml(ecoleNom)}</span></div><span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:4px 14px;border-radius:4px;color:var(--accent);font-weight:700;">${escapeHtml(e.parentCode)}</span></div>`;
 });
 container.innerHTML = html;
 }
@@ -1955,51 +1796,6 @@ container.innerHTML = html;
 document.getElementById("codeSearchInput")?.addEventListener("input", function() {
 loadParentCodes();
 });
-
-async function loadWhiteMonths() {
-const container = document.getElementById("wmBody");
-if (!container) return;
-const filter = document.getElementById("wmEcoleFilter")?.value || "all";
-let wm = [];
-for (const e of allSchools) {
-if (filter !== "all" && e.id !== filter) continue;
-try {
-const snap = await getDocs(collection(db, "ecoles", e.id, SC.COMPTA_ELEVES));
-snap.forEach(d => {
-const data = d.data();
-const blancs = data.moisBlancs || [];
-blancs.forEach(m => {
-wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || "Inconnu", classe: data.classe || "", section: data.section || getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m });
-});
-});
-} catch(e) {}
-}
-if (wm.length === 0) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ Aucun mois blanc</td></tr>'; return; }
-let html = '';
-wm.slice(0, 100).forEach((w, i) => {
-const sectionBadge = getSectionBadge(w.section);
-html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restaurer</button></td></tr>`;
-});
-container.innerHTML = html;
-container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
-btn.addEventListener('click', async function() {
-const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
-if (!await showCodeModal('Restauration de mois blanc', { docId, ecole })) return;
-if (!await showConfirm(`Restaurer ${mois} ?`)) return;
-try {
-const ref = doc(db, "ecoles", ecole, SC.COMPTA_ELEVES, docId);
-const snap = await getDoc(ref);
-if (snap.exists()) {
-const data = snap.data();
-const blancs = data.moisBlancs || [];
-await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
-toast("✅ Mois blanc restauré", "success");
-await loadAllData();
-}
-} catch (e) { toast("Erreur: " + e.message, "error"); }
-});
-});
-}
 
 function buildTendanceCharts() {
 const today = new Date();
@@ -2144,7 +1940,7 @@ options: {
 responsive: true,
 maintainAspectRatio: false,
 plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 12 } } },
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 14 } } },
 tooltip: {
 callbacks: {
 label: function(context) {
@@ -2157,8 +1953,8 @@ return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][i
 }
 },
 scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } }, max: 100, beginAtZero: true }
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } }, max: 100, beginAtZero: true }
 }
 }
 });
@@ -2178,7 +1974,7 @@ options: {
 responsive: true,
 maintainAspectRatio: false,
 plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 12 } } },
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 14 } } },
 tooltip: {
 callbacks: {
 label: function(context) {
@@ -2191,8 +1987,8 @@ return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][i
 }
 },
 scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } }, max: 100, beginAtZero: true }
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } }, max: 100, beginAtZero: true }
 }
 }
 });
@@ -2212,7 +2008,7 @@ options: {
 responsive: true,
 maintainAspectRatio: false,
 plugins: {
-legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 12 } } },
+legend: { labels: { color: 'rgba(255,255,255,0.7)', font: { size: 14 } } },
 tooltip: {
 callbacks: {
 label: function(context) {
@@ -2225,8 +2021,8 @@ return period + ': ' + context.parsed.y + '% (' + values[context.datasetIndex][i
 }
 },
 scales: {
-x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } } },
-y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12 } }, max: 100, beginAtZero: true }
+x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } } },
+y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 14 } }, max: 100, beginAtZero: true }
 }
 }
 });
@@ -2289,8 +2085,6 @@ document.querySelectorAll('.space-btn').forEach(btn => {
 btn.onclick = function() {
 document.querySelectorAll('.space-btn').forEach(b => b.classList.remove('active'));
 this.classList.add('active');
-espaceActif = this.dataset.space;
-toast('🔁 Filtre: ' + this.textContent.trim(), 'info');
 loadAllData();
 };
 });
@@ -2305,7 +2099,7 @@ const tabMap = {
 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC,
 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails,
 'tab8': loadAlertes, 'tab9': loadRapport, 'tab10': loadParentCodes,
-'tab11': loadWhiteMonths, 'tab12': () => { buildTendanceCharts(); }
+'tab12': () => { buildTendanceCharts(); }
 };
 if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
 };
@@ -2319,7 +2113,6 @@ document.getElementById("refreshTeachersBtn")?.addEventListener("click", loadTea
 document.getElementById("refreshSheetsBtn")?.addEventListener("click", loadSheets);
 document.getElementById("refreshCodesEmailsBtn")?.addEventListener("click", loadCodesEmails);
 document.getElementById("refreshCodesBtn")?.addEventListener("click", loadParentCodes);
-document.getElementById("refreshWmBtn")?.addEventListener("click", loadWhiteMonths);
 
 document.getElementById("ecoleSearch")?.addEventListener('input', loadSchools);
 document.getElementById("ecoleStatutFilter")?.addEventListener('change', loadSchools);
@@ -2331,14 +2124,12 @@ document.getElementById("memberEcoleFilterC")?.addEventListener('change', loadMe
 document.getElementById("memberSearchC")?.addEventListener('input', loadMembersC);
 document.getElementById("teacherEcoleFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("teacherSearch")?.addEventListener('input', loadTeachers);
-document.getElementById("teacherStatutFilter")?.addEventListener('change', loadTeachers);
 document.getElementById("sheetEcoleFilter")?.addEventListener('change', loadSheets);
 document.getElementById("sheetSearch")?.addEventListener('input', loadSheets);
 document.getElementById("codesEmailsEcoleFilter")?.addEventListener('change', loadCodesEmails);
 document.getElementById("alertesEcoleFilter")?.addEventListener('change', loadAlertes);
 document.getElementById("alertesPriorityFilter")?.addEventListener('change', loadAlertes);
 document.getElementById("alertesStatutFilter")?.addEventListener('change', loadAlertes);
-document.getElementById("wmEcoleFilter")?.addEventListener('change', loadWhiteMonths);
 document.getElementById("rapportEcoleFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
 document.getElementById("rapportTypeFilter")?.addEventListener('change', function() { rapportPage = 1; loadRapport(); });
 
@@ -2570,7 +2361,6 @@ loadCodesEmails();
 loadAlertes();
 loadRapport();
 loadParentCodes();
-loadWhiteMonths();
 buildTendanceCharts();
 }, 500);
 });
