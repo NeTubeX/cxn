@@ -75,7 +75,7 @@ body{overscroll-behavior:none;-webkit-overscroll-behavior:none;}
 .student-table input.note-moyen{color:#f59e0b;}
 .student-table input.note-bien{color:#22c55e;}
 .student-table input.note-excellent{color:#22c55e;}
-.student-table .readonly-note{display:inline-block;padding:4px 8px;border-radius:6px;font-weight:600;min-width:40px;}
+.student-table .readonly-note{display:inline-block;padding:4px 10px;border-radius:6px;min-width:40px;font-weight:600;background:#1e293b;}
 .footer-note{text-align:center;padding:12px;font-size:11px;color:#4a5568;}
 .fiche-selector{background:rgba(18,18,31,0.9);margin:0;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(59,130,246,0.2);}
 .fiche-selector label{color:#fff;}
@@ -375,7 +375,6 @@ body.light-mode #loginError{color:#b91c1c !important;}
 </style>
 </head>
 <body>
-<div id="loadingScreen" class="show"><img src="https://www.netubex.com/favicon.png.png" alt="NeTubeX" onerror="this.style.display='none'"><div class="brand">NeTubeX SARL</div><div class="spinner"></div></div>
 <div class="container" id="mainApp" style="display:none">
 <div class="school-header"><div class="school-name" id="schoolNameHeader">COMPLEXE SCOLAIRE</div><div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div><div style="font-size:13px;margin-top:8px;color:#fff;">GESTION DE SCOLARITÉ</div></div>
 <div class="main-nav"><button class="main-nav-btn active" data-space="professeur">👨‍🏫 ESPACE PROFESSEUR</button><button class="main-nav-btn" data-space="titulaire">📋 ESPACE TITULAIRE</button></div>
@@ -985,6 +984,17 @@ function getAppreciation(note, maxNote) { if (maxNote === 0) return { text: 'Non
 
 function getMoyenneGenerale(eleve) { let p1 = calcMoy(1, eleve.notes?.p1 || []); let p2 = calcMoy(2, eleve.notes?.p2 || []); let p3 = calcMoy(3, eleve.notes?.p3 || []); let p4 = calcMoy(4, eleve.notes?.p4 || []); let ex1 = eleve.notes?.exam1 || 0; let ex2 = eleve.notes?.exam2 || 0; let total = p1 + p2 + p3 + p4 + ex1 + ex2; let maxTotal = getPeriodeMax(1) * 4 + getExamMax(1) + getExamMax(2); return { moyenne: Math.round(total / 6 * 20) / 20, total: total, maxTotal: maxTotal }; }
 
+function getPrenom(eleve) {
+    if (!eleve || !eleve.nom) return 'Élève';
+    const parts = eleve.nom.trim().split(' ');
+    if (parts.length === 1) return parts[0];
+    let plusCourt = parts[0];
+    for (let p of parts) {
+        if (p.length < plusCourt.length) plusCourt = p;
+    }
+    return plusCourt;
+}
+
 function afficherCotation() {
 let th = document.getElementById('cotationHeader');
 let tb = document.getElementById('cotationBody');
@@ -1025,12 +1035,12 @@ let r = '<tr>';
 r += '<td style="text-align:center">' + String(i + 1).padStart(2, '0') + '</td>';
 if (estImporte) r += '<td style="text-align:left;color:#10b981;font-weight:600;">' + (e.nom || '') + ' 🔒</td><td style="text-align:center;color:#94a3b8;">' + (e.sexe || 'M') + ' 🔒</td>';
 else r += '<td style="text-align:left"><span style="color:#e2e8f0;font-weight:500;">' + (e.nom || '') + '</span></td><td style="text-align:center"><span style="color:#e2e8f0;">' + (e.sexe || 'M') + '</span></td>';
-if (periodeFiltre === 'all' || periodeFiltre === '1') { for (let ei = 0; ei < e1.length; ei++) { let val = e.notes.p1?.[ei] || 0; let maxVal = e1[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + val + '</span></td>'; } let p1Class = getNoteClass(p1, p1m); r += '<td style="background:#1e3a5f" class="' + p1Class + '">' + p1 + '</td>'; }
-if (periodeFiltre === 'all' || periodeFiltre === '2') { for (let ei = 0; ei < e2.length; ei++) { let val = e.notes.p2?.[ei] || 0; let maxVal = e2[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + val + '</span></td>'; } let p2Class = getNoteClass(p2, p2m); r += '<td style="background:#1e3a5f" class="' + p2Class + '">' + p2 + '</td>'; }
-if (periodeFiltre === 'all') { let ex1Class = getNoteClass(ex1, e1m); r += '<td><span class="readonly-note ' + ex1Class + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + ex1 + '</span></td>'; let ts1Class = getNoteClass(ts1, ts1m); r += '<td style="background:#5c4a1a" class="' + ts1Class + '">' + ts1 + '</td>'; }
-if (periodeFiltre === 'all' || periodeFiltre === '3') { for (let ei = 0; ei < e3.length; ei++) { let val = e.notes.p3?.[ei] || 0; let maxVal = e3[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + val + '</span></td>'; } let p3Class = getNoteClass(p3, p3m); r += '<td style="background:#1e3a5f" class="' + p3Class + '">' + p3 + '</td>'; }
-if (periodeFiltre === 'all' || periodeFiltre === '4') { for (let ei = 0; ei < e4.length; ei++) { let val = e.notes.p4?.[ei] || 0; let maxVal = e4[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + val + '</span></td>'; } let p4Class = getNoteClass(p4, p4m); r += '<td style="background:#1e3a5f" class="' + p4Class + '">' + p4 + '</td>'; }
-if (periodeFiltre === 'all') { let ex2Class = getNoteClass(ex2, e2m); r += '<td><span class="readonly-note ' + ex2Class + '" style="background:#1e293b;padding:4px 10px;border-radius:6px;display:inline-block;min-width:40px;">' + ex2 + '</span></td>'; let ts2Class = getNoteClass(ts2, ts2m); r += '<td style="background:#5c4a1a" class="' + ts2Class + '">' + ts2 + '</td>'; let totClass = getNoteClass(tot, tam); r += '<td style="background:#5c4a1a" class="' + totClass + '">' + tot + '</td>'; r += '<td><span class="appreciation-badge ' + appr.class + '">' + appr.text + '</span></td>'; }
+if (periodeFiltre === 'all' || periodeFiltre === '1') { for (let ei = 0; ei < e1.length; ei++) { let val = e.notes.p1?.[ei] || 0; let maxVal = e1[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '">' + val + '</span></td>'; } let p1Class = getNoteClass(p1, p1m); r += '<td style="background:#1e3a5f" class="' + p1Class + '">' + p1 + '</td>'; }
+if (periodeFiltre === 'all' || periodeFiltre === '2') { for (let ei = 0; ei < e2.length; ei++) { let val = e.notes.p2?.[ei] || 0; let maxVal = e2[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '">' + val + '</span></td>'; } let p2Class = getNoteClass(p2, p2m); r += '<td style="background:#1e3a5f" class="' + p2Class + '">' + p2 + '</td>'; }
+if (periodeFiltre === 'all') { let ex1Class = getNoteClass(ex1, e1m); r += '<td><span class="readonly-note ' + ex1Class + '">' + ex1 + '</span></td>'; let ts1Class = getNoteClass(ts1, ts1m); r += '<td style="background:#5c4a1a" class="' + ts1Class + '">' + ts1 + '</td>'; }
+if (periodeFiltre === 'all' || periodeFiltre === '3') { for (let ei = 0; ei < e3.length; ei++) { let val = e.notes.p3?.[ei] || 0; let maxVal = e3[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '">' + val + '</span></td>'; } let p3Class = getNoteClass(p3, p3m); r += '<td style="background:#1e3a5f" class="' + p3Class + '">' + p3 + '</td>'; }
+if (periodeFiltre === 'all' || periodeFiltre === '4') { for (let ei = 0; ei < e4.length; ei++) { let val = e.notes.p4?.[ei] || 0; let maxVal = e4[ei]?.max || 20; let noteClass = getNoteClass(val, maxVal); r += '<td><span class="readonly-note ' + noteClass + '">' + val + '</span></td>'; } let p4Class = getNoteClass(p4, p4m); r += '<td style="background:#1e3a5f" class="' + p4Class + '">' + p4 + '</td>'; }
+if (periodeFiltre === 'all') { let ex2Class = getNoteClass(ex2, e2m); r += '<td><span class="readonly-note ' + ex2Class + '">' + ex2 + '</span></td>'; let ts2Class = getNoteClass(ts2, ts2m); r += '<td style="background:#5c4a1a" class="' + ts2Class + '">' + ts2 + '</td>'; let totClass = getNoteClass(tot, tam); r += '<td style="background:#5c4a1a" class="' + totClass + '">' + tot + '</td>'; r += '<td><span class="appreciation-badge ' + appr.class + '">' + appr.text + '</span></td>'; }
 r += '</tr>';
 tb.innerHTML += r;
 }
@@ -1275,14 +1285,14 @@ if (!fiche) return;
 const eleves = fiche.eleves;
 if (!eleves[window.correctionMode.currentIndex]) return;
 const eleve = eleves[window.correctionMode.currentIndex];
-const prenom = eleve.nom ? eleve.nom.split(' ')[0] : 'Élève';
+const prenom = getPrenom(eleve);
 const noteValue = window.correctionMode.currentNote;
 if (!eleves[window.correctionMode.currentIndex].notes) eleves[window.correctionMode.currentIndex].notes = { p1: [], p2: [], p3: [], p4: [], exam1: 0, exam2: 0 };
 if (!eleves[window.correctionMode.currentIndex].notes['p' + window.correctionMode.periode]) eleves[window.correctionMode.currentIndex].notes['p' + window.correctionMode.periode] = [];
 eleves[window.correctionMode.currentIndex].notes['p' + window.correctionMode.periode][window.correctionMode.epreuveIdx] = noteValue;
 saveCurrentFiche();
 afficherCotation();
-speak(prenom, () => {
+speak(prenom + ' a obtenu ' + noteValue + ' sur ' + window.correctionMode.noteMax, () => {
 setTimeout(() => {
 if (window.correctionMode && window.correctionMode.currentIndex + 1 < eleves.length) correctionNextStudent(true);
 else if (window.correctionMode) { toast("Tous les élèves ont été notés !", 'success'); speak("Félicitations. Tous les élèves ont été notés."); document.getElementById('saisieModal').classList.remove('show'); if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy(); window.correctionMode = null; }
@@ -1298,11 +1308,11 @@ if (window.correctionMode.currentIndex + 1 < eleves.length) {
 window.correctionMode.currentIndex++;
 window.correctionMode.currentNote = eleves[window.correctionMode.currentIndex]?.notes?.['p' + window.correctionMode.periode]?.[window.correctionMode.epreuveIdx] || 0;
 const eleve = eleves[window.correctionMode.currentIndex];
-const prenom = eleve.nom ? eleve.nom.split(' ')[0] : 'Élève';
+const prenom = getPrenom(eleve);
 document.getElementById('saisieModalStudentName').textContent = eleve.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 if (window.correctionMode.type === 'gesture') { const disp = document.querySelector('#gestureZone div:first-child'); if (disp) disp.textContent = window.correctionMode.currentNote; }
-if (autoMode) setTimeout(() => { speak(prenom); }, 500);
+if (autoMode) setTimeout(() => { speak('Passage à ' + prenom); }, 500);
 } else {
 toast("Tous les élèves ont été notés !", 'success');
 speak("Félicitations. Tous les élèves ont été notés.");
@@ -1320,11 +1330,11 @@ if (window.correctionMode.currentIndex > 0) {
 window.correctionMode.currentIndex--;
 window.correctionMode.currentNote = eleves[window.correctionMode.currentIndex]?.notes?.['p' + window.correctionMode.periode]?.[window.correctionMode.epreuveIdx] || 0;
 const eleve = eleves[window.correctionMode.currentIndex];
-const prenom = eleve.nom ? eleve.nom.split(' ')[0] : 'Élève';
+const prenom = getPrenom(eleve);
 document.getElementById('saisieModalStudentName').textContent = eleve.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 if (window.correctionMode.type === 'gesture') { const disp = document.querySelector('#gestureZone div:first-child'); if (disp) disp.textContent = window.correctionMode.currentNote; }
-setTimeout(() => { speak(prenom); }, 500);
+setTimeout(() => { speak('Retour à ' + prenom); }, 500);
 } else speak("Vous êtes déjà au premier élève.");
 }
 
@@ -2402,6 +2412,7 @@ document.getElementById('optionSelect').onchange = function() { if (isCreatingFi
 document.getElementById('p1MaxConfig').onchange = function() { if (isCreatingFiche) return; if (currentFiche && !isCreatingFiche && champsModifiables) { currentFiche.p1Max = parseFloat(this.value) || 20; afficherCotation(); } };
 
 document.getElementById('exportCurrentBtn').onclick = async function() { if (!currentFiche) { toast("Aucune fiche sélectionnée", 'error'); return; } if (!currentFiche.eleves || currentFiche.eleves.length === 0) { toast("Aucun élève à exporter", 'error'); return; } try { const { jsPDF } = window.jspdf; const pdf = new jsPDF('landscape', 'mm', 'a4');
+const rn = currentFiche.numeroRef ? formatNumero(currentFiche.numeroRef) : '???';
 pdf.setFillColor(255, 255, 255);
 pdf.rect(0, 0, 297, 210, 'F');
 pdf.setFont('helvetica', 'bold');
@@ -2449,6 +2460,7 @@ toast("PDF exporté", 'success');
 } catch (e) { toast("Erreur lors de la génération du PDF", 'error'); console.error(e); } };
 
 document.getElementById('exportEleveNotesBtn').onclick = async function() { let idx = document.getElementById('eleveForExportSelect').value; if (idx === "") { toast("Veuillez sélectionner un élève", 'warning'); return; } let eleve = currentFiche.eleves[parseInt(idx)]; if (!eleve) { toast("Élève non trouvé", 'error'); return; } try { const { jsPDF } = window.jspdf; const pdf = new jsPDF('portrait', 'mm', 'a4');
+const rn = currentFiche.numeroRef ? formatNumero(currentFiche.numeroRef) : '???';
 pdf.setFillColor(255, 255, 255);
 pdf.rect(0, 0, 210, 297, 'F');
 pdf.setFont('helvetica', 'bold');
@@ -2562,7 +2574,7 @@ const eleves = fiche.eleves;
 window.correctionMode.currentIndex = 0;
 window.correctionMode.currentNote = eleves[0]?.notes?.['p' + periode]?.[epreuveIdx] || 0;
 const eleve0 = eleves[0];
-const prenom0 = eleve0.nom ? eleve0.nom.split(' ')[0] : 'Élève';
+const prenom0 = getPrenom(eleve0);
 document.getElementById('saisieModalStudentName').textContent = eleve0.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 document.getElementById('saisieEpreuveInfo').innerHTML = '📌 ' + eps[epreuveIdx].nom + ' (max ' + eps[epreuveIdx].max + ')';
@@ -2595,7 +2607,7 @@ document.getElementById('quickSave').onclick = () => correctionSaveCurrentNote()
 document.getElementById('quickNext').onclick = () => correctionNextStudent(false);
 document.getElementById('quickPrev').onclick = () => correctionPrevStudent();
 document.getElementById('saisieModal').classList.add('show');
-setTimeout(() => { speak(prenom0); }, 500);
+setTimeout(() => { speak('Mode rapide activé. Élève actuel: ' + prenom0); }, 500);
 });
 
 document.getElementById('correctionGestureBtn')?.addEventListener('click', () => {
@@ -2610,7 +2622,7 @@ const eleves = fiche.eleves;
 window.correctionMode.currentIndex = 0;
 window.correctionMode.currentNote = eleves[0]?.notes?.['p' + periode]?.[epreuveIdx] || 0;
 const eleve0 = eleves[0];
-const prenom0 = eleve0.nom ? eleve0.nom.split(' ')[0] : 'Élève';
+const prenom0 = getPrenom(eleve0);
 document.getElementById('saisieModalStudentName').textContent = eleve0.nom || '---';
 document.getElementById('saisieNoteValue').textContent = window.correctionMode.currentNote;
 document.getElementById('saisieEpreuveInfo').innerHTML = '👆 ' + eps[epreuveIdx].nom + ' (max ' + eps[epreuveIdx].max + ')<br>Swipe ← → | Tap = Valider';
@@ -2633,7 +2645,7 @@ function updateGestureDisplay() { document.getElementById('saisieNoteValue').tex
 }
 document.getElementById('gestureSkip')?.addEventListener('click', () => correctionNextStudent(false));
 document.getElementById('saisieModal').classList.add('show');
-setTimeout(() => { speak(prenom0); }, 500);
+setTimeout(() => { speak('Mode gestuel activé. Élève actuel: ' + prenom0); }, 500);
 });
 
 document.getElementById('closeSaisieModal')?.addEventListener('click', () => { document.getElementById('saisieModal').classList.remove('show'); if (window.correctionMode?.hammer) window.correctionMode.hammer.destroy(); window.correctionMode = null; stopSpeaking(); });
@@ -2661,7 +2673,7 @@ document.addEventListener('DOMContentLoaded', function() { initOnglets(); });
 initOnglets();
 
 const loadingScreen = document.getElementById('loadingScreen');
-if (loadingScreen) loadingScreen.classList.remove('show');
+if (loadingScreen) loadingScreen.style.display = 'none';
 </script>
 </body>
 </html>
