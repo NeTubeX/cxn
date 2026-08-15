@@ -83,23 +83,6 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 .modal-slide-up.show{visibility:visible;opacity:1}
 .modal-slide-up .modal-content{background:#ffffff;border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:28px 24px 32px;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 -10px 60px rgba(0,0,0,0.15);max-height:92vh;overflow-y:auto}
 .modal-slide-up.show .modal-content{transform:translateY(0)}
-.communique-form{background:#f8fafc;border-radius:14px;padding:18px;border:1px solid #e2e6ea;margin-bottom:16px}
-.communique-form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.communique-form .form-group{display:flex;flex-direction:column;gap:4px}
-.communique-form .form-group label{font-size:11px;font-weight:600;color:#4b5563;text-transform:uppercase;letter-spacing:0.3px}
-.communique-form .form-group input,.communique-form .form-group textarea,.communique-form .form-group select{padding:10px 14px;border-radius:10px;background:#fff;border:2px solid #e2e6ea;color:#1a2332;font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:border .3s;width:100%}
-.communique-form .form-group input:focus,.communique-form .form-group textarea:focus,.communique-form .form-group select:focus{border-color:#2563eb}
-.communique-form .form-actions{display:flex;gap:10px;margin-top:16px;justify-content:flex-end;border-top:1px solid #e2e6ea;padding-top:16px}
-.communique-item{background:#fff;border-radius:14px;padding:16px 20px;border:1px solid #e8ecf0;margin-bottom:12px;border-left:5px solid #f59e0b;transition:all 0.2s}
-.communique-item:hover{box-shadow:0 4px 12px rgba(0,0,0,0.06)}
-.communique-item.priorite-haute{border-left-color:#dc2626;background:#fef2f2}
-.communique-item.priorite-moyenne{border-left-color:#f59e0b;background:#fffbeb}
-.communique-item.priorite-basse{border-left-color:#10b981;background:#f0fdf4}
-.communique-item .header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.communique-item .titre{font-weight:700;color:#1a2332;font-size:15px}
-.communique-item .date{font-size:11px;color:#6b7280}
-.communique-item .contenu{color:#4b5563;font-size:14px;line-height:1.6;margin:8px 0}
-.communique-item .actions{display:flex;gap:8px;margin-top:8px;border-top:1px solid #f1f3f5;padding-top:8px}
 .punition-form{background:#f8fafc;border-radius:14px;padding:14px;margin-bottom:14px;border:1px solid #e2e6ea;display:none}
 .punition-form.show{display:block}
 .punition-form .form-row{display:grid;grid-template-columns:1fr;gap:10px}
@@ -202,6 +185,11 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 #tabPresences .coming-soon h2{font-size:24px;font-weight:800;color:#1a2332;margin-bottom:8px}
 #tabPresences .coming-soon p{font-size:14px;color:#6b7280;max-width:400px;line-height:1.6}
 #tabPresences .coming-soon .badge{display:inline-block;background:#fef3c7;color:#d97706;padding:4px 16px;border-radius:30px;font-size:11px;font-weight:600;margin-top:12px}
+#tabCommuniques .coming-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+#tabCommuniques .coming-soon .icon{font-size:72px;color:#2563eb;margin-bottom:20px;opacity:0.3}
+#tabCommuniques .coming-soon h2{font-size:24px;font-weight:800;color:#1a2332;margin-bottom:8px}
+#tabCommuniques .coming-soon p{font-size:14px;color:#6b7280;max-width:400px;line-height:1.6}
+#tabCommuniques .coming-soon .badge{display:inline-block;background:#fef3c7;color:#d97706;padding:4px 16px;border-radius:30px;font-size:11px;font-weight:600;margin-top:12px}
 #tabDocuments .documents-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:20px}
 #tabDocuments .doc-card{background:#f8fafc;border-radius:14px;padding:20px;border:1px solid #e2e6ea;text-align:center;transition:all 0.2s}
 #tabDocuments .doc-card:hover{transform:translateY(-3px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
@@ -329,14 +317,6 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 .dark-mode #tabProfesseurs .prof-card .prof-status.actif{background:#1b2d24;color:#3fb950}
 .dark-mode #tabProfesseurs .prof-card .prof-status.inactif{background:#2d1b1b;color:#f85149}
 .dark-mode #tabProfesseurs .prof-card .prof-code{color:#8b949e}
-.dark-mode .communique-form{background:#1c2333;border-color:#30363d}
-.dark-mode .communique-item{background:#161b22;border-color:#30363d}
-.dark-mode .communique-item.priorite-haute{background:#1c1a1a}
-.dark-mode .communique-item.priorite-moyenne{background:#1c1a15}
-.dark-mode .communique-item.priorite-basse{background:#1a1c1a}
-.dark-mode .communique-item .titre{color:#e6edf3}
-.dark-mode .communique-item .contenu{color:#8b949e}
-.dark-mode .communique-item .header .date{color:#8b949e}
 .dark-mode #tabSettings .settings-card{background:linear-gradient(135deg,#161b22,#0d1117);border-color:#30363d}
 .dark-mode #tabSettings .settings-card .card-title{color:#e6edf3}
 .dark-mode #tabSettings .settings-card .card-title i{color:#58a6ff}
@@ -350,6 +330,9 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 .dark-mode #tabPresences .coming-soon h2{color:#e6edf3}
 .dark-mode #tabPresences .coming-soon p{color:#8b949e}
 .dark-mode #tabPresences .coming-soon .badge{background:#1c2a3a;color:#58a6ff}
+.dark-mode #tabCommuniques .coming-soon h2{color:#e6edf3}
+.dark-mode #tabCommuniques .coming-soon p{color:#8b949e}
+.dark-mode #tabCommuniques .coming-soon .badge{background:#1c2a3a;color:#58a6ff}
 .dark-mode #tabDocuments .doc-card{background:#1c2333;border-color:#30363d}
 .dark-mode #tabDocuments .doc-card h4{color:#e6edf3}
 .dark-mode #tabDocuments .doc-card p{color:#8b949e}
@@ -579,38 +562,13 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 </div>
 <div id="tabCommuniques" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-bullhorn"></i> GESTION DES COMMUNIQUÉS</div>
+<div class="card-header"><i class="fas fa-bullhorn"></i> COMMUNIQUÉS</div>
 <div class="card-body">
-<div class="communique-form">
-<div class="form-grid">
-<div class="form-group">
-<label>TITRE DU COMMUNIQUÉ</label>
-<input type="text" id="commTitre" placeholder="Ex: Réunion parents-professeurs">
-</div>
-<div class="form-group">
-<label>PRIORITÉ</label>
-<select id="commPriorite">
-<option value="basse">🟢 BASSE</option>
-<option value="moyenne" selected>🟡 MOYENNE</option>
-<option value="haute">🔴 HAUTE</option>
-</select>
-</div>
-</div>
-<div class="form-group" style="grid-column:1/-1;margin-top:8px;">
-<label>CONTENU DU COMMUNIQUÉ</label>
-<textarea id="commContenu" rows="4" placeholder="Détail du communiqué..."></textarea>
-</div>
-<div class="form-actions">
-<button class="btn btn-outline" id="annulerCommBtn"><i class="fas fa-times"></i> ANNULER</button>
-<button class="btn btn-success" id="publierCommBtn"><i class="fas fa-paper-plane"></i> PUBLIER</button>
-</div>
-</div>
-<div id="commListe">
-<div style="text-align:center;padding:30px 20px;color:#6b7280;">
-<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
-<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
-<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
-</div>
+<div class="coming-soon">
+<div class="icon"><i class="fas fa-bullhorn"></i></div>
+<h2>⏳ TRÈS BIENTÔT DISPONIBLE</h2>
+<p>La gestion des communiqués sera disponible très bientôt. Cette fonctionnalité permettra de publier des annonces et informations destinées aux parents d'élèves.</p>
+<div class="badge"><i class="fas fa-clock"></i> PROCHAINEMENT</div>
 </div>
 </div>
 </div>
@@ -717,7 +675,6 @@ let currentAuthUser = null;
 let profsUnsubscribe = null;
 let elevesUnsubscribe = null;
 let recoUnsubscribe = null;
-let communiquesUnsubscribe = null;
 let ACCESS_CODE = null;
 let toastQueue = [];
 let toastActive = false;
@@ -780,42 +737,10 @@ m.querySelector('#confirmCancel').onclick=()=>m.remove();
 m.querySelector('#confirmOk').onclick=()=>{m.remove();if(onConfirm)onConfirm()};
 }
 
-function showValidationPopUp(titre, contenu, priorite, onConfirm) {
-const prioriteLabels = {
-'haute': { label: '🔴 HAUTE', color: '#dc2626', bg: '#fef2f2' },
-'moyenne': { label: '🟡 MOYENNE', color: '#d97706', bg: '#fffbeb' },
-'basse': { label: '🟢 BASSE', color: '#059669', bg: '#f0fdf4' }
-};
-const pInfo = prioriteLabels[priorite] || prioriteLabels['moyenne'];
-const bodyHTML = `
-<div style="text-align:center;margin-bottom:12px;">
-<div style="font-size:48px;margin-bottom:6px;">📢</div>
-<p style="color:#6b7280;font-size:13px;">Vérifiez les informations avant de publier</p>
-</div>
-<div style="background:#f8fafc;border-radius:12px;padding:16px;text-align:left;border:1px solid #e2e6ea;margin-bottom:12px;">
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-<span style="font-weight:700;font-size:15px;color:#1a2332;">${escapeHtml(titre)}</span>
-<span style="background:${pInfo.bg};padding:2px 12px;border-radius:30px;font-size:11px;font-weight:600;color:${pInfo.color};">${pInfo.label}</span>
-</div>
-<div style="background:${pInfo.bg};border-left:3px solid ${pInfo.color};padding:10px 14px;border-radius:8px;font-size:13px;color:#4b5563;line-height:1.6;max-height:120px;overflow-y:auto;">
-${escapeHtml(contenu)}
-</div>
-<div style="font-size:10px;color:#9ca3af;margin-top:8px;border-top:1px solid #e5e7eb;padding-top:6px;">
-⏳ Sera visible dans l'espace parental pendant 7 jours
-</div>
-</div>
-`;
-const footerHTML = `<button class="btn btn-sm btn-outline" id="cancelPopUp">ANNULER</button><button class="btn btn-sm btn-success" id="confirmPopUp"><i class="fas fa-paper-plane"></i> PUBLIER</button>`;
-const m = showModalSlideUp('PUBLIER LE COMMUNIQUÉ ?', bodyHTML, footerHTML);
-m.querySelector('#cancelPopUp').onclick=()=>m.remove();
-m.querySelector('#confirmPopUp').onclick=()=>{m.remove();if(onConfirm)onConfirm();};
-}
-
 function deconnecterUtilisateur() {
 if(profsUnsubscribe){profsUnsubscribe();profsUnsubscribe=null;}
 if(recoUnsubscribe){recoUnsubscribe();recoUnsubscribe=null;}
 if(elevesUnsubscribe){elevesUnsubscribe();elevesUnsubscribe=null;}
-if(communiquesUnsubscribe){communiquesUnsubscribe();communiquesUnsubscribe=null;}
 window.location.href=`https://www.netubex.com/login?ecole=${schoolId}`;
 }
 
@@ -1519,157 +1444,8 @@ isActive = false;
 envoyerStatut(false);
 }
 
-async function initialiserCollectionCommuniques() {
-try {
-const testRef = doc(db, "ecoles", ECOLET_ID, "communiques", "_test");
-await setDoc(testRef, { _init: true });
-await deleteDoc(testRef);
-} catch(e) {}
-}
-
-async function nettoyerCommuniquesExpires() {
-try {
-const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"));
-const snap = await getDocs(q);
-const maintenant = new Date();
-snap.forEach(async (ds) => {
-const data = ds.data();
-const dateComm = new Date(data.date);
-const diffJours = Math.floor((maintenant - dateComm) / (1000 * 60 * 60 * 24));
-if (diffJours > 7) {
-await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id));
-}
-});
-} catch(e) {}
-}
-
-// ✅ FONCTION PUBLIER COMMUNIQUÉ CORRIGÉE - ÉCRIT DANS LES DEUX COLLECTIONS
-async function publierCommunique(titre, contenu, priorite) {
-    try {
-        const data = {
-            titre: titre,
-            contenu: contenu,
-            priorite: priorite,
-            date: new Date().toISOString(),
-            actif: true,
-            publiePar: "Direction",
-            ecoleId: ECOLET_ID,
-            ecoleNom: SCHOOL_DISPLAY_NAME,
-            _timestamp: Date.now()
-        };
-
-        // 1️⃣ Collection de l'école (pour la Direction)
-        const dirRef = collection(db, "ecoles", ECOLET_ID, "communiques");
-        await addDoc(dirRef, data);
-
-        // 2️⃣ Collection RACINE (pour l'Espace Parental)
-        const parentRef = collection(db, "communiques");
-        await addDoc(parentRef, {
-            ...data,
-            _ecoleRef: ECOLET_ID
-        });
-
-        toast('✅ Communiqué publié avec succès !', 'success');
-        document.getElementById('commTitre').value = '';
-        document.getElementById('commContenu').value = '';
-    } catch(e) {
-        if (e.code === 'permission-denied') {
-            toast('❌ Erreur de permission. Vérifiez les règles Firebase.', 'error');
-        } else {
-            toast('❌ Erreur: ' + e.message, 'error');
-        }
-    }
-}
-
-function ecouterCommuniques() {
-if (communiquesUnsubscribe) {
-communiquesUnsubscribe();
-communiquesUnsubscribe = null;
-}
-try {
-const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"), limit(20));
-communiquesUnsubscribe = onSnapshot(q, (snapshot) => {
-const container = document.getElementById('commListe');
-if (!container) return;
-const maintenant = new Date();
-let aDesCommuniques = false;
-let html = '';
-snapshot.forEach(ds => {
-const data = ds.data();
-const dateComm = new Date(data.date);
-const diffJours = Math.floor((maintenant - dateComm) / (1000 * 60 * 60 * 24));
-if (diffJours > 7) {
-deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id)).catch(() => {});
-return;
-}
-aDesCommuniques = true;
-const dateFormatee = dateComm.toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-const prioriteClasse = `priorite-${data.priorite || 'moyenne'}`;
-const prioriteLabel = {'haute':'🔴 HAUTE','moyenne':'🟡 MOYENNE','basse':'🟢 BASSE'}[data.priorite] || '🟡 MOYENNE';
-const estActif = data.actif !== false;
-html += `<div class="communique-item ${prioriteClasse}">
-<div class="header">
-<span class="titre">${escapeHtml(data.titre)}</span>
-<span style="font-size:11px;color:#6b7280;background:#f1f3f5;padding:2px 12px;border-radius:30px;">${prioriteLabel}</span>
-<span class="date">📅 ${dateFormatee}</span>
-<span style="font-size:10px;padding:2px 12px;border-radius:30px;background:${estActif ? '#dcfce7' : '#fee2e2'};color:${estActif ? '#059669' : '#dc2626'};">${estActif ? '✅ ACTIF' : '❌ INACTIF'}</span>
-<span style="font-size:9px;padding:2px 8px;border-radius:30px;background:#fef3c7;color:#d97706;">⏳ ${7 - diffJours} JOUR(S) RESTANT(S)</span>
-</div>
-<div class="contenu">${escapeHtml(data.contenu)}</div>
-<div class="actions">
-<button onclick="window.gererComm('${ds.id}', ${estActif})" class="btn btn-sm ${estActif ? 'btn-warning' : 'btn-success'}">
-${estActif ? '⛔ DÉSACTIVER' : '✅ ACTIVER'}
-</button>
-</div>
-</div>`;
-});
-if (!aDesCommuniques) {
-container.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#6b7280;">
-<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
-<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
-<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
-</div>`;
-return;
-}
-container.innerHTML = html;
-}, (error) => {
-const container = document.getElementById('commListe');
-if (container) {
-container.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#6b7280;">
-<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
-<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
-<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
-</div>`;
-}
-});
-} catch(e) {}
-}
-
-window.gererComm = async function(id, estActif) {
-if (estActif) {
-showConfirm('DÉSACTIVER LE COMMUNIQUÉ', 'Voulez-vous désactiver ce communiqué ? Il ne sera plus visible dans l\'espace parental.', async () => {
-try {
-await updateDoc(doc(db, "ecoles", ECOLET_ID, "communiques", id), { actif: false });
-toast('⛔ Communiqué désactivé', 'warning');
-} catch(e) {
-toast('❌ Erreur: ' + e.message, 'error');
-}
-});
-} else {
-showConfirm('SUPPRIMER LE COMMUNIQUÉ', 'Voulez-vous vraiment supprimer définitivement ce communiqué ?', async () => {
-try {
-await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", id));
-toast('🗑️ Communiqué supprimé', 'success');
-} catch(e) {
-toast('❌ Erreur: ' + e.message, 'error');
-}
-});
-}
-};
-
 function initApp() {
 chargerAccessCode();
-initialiserCollectionCommuniques();
 updatePunitionEleves();
 chargerPunitions();
 ecouterProfs();
@@ -1677,9 +1453,6 @@ afficherCorbeille();
 initReco();
 initGestionEleves();
 updateStats();
-ecouterCommuniques();
-nettoyerCommuniquesExpires();
-setInterval(nettoyerCommuniquesExpires, 3600000);
 setInterval(updateStats, 60000);
 setTimeout(scrollRecoToBottom, 800);
 }
@@ -1716,21 +1489,6 @@ document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 document.querySelector('.tab[data-tab="tabStats"]').classList.add('active');
 document.getElementById('tabStats').classList.add('active');
-});
-
-document.getElementById('publierCommBtn').addEventListener('click', function() {
-const titre = document.getElementById('commTitre').value.trim();
-const contenu = document.getElementById('commContenu').value.trim();
-const priorite = document.getElementById('commPriorite').value;
-if (!titre || !contenu) { toast('Veuillez remplir tous les champs', 'error'); return; }
-showValidationPopUp(titre, contenu, priorite, function() {
-publierCommunique(titre, contenu, priorite);
-});
-});
-
-document.getElementById('annulerCommBtn').addEventListener('click', function() {
-document.getElementById('commTitre').value = '';
-document.getElementById('commContenu').value = '';
 });
 
 document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
