@@ -1543,20 +1543,32 @@ await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id));
 } catch(e) {}
 }
 
-// ✅ FONCTION PUBLIER COMMUNIQUÉ CORRIGÉE
+// ✅ FONCTION PUBLIER COMMUNIQUÉ CORRIGÉE - ÉCRIT DANS LES DEUX COLLECTIONS
 async function publierCommunique(titre, contenu, priorite) {
     try {
-        const collectionRef = collection(db, "ecoles", ECOLET_ID, "communiques");
-        await addDoc(collectionRef, {
+        const data = {
             titre: titre,
             contenu: contenu,
             priorite: priorite,
             date: new Date().toISOString(),
-            actif: true,           // ✅ AJOUTÉ : nécessaire pour l'espace parental
+            actif: true,
             publiePar: "Direction",
             ecoleId: ECOLET_ID,
-            ecoleNom: SCHOOL_DISPLAY_NAME
+            ecoleNom: SCHOOL_DISPLAY_NAME,
+            _timestamp: Date.now()
+        };
+
+        // 1️⃣ Collection de l'école (pour la Direction)
+        const dirRef = collection(db, "ecoles", ECOLET_ID, "communiques");
+        await addDoc(dirRef, data);
+
+        // 2️⃣ Collection RACINE (pour l'Espace Parental)
+        const parentRef = collection(db, "communiques");
+        await addDoc(parentRef, {
+            ...data,
+            _ecoleRef: ECOLET_ID
         });
+
         toast('✅ Communiqué publié avec succès !', 'success');
         document.getElementById('commTitre').value = '';
         document.getElementById('commContenu').value = '';
