@@ -25,9 +25,13 @@ body{overscroll-behavior:none;-webkit-overscroll-behavior:none;}
 .refresh-fiches-btn:active{transform:rotate(90deg);}
 .refresh-fiches-btn.spinning{animation:spin 0.8s ease-in-out;}
 @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-.school-header{background:linear-gradient(135deg,#0f2b44,#071a2c);border-radius:20px;padding:20px;text-align:center;margin-bottom:20px;}
-.school-name{font-size:22px;font-weight:700;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.school-header{background:linear-gradient(135deg,#0f2b44,#071a2c);border-radius:20px;padding:20px;text-align:center;margin-bottom:20px;cursor:pointer;}
+.school-header .header-top{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;}
+.school-header .header-logo{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #ffd700;flex-shrink:0;}
+.school-header .header-text{display:flex;flex-direction:column;align-items:center;}
+.school-name{font-size:22px;font-weight:700;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer;}
 .school-sub{font-size:11px;opacity:0.8;margin-top:4px;color:#cbd5e1;}
+.school-header .header-gest{font-size:13px;color:#fff;margin-top:6px;opacity:0.7;}
 .tabs-container{overflow-x:auto;margin-bottom:20px;white-space:nowrap;-webkit-overflow-scrolling:touch;}
 .tabs{display:inline-flex;gap:6px;}
 .tab{background:transparent;border:1px solid #334155;padding:9px 20px;border-radius:40px;font-size:13px;cursor:pointer;color:#cbd5e1;transition:all 0.2s;}
@@ -250,14 +254,62 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
 .tab-content .card .assistant-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px;}
 @media(min-width:768px){.tab-content .card .assistant-grid{grid-template-columns:repeat(2,1fr);}}
 .tab-content .card .result-area-full{margin-top:20px;}
-.parent-floating-btn{position:fixed;bottom:30px;right:30px;width:110px;height:110px;border-radius:50%;background:transparent;border:none;padding:0;cursor:pointer;z-index:10001;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;box-shadow:0 0 0 0 rgba(16,185,129,0.6);animation:breathe 2.5s ease-in-out infinite;}
-.parent-floating-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;border:4px solid #10b981;box-sizing:border-box;}
-@keyframes breathe{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}50%{transform:scale(1.08);box-shadow:0 0 35px 15px rgba(16,185,129,0.25);}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}}
+
+.parent-floating-btn{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    background:transparent;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    z-index:10001;
+    overflow:hidden;
+    box-shadow:0 0 0 0 rgba(16,185,129,0.6);
+    animation:breathe 2.5s ease-in-out infinite;
+}
+.parent-floating-btn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    border-radius:50%;
+    border:6px solid #10b981;
+    box-sizing:border-box;
+}
+.parent-floating-btn .placeholder{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#1a2332,#0f2b44);
+    border-radius:50%;
+    color:#ffd700;
+    font-weight:800;
+    font-size:18px;
+    text-align:center;
+    padding:20px;
+    border:6px solid #10b981;
+    flex-direction:column;
+    line-height:1.4;
+}
+@keyframes breathe{
+    0%{transform:translate(-50%, -50%) scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}
+    50%{transform:translate(-50%, -50%) scale(1.08);box-shadow:0 0 35px 15px rgba(16,185,129,0.25);}
+    100%{transform:translate(-50%, -50%) scale(1);box-shadow:0 0 0 0 rgba(16,185,129,0.5);}
+}
+
 .parent-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(16px);z-index:10002;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:all 0.3s ease;}
 .parent-modal-overlay.active{visibility:visible;opacity:1;}
 .parent-modal{background:linear-gradient(135deg,#1e293b,#0f172a);width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;}
 @keyframes pulse{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(59,130,246,0.4);}50%{transform:scale(1.05);box-shadow:0 0 30px 10px rgba(59,130,246,0.15);}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(59,130,246,0.4);}}
 .parent-modal .header-fixe{position:sticky;top:0;z-index:999;background:#0a0e1a;padding:12px 20px;border-bottom:1px solid rgba(59,130,246,0.1);}
+.parent-modal .header-fixe .header-logo-small{width:45px;height:45px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;flex-shrink:0;}
 .parent-modal-body{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0;}
 .parent-chat{display:flex;flex-direction:column;height:100%;width:100%;}
 .parent-info{background:linear-gradient(135deg,#0f2b44,#071a2c);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(59,130,246,0.2);flex-shrink:0;}
@@ -462,10 +514,24 @@ body.light-mode #loginError{color:#b91c1c !important;}
 <body>
 <div id="loadingScreen" class="show"><img src="https://www.netubex.com/favicon.png.png" alt="NeTubeX" onerror="this.style.display='none'"><div class="brand">NeTubeX SARL</div><div class="spinner"></div></div>
 <div class="container" id="mainApp" style="display:block">
-<div class="school-header"><div class="school-name" id="schoolNameHeader">COMPLEXE SCOLAIRE</div><div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div><div style="font-size:13px;margin-top:8px;color:#fff;">GESTION DE SCOLARITÉ</div></div>
+<div class="school-header" id="schoolHeader">
+<div class="header-top">
+<img id="headerLogo" class="header-logo" style="display:none;" alt="Logo">
+<div class="header-text">
+<div class="school-name" id="schoolNameHeader">COMPLEXE SCOLAIRE</div>
+<div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div>
 </div>
-<button class="parent-floating-btn" id="parentFloatingBtn" style="display:flex;padding:0;border-radius:50%;overflow:hidden;background:transparent;border:3px solid #10b981;box-shadow:0 0 0 0 rgba(16,185,129,0.5);"><img src="https://www.netubex.com/parent.jpg" alt="Espace Parental" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;"></button>
-<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:18px;padding:6px 0;"><div style="position:relative;width:75px;height:75px;flex-shrink:0;animation:pulse 2s ease-in-out infinite;"><div style="position:absolute;inset:-4px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:4px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:12px;"><div style="font-size:20px;font-weight:700;color:#fff;letter-spacing:1px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:14px;color:#10b981;font-weight:600;">Systeme Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:12px;padding:6px 16px;margin-top:6px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:22px;font-weight:700;cursor:pointer;padding:0 8px;line-height:1;">X</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:6px 12px;color:#fff;cursor:pointer;font-size:16px;transition:all 0.3s ease;display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:4px 14px 4px 10px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:11px;color:#94a3b8;">🔋</span><span style="color:#4ade80;font-size:11px;font-weight:600;">CHARGE ILLIMITEE</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
+</div>
+<div class="header-gest">SYSTÈME DE GESTION DE SCOLARITÉ</div>
+</div>
+</div>
+
+<button class="parent-floating-btn" id="parentFloatingBtn">
+    <img id="parentLogoImg" src="" alt="Espace Parental" style="display:none;">
+    <div class="placeholder" id="parentLogoPlaceholder">🏫<br>Espace<br>Parental</div>
+</button>
+
+<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:50px;height:50px;flex-shrink:0;"><div style="position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:3px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:11px;color:#10b981;font-weight:600;">Systeme Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:10px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">X</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 10px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">🔋</span><span style="color:#4ade80;font-size:10px;font-weight:600;">CHARGE ILLIMITEE</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
 
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"}}
@@ -495,24 +561,9 @@ let schoolId = urlParams.get('ecole');
 if (!schoolId) { window.location.href = '/schoolchoice'; throw new Error('Redirection'); }
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g,'_');
 
-const SC = {
-PROFESSEURS: 'professeurs',
-FICHES: 'fiches',
-LOGS: 'logs',
-HORAIRES: 'horaires',
-PUNITIONS: 'punitions',
-PRESENCES: 'presences',
-CORBEILLE: 'corbeille',
-COMPTEUR: 'compteur',
-CONFIG: 'config',
-ALERTES_ADMIN: 'alertes_admin',
-COMMUNIQUES: 'communiques',
-COMPTA_ELEVES: 'compta_eleves',
-SETTINGS: 'settings'
-};
+// ✅ LISTE DES MOIS AVEC AOUT
+const moisListe = ["Aout", "Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
 
-let currentProf = null;
-let dernierEleveConsulte = null;
 let dernierEleveData = null;
 let listeElevesComplets = [];
 let listeElevesEnAttente = [];
@@ -525,12 +576,14 @@ let estEnAttenteReponse = false;
 let toastQueue = [];
 let isToastProcessing = false;
 let historiqueSections = {};
-let derniereQuestion = null;
-
-function getEcoleRef(sousCollection, docId = null) {
-if (docId) { return doc(db, "ecoles", ECOLET_ID, sousCollection, docId); }
-return collection(db, "ecoles", ECOLET_ID, sousCollection);
-}
+let contexteConversation = {
+    dernierSujet: null,
+    questionsPosees: [],
+    codeParent: null
+};
+let schoolLogoUrl = null;
+let clickCountSchool = 0;
+let clickTimerSchool = null;
 
 function toast(message, type = "success") {
 toastQueue.push({ message, type });
@@ -561,24 +614,6 @@ processToastQueue();
 }, 3500);
 }
 
-function normaliserClasse(nomClasse) {
-if (!nomClasse) return '';
-const c = {
-'7eme EB':'7ème EB','7ème EB':'7ème EB','7eme':'7ème EB','7ème':'7ème EB',
-'8eme EB':'8ème EB','8ème EB':'8ème EB','8eme':'8ème EB','8ème':'8ème EB',
-'1ere Annee':'1ère Année','1ère Année':'1ère Année','1ere':'1ère Année','1ère':'1ère Année',
-'1ere annee':'1ère Année','1ère année':'1ère Année',
-'2eme Annee':'2ème Année','2ème Année':'2ème Année','2eme':'2ème Année','2ème':'2ème Année',
-'2eme annee':'2ème Année','2ème année':'2ème Année',
-'3eme Annee':'3ème Année','3ème Année':'3ème Année','3eme':'3ème Année','3ème':'3ème Année',
-'3eme annee':'3ème Année','3ème année':'3ème Année',
-'4eme Annee':'4ème Année','4ème Année':'4ème Année','4eme':'4ème Année','4ème':'4ème Année',
-'4eme annee':'4ème Année','4ème année':'4ème Année'
-};
-const cleaned = nomClasse.trim().replace(/\s+/g, ' ');
-return c[cleaned] || cleaned;
-}
-
 function getSexePronom(sexe) {
 if (sexe === 'F' || sexe === 'Féminin' || sexe === 'fille') {
 return { genre: 'fille', pronom: 'elle', possessif: 'sa' };
@@ -602,52 +637,35 @@ if (classesPrimaire.includes(classe)) return "PRIMAIRE";
 return "SECONDAIRE";
 }
 
+// ✅ MOIS ACTUEL AVEC AOUT
 function getMoisActuel() {
-const date = new Date();
-const mois = date.getMonth();
-const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
-if (mois === 7) {
-return "Aout";
-}
-if (mois >= 8) return moisListe[mois - 8];
-else if (mois >= 0 && mois <= 5) return moisListe[mois + 4];
-return "Septembre";
+    const date = new Date();
+    const mois = date.getMonth();
+    if (mois === 7) {
+        return "Aout";
+    }
+    if (mois >= 8) return moisListe[mois - 7];
+    else if (mois >= 0 && mois <= 5) return moisListe[mois + 5];
+    return "Septembre";
 }
 
+// ✅ MOIS FROM DATE AVEC AOUT
 function getMoisFromDate(dateISO) {
-if (!dateISO) return "Septembre";
-const date = new Date(dateISO);
-const mois = date.getMonth();
-const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
-if (mois === 7) return "Aout";
-if (mois >= 8) return moisListe[mois - 8];
-else if (mois >= 0 && mois <= 5) return moisListe[mois + 4];
-return "Septembre";
+    if (!dateISO) return "Septembre";
+    const date = new Date(dateISO);
+    const mois = date.getMonth();
+    if (mois === 7) return "Aout";
+    if (mois >= 8) return moisListe[mois - 7];
+    else if (mois >= 0 && mois <= 5) return moisListe[mois + 5];
+    return "Septembre";
 }
 
 function estMoisDansAnnee(mois) {
-const moisActuel = getMoisActuel();
-const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
-const idx = moisListe.indexOf(mois);
-const idxActuel = moisListe.indexOf(moisActuel);
-if(idxActuel === -1) return false;
-return idx <= idxActuel;
-}
-
-function getWeekNumber(date) {
-const d = new Date(date);
-d.setHours(0, 0, 0, 0);
-d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-const week1 = new Date(d.getFullYear(), 0, 4);
-return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-}
-
-function getSessionId() {
-if (!sessionId) {
-sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-sessionStorage.setItem('parental_session_id', sessionId);
-}
-return sessionId;
+    const moisActuel = getMoisActuel();
+    const idx = moisListe.indexOf(mois);
+    const idxActuel = moisListe.indexOf(moisActuel);
+    if(idxActuel === -1) return false;
+    return idx <= idxActuel;
 }
 
 function escapeHtml(s) {
@@ -685,11 +703,58 @@ const normalizedQuestion = question.toLowerCase().trim().replace(/\s+/g, ' ');
 return `${hash}_${normalizedQuestion}`;
 }
 
-async function chercherInfosFinancieresParCode(code) {
+async function getSchoolLogo(ecoleId) {
 try {
-const eleves = [];
-const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
-const moisActuel = getMoisActuel();
+const docRef = doc(db, "ecoles", ecoleId);
+const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+const data = docSnap.data();
+return data.logoUrl || null;
+}
+return null;
+} catch (error) {
+return null;
+}
+}
+
+async function chargerLogoParental() {
+try {
+const logoUrl = await getSchoolLogo(ECOLET_ID);
+if (logoUrl) {
+schoolLogoUrl = logoUrl;
+// Logo du bouton flottant
+const img = document.getElementById('parentLogoImg');
+const placeholder = document.getElementById('parentLogoPlaceholder');
+img.src = logoUrl;
+img.onload = function() {
+placeholder.style.display = 'none';
+img.style.display = 'block';
+};
+img.onerror = function() {
+placeholder.style.display = 'flex';
+img.style.display = 'none';
+};
+// Logo du header
+const headerLogo = document.getElementById('headerLogo');
+if (headerLogo) {
+headerLogo.src = logoUrl;
+headerLogo.style.display = 'block';
+headerLogo.onerror = function() {
+this.style.display = 'none';
+};
+}
+// Logo du modal
+const modalLogo = document.getElementById('parentModalLogo');
+if (modalLogo) {
+modalLogo.src = logoUrl;
+}
+}
+} catch(e) {}
+}
+
+async function chercherElevesParCode(code) {
+try {
+const resultats = [];
 const collections = ['compta_eleves', 'prima_eleves', 'mater_eleves'];
 for (const coll of collections) {
 const q = query(collection(db, "ecoles", ECOLET_ID, coll), where("parentCode", "==", code));
@@ -700,67 +765,18 @@ if (data.nom) {
 let espace = 'secondaire';
 if (coll === 'prima_eleves') espace = 'primaire';
 else if (coll === 'mater_eleves') espace = 'maternelle';
-eleves.push({ id: doc.id, espace: espace, ...data });
+resultats.push({ id: doc.id, espace: espace, ...data });
 }
 });
 }
-if (eleves.length === 0) return null;
-const resultats = [];
-for (const e of eleves) {
-const paiements = e.paiements || {};
-const minerval = e.minerval || 25000;
-const moisBlancs = e.moisBlancs || [];
-let totalPaye = 0;
-for (let i = 0; i < moisListe.length; i++) {
-const mois = moisListe[i];
-totalPaye += paiements[mois]?.montant || 0;
-}
-const nbMoisPayants = 10 - moisBlancs.length;
-const totalMinervalEffectif = minerval * nbMoisPayants;
-const reste = totalMinervalEffectif - totalPaye;
-let moisImpayes = [];
-const dateInscription = e.dateInscription || new Date().toISOString();
-const moisInscription = getMoisFromDate(dateInscription);
-const indexInscription = moisListe.indexOf(moisInscription);
-const indexActuel = moisListe.indexOf(moisActuel);
-for (let i = indexInscription; i < indexActuel; i++) {
-const mois = moisListe[i];
-if (!estMoisDansAnnee(mois)) continue;
-if (moisBlancs.includes(mois)) continue;
-const montant = paiements[mois]?.montant || 0;
-if (montant < minerval && !e.exonere) moisImpayes.push(mois);
-}
-let statut = "En ordre";
-if (e.exonere) statut = "Exonéré";
-else if (moisImpayes.length >= 3) statut = "Liste noire";
-else if (moisImpayes.length > 0) statut = "Paiement partiel";
-resultats.push({
-id: e.id,
-nom: e.nom,
-prenom: e.prenom || "",
-sexe: e.sexe || "M",
-classe: e.classe,
-option: e.option || "",
-exonere: e.exonere || false,
-minerval: minerval,
-totalPaye: totalPaye,
-reste: reste,
-moisImpayes: moisImpayes,
-statut: statut,
-parentCode: e.parentCode,
-dateInscription: dateInscription,
-moisBlancs: moisBlancs,
-espace: e.espace,
-paiements: paiements
-});
-}
+if (resultats.length === 0) return null;
 return resultats;
 } catch (e) { return null; }
 }
 
 async function getAllFiches() {
 try {
-const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.FICHES));
+const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, "fiches"));
 const fiches = [];
 for (const ds of snap.docs) {
 const d = ds.data();
@@ -836,7 +852,7 @@ return resultats;
 
 async function chercherPunitionsParNom(nom) {
 try {
-const q = query(collection(db, "ecoles", ECOLET_ID, SC.PUNITIONS), where("eleveNom", "==", nom), where("statut", "==", "active"));
+const q = query(collection(db, "ecoles", ECOLET_ID, "punitions"), where("eleveNom", "==", nom), where("statut", "==", "active"));
 const snap = await getDocs(q);
 const punitions = [];
 snap.forEach(ds => {
@@ -855,7 +871,7 @@ return punitions;
 
 async function chercherPresencesParNom(nom) {
 try {
-const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PRESENCES));
+const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, "presences"));
 const presences = [];
 const maintenant = new Date();
 const heureActuelle = maintenant.getHours() + maintenant.getMinutes() / 60;
@@ -887,7 +903,7 @@ return presences.slice(0, 5);
 
 async function getDernierCommunique() {
 try {
-const q = query(collection(db, "ecoles", ECOLET_ID, SC.COMMUNIQUES), where("actif", "==", true), orderBy("date", "desc"), limit(1));
+const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), where("actif", "==", true), orderBy("date", "desc"), limit(1));
 const snap = await getDocs(q);
 if (snap.empty) return null;
 const docSnap = snap.docs[0];
@@ -971,39 +987,63 @@ window.speechSynthesis.cancel();
 
 let texteParle = texte;
 
+// ✅ Remplacer "sur votre enfant" par "au sujet de votre enfant" pour une meilleure prononciation
+texteParle = texteParle.replace(/sur votre enfant/g, "au sujet de votre enfant");
+
+// ✅ Remplacer "votre enfant" par le prénom de l'élève
+if (dernierEleveData && dernierEleveData.prenom) {
+    const prenom = dernierEleveData.prenom.trim();
+    if (prenom) {
+        texteParle = texteParle.replace(/votre enfant/g, prenom);
+    }
+}
+
+if (texte.includes("En tout cas.")) {
+texteParle = "En tout cas !";
+const utterance = new SpeechSynthesisUtterance(texteParle);
+utterance.lang = 'fr-FR';
+window.speechSynthesis.speak(utterance);
+return;
+}
+
 if (texte.includes("J'ai trouvé") && texte.includes("dans notre système")) {
 texteParle = texteParle.replace(/J'ai trouvé .*? dans notre système/, "J'ai trouvé votre enfant dans notre système");
+if (dernierEleveData && dernierEleveData.prenom) {
+    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+}
 }
 
 if (texte.includes("La meilleure note de")) {
 texteParle = texteParle.replace(/La meilleure note de .*? est/, "La meilleure note de votre enfant est");
+if (dernierEleveData && dernierEleveData.prenom) {
+    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+}
 }
 
-if (texte.includes("Plusieurs élèves sont associés")) {
-texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité ou tapez suivant pour passer au prochain élève.";
+if (texte.includes("Situation financière de")) {
+texteParle = "Voici la situation financière de votre enfant.";
+if (dernierEleveData && dernierEleveData.prenom) {
+    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
 }
-
-if (texte.includes("Situation financière") || texte.includes("minerval") || texte.includes("francs") || texte.includes("payé") || texte.includes("reste") || texte.includes("impayé") || texte.includes("mois")) {
-texteParle = "Voici sa situation financière.";
-}
-
-if (texte.includes("présence") && texte.includes("aujourd'hui")) {
+const utterance = new SpeechSynthesisUtterance(texteParle);
+utterance.lang = 'fr-FR';
+window.speechSynthesis.speak(utterance);
 return;
 }
 
-if (texte.includes("Aucune punition")) {
-texteParle = "Votre enfant a un bon comportement, c'est excellent !";
+if (texte.includes("Punitions de")) {
+texteParle = texteParle.replace(/Punitions de .*? :/, "Voici les punitions de votre enfant :");
+if (dernierEleveData && dernierEleveData.prenom) {
+    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+}
 }
 
-if (texte.includes("punition") || texte.includes("punitions")) {
-const matches = texte.match(/\d+\./g);
-if (matches && matches.length > 0) {
-if (matches.length === 1) {
-texteParle = "Votre enfant a une punition.";
-} else {
-texteParle = `Votre enfant a ${matches.length} punitions.`;
+if (texte.includes("Plusieurs élèves sont associés")) {
+texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité.";
 }
-}
+
+if (texte.includes("Aucune punition")) {
+texteParle = "Aucune punition active. Bravo !";
 }
 
 if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
@@ -1011,7 +1051,22 @@ texteParle = "Au revoir, bonne journée.";
 }
 
 if (texte.includes("Veuillez taper un autre code parent")) {
-texteParle = "Vous avez déjà vu toutes les informations disponibles pour votre enfant. Veuillez taper un autre code parent. Je suis là pour vous aider.";
+texteParle = texteParle.replace(/Veuillez taper un autre code parent.*/, "Veuillez taper un autre code parent. Je suis là pour vous aider.");
+}
+
+if (texte.includes("exonéré")) {
+texteParle = texteParle.replace(/exonéré/g, "exonéré");
+}
+
+if (texte.includes("abandonné")) {
+texteParle = "J'ai trouvé votre enfant dans notre système. Cet élève a abandonné l'école. Je ne peux pas vous donner d'informations. Veuillez contacter la direction.";
+if (dernierEleveData && dernierEleveData.prenom) {
+    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+}
+const utterance = new SpeechSynthesisUtterance(texteParle);
+utterance.lang = 'fr-FR';
+window.speechSynthesis.speak(utterance);
+return;
 }
 
 texteParle = texteParle.replace(/[📊💰📝📅⚠️✅❌👨‍👩‍👧‍👦🔑💡📌👉💬🏫👋🎯🌟👍👌📖🔒❌⚠️✅💰📝📅]/g, '');
@@ -1113,23 +1168,14 @@ historiqueSections[dernierEleveData.id].push(section);
 }
 }
 
-function genererPropositions(eleveData) {
-const sections = {
-frais: { emoji: '', nom: 'les frais' },
-notes: { emoji: '', nom: 'les notes' },
-presence: { emoji: '', nom: 'la présence' },
-punitions: { emoji: '', nom: 'les punitions' }
-};
-const nonVisitees = Object.keys(sections).filter(section => !sectionDejaVisitee(section));
-if (nonVisitees.length === 0) {
-return `\n\nVous avez vu toutes les informations sur ${eleveData.nom} ${eleveData.prenom||''}.`;
+function toutVu(eleveData) {
+if (!eleveData) return false;
+const section = eleveData.section;
+if (section === "SECONDAIRE") {
+return sectionDejaVisitee('frais') && sectionDejaVisitee('notes') && sectionDejaVisitee('punitions');
+} else {
+return sectionDejaVisitee('frais');
 }
-let propositions = '\n\nVoulez-vous voir ';
-const noms = nonVisitees.map(s => sections[s].nom);
-if (noms.length === 1) propositions += noms[0] + ' maintenant ?';
-else if (noms.length === 2) propositions += noms[0] + ' ou ' + noms[1] + ' ?';
-else propositions += noms.slice(0, -1).join(', ') + ' ou ' + noms[noms.length - 1] + ' ?';
-return propositions;
 }
 
 async function genererReponseNotes(eleveData) {
@@ -1139,7 +1185,19 @@ const notes = eleveData.notes || [];
 const notesValides = notes.filter(n => n.note > 0);
 
 if (notesValides.length === 0) {
-return `${nomComplet} n'a pas encore de notes enregistrées.`;
+let reponse = `${nomComplet} n'a pas encore de notes enregistrées.`;
+const fraisDejaVus = sectionDejaVisitee('frais');
+const punitionsDejaVues = sectionDejaVisitee('punitions');
+if (!fraisDejaVus && !punitionsDejaVues) {
+reponse += `\n\nVoulez-vous voir ses punitions ou ses frais ?\nTapez "punitions" ou "frais".`;
+} else if (!fraisDejaVus) {
+reponse += `\n\nVoulez-vous voir ses frais ?\nTapez "frais".`;
+} else if (!punitionsDejaVues) {
+reponse += `\n\nVoulez-vous voir ses punitions ?\nTapez "punitions".`;
+} else {
+reponse += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+}
+return reponse;
 }
 
 let meilleureNote = null;
@@ -1168,28 +1226,58 @@ else reponse += `, c'était une ${meilleureNote.epreuve}`;
 if (periodeTexte) reponse += ` en ${periodeTexte} période`;
 reponse += `.`;
 
+const fraisDejaVus = sectionDejaVisitee('frais');
 const punitionsDejaVues = sectionDejaVisitee('punitions');
-const aDesPunitions = eleveData.punitions && eleveData.punitions.length > 0;
 
-if (aDesPunitions && !punitionsDejaVues) {
-reponse += `\n\nVoulez-vous voir ses punitions ?`;
-derniereQuestion = "notes_punitions";
+if (!fraisDejaVus && !punitionsDejaVues) {
+reponse += `\n\nVoulez-vous voir ses punitions ou ses frais ?\nTapez "punitions" ou "frais".`;
+} else if (!fraisDejaVus) {
+reponse += `\n\nVoulez-vous voir ses frais ?\nTapez "frais".`;
+} else if (!punitionsDejaVues) {
+reponse += `\n\nVoulez-vous voir ses punitions ?\nTapez "punitions".`;
 } else {
-reponse += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
-derniereQuestion = "fin";
+reponse += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
 
 return reponse;
 }
 
+// ✅ GENERER REPONSE FRAIS CORRIGÉE
 async function genererReponseFrais(eleveData) {
 ajouterSectionVisitee('frais');
 const nomComplet = `${eleveData.nom} ${eleveData.prenom || ''}`.trim();
+
+if (eleveData.abandon) {
+return `${nomComplet} a abandonné l'école le ${eleveData.dateAbandon ? new Date(eleveData.dateAbandon).toLocaleDateString('fr-FR') : 'date inconnue'}. Je ne peux pas vous donner d'informations. Veuillez contacter la direction. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+}
+
+if (eleveData.exonere) {
+let reponseEcran = `Situation financière de ${nomComplet}\n\n`;
+reponseEcran += `Bonne nouvelle ! Cet enfant est exonéré des frais scolaires.\n`;
+reponseEcran += `Aucun paiement n'est requis.\n\n`;
+const section = eleveData.section;
+if (section === "SECONDAIRE") {
+const notesDejaVues = sectionDejaVisitee('notes');
+const punitionsDejaVues = sectionDejaVisitee('punitions');
+if (!notesDejaVues && !punitionsDejaVues) {
+reponseEcran += `Voulez-vous voir ses notes ou ses punitions ?\nTapez "notes" ou "punitions".`;
+} else if (!notesDejaVues) {
+reponseEcran += `Voulez-vous voir ses notes ?\nTapez "notes".`;
+} else if (!punitionsDejaVues) {
+reponseEcran += `Voulez-vous voir ses punitions ?\nTapez "punitions".`;
+} else {
+reponseEcran += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+}
+} else {
+reponseEcran += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+}
+return reponseEcran;
+}
+
 const minerval = eleveData.frais.minerval;
 const paiements = eleveData.frais.paiements || {};
 const moisBlancs = eleveData.frais.moisBlancs || [];
 
-const moisListe = ["Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
 const moisActuel = getMoisActuel();
 const indexActuel = moisListe.indexOf(moisActuel);
 const annee = new Date().getFullYear();
@@ -1197,97 +1285,153 @@ const annee = new Date().getFullYear();
 let totalPaye = 0;
 let moisPayes = [];
 let moisImpayes = [];
+let moisPayesAvancePartiel = [];
+let moisPayesAvanceComplet = [];
 
-for (let i = 0; i < indexActuel; i++) {
-const mois = moisListe[i];
-const paiement = paiements[mois];
-const montant = paiement?.montant || 0;
-const datePaiement = paiement?.date || null;
+// Parcourir TOUS les mois de l'année pour détecter les paiements en avance
+for (let i = 0; i < moisListe.length; i++) {
+    const mois = moisListe[i];
+    
+    // ✅ IGNORER AOÛT (pas un mois scolaire)
+    if (mois === "Aout") {
+        continue;
+    }
+    
+    const paiement = paiements[mois];
+    const montant = paiement?.montant || 0;
+    const datePaiement = paiement?.date || null;
 
-if (moisBlancs.includes(mois)) {
-continue;
+    if (moisBlancs.includes(mois)) {
+        continue;
+    }
+
+    if (montant === 0) {
+        // ✅ Mois non payé uniquement si c'est un mois passé ou actuel (et pas Août)
+        if (i < indexActuel && i > 0) { // i > 0 pour ignorer Août
+            moisImpayes.push({ mois, reste: minerval, date: null });
+        }
+        continue;
+    }
+
+    // ✅ Vérifier si c'est un paiement en avance
+    let estAvance = false;
+    // Si le mois est dans le futur par rapport au mois actuel
+    if (i >= indexActuel) {
+        estAvance = true;
+    }
+    // Ou si la date de paiement est différente du mois payé
+    if (datePaiement) {
+        const datePay = new Date(datePaiement);
+        const moisPayeIndex = moisListe.indexOf(mois);
+        const moisPaiement = datePay.getMonth();
+        // Ajustement pour Août (mois 7)
+        if (moisPaiement !== moisPayeIndex + 7) {
+            estAvance = true;
+        }
+    }
+
+    if (montant >= minerval) {
+        totalPaye += minerval;
+        if (estAvance) {
+            moisPayesAvanceComplet.push({ mois, montant: minerval, date: datePaiement });
+        } else {
+            moisPayes.push({ mois, montant: minerval, date: datePaiement });
+        }
+    } else if (montant > 0 && montant < minerval) {
+        totalPaye += montant;
+        const resteMois = minerval - montant;
+        if (estAvance) {
+            moisPayesAvancePartiel.push({ mois, montant, date: datePaiement, reste: resteMois });
+            // ❌ NE PAS ajouter dans moisImpayes (le paiement est en avance)
+        } else {
+            moisImpayes.push({ mois, reste: resteMois, date: datePaiement });
+        }
+    } else {
+        if (!estAvance && i < indexActuel) {
+            moisImpayes.push({ mois, reste: minerval, date: null });
+        }
+    }
 }
 
-if (montant >= minerval) {
-totalPaye += minerval;
-moisPayes.push({ mois, montant: minerval, date: datePaiement });
-} else if (montant > 0 && montant < minerval) {
-totalPaye += montant;
-const resteMois = minerval - montant;
-moisImpayes.push({ mois, reste: resteMois, date: datePaiement });
-} else {
-moisImpayes.push({ mois, reste: minerval, date: null });
-}
+// ✅ Filtrer les mois impayés uniques (éviter les doublons)
+const moisImpayesUniques = [];
+const moisVus = new Set();
+for (const mi of moisImpayes) {
+    if (!moisVus.has(mi.mois)) {
+        moisVus.add(mi.mois);
+        moisImpayesUniques.push(mi);
+    }
 }
 
 let resteTotal = 0;
-for (const m of moisImpayes) {
-resteTotal += m.reste;
+for (const m of moisImpayesUniques) {
+    resteTotal += m.reste;
 }
 
 let reponseEcran = `Situation financière de ${nomComplet}\n\n`;
 
 if (moisPayes.length > 0) {
-reponseEcran += `Mois payés :\n\n`;
-for (const mp of moisPayes) {
-const dateFormatee = mp.date ? new Date(mp.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'date inconnue';
-reponseEcran += `${mp.mois} ${annee}\n`;
-reponseEcran += `${mp.montant.toLocaleString()} FC\n`;
-reponseEcran += `Payé le ${dateFormatee}\n\n`;
-}
-}
-
-if (moisImpayes.length > 0) {
-reponseEcran += `Mois impayé${moisImpayes.length > 1 ? 's' : ''} :\n\n`;
-for (const mi of moisImpayes) {
-reponseEcran += `${mi.mois} ${annee}\n`;
-reponseEcran += `${mi.reste.toLocaleString()} FC\n`;
-reponseEcran += `Reste à payer\n\n`;
-}
+    reponseEcran += `Mois payés :\n`;
+    for (const mp of moisPayes) {
+        const dateFormatee = mp.date ? new Date(mp.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'date inconnue';
+        reponseEcran += `- ${mp.mois} ${annee}: ${mp.montant.toLocaleString()} FC\n`;
+        reponseEcran += `  Payé le ${dateFormatee}\n`;
+    }
+    reponseEcran += `\n`;
 }
 
-if (moisPayes.length === 0 && moisImpayes.length === 0) {
-reponseEcran += `Aucun mois payé\n\nAucun mois impayé\n\n`;
+if (moisPayesAvancePartiel.length > 0) {
+    reponseEcran += `Mois partiellement payés en avance :\n`;
+    for (const mp of moisPayesAvancePartiel) {
+        const dateFormatee = mp.date ? new Date(mp.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'date inconnue';
+        reponseEcran += `- ${mp.mois} ${annee}: ${mp.montant.toLocaleString()} FC\n`;
+        reponseEcran += `  Payé le ${dateFormatee} (reste ${mp.reste.toLocaleString()} FC)\n`;
+    }
+    reponseEcran += `\n`;
 }
 
-reponseEcran += `Total payé : ${totalPaye.toLocaleString()} FC\n\n`;
+if (moisPayesAvanceComplet.length > 0) {
+    reponseEcran += `Mois payés en avance :\n`;
+    for (const mp of moisPayesAvanceComplet) {
+        const dateFormatee = mp.date ? new Date(mp.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'date inconnue';
+        reponseEcran += `- ${mp.mois} ${annee}: ${mp.montant.toLocaleString()} FC\n`;
+        reponseEcran += `  Payé le ${dateFormatee}\n`;
+    }
+    reponseEcran += `\n`;
+}
+
+if (moisImpayesUniques.length > 0) {
+    reponseEcran += `Mois impayés :\n`;
+    for (const mi of moisImpayesUniques) {
+        reponseEcran += `- ${mi.mois} ${annee}: ${mi.reste.toLocaleString()} FC\n`;
+    }
+    reponseEcran += `\n`;
+}
+
+if (moisPayes.length === 0 && moisImpayesUniques.length === 0 && moisPayesAvancePartiel.length === 0 && moisPayesAvanceComplet.length === 0) {
+    reponseEcran += `Aucun mois payé ni impayé pour le moment.\n\n`;
+}
+
+reponseEcran += `Total payé : ${totalPaye.toLocaleString()} FC\n`;
 reponseEcran += `Reste à payer : ${resteTotal.toLocaleString()} FC`;
 
+const section = eleveData.section;
+
+if (section === "SECONDAIRE") {
 const notesDejaVues = sectionDejaVisitee('notes');
 const punitionsDejaVues = sectionDejaVisitee('punitions');
 
-const aDesNotes = eleveData.notes && eleveData.notes.filter(n => n.note > 0).length > 0;
-const aDesPunitions = eleveData.punitions && eleveData.punitions.length > 0;
-
-const section = eleveData.section;
-if (section === "SECONDAIRE") {
-let propositions = [];
-
-if (aDesNotes && !notesDejaVues) {
-propositions.push("ses notes de cours");
-}
-if (aDesPunitions && !punitionsDejaVues) {
-propositions.push("ses punitions");
-}
-
-if (propositions.length === 2) {
-reponseEcran += `\n\nVoulez-vous consulter ${propositions[0]} ou ${propositions[1]} ?`;
-derniereQuestion = "finance_notes_punitions";
-} else if (propositions.length === 1) {
-reponseEcran += `\n\nVoulez-vous consulter ${propositions[0]} ?`;
-derniereQuestion = "finance_" + (propositions[0].includes("notes") ? "notes" : "punitions");
+if (!notesDejaVues && !punitionsDejaVues) {
+reponseEcran += `\n\nVoulez-vous voir ses notes ou ses punitions ?\nTapez "notes" ou "punitions".`;
+} else if (!notesDejaVues) {
+reponseEcran += `\n\nVoulez-vous voir ses notes ?\nTapez "notes".`;
+} else if (!punitionsDejaVues) {
+reponseEcran += `\n\nVoulez-vous voir ses punitions ?\nTapez "punitions".`;
 } else {
-reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
-derniereQuestion = "fin";
+reponseEcran += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
-}
-
-if (listeElevesComplets.length > 1) {
-const currentIndex = listeElevesComplets.findIndex(e => e.nom === eleveData.nom && (e.prenom || '') === (eleveData.prenom || ''));
-const estDernier = (currentIndex === listeElevesComplets.length - 1);
-if (!estDernier) {
-reponseEcran += `\n\nTapez "suivant" pour passer au prochain élève.`;
-}
+} else {
+reponseEcran += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
 
 return reponseEcran;
@@ -1299,77 +1443,36 @@ const nomComplet = `${eleveData.nom} ${eleveData.prenom || ''}`.trim();
 const punitions = eleveData.punitions || [];
 
 let reponseEcran = `Punitions de ${nomComplet} :\n`;
+
 if (punitions.length === 0) {
-reponseEcran += `Aucune punition active.`;
+reponseEcran += `Aucune punition active. Bravo !\n`;
 } else {
 reponseEcran += `\nVoici les punitions enregistrées :\n`;
 punitions.forEach((p, index) => {
 const date = new Date(p.date).toLocaleDateString('fr-FR');
-const gravite = p.gravite === 'grave' ? 'grave' : p.gravite === 'moyenne' ? 'moyenne' : 'légère';
-reponseEcran += `\n${index+1}. ${p.motif}\n   Date : ${date}\n   Gravité : ${gravite}`;
+const gravite = p.gravite === 'grave' ? 'Grave' : p.gravite === 'moyenne' ? 'Moyenne' : 'Légère';
+reponseEcran += `\n${index+1}. ${p.motif}\n`;
+reponseEcran += `   Date : ${date}\n`;
+reponseEcran += `   Gravité : ${gravite}`;
 if (p.justification) reponseEcran += `\n   Justification : ${p.justification}`;
 if (p.classe) reponseEcran += `\n   Classe : ${p.classe}`;
 });
 }
 
 const notesDejaVues = sectionDejaVisitee('notes');
-const aDesNotes = eleveData.notes && eleveData.notes.filter(n => n.note > 0).length > 0;
+const fraisDejaVus = sectionDejaVisitee('frais');
 
-if (aDesNotes && !notesDejaVues) {
-reponseEcran += `\n\nVoulez-vous voir ses notes ?`;
-derniereQuestion = "punitions_notes";
+if (!notesDejaVues && !fraisDejaVus) {
+reponseEcran += `\n\nVoulez-vous voir ses notes ou ses frais ?\nTapez "notes" ou "frais".`;
+} else if (!notesDejaVues) {
+reponseEcran += `\n\nVoulez-vous voir ses notes ?\nTapez "notes".`;
+} else if (!fraisDejaVus) {
+reponseEcran += `\n\nVoulez-vous voir ses frais ?\nTapez "frais".`;
 } else {
-reponseEcran += `\n\nVous avez déjà vu toutes les informations disponibles pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
-derniereQuestion = "fin";
+reponseEcran += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
 
 return reponseEcran;
-}
-
-function gererConfusion(message, dernierEleveData) {
-const msg = message.toLowerCase().trim();
-const motsConfusion = ['quoi', 'comment', 'hein', 'pardon', 'répète', 'repetes', 'répéter', 'je ne comprends pas', 'je comprends pas', 'comprends pas', 'explique', 'expliquez', 'clarifie', 'clarifiez', 'j\'ai pas compris', 'j ai pas compris', 'pas compris', 'je sais pas', 'je ne sais pas', 'que veux-tu dire', 'que voulez-vous dire', 'c\'est quoi', 'c est quoi', '???', '??', '?'];
-
-const estConfus = motsConfusion.some(mot => msg.includes(mot));
-
-if (estConfus && dernierEleveData) {
-const nomComplet = `${dernierEleveData.nom} ${dernierEleveData.prenom || ''}`.trim();
-const section = dernierEleveData.section;
-const estSecondaire = (section === "SECONDAIRE");
-
-let reponse = `Je m'excuse, je vais clarifier.\n\nJe peux vous parler de ${nomComplet} sur plusieurs sujets :\n- Sa situation financière\n`;
-if (estSecondaire) {
-reponse += `- Ses notes de cours\n- Ses punitions\n`;
-}
-reponse += `\nPour commencer, dites-moi simplement : "finance", "notes" ou "punitions".\n`;
-if (listeElevesComplets.length > 1) {
-reponse += `\nSi vous voulez changer d'enfant, tapez "suivant".`;
-}
-return reponse;
-}
-return null;
-}
-
-function gererReponseHorsSujet(message) {
-const msg = message.toLowerCase().trim();
-if (msg.length < 2) {
-return "Je n'ai pas compris votre demande. Pouvez-vous reformuler ? Par exemple : finance, notes ou punitions.";
-}
-const motsCles = ['finance', 'notes', 'punitions', 'suivant', 'presence', 'présence', 'aide', 'au revoir'];
-const contientMotCle = motsCles.some(mot => msg.includes(mot));
-if (!contientMotCle && dernierEleveData) {
-const estSecondaire = (dernierEleveData.section === "SECONDAIRE");
-let reponse = `Je n'ai pas compris "${message}".\n\nCe que je peux faire pour vous :\n- Tapez "finance" pour la situation financière\n`;
-if (estSecondaire) {
-reponse += `- Tapez "notes" pour les notes\n- Tapez "punitions" pour les punitions\n`;
-}
-if (listeElevesComplets.length > 1) {
-reponse += `- Tapez "suivant" pour changer d'enfant\n`;
-}
-reponse += `- Tapez "aide" pour plus d'informations`;
-return reponse;
-}
-return null;
 }
 
 async function genererReponsePresence(eleveData) {
@@ -1382,7 +1485,6 @@ const heureActuelle = maintenant.getHours() + maintenant.getMinutes() / 60;
 let reponse = `Je regarde la présence de ${nomComplet}.`;
 if (presences.length === 0) {
 reponse += `\n\nJe n'ai pas d'informations sur sa présence pour le moment.`;
-reponse += await genererPropositions(eleveData);
 return reponse;
 }
 
@@ -1402,7 +1504,7 @@ const dateDerniere = new Date(derniere.date).toLocaleDateString('fr-FR');
 reponse += `\n\nLa dernière présence enregistrée date du ${dateDerniere}. ${derniere.present?'Présent':'Absent'}`;
 }
 }
-reponse += await genererPropositions(eleveData);
+
 return reponse;
 }
 
@@ -1531,15 +1633,8 @@ if (!reponse.toLowerCase().includes(nomEcole.toLowerCase())) {
 reponse = `À l'école ${nomEcole}, ${reponse.toLowerCase()}`;
 }
 } catch (e) {
-const salutation = getGreeting();
 const nomComplet = `${eleveData.nom} ${eleveData.prenom||''}`.trim();
-const { pronom } = getSexePronom(eleveData.sexe);
-const section = getSectionFromClasse(eleveData.classe);
-let classeInfo = `${eleveData.classe}`;
-if (section === "MATERNELLE") classeInfo += ", Section MATERNELLE";
-else if (section === "PRIMAIRE") classeInfo += ", Section PRIMAIRE";
-else classeInfo += ` option ${eleveData.option}, Section SECONDAIRE`;
-reponse = `${salutation} cher parent. Je prends le temps de rassembler les informations concernant ${nomComplet}. ${pronom === 'il' ? 'Il' : 'Elle'} est en ${classeInfo}. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.`;
+reponse = `En tout cas. Je rassemble les informations pour ${nomComplet}. En attendant, que voulez-vous voir ? (frais, notes, punitions)`;
 }
 }
 
@@ -1549,21 +1644,88 @@ reponseCache.set(questionKey, reponse);
 return reponse;
 }
 
+function formaterFrais(eleve) {
+if (!eleve) return null;
+const paiements = eleve.paiements || {};
+const moisBlancs = eleve.moisBlancs || [];
+const minerval = eleve.exonere ? 0 : (eleve.minerval || 25000);
+const moisActuel = getMoisActuel();
+const indexActuel = moisListe.indexOf(moisActuel);
+
+let totalPaye = 0;
+let moisImpayes = [];
+
+for (let i = 0; i < indexActuel; i++) {
+const mois = moisListe[i];
+if (mois === "Aout") continue;
+if (moisBlancs.includes(mois)) continue;
+const paiement = paiements[mois] || { montant: 0 };
+const montant = paiement.montant || 0;
+if (montant < minerval && !eleve.exonere) {
+moisImpayes.push(mois);
+}
+totalPaye += montant;
+}
+
+const reste = (minerval * 10) - totalPaye;
+
+return {
+minerval: minerval,
+totalPaye: totalPaye,
+reste: reste,
+moisImpayes: moisImpayes,
+paiements: paiements,
+moisBlancs: moisBlancs,
+exonere: eleve.exonere || false,
+abandon: eleve.abandon || false,
+dateAbandon: eleve.dateAbandon || null
+};
+}
+
 async function afficherInfosEleve(eleve, premierAffichage = true) {
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
-dernierEleveConsulte = eleve.nom;
 const sexe = eleve.sexe || 'M';
 const { genre, pronom } = getSexePronom(sexe);
+const section = getSectionFromClasse(eleve.classe);
+const eleveId = eleve.id || eleve.nom;
+
+if (!historiqueSections[eleveId]) historiqueSections[eleveId] = [];
+
+if (eleve.abandon) {
+dernierEleveData = {
+id: eleveId,
+nom: eleve.nom,
+prenom: eleve.prenom,
+sexe: sexe,
+classe: eleve.classe,
+option: eleve.option || '',
+section: section,
+exonere: false,
+abandon: true,
+dateAbandon: eleve.dateAbandon || null,
+sectionsVisitees: historiqueSections[eleveId] || []
+};
+let reponseEcran = `${getGreeting()} cher parent,\n\n`;
+reponseEcran += `J'ai trouvé ${eleve.nom} ${eleve.prenom||''} dans notre système.\n`;
+reponseEcran += `C'est ${sexe === 'F' ? 'une fille' : 'un garçon'}.\n\n`;
+reponseEcran += `Classe : ${eleve.classe}`;
+if (section === "SECONDAIRE" && eleve.option && eleve.option !== "TOUTES") {
+reponseEcran += `\nOption : ${eleve.option}`;
+}
+reponseEcran += `\nSection : ${section}\n\n`;
+reponseEcran += `Cet élève a abandonné l'école le ${eleve.dateAbandon ? new Date(eleve.dateAbandon).toLocaleDateString('fr-FR') : 'date inconnue'}.\n\n`;
+reponseEcran += `Je ne peux pas vous donner d'informations sur sa situation financière, ses notes ou ses punitions. Veuillez contacter la direction pour plus de détails. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+return reponseEcran;
+}
+
 const resultatsNotes = await chercherNotesParNom(eleve.nom);
 const noteData = resultatsNotes.length > 0 ? resultatsNotes[0] : null;
 let notesFiltrees = [];
 if (noteData && noteData.epreuves) {
 notesFiltrees = noteData.epreuves.filter(ep => ep.note > 0);
 }
-const eleveId = eleve.id || eleve.nom;
-if (!historiqueSections[eleveId]) historiqueSections[eleveId] = [];
-const section = getSectionFromClasse(eleve.classe);
-const pronomSexe = sexe === 'F' ? 'Elle' : 'Il';
+
+const fraisData = formaterFrais(eleve);
 
 dernierEleveData = {
 id: eleveId,
@@ -1573,52 +1735,44 @@ sexe: sexe,
 genre: genre,
 pronom: pronom,
 classe: eleve.classe,
-option: eleve.option,
+option: eleve.option || '',
 ecole: nomEcole,
 notes: notesFiltrees,
 titulaire: noteData ? noteData.titulaire : null,
 nombreElevesClasse: noteData ? noteData.nombreElevesClasse : 0,
 section: section,
-frais: {
-minerval: eleve.minerval,
-totalPaye: eleve.totalPaye,
-reste: eleve.reste,
-moisImpayes: eleve.moisImpayes,
-statut: eleve.statut,
-moisBlancs: eleve.moisBlancs || [],
-paiements: eleve.paiements || {}
-},
+frais: fraisData,
 punitions: noteData ? noteData.punitions : [],
 presences: noteData ? noteData.presences : [],
-sectionsVisitees: historiqueSections[eleveId] || []
+sectionsVisitees: historiqueSections[eleveId] || [],
+exonere: eleve.exonere || false,
+abandon: false
 };
 
 reponseCache.clear();
 lastDataHash = getDataHash(dernierEleveData);
 
-function getSalutation() {
-const h = new Date().getHours();
-if (h < 12) return "Bonjour";
-if (h < 18) return "Bon après-midi";
-return "Bonsoir";
-}
-
 let reponseEcran = "";
 
 if (premierAffichage) {
-reponseEcran = `${getSalutation()} cher parent,\n\n`;
+reponseEcran = `${getGreeting()} cher parent,\n\n`;
 }
 
 reponseEcran += `J'ai trouvé ${eleve.nom} ${eleve.prenom||''} dans notre système.\n`;
 reponseEcran += `C'est ${sexe === 'F' ? 'une fille' : 'un garçon'}.\n`;
 
 if (section === "MATERNELLE") {
-const niveau = eleve.classe.replace('Niveau ', '');
-reponseEcran += `Niveau ${niveau}\nSection MATERNELLE\n\n`;
+reponseEcran += `\nClasse : ${eleve.classe}`;
+reponseEcran += `\nSection : ${section}\n\n`;
 } else if (section === "PRIMAIRE") {
-reponseEcran += `${pronomSexe} est en ${eleve.classe}\nSection PRIMAIRE\n\n`;
+reponseEcran += `\nClasse : ${eleve.classe}`;
+reponseEcran += `\nSection : ${section}\n\n`;
 } else {
-reponseEcran += `${pronomSexe} est en ${eleve.classe} option ${eleve.option}\nSection SECONDAIRE\n\n`;
+reponseEcran += `\nClasse : ${eleve.classe}`;
+if (eleve.option && eleve.option !== "TOUTES") {
+reponseEcran += `\nOption : ${eleve.option}`;
+}
+reponseEcran += `\nSection : ${section}\n\n`;
 }
 
 const currentIndex = listeElevesComplets.findIndex(e => e.nom === eleve.nom && (e.prenom || '') === (eleve.prenom || ''));
@@ -1633,7 +1787,7 @@ const estSecondaire = (section === "SECONDAIRE");
 if (estSecondaire) {
 reponseEcran += `Je peux vous parler de sa situation financière, ses notes de cours et de ses punitions, par quoi voulez-vous que je commence ?`;
 } else {
-reponseEcran += `Je peux vous parler de sa situation financière, puis-je commencer ?`;
+reponseEcran += `Je peux vous parler de sa situation financière. Voulez-vous la voir ?`;
 }
 
 return reponseEcran;
@@ -1643,33 +1797,37 @@ async function traiterMessage(message) {
 const msg = message.trim().toLowerCase();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
 
-if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg) || /^\d{8}$/.test(msg)) {
+if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
 const code = msg;
-const infos = await chercherInfosFinancieresParCode(code);
+const infos = await chercherElevesParCode(code);
 if (!infos || infos.length === 0) {
-dernierEleveConsulte = null;
 dernierEleveData = null;
 listeElevesComplets = [];
 return `Code parent "${code}" non reconnu à l'école ${nomEcole}. Veuillez vérifier votre code ou contacter la comptabilité.`;
 }
 currentParentCode = code;
 listeElevesComplets = infos;
+contexteConversation.codeParent = code;
 if (infos.length === 1) {
 return await afficherInfosEleve(infos[0], true);
 } else {
 enAttenteChoixEleve = true;
 listeElevesEnAttente = infos;
-let reponse = `Plusieurs élèves sont associés à ce code parent.\n\n`;
+let reponse = `Plusieurs élèves sont associés à ce code parent :\n\n`;
 infos.forEach((eleve, index) => {
 const section = getSectionFromClasse(eleve.classe);
-let sectionLabel = "";
-if (section === "MATERNELLE") sectionLabel = "MATERNELLE";
-else if (section === "PRIMAIRE") sectionLabel = "PRIMAIRE";
-else sectionLabel = "SECONDAIRE";
-const optionText = eleve.option && eleve.option !== "" && section === "SECONDAIRE" ? ` option ${eleve.option}` : "";
-reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n   Classe : ${eleve.classe}${optionText}\n   Section : ${sectionLabel}\n\n`;
+reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n`;
+reponse += `   Classe : ${eleve.classe}`;
+if (section === "SECONDAIRE" && eleve.option && eleve.option !== "TOUTES") {
+reponse += `\n   Option : ${eleve.option}`;
+}
+reponse += `\n   Section : ${section}\n\n`;
 });
-reponse += `Veuillez répondre avec le numéro de l'élève souhaité.`;
+const numeros = [];
+for (let i = 1; i <= infos.length; i++) {
+numeros.push(i);
+}
+reponse += `Veuillez répondre avec le numéro de l'élève souhaité. ${numeros.join(', ')}.`;
 return reponse;
 }
 }
@@ -1678,7 +1836,7 @@ if (msg.includes('aide') || msg.includes('help') || msg.includes('que puis-je fa
 let reponse = "Voici ce que je peux faire pour vous :\n\n";
 if (dernierEleveData) {
 const nomComplet = `${dernierEleveData.nom} ${dernierEleveData.prenom || ''}`.trim();
-reponse += `Pour ${nomComplet} :\n- Tapez "finance" pour voir sa situation financière\n`;
+reponse += `Pour ${nomComplet} :\n- Tapez "frais" pour voir sa situation financière\n`;
 const section = dernierEleveData.section;
 if (section === "SECONDAIRE") {
 reponse += `- Tapez "notes" pour voir ses notes\n- Tapez "punitions" pour voir ses punitions\n`;
@@ -1688,14 +1846,9 @@ reponse += `- Tapez "suivant" pour passer au prochain enfant\n`;
 }
 reponse += `- Tapez "au revoir" pour quitter`;
 } else {
-reponse += `- Entrez votre code parent (4, 6 ou 8 chiffres) pour commencer\n- Tapez "au revoir" pour quitter`;
+reponse += `- Entrez votre code parent (4 ou 6 chiffres) pour commencer\n- Tapez "au revoir" pour quitter`;
 }
 return reponse;
-}
-
-const reponseConfusion = gererConfusion(message, dernierEleveData);
-if (reponseConfusion) {
-return reponseConfusion;
 }
 
 if ((msg.includes('suivant') || msg.includes('prochain') || msg.includes('autre') || msg.includes('next')) && listeElevesComplets.length > 1) {
@@ -1716,6 +1869,7 @@ if (foundIndex !== -1) {
 let nextIndex = (foundIndex + 1) % listeElevesComplets.length;
 const eleve = listeElevesComplets[nextIndex];
 const estPremier = (nextIndex === 0);
+historiqueSections = {};
 return await afficherInfosEleve(eleve, estPremier);
 }
 }
@@ -1725,15 +1879,16 @@ if (listeElevesComplets.length > 1) {
 let reponse = `Voici la liste de vos enfants :\n\n`;
 listeElevesComplets.forEach((eleve, index) => {
 const section = getSectionFromClasse(eleve.classe);
-let sectionLabel = "";
-if (section === "MATERNELLE") sectionLabel = "MATERNELLE";
-else if (section === "PRIMAIRE") sectionLabel = "PRIMAIRE";
-else sectionLabel = "SECONDAIRE";
-const optionText = eleve.option && eleve.option !== "" && section === "SECONDAIRE" ? ` option ${eleve.option}` : "";
+reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n`;
+reponse += `   Classe : ${eleve.classe}`;
+if (section === "SECONDAIRE" && eleve.option && eleve.option !== "TOUTES") {
+reponse += `\n   Option : ${eleve.option}`;
+}
+reponse += `\n   Section : ${section}`;
 const estActif = dernierEleveData && eleve.nom === dernierEleveData.nom && (eleve.prenom || '') === (dernierEleveData.prenom || '') ? ' (actif)' : '';
-reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''} - ${eleve.classe}${optionText}${estActif}\n`;
+reponse += `${estActif}\n\n`;
 });
-reponse += `\nPour changer d'enfant, tapez "suivant".`;
+reponse += `Pour changer d'enfant, tapez "suivant".`;
 return reponse;
 } else if (listeElevesComplets.length === 1) {
 return `Vous avez un seul enfant associé à ce code : ${listeElevesComplets[0].nom} ${listeElevesComplets[0].prenom || ''}.`;
@@ -1748,6 +1903,7 @@ if (!isNaN(choix) && choix >= 1 && choix <= listeElevesEnAttente.length) {
 const eleveChoisi = listeElevesEnAttente[choix - 1];
 enAttenteChoixEleve = false;
 listeElevesEnAttente = [];
+historiqueSections = {};
 return await afficherInfosEleve(eleveChoisi, true);
 } else {
 let listeNoms = listeElevesEnAttente.map((e, i) => {
@@ -1759,142 +1915,81 @@ return `Choix non reconnu. Veuillez choisir un numéro entre 1 et ${listeElevesE
 }
 }
 
-const reponsesPositives = [
-'oui', 'o', 'ouais', 'ouep', 'oe', 'ok', 'okay', 'okey', 'oké', 'oki',
-'d\'accord', 'd accord', 'dac', 'dak', 'vas-y', 'vas y', 'allez',
-'allons-y', 'go', 'go!', 'c\'est bon', 'cest bon', 'ça marche',
-'ca marche', 'ça me va', 'ca me va', 'ça va', 'ca va', 'yes', 'y',
-'yep', 'yeah', 'yup', 'affirmatif', 'affirmative', 'absolument',
-'certainement', 'assurément', 'avec plaisir', 'volontiers',
-'bien sûr', 'bien sur', 'sans problème', 'sans souci',
-'aucun problème', 'aucun souci', 'je confirme', 'je valide',
-'je suis d\'accord', 'je suis ok', 'je suis partant', 'je veux',
-'je le veux', 'je souhaite', 'je souhaite voir', 'je voudrais',
-'je désire', 'je desire', 'pourquoi pas', 'faites-le', 'faites le',
-'fais-le', 'fais le', 'continue', 'continuer', 'poursuivre',
-'continuez', 'envoyer', 'envoie', 'montre', 'montrez', 'affiche',
-'affichez', 'présente', 'presente', 'montrez-moi', 'montre-moi',
-'oui bien sûr', 'oui bien sur', 'oui merci', 'oui svp',
-'oui s\'il vous plaît', 'oui s il vous plait', 'oui stp',
-'oui je confirme', 'commence', 'commencer', 'vas-y', 'vas y'
-];
-
-const reponsesNegatives = [
-'non', 'n', 'non non', 'nan', 'nope', 'no', 'nah', 'nop',
-'pas question', 'pas du tout', 'jamais', 'non merci',
-'pas maintenant', 'plus tard', 'attends', 'attendez', 'stop',
-'non je ne souhaite pas', 'non je ne veux pas', 'je ne veux pas',
-'je ne souhaite pas', 'je ne désire pas', 'je ne suis pas intéressé',
-'pas intéressé', 'pas pour l\'instant', 'non je confirme pas',
-'non je ne confirme pas', 'négatif', 'negative', 'rien', 'non rien',
-'non c\'est non', 'non non et non', 'je refuse', 'refuse', 'refuser',
-'pas d\'accord', 'pas d accord', 'pas ok', 'pas okay', 'pas okey', 'non ok'
-];
-
-if (reponsesPositives.includes(msg)) {
-if (!dernierEleveData) {
-return `Veuillez d'abord entrer votre code parent.`;
-}
-
-if (derniereQuestion === "fin") {
-return `Vous avez déjà vu toutes les informations disponibles pour ${dernierEleveData.nom} ${dernierEleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
-}
-
-if (derniereQuestion === "finance_notes_punitions") {
-const section = dernierEleveData.section;
-if (section === "SECONDAIRE") {
-const notesDejaVues = sectionDejaVisitee('notes');
-const punitionsDejaVues = sectionDejaVisitee('punitions');
-if (!notesDejaVues) {
-derniereQuestion = null;
-return await genererReponseNotes(dernierEleveData);
-} else if (!punitionsDejaVues) {
-derniereQuestion = null;
-return await genererReponsePunitions(dernierEleveData);
-}
-}
-}
-
-if (derniereQuestion === "finance_notes") {
-derniereQuestion = null;
-return await genererReponseNotes(dernierEleveData);
-}
-
-if (derniereQuestion === "finance_punitions") {
-derniereQuestion = null;
-return await genererReponsePunitions(dernierEleveData);
-}
-
-if (derniereQuestion === "notes_punitions") {
-derniereQuestion = null;
-return await genererReponsePunitions(dernierEleveData);
-}
-
-if (derniereQuestion === "punitions_notes") {
-derniereQuestion = null;
-return await genererReponseNotes(dernierEleveData);
-}
-
-derniereQuestion = null;
-return await genererReponseFrais(dernierEleveData);
-}
-
-if (reponsesNegatives.includes(msg)) {
-return `D'accord, je comprends. Si vous avez besoin d'informations, n'hésitez pas à entrer un code parent, bonne journée.`;
-}
-
-if (dernierEleveConsulte && dernierEleveData) {
+if (dernierEleveData) {
 const eleveData = dernierEleveData;
-const texteComplet = msg;
+const section = eleveData.section;
 
 const motsFrais = ['frais', 'finance', 'argent', 'dette', 'payer', 'minerval', 'paiement', 'cout', 'prix', 'facture', 'scolarité', 'mensualité', 'reste', 'impayé', 'payé', 'crédit', 'solde', 'montant', 'total', 'annuel', 'mois', 'la finance', 'situation financière', 'situation financiere', 'comptabilité', 'comptabilite', 'financier', 'financiere'];
-if (motsFrais.some(m => texteComplet.toLowerCase().includes(m))) {
+if (motsFrais.some(m => message.toLowerCase().includes(m))) {
+contexteConversation.dernierSujet = 'frais';
 return await genererReponseFrais(eleveData);
 }
 
-const motsNotes = ['note', 'notes', 'résultat', 'résultats', 'bulletin', 'point', 'points', 'epreuve', 'epreuves', 'devoir', 'devoirs', 'interro', 'interrogation', 'matière', 'matières', 'cours', 'contrôle', 'évaluation', 'test', 'noté', 'notation', 'meilleure note'];
-if (motsNotes.some(m => texteComplet.includes(m))) {
-const section = eleveData.section;
-if (section === "SECONDAIRE") {
-return await genererReponseNotes(eleveData);
-} else {
-return `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}.`;
+const motsNotes = ['note', 'notes', 'résultat', 'résultats', 'bulletin', 'point', 'points', 'epreuve', 'epreuves', 'devoir', 'devoirs', 'interro', 'interrogation', 'matière', 'matières', 'cours', 'contrôle', 'évaluation', 'test', 'examen', 'exercice', 'pratique', 'travaille pratique', 'travail en groupe', 'noté', 'notation', 'meilleure note'];
+if (motsNotes.some(m => message.toLowerCase().includes(m))) {
+if (section === "MATERNELLE" || section === "PRIMAIRE") {
+if (toutVu(eleveData)) {
+return `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
+return `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+}
+contexteConversation.dernierSujet = 'notes';
+return await genererReponseNotes(eleveData);
 }
 
 const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'comportement', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
-if (motsPunitions.some(m => texteComplet.includes(m))) {
-const section = eleveData.section;
-if (section === "SECONDAIRE") {
-return await genererReponsePunitions(eleveData);
-} else {
-return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}.`;
+if (motsPunitions.some(m => message.toLowerCase().includes(m))) {
+if (section === "MATERNELLE" || section === "PRIMAIRE") {
+if (toutVu(eleveData)) {
+return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
 }
+return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+}
+contexteConversation.dernierSujet = 'punitions';
+return await genererReponsePunitions(eleveData);
 }
 
 const motsPresence = ['présence', 'present', 'présent', 'absent', 'absence', 'assiduité', 'venir', 'viens', 'vient', 'venu', 'école', 'jour', 'aujourd\'hui', 'hier', 'semaine', 'retard', 'retards', 'ponctualité', 'cours'];
-if (motsPresence.some(m => texteComplet.includes(m))) {
+if (motsPresence.some(m => message.toLowerCase().includes(m))) {
+contexteConversation.dernierSujet = 'presence';
 return await genererReponsePresence(eleveData);
 }
 
 const motsAurevoir = ['au revoir', 'bye', 'bye bye', 'ciao', 'adieu', 'à bientôt', 'à plus', 'à tout à l\'heure', 'à demain', 'à la prochaine', 'bonne journée', 'bonne soirée', 'bonne nuit'];
-if (motsAurevoir.some(m => texteComplet.includes(m))) {
-return `Au revoir ! Passez une excellente journée.`;
+if (motsAurevoir.some(m => message.toLowerCase().includes(m))) {
+return `Au revoir ! Passez une excellente journée. N'hésitez pas à revenir pour consulter les informations de vos enfants.`;
 }
 
 const motsBonjour = ['bonjour', 'salut', 'coucou', 'hello', 'hey', 'yo', 'bonsoir', 'bjr', 'slt'];
-if (motsBonjour.some(m => texteComplet.includes(m))) {
+if (motsBonjour.some(m => message.toLowerCase().includes(m))) {
 return `Bonjour ! Je suis là à votre service. Que puis-je faire pour vous ?`;
 }
 
 const motsMerci = ['merci', 'remerciement', 'remettre', 'je vous remercie', 'je te remercie', 'merci beaucoup', 'merci infiniment', 'merci bien', 'merci pour tout'];
-if (motsMerci.some(m => texteComplet.includes(m))) {
+if (motsMerci.some(m => message.toLowerCase().includes(m))) {
 return `De rien, c'est un plaisir de vous aider.`;
 }
 
-const reponseHorsSujet = gererReponseHorsSujet(message);
-if (reponseHorsSujet) {
-return reponseHorsSujet;
+const motsEncore = ['encore', 'revoir', 'affiche', 'montre', 'redemande', 'encore une fois'];
+if (motsEncore.some(m => message.toLowerCase().includes(m))) {
+if (contexteConversation.dernierSujet) {
+switch(contexteConversation.dernierSujet) {
+case 'notes': return await genererReponseNotes(eleveData);
+case 'frais': return await genererReponseFrais(eleveData);
+case 'punitions': return await genererReponsePunitions(eleveData);
+case 'presence': return await genererReponsePresence(eleveData);
+default: return `Voulez-vous voir les frais, les notes ou les punitions ?`;
+}
+}
+return `Voulez-vous voir les frais, les notes ou les punitions ?`;
+}
+
+if (toutVu(eleveData)) {
+let reponse = `Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+if (listeElevesComplets.length > 1) {
+reponse += ` Tapez "suivant" pour passer au prochain enfant.`;
+}
+return reponse;
 }
 
 return await genererReponseNaturelle(message, eleveData);
@@ -1902,7 +1997,7 @@ return await genererReponseNaturelle(message, eleveData);
 
 const h = new Date().getHours();
 const salutation = h < 12 ? "Bonjour" : (h < 18 ? "Bon après-midi" : "Bonsoir");
-return `${salutation} ! Entrez votre code parent à 4, 6 ou 8 chiffres. Si vous n'en avez pas, contactez la comptabilité de l'école ${nomEcole}.`;
+return `${salutation} ! Entrez votre code parent à 4 ou 6 chiffres. Si vous n'en avez pas, contactez la comptabilité de l'école ${nomEcole}.`;
 }
 
 function createTypingIndicator() {
@@ -1941,6 +2036,27 @@ const schoolSubElement = document.querySelector('.school-sub');
 if (schoolNameElement) schoolNameElement.textContent = `COMPLEXE SCOLAIRE ${schoolNameForDisplay}`;
 if (schoolSubElement) schoolSubElement.textContent = `Année scolaire 2026-2027`;
 
+await chargerLogoParental();
+
+// ✅ 3 clics sur TOUT le header pour rediriger
+const schoolHeader = document.querySelector('.school-header');
+if (schoolHeader) {
+    schoolHeader.addEventListener('click', function(e) {
+        if (e.target.closest('.header-logo')) return;
+        clickCountSchool++;
+        if (clickTimerSchool) clearTimeout(clickTimerSchool);
+        clickTimerSchool = setTimeout(() => {
+            clickCountSchool = 0;
+        }, 3000);
+        if (clickCountSchool >= 3) {
+            clickCountSchool = 0;
+            clearTimeout(clickTimerSchool);
+            const nomEcole = schoolId || 'default';
+            window.location.href = `https://www.netubex.com/schooling?ecole=${nomEcole}`;
+        }
+    });
+}
+
 const parentModalOverlayNew = document.getElementById('parentModalOverlay');
 const parentFloatingBtnNew = document.getElementById('parentFloatingBtn');
 const closeParentModalNew = document.getElementById('closeParentModal');
@@ -1956,6 +2072,8 @@ parentModalOverlayNew.classList.add('active');
 document.body.style.overflow = 'hidden';
 reponseCache.clear();
 listeElevesComplets = [];
+historiqueSections = {};
+contexteConversation = { dernierSujet: null, questionsPosees: [], codeParent: null };
 
 const dernierComm = await getDernierCommunique();
 let messageComm = '';
@@ -1965,16 +2083,20 @@ const prioLabel = dernierComm.priorite === 'haute' ? 'Haute priorité' : (dernie
 messageComm = `<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:14px 16px;margin:8px 0;"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-size:20px;">📢</span><span style="font-weight:700;color:#ffd700;font-size:15px;">${escapeHtml(dernierComm.titre)}</span><span style="font-size:11px;color:#94a3b8;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:30px;">${prioEmoji} ${prioLabel}</span><span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,0.1);padding:2px 12px;border-radius:30px;">📅 ${dernierComm.statut}</span></div><div style="color:#e2e8f0;font-size:14px;margin-top:8px;line-height:1.6;">${escapeHtml(dernierComm.contenu)}</div><div style="font-size:10px;color:#64748b;margin-top:6px;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;">Publié par la Direction</div></div>`;
 }
 
-parentChatMessagesNew.innerHTML = `<div class="parent-msg bot"><div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;"><div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">ÉCOLE ${nomEcole}</div>${messageComm}<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">Entrez votre code parent à 4 ou 6 chiffres</div><div style="color:#fbbf24;font-size:16px;background:rgba(245,158,11,0.1);border-radius:10px;padding:10px 14px;border:1px solid rgba(245,158,11,0.2);">Si vous n'avez pas de code, contactez la comptabilité</div><div style="color:#64748b;font-size:13px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">Service du lundi au dimanche</div></div></div>`;
+parentChatMessagesNew.innerHTML = `<div class="parent-msg bot"><div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;"><div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">ÉCOLE ${nomEcole}</div>${messageComm}<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">Entrez votre code parent</div><div style="color:#fbbf24;font-size:16px;background:rgba(245,158,11,0.1);border-radius:10px;padding:10px 14px;border:1px solid rgba(245,158,11,0.2);">Si vous n'avez pas de code, contactez la comptabilité</div><div style="color:#64748b;font-size:13px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">Service du lundi au dimanche</div></div></div>`;
 
 parentInfoEleveNew.innerHTML = `ÉCOLE ${nomEcole}`;
 parentQuestionInputNew.value = '';
 parentQuestionInputNew.focus();
 
 if (dernierComm) {
-setTimeout(() => { voixParentale(`Bienvenue à l'école ${nomEcole}. Communiqué : ${dernierComm.titre}. ${dernierComm.contenu}. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); }, 800);
+setTimeout(() => { 
+    voixParentale(`Bienvenue à l'école ${nomEcole}. Communiqué : ${dernierComm.titre}. ${dernierComm.contenu}. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
+}, 800);
 } else {
-setTimeout(() => { voixParentale(`Bienvenue à l'école ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); }, 800);
+setTimeout(() => { 
+    voixParentale(`Bienvenue à l'école ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
+}, 800);
 }
 };
 }
