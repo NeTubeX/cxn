@@ -202,6 +202,17 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 #tabPresences .coming-soon h2{font-size:24px;font-weight:800;color:#1a2332;margin-bottom:8px}
 #tabPresences .coming-soon p{font-size:14px;color:#6b7280;max-width:400px;line-height:1.6}
 #tabPresences .coming-soon .badge{display:inline-block;background:#fef3c7;color:#d97706;padding:4px 16px;border-radius:30px;font-size:11px;font-weight:600;margin-top:12px}
+#tabDocuments .documents-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:20px}
+#tabDocuments .doc-card{background:#f8fafc;border-radius:14px;padding:20px;border:1px solid #e2e6ea;text-align:center;transition:all 0.2s}
+#tabDocuments .doc-card:hover{transform:translateY(-3px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+#tabDocuments .doc-card .icon{font-size:32px;color:#2563eb;margin-bottom:8px}
+#tabDocuments .doc-card h4{font-size:14px;font-weight:700;color:#1a2332}
+#tabDocuments .doc-card p{font-size:11px;color:#6b7280;margin-top:4px}
+#tabDocuments .depot-section{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:#f8fafc;border-radius:14px;border:1px solid #e2e6ea}
+#tabDocuments .depot-section .icon{font-size:48px;color:#2563eb;margin-bottom:16px;opacity:0.3}
+#tabDocuments .depot-section h3{font-size:18px;font-weight:700;color:#1a2332;margin-bottom:6px}
+#tabDocuments .depot-section p{font-size:14px;color:#6b7280;max-width:500px;line-height:1.6}
+#tabDocuments .depot-section .badge{display:inline-block;background:#fef3c7;color:#d97706;padding:4px 16px;border-radius:30px;font-size:11px;font-weight:600;margin-top:12px}
 #tabEleves .eleves-wrapper{display:flex;flex-direction:column;gap:20px}
 #tabEleves .form-section{background:#f8fafc;border-radius:16px;padding:20px 24px;border:1px solid #e2e6ea}
 #tabEleves .form-section .section-title{font-size:13px;font-weight:700;color:#1a2332;display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -339,6 +350,12 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 .dark-mode #tabPresences .coming-soon h2{color:#e6edf3}
 .dark-mode #tabPresences .coming-soon p{color:#8b949e}
 .dark-mode #tabPresences .coming-soon .badge{background:#1c2a3a;color:#58a6ff}
+.dark-mode #tabDocuments .doc-card{background:#1c2333;border-color:#30363d}
+.dark-mode #tabDocuments .doc-card h4{color:#e6edf3}
+.dark-mode #tabDocuments .doc-card p{color:#8b949e}
+.dark-mode #tabDocuments .depot-section{background:#1c2333;border-color:#30363d}
+.dark-mode #tabDocuments .depot-section h3{color:#e6edf3}
+.dark-mode #tabDocuments .depot-section p{color:#8b949e}
 .dark-mode #tabEleves .form-section{background:#1c2333;border-color:#30363d}
 .dark-mode #tabEleves .form-section .section-title{color:#e6edf3}
 .dark-mode #tabEleves .form-group label{color:#8b949e}
@@ -378,38 +395,39 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <div class="school-name">COMPLEXE SCOLAIRE <span id="schoolNameSpan"></span></div>
 <div class="school-sub">Année scolaire 2026-2027</div>
 </div>
-<button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+<button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> DÉCONNEXION</button>
 </div>
 <div class="tabs-container">
 <div class="tabs">
-<button class="tab active" data-tab="tabStats"><i class="fas fa-chart-bar"></i> Statistiques</button>
-<button class="tab" data-tab="tabPunitions"><i class="fas fa-gavel"></i> Punitions</button>
-<button class="tab" data-tab="tabProfesseurs"><i class="fas fa-chalkboard-teacher"></i> Professeurs</button>
-<button class="tab" data-tab="tabEleves"><i class="fas fa-user-graduate"></i> Élèves</button>
-<button class="tab" data-tab="tabPresences"><i class="fas fa-clock"></i> Présences</button>
-<button class="tab" data-tab="tabCommuniques"><i class="fas fa-bullhorn"></i> Communiqués</button>
-<button class="tab" data-tab="tabReco"><i class="fas fa-headset"></i> Reco</button>
-<button class="tab" data-tab="tabSettings"><i class="fas fa-cog"></i> Paramètres</button>
-<button class="tab" id="darkModeBtn"><i class="fas fa-moon"></i> Thème</button>
+<button class="tab active" data-tab="tabStats"><i class="fas fa-chart-bar"></i> STATISTIQUES</button>
+<button class="tab" data-tab="tabPunitions"><i class="fas fa-gavel"></i> PUNITIONS</button>
+<button class="tab" data-tab="tabProfesseurs"><i class="fas fa-chalkboard-teacher"></i> PROFESSEURS</button>
+<button class="tab" data-tab="tabEleves"><i class="fas fa-user-graduate"></i> ÉLÈVES</button>
+<button class="tab" data-tab="tabPresences"><i class="fas fa-clock"></i> PRÉSENCES</button>
+<button class="tab" data-tab="tabDocuments"><i class="fas fa-file-alt"></i> DOCUMENTS PÉDAGOGIQUES</button>
+<button class="tab" data-tab="tabCommuniques"><i class="fas fa-bullhorn"></i> COMMUNIQUÉS</button>
+<button class="tab" data-tab="tabReco"><i class="fas fa-headset"></i> RECO</button>
+<button class="tab" data-tab="tabSettings"><i class="fas fa-cog"></i> PARAMÈTRES</button>
+<button class="tab" id="darkModeBtn"><i class="fas fa-moon"></i> THÈME</button>
 </div>
 </div>
 <div id="tabStats" class="tab-content active">
 <div class="card">
-<div class="card-header"><i class="fas fa-chart-bar"></i> Statistiques générales</div>
+<div class="card-header"><i class="fas fa-chart-bar"></i> STATISTIQUES GÉNÉRALES</div>
 <div class="card-body">
 <div class="stats-grid">
 <div class="stat-card">
-<div class="stat-label">Total Professeurs</div>
+<div class="stat-label">TOTAL PROFESSEURS</div>
 <div class="stat-value" id="statTotalProfs">0</div>
 <div class="stat-sub">👨‍🏫 Enseignants actifs</div>
 </div>
 <div class="stat-card green">
-<div class="stat-label">Fiches créées</div>
+<div class="stat-label">FICHES CRÉÉES</div>
 <div class="stat-value" id="statTotalFiches">0</div>
 <div class="stat-sub">📄 Fiches de cotation</div>
 </div>
 <div class="stat-card red">
-<div class="stat-label">Fiches en corbeille</div>
+<div class="stat-label">FICHES EN CORBEILLE</div>
 <div class="stat-value" id="statTotalCorbeille">0</div>
 <div class="stat-sub">🗑️ En attente de restauration</div>
 </div>
@@ -419,12 +437,12 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 </div>
 <div id="tabPunitions" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-gavel"></i> Gestion des punitions</div>
+<div class="card-header"><i class="fas fa-gavel"></i> GESTION DES PUNITIONS</div>
 <div class="card-body">
 <div class="filter-row">
-<div class="filter-group"><label>Classe</label><select id="punitionClasseSelect"><option value="">Toutes</option><option value="7ème EB">7ème EB</option><option value="8ème EB">8ème EB</option><option value="1ère Année">1ère Année</option><option value="2ème Année">2ème Année</option><option value="3ème Année">3ème Année</option><option value="4ème Année">4ème Année</option></select></div>
-<div class="filter-group"><label>Eleve</label><select id="punitionEleveSelect"><option value="">Tous</option></select></div>
-<button class="btn btn-sm btn-warning" id="addPunitionBtn"><i class="fas fa-plus"></i> Ajouter</button>
+<div class="filter-group"><label>CLASSE</label><select id="punitionClasseSelect"><option value="">TOUTES</option><option value="7ème EB">7ÈME EB</option><option value="8ème EB">8ÈME EB</option><option value="1ère Année">1ÈRE ANNÉE</option><option value="2ème Année">2ÈME ANNÉE</option><option value="3ème Année">3ÈME ANNÉE</option><option value="4ème Année">4ÈME ANNÉE</option></select></div>
+<div class="filter-group"><label>ÉLÈVE</label><select id="punitionEleveSelect"><option value="">TOUS</option></select></div>
+<button class="btn btn-sm btn-warning" id="addPunitionBtn"><i class="fas fa-plus"></i> AJOUTER</button>
 </div>
 <div id="punitionForm" class="punition-form">
 <div class="form-row">
@@ -432,8 +450,8 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <textarea id="punitionJustification" placeholder="Justification détaillée..." rows="2"></textarea>
 </div>
 <div class="form-actions">
-<button class="btn btn-sm btn-outline" id="cancelPunitionBtn">Annuler</button>
-<button class="btn btn-sm btn-success" id="savePunitionBtn"><i class="fas fa-check"></i> Valider</button>
+<button class="btn btn-sm btn-outline" id="cancelPunitionBtn">ANNULER</button>
+<button class="btn btn-sm btn-success" id="savePunitionBtn"><i class="fas fa-check"></i> VALIDER</button>
 </div>
 </div>
 <div id="punitionsListContainer"><div class="empty-state" style="text-align:center;padding:24px;color:#6b7280;"><i class="fas fa-check-circle" style="font-size:24px;display:block;margin-bottom:6px;color:#e5e7eb;"></i><p>Aucune punition active</p></div></div>
@@ -442,16 +460,16 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 </div>
 <div id="tabProfesseurs" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-chalkboard-teacher"></i> Gestion des professeurs</div>
+<div class="card-header"><i class="fas fa-chalkboard-teacher"></i> GESTION DES PROFESSEURS</div>
 <div class="card-body">
 <div class="filter-row">
 <div class="filter-group" style="flex:1;min-width:150px;"><label>🔍</label><input type="text" id="searchProfInput" placeholder="Rechercher un professeur..." style="background:transparent;border:none;padding:8px 4px;color:#1a2332;font-size:13px;font-weight:400;outline:none;width:100%;font-family:'Inter',sans-serif;"></div>
-<button class="btn btn-success" id="addProfBtn"><i class="fas fa-plus"></i> Ajouter</button>
+<button class="btn btn-success" id="addProfBtn"><i class="fas fa-plus"></i> AJOUTER</button>
 <button class="btn btn-refresh btn-sm" id="refreshProfsBtn"><i class="fas fa-sync"></i></button>
 </div>
 <div id="profsListContainer"><div style="text-align:center;padding:20px;color:#9ca3af;">Chargement...</div></div>
 <div style="margin-top:16px;border-top:1px solid #e8ecf0;padding-top:16px;">
-<div class="card-header" style="background:transparent;padding:0 0 8px 0;border-bottom:none;font-size:13px;"><i class="fas fa-trash-alt" style="color:#dc2626;"></i> Corbeille</div>
+<div class="card-header" style="background:transparent;padding:0 0 8px 0;border-bottom:none;font-size:13px;"><i class="fas fa-trash-alt" style="color:#dc2626;"></i> CORBEILLE</div>
 <p style="font-size:11px;color:#6b7280;margin-bottom:10px;">Les fiches de cotation restent 15 jours avant suppression définitive</p>
 <div id="corbeilleList" style="max-height:280px;overflow-y:auto;"></div>
 </div>
@@ -461,8 +479,8 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <div id="tabEleves" class="tab-content">
 <div class="card">
 <div class="card-header">
-<i class="fas fa-user-graduate"></i> Gestion des élèves
-<span id="inscriptionStatusBadge" style="font-size:10px;padding:4px 12px;border-radius:30px;background:#fee2e2;color:#dc2626;font-weight:600;"><i class="fas fa-lock"></i> Désactivé</span>
+<i class="fas fa-user-graduate"></i> GESTION DES ÉLÈVES
+<span id="inscriptionStatusBadge" style="font-size:10px;padding:4px 12px;border-radius:30px;background:#fee2e2;color:#dc2626;font-weight:600;"><i class="fas fa-lock"></i> DÉSACTIVÉ</span>
 </div>
 <div class="card-body">
 <div class="eleves-wrapper">
@@ -478,7 +496,7 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <div class="list-section">
 <div class="list-header">
 <div class="title">
-<i class="fas fa-users"></i> Liste des élèves
+<i class="fas fa-users"></i> LISTE DES ÉLÈVES
 <span id="eleveCount"></span>
 </div>
 <div class="list-tools">
@@ -488,15 +506,15 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <button class="clear-btn" id="clearSearchBtn" style="display:none;">✕</button>
 </div>
 <select id="eleveFiltreClasse" disabled style="opacity:0.6;cursor:not-allowed;">
-<option value="">Toutes classes</option>
-<option value="7ème EB">7ème EB</option>
-<option value="8ème EB">8ème EB</option>
-<option value="1ère Année">1ère Année</option>
-<option value="2ème Année">2ème Année</option>
-<option value="3ème Année">3ème Année</option>
-<option value="4ème Année">4ème Année</option>
+<option value="">TOUTES CLASSES</option>
+<option value="7ème EB">7ÈME EB</option>
+<option value="8ème EB">8ÈME EB</option>
+<option value="1ère Année">1ÈRE ANNÉE</option>
+<option value="2ème Année">2ÈME ANNÉE</option>
+<option value="3ème Année">3ÈME ANNÉE</option>
+<option value="4ème Année">4ÈME ANNÉE</option>
 </select>
-<button class="btn btn-sm btn-outline" id="resetSearchBtn" disabled style="padding:4px 14px;opacity:0.6;cursor:not-allowed;">✕ Réinitialiser</button>
+<button class="btn btn-sm btn-outline" id="resetSearchBtn" disabled style="padding:4px 14px;opacity:0.6;cursor:not-allowed;">✕ RÉINITIALISER</button>
 </div>
 </div>
 <div id="elevesListContainer" class="eleves-grid">
@@ -513,49 +531,85 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 </div>
 <div id="tabPresences" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-clock"></i> Présences des professeurs</div>
+<div class="card-header"><i class="fas fa-clock"></i> PRÉSENCES DES PROFESSEURS</div>
 <div class="card-body">
 <div class="coming-soon">
 <div class="icon"><i class="fas fa-clock"></i></div>
-<h2>⏳ Bientôt disponible</h2>
+<h2>⏳ TRÈS BIENTÔT DISPONIBLE</h2>
 <p>La gestion des présences des professeurs sera disponible très bientôt. Cette fonctionnalité permettra de suivre les horaires d'arrivée et de départ des enseignants.</p>
-<div class="badge"><i class="fas fa-clock"></i> Prochainement</div>
+<div class="badge"><i class="fas fa-clock"></i> PROCHAINEMENT</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabDocuments" class="tab-content">
+<div class="card">
+<div class="card-header"><i class="fas fa-file-alt"></i> DOCUMENTS PÉDAGOGIQUES</div>
+<div class="card-body">
+<div class="documents-grid">
+<div class="doc-card">
+<div class="icon">📋</div>
+<h4>FICHES DE PRÉPARATION</h4>
+<p>Dépôt des fiches de cours par les enseignants</p>
+</div>
+<div class="doc-card">
+<div class="icon">📚</div>
+<h4>JOURNAL DE CLASSE</h4>
+<p>Suivi des activités quotidiennes</p>
+</div>
+<div class="doc-card">
+<div class="icon">📖</div>
+<h4>PROGRAMMES & RESSOURCES</h4>
+<p>Supports de cours et ressources éducatives</p>
+</div>
+<div class="doc-card">
+<div class="icon">📝</div>
+<h4>ÉVALUATIONS</h4>
+<p>Devoirs, interrogations et examens</p>
+</div>
+</div>
+<div class="depot-section">
+<div class="icon"><i class="fas fa-upload"></i></div>
+<h3>📤 DÉPÔT DES DOCUMENTS</h3>
+<p>Les enseignants pourront déposer leurs <strong>fiches de préparation</strong>, <strong>journaux de classe</strong> et autres documents pédagogiques.</p>
+<div class="badge"><i class="fas fa-clock"></i> TRÈS BIENTÔT DISPONIBLE</div>
 </div>
 </div>
 </div>
 </div>
 <div id="tabCommuniques" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-bullhorn"></i> Gestion des communiqués</div>
+<div class="card-header"><i class="fas fa-bullhorn"></i> GESTION DES COMMUNIQUÉS</div>
 <div class="card-body">
 <div class="communique-form">
 <div class="form-grid">
 <div class="form-group">
-<label>Titre du communiqué</label>
+<label>TITRE DU COMMUNIQUÉ</label>
 <input type="text" id="commTitre" placeholder="Ex: Réunion parents-professeurs">
 </div>
 <div class="form-group">
-<label>Priorité</label>
+<label>PRIORITÉ</label>
 <select id="commPriorite">
-<option value="basse">🟢 Basse</option>
-<option value="moyenne" selected>🟡 Moyenne</option>
-<option value="haute">🔴 Haute</option>
+<option value="basse">🟢 BASSE</option>
+<option value="moyenne" selected>🟡 MOYENNE</option>
+<option value="haute">🔴 HAUTE</option>
 </select>
 </div>
 </div>
 <div class="form-group" style="grid-column:1/-1;margin-top:8px;">
-<label>Contenu du communiqué</label>
+<label>CONTENU DU COMMUNIQUÉ</label>
 <textarea id="commContenu" rows="4" placeholder="Détail du communiqué..."></textarea>
 </div>
 <div class="form-actions">
-<button class="btn btn-outline" id="annulerCommBtn"><i class="fas fa-times"></i> Annuler</button>
-<button class="btn btn-success" id="publierCommBtn"><i class="fas fa-paper-plane"></i> Publier</button>
+<button class="btn btn-outline" id="annulerCommBtn"><i class="fas fa-times"></i> ANNULER</button>
+<button class="btn btn-success" id="publierCommBtn"><i class="fas fa-paper-plane"></i> PUBLIER</button>
 </div>
 </div>
 <div id="commListe">
-<div class="empty-state" style="text-align:center;padding:20px;color:#6b7280;">
-<i class="fas fa-bullhorn" style="font-size:24px;display:block;margin-bottom:6px;color:#e5e7eb;"></i>
-<p>Aucun communiqué publié</p>
+<div style="text-align:center;padding:30px 20px;color:#6b7280;">
+<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
+<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
+<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
 </div>
 </div>
 </div>
@@ -565,7 +619,7 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <div class="card">
 <div class="reco-header">
 <button class="reco-back-btn" id="recoBackBtn"><i class="fas fa-arrow-left"></i></button>
-<div class="reco-header-info"><div class="reco-header-title">Support NeTubeX</div><div class="reco-header-sub">Améliorations, corrections, suppressions ou nouveautés</div></div>
+<div class="reco-header-info"><div class="reco-header-title">SUPPORT NETUBEX</div><div class="reco-header-sub">Améliorations, corrections, suppressions ou nouveautés</div></div>
 <div class="reco-header-avatar"><i class="fas fa-headset"></i></div>
 </div>
 <div class="reco-input-area">
@@ -592,13 +646,13 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 </div>
 <div id="tabSettings" class="tab-content">
 <div class="card">
-<div class="card-header"><i class="fas fa-cog"></i> Paramètres</div>
+<div class="card-header"><i class="fas fa-cog"></i> PARAMÈTRES</div>
 <div class="card-body">
 <div class="settings-card">
-<div class="card-title"><i class="fas fa-key"></i> Code d'accès</div>
+<div class="card-title"><i class="fas fa-key"></i> CODE D'ACCÈS</div>
 <div class="card-desc">Pour modifier votre code d'accès, veuillez contacter l'équipe support</div>
 <div class="code-display">
-<div class="label">Code actuel</div>
+<div class="label">CODE ACTUEL</div>
 <div class="value" id="currentCodeDisplay">••••••</div>
 <div class="sub">Dernière modification : <span id="lastCodeChange">Jamais</span></div>
 </div>
@@ -610,7 +664,7 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <div id="settingsError" style="color:#dc2626;font-size:12px;margin-top:8px;min-height:18px;text-align:center;"></div>
 </div>
 <div class="settings-card" style="background:linear-gradient(135deg,#dbeafe,#eff6ff);border-color:#93c5fd;">
-<div class="card-title"><i class="fas fa-shield-alt"></i> Sécurité</div>
+<div class="card-title"><i class="fas fa-shield-alt"></i> SÉCURITÉ</div>
 <div class="card-desc">Le code est sauvegardé et partagé sur tous vos appareils</div>
 <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#1e40af;">
 <span>🔒 Code sécurisé</span>
@@ -630,7 +684,7 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 <script type="module">
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, where, onSnapshot, addDoc, deleteDoc, updateDoc, orderBy } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword } from "firebase/auth";
 const firebaseConfig = {
 apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
 authDomain: "gesco-67c43.firebaseapp.com",
@@ -696,7 +750,7 @@ return overlay;
 }
 function showPrompt(title,message,placeholder,callback,extraInputs) {
 let extraHtml = extraInputs || '';
-const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;margin-bottom:12px;">${message}</p><input type="text" id="modalInput" placeholder="${placeholder}" style="width:100%;padding:10px 14px;border-radius:12px;background:#f8fafc;border:2px solid #e2e6ea;color:#1a2332;font-size:13px;outline:none;font-family:'Inter',sans-serif;margin-bottom:8px;">${extraHtml}`,'<button class="btn btn-sm btn-outline" id="promptCancel">Annuler</button><button class="btn btn-sm btn-success" id="promptConfirm">Confirmer</button>');
+const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;margin-bottom:12px;">${message}</p><input type="text" id="modalInput" placeholder="${placeholder}" style="width:100%;padding:10px 14px;border-radius:12px;background:#f8fafc;border:2px solid #e2e6ea;color:#1a2332;font-size:13px;outline:none;font-family:'Inter',sans-serif;margin-bottom:8px;">${extraHtml}`,'<button class="btn btn-sm btn-outline" id="promptCancel">ANNULER</button><button class="btn btn-sm btn-success" id="promptConfirm">CONFIRMER</button>');
 m.querySelector('#promptCancel').onclick=()=>m.remove();
 m.querySelector('#promptConfirm').onclick=()=>{
 const val=m.querySelector('#modalInput')?.value || '';
@@ -707,15 +761,15 @@ if(callback) callback(val, sexe);
 setTimeout(()=>{const inp=m.querySelector('#modalInput');if(inp)inp.focus()},100);
 }
 function showConfirm(title,message,onConfirm){
-const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;line-height:1.6;">${message}</p>`,'<button class="btn btn-sm btn-outline" id="confirmCancel">Annuler</button><button class="btn btn-sm btn-danger" id="confirmOk">Confirmer</button>');
+const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;line-height:1.6;">${message}</p>`,'<button class="btn btn-sm btn-outline" id="confirmCancel">ANNULER</button><button class="btn btn-sm btn-danger" id="confirmOk">CONFIRMER</button>');
 m.querySelector('#confirmCancel').onclick=()=>m.remove();
 m.querySelector('#confirmOk').onclick=()=>{m.remove();if(onConfirm)onConfirm()};
 }
 function showValidationPopUp(titre, contenu, priorite, onConfirm) {
 const prioriteLabels = {
-'haute': { label: '🔴 Haute', color: '#dc2626', bg: '#fef2f2' },
-'moyenne': { label: '🟡 Moyenne', color: '#d97706', bg: '#fffbeb' },
-'basse': { label: '🟢 Basse', color: '#059669', bg: '#f0fdf4' }
+'haute': { label: '🔴 HAUTE', color: '#dc2626', bg: '#fef2f2' },
+'moyenne': { label: '🟡 MOYENNE', color: '#d97706', bg: '#fffbeb' },
+'basse': { label: '🟢 BASSE', color: '#059669', bg: '#f0fdf4' }
 };
 const pInfo = prioriteLabels[priorite] || prioriteLabels['moyenne'];
 const bodyHTML = `
@@ -736,8 +790,8 @@ ${escapeHtml(contenu)}
 </div>
 </div>
 `;
-const footerHTML = `<button class="btn btn-sm btn-outline" id="cancelPopUp">Annuler</button><button class="btn btn-sm btn-success" id="confirmPopUp"><i class="fas fa-paper-plane"></i> Publier</button>`;
-const m = showModalSlideUp('Publier le communiqué ?', bodyHTML, footerHTML);
+const footerHTML = `<button class="btn btn-sm btn-outline" id="cancelPopUp">ANNULER</button><button class="btn btn-sm btn-success" id="confirmPopUp"><i class="fas fa-paper-plane"></i> PUBLIER</button>`;
+const m = showModalSlideUp('PUBLIER LE COMMUNIQUÉ ?', bodyHTML, footerHTML);
 m.querySelector('#cancelPopUp').onclick=()=>m.remove();
 m.querySelector('#confirmPopUp').onclick=()=>{m.remove();if(onConfirm)onConfirm();};
 }
@@ -867,17 +921,17 @@ let html = '<div class="prof-cards">';
 filtered.forEach((p, index) => {
 const estActif = p.actif !== false;
 const sexe = p.sexe || 'M';
-const sexeLabel = sexe === 'F' ? '👩 Femme' : '👨 Homme';
+const sexeLabel = sexe === 'F' ? '👩 FEMME' : '👨 HOMME';
 const statusClass = estActif ? 'actif' : 'inactif';
-const statusLabel = estActif ? 'Actif' : 'Inactif';
+const statusLabel = estActif ? 'ACTIF' : 'INACTIF';
 html += `<div class="prof-card">
 <span class="prof-numero">#${index + 1}</span>
 <span class="prof-nom">${escapeHtml(p.nom)}</span>
 <span class="prof-sex">${sexeLabel}</span>
-<span class="prof-code">${p.actif===false?'🔒 Désactivé':'🔓 Actif'}</span>
+<span class="prof-code">${p.actif===false?'🔒 DÉSACTIVÉ':'🔓 ACTIF'}</span>
 <span class="prof-status ${statusClass}">${statusLabel}</span>
 <button onclick="window.toggleProfActif('${p.id}')" class="btn btn-sm ${estActif ? 'btn-danger' : 'btn-success'}" style="padding:4px 14px;font-size:10px;">
-${estActif ? '⛔ Désactiver' : '✅ Réactiver'}
+${estActif ? '⛔ DÉSACTIVER' : '✅ RÉACTIVER'}
 </button>
 </div>`;
 });
@@ -885,7 +939,7 @@ html += '</div>';
 c.innerHTML = html;
 }
 window.toggleProfActif = async function(id) {
-showConfirm('Changer le statut', 'Voulez-vous changer le statut de ce professeur ?', async () => {
+showConfirm('CHANGER LE STATUT', 'Voulez-vous changer le statut de ce professeur ?', async () => {
 try {
 const docRef = doc(db, "ecoles", ECOLET_ID, SC.PROFESSEURS, id);
 const snap = await getDoc(docRef);
@@ -914,14 +968,14 @@ afficherProfs(profs);
 document.getElementById('addProfBtn').onclick = function() {
 const extraHtml = `
 <div style="margin-top:8px;">
-<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:3px;">Sexe</label>
+<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:3px;">SEXE</label>
 <select id="modalSexe" style="width:100%;padding:10px 14px;border-radius:12px;background:#f8fafc;border:2px solid #e2e6ea;color:#1a2332;font-size:13px;outline:none;font-family:'Inter',sans-serif;">
-<option value="M">👨 Homme</option>
-<option value="F">👩 Femme</option>
+<option value="M">👨 HOMME</option>
+<option value="F">👩 FEMME</option>
 </select>
 </div>
 `;
-showPrompt('Ajouter un professeur', 'Entrez le nom complet du professeur', 'Nom complet', async (nom, sexe) => {
+showPrompt('AJOUTER UN PROFESSEUR', 'Entrez le nom complet du professeur', 'Nom complet', async (nom, sexe) => {
 if(!nom || !nom.trim()) { toast('❌ Veuillez entrer un nom', 'error'); return; }
 const code = genererCodeAcces();
 const pid = 'prof_' + Date.now();
@@ -955,9 +1009,9 @@ const bodyHTML = `
 <div style="text-align:center;">
 <div style="font-size:48px;margin-bottom:8px;">👨‍🏫</div>
 <p style="font-weight:600;font-size:18px;color:#1a2332;">${escapeHtml(nomTrim)}</p>
-<p style="font-size:13px;color:#6b7280;margin:4px 0 12px 0;">${sexeValue === 'F' ? '👩 Femme' : '👨 Homme'}</p>
+<p style="font-size:13px;color:#6b7280;margin:4px 0 12px 0;">${sexeValue === 'F' ? '👩 FEMME' : '👨 HOMME'}</p>
 <div style="background:#f0fdf4;border-radius:12px;padding:16px;border:2px solid #059669;margin:8px 0;">
-<div style="font-size:11px;font-weight:600;color:#059669;">🔑 Code d'accès du professeur</div>
+<div style="font-size:11px;font-weight:600;color:#059669;">🔑 CODE D'ACCÈS DU PROFESSEUR</div>
 <div style="font-size:32px;font-weight:800;letter-spacing:6px;color:#059669;font-family:monospace;margin:4px 0;">${code}</div>
 </div>
 <div style="background:#fef3c7;border-radius:8px;padding:10px;margin:12px 0;border:1px solid #fde68a;">
@@ -965,7 +1019,7 @@ const bodyHTML = `
 </div>
 </div>
 `;
-showModalSlideUp('✅ Professeur ajouté', bodyHTML, '<button class="btn btn-sm btn-primary" onclick="this.closest(\'.modal-slide-up\').remove()">Fermer</button>');
+showModalSlideUp('✅ PROFESSEUR AJOUTÉ', bodyHTML, '<button class="btn btn-sm btn-primary" onclick="this.closest(\'.modal-slide-up\').remove()">FERMER</button>');
 chargerProfs().then(p => afficherProfs(p));
 } catch(e) { toast('❌ Erreur: '+e.message, 'error'); }
 }, extraHtml);
@@ -1002,7 +1056,7 @@ punitions.sort((a,b) => new Date(b.date) - new Date(a.date));
 punitions.forEach(p => {
 const df = new Date(p.date).toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric'});
 const gc = p.gravite === 'grave' ? 'grave' : p.gravite === 'moyenne' ? 'moyenne' : 'legere';
-html += `<div class="punition-item"><div class="info"><span class="nom">${escapeHtml(p.eleveNom)}</span><span class="classe-tag">${escapeHtml(p.classe||'')}</span><span class="motif">${escapeHtml(p.motif)}</span><span class="date"><i class="far fa-calendar-alt"></i> ${df}</span><span class="gravite ${gc}">${p.gravite==='grave'?'Grave':p.gravite==='moyenne'?'Moyenne':'Légère'}</span></div><div class="punition-actions"><button onclick="window.annulerPunition('${p.id}')"><i class="fas fa-times"></i> Annuler</button></div></div>`;
+html += `<div class="punition-item"><div class="info"><span class="nom">${escapeHtml(p.eleveNom)}</span><span class="classe-tag">${escapeHtml(p.classe||'')}</span><span class="motif">${escapeHtml(p.motif)}</span><span class="date"><i class="far fa-calendar-alt"></i> ${df}</span><span class="gravite ${gc}">${p.gravite==='grave'?'GRAVE':p.gravite==='moyenne'?'MOYENNE':'LÉGÈRE'}</span></div><div class="punition-actions"><button onclick="window.annulerPunition('${p.id}')"><i class="fas fa-times"></i> ANNULER</button></div></div>`;
 });
 container.innerHTML = html;
 } catch(e) {
@@ -1010,7 +1064,7 @@ container.innerHTML = '<div style="text-align:center;padding:16px;color:#dc2626;
 }
 }
 window.annulerPunition = async function(id) {
-showConfirm('Annuler la punition', 'Voulez-vous vraiment annuler cette punition ?', async () => {
+showConfirm('ANNULER LA PUNITION', 'Voulez-vous vraiment annuler cette punition ?', async () => {
 try {
 const snap = await getDoc(doc(db, "ecoles", ECOLET_ID, SC.PUNITIONS, id));
 const data = snap.data();
@@ -1063,7 +1117,7 @@ const c = document.getElementById('punitionClasseSelect').value;
 const es = document.getElementById('punitionEleveSelect');
 if(!es) return;
 const cv = es.value;
-es.innerHTML = '<option value="">Tous</option>';
+es.innerHTML = '<option value="">TOUS</option>';
 try {
 const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.FICHES));
 const elevesSet = new Set();
@@ -1106,16 +1160,16 @@ c.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#9ca3af;fon
 return;
 }
 corbeille.sort((a, b) => (b.dateSuppression || 0) - (a.dateSuppression || 0));
-let html = `<div style="display:flex;flex-direction:column;gap:10px;padding:4px 0;"><div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:#f8fafc;border-radius:10px;font-size:11px;color:#6b7280;font-weight:600;border:1px solid #e8ecf0;"><span>📄 Fiche</span><span>⏳ Expiration</span><span style="text-align:right;">Action</span></div>`;
+let html = `<div style="display:flex;flex-direction:column;gap:10px;padding:4px 0;"><div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:#f8fafc;border-radius:10px;font-size:11px;color:#6b7280;font-weight:600;border:1px solid #e8ecf0;"><span>📄 FICHE</span><span>⏳ EXPIRATION</span><span style="text-align:right;">ACTION</span></div>`;
 for (const f of corbeille) {
 const dateSupp = f.dateSuppression ? new Date(f.dateSuppression) : new Date();
 const dateExpiration = new Date(dateSupp);
 dateExpiration.setDate(dateExpiration.getDate() + 30);
 const joursRestants = Math.ceil((dateExpiration - new Date()) / (1000 * 60 * 60 * 24));
 let statutCouleur = '#10b981';
-let statutTexte = `${joursRestants} jour(s)`;
-if (joursRestants <= 5) { statutCouleur = '#dc2626'; statutTexte = `⚠️ ${joursRestants} jour(s)`; }
-else if (joursRestants <= 10) { statutCouleur = '#f59e0b'; statutTexte = `⚡ ${joursRestants} jour(s)`; }
+let statutTexte = `${joursRestants} JOUR(S)`;
+if (joursRestants <= 5) { statutCouleur = '#dc2626'; statutTexte = `⚠️ ${joursRestants} JOUR(S)`; }
+else if (joursRestants <= 10) { statutCouleur = '#f59e0b'; statutTexte = `⚡ ${joursRestants} JOUR(S)`; }
 const refNum = f.numeroRef ? 'F' + String(f.numeroRef).padStart(3, '0') : '???';
 const cours = f.cours || 'Sans cours';
 const classe = f.classe || '?';
@@ -1133,10 +1187,10 @@ html += `<div style="background:#ffffff;border-radius:12px;padding:12px 16px;bor
 <div style="display:flex;gap:6px;">
 <select id="restaureProf_${f.id}" style="padding:5px 10px;border-radius:30px;background:#f8fafc;color:#1a2332;border:1px solid #e2e6ea;font-size:11px;cursor:pointer;outline:none;">
 <option value="${f.profId}">👨‍🏫 ${escapeHtml(profNom)}</option>
-<option value="autre">🔄 Autre prof</option>
-<option value="nouveau">➕ Nouveau prof</option>
+<option value="autre">🔄 AUTRE PROF</option>
+<option value="nouveau">➕ NOUVEAU PROF</option>
 </select>
-<button onclick="window.confirmerRestauration('${f.id}')" style="background:#059669;color:white;border:none;padding:5px 16px;border-radius:30px;font-size:11px;font-weight:600;cursor:pointer;">🔄 Restaurer</button>
+<button onclick="window.confirmerRestauration('${f.id}')" style="background:#059669;color:white;border:none;padding:5px 16px;border-radius:30px;font-size:11px;font-weight:600;cursor:pointer;">🔄 RESTAURER</button>
 </div>
 </div>
 </div>`;
@@ -1148,7 +1202,7 @@ c.innerHTML = `<div style="text-align:center;padding:20px;color:#dc2626;font-siz
 }
 }
 window.confirmerRestauration = function(ficheId) {
-showConfirm('🔄 Restaurer la fiche de cotation', 'Voulez-vous vraiment restaurer cette <strong>fiche de cotation</strong> ?<br><br>La fiche sera remise dans l\'espace du professeur sélectionné.<br>Les données (élèves, notes, épreuves) seront conservées.', function() {
+showConfirm('🔄 RESTAURER LA FICHE DE COTATION', 'Voulez-vous vraiment restaurer cette <strong>fiche de cotation</strong> ?<br><br>La fiche sera remise dans l\'espace du professeur sélectionné.<br>Les données (élèves, notes, épreuves) seront conservées.', function() {
 window.restaurerFicheCorbeille(ficheId);
 });
 };
@@ -1163,7 +1217,7 @@ const choix = select ? select.value : fiche.profId;
 let nouveauProfId = fiche.profId;
 let nouveauProfNom = fiche.professeurNom;
 if(choix === "nouveau") {
-showPrompt("Nom du nouveau professeur", "Nom complet du professeur", "Nom", async function(nouveauNom){
+showPrompt("NOM DU NOUVEAU PROFESSEUR", "Nom complet du professeur", "Nom", async function(nouveauNom){
 if(nouveauNom && nouveauNom.trim()) {
 const code = genererCodeAcces();
 const pid = 'prof_' + Date.now();
@@ -1186,7 +1240,7 @@ const snapProfs = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEU
 snapProfs.forEach(ds => { const d = ds.data(); if(d._type === 'prof') profs.push(d); });
 } catch(e) { toast('Erreur chargement profs', 'error'); return; }
 if(profs.length === 0) { toast('Aucun professeur disponible', 'error'); return; }
-showPrompt("Nom du professeur", "Entrez le nom du professeur", profs.map(p=>p.nom).join(', '), async function(reponse){
+showPrompt("NOM DU PROFESSEUR", "Entrez le nom du professeur", profs.map(p=>p.nom).join(', '), async function(reponse){
 if(reponse && reponse.trim()) {
 const profTrouve = profs.find(p => p.nom === reponse.trim() || p.id === reponse.trim());
 if(profTrouve) {
@@ -1247,7 +1301,7 @@ document.getElementById('statTotalCorbeille').textContent = totalCorbeille;
 } catch(e) {}
 }
 function initGestionEleves() {
-document.getElementById('inscriptionStatusBadge').innerHTML = '<i class="fas fa-lock"></i> Désactivé';
+document.getElementById('inscriptionStatusBadge').innerHTML = '<i class="fas fa-lock"></i> DÉSACTIVÉ';
 document.getElementById('inscriptionStatusBadge').style.background = '#fee2e2';
 document.getElementById('inscriptionStatusBadge').style.color = '#dc2626';
 }
@@ -1404,6 +1458,26 @@ clearTimeout(inactivityTimer);
 isActive = false;
 envoyerStatut(false);
 }
+async function nettoyerCommuniquesExpires() {
+try {
+const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"));
+const snap = await getDocs(q);
+const maintenant = new Date();
+let supprime = 0;
+snap.forEach(async (ds) => {
+const data = ds.data();
+const dateComm = new Date(data.date);
+const diffJours = Math.floor((maintenant - dateComm) / (1000 * 60 * 60 * 24));
+if (diffJours > 7) {
+await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id));
+supprime++;
+}
+});
+if (supprime > 0) {
+console.log(`🗑️ ${supprime} communiqué(s) expiré(s) supprimé(s)`);
+}
+} catch(e) {}
+}
 async function publierCommunique(titre, contenu, priorite) {
 try {
 await addDoc(collection(db, "ecoles", ECOLET_ID, "communiques"), {
@@ -1430,52 +1504,77 @@ if (!container) return;
 try {
 const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"), limit(20));
 const snap = await getDocs(q);
-if (snap.empty) {
-container.innerHTML = `<div class="empty-state" style="text-align:center;padding:20px;color:#6b7280;"><i class="fas fa-bullhorn" style="font-size:24px;display:block;margin-bottom:6px;color:#e5e7eb;"></i><p>Aucun communiqué publié</p></div>`;
-return;
-}
+const maintenant = new Date();
+let aDesCommuniques = false;
 let html = '';
 snap.forEach(ds => {
 const data = ds.data();
-const date = new Date(data.date);
-const dateFormatee = date.toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const dateComm = new Date(data.date);
+const diffJours = Math.floor((maintenant - dateComm) / (1000 * 60 * 60 * 24));
+if (diffJours > 7) {
+deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id)).catch(() => {});
+return;
+}
+aDesCommuniques = true;
+const dateFormatee = dateComm.toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
 const prioriteClasse = `priorite-${data.priorite || 'moyenne'}`;
-const prioriteLabel = {'haute':'🔴 Haute','moyenne':'🟡 Moyenne','basse':'🟢 Basse'}[data.priorite] || '🟡 Moyenne';
+const prioriteLabel = {'haute':'🔴 HAUTE','moyenne':'🟡 MOYENNE','basse':'🟢 BASSE'}[data.priorite] || '🟡 MOYENNE';
 const estActif = data.actif !== false;
 html += `<div class="communique-item ${prioriteClasse}">
 <div class="header">
 <span class="titre">${escapeHtml(data.titre)}</span>
 <span style="font-size:11px;color:#6b7280;background:#f1f3f5;padding:2px 12px;border-radius:30px;">${prioriteLabel}</span>
 <span class="date">📅 ${dateFormatee}</span>
-<span style="font-size:10px;padding:2px 12px;border-radius:30px;background:${estActif ? '#dcfce7' : '#fee2e2'};color:${estActif ? '#059669' : '#dc2626'};">${estActif ? '✅ Actif' : '❌ Inactif'}</span>
+<span style="font-size:10px;padding:2px 12px;border-radius:30px;background:${estActif ? '#dcfce7' : '#fee2e2'};color:${estActif ? '#059669' : '#dc2626'};">${estActif ? '✅ ACTIF' : '❌ INACTIF'}</span>
+<span style="font-size:9px;padding:2px 8px;border-radius:30px;background:#fef3c7;color:#d97706;">⏳ ${7 - diffJours} JOUR(S) RESTANT(S)</span>
 </div>
 <div class="contenu">${escapeHtml(data.contenu)}</div>
 <div class="actions">
-<button onclick="window.activerDesactiverComm('${ds.id}', ${!estActif})" class="btn btn-sm ${estActif ? 'btn-warning' : 'btn-success'}">${estActif ? '⛔ Désactiver' : '✅ Activer'}</button>
-<button onclick="window.supprimerComm('${ds.id}')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Supprimer</button>
+<button onclick="window.gererComm('${ds.id}', ${estActif})" class="btn btn-sm ${estActif ? 'btn-warning' : 'btn-success'}">
+${estActif ? '⛔ DÉSACTIVER' : '✅ ACTIVER'}
+</button>
 </div>
 </div>`;
 });
+if (!aDesCommuniques) {
+container.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#6b7280;">
+<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
+<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
+<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
+</div>`;
+return;
+}
 container.innerHTML = html;
 } catch(e) {
-container.innerHTML = `<div style="text-align:center;padding:20px;color:#dc2626;">Erreur de chargement</div>`;
+container.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#6b7280;">
+<i class="fas fa-bullhorn" style="font-size:36px;display:block;margin-bottom:10px;color:#d1d5db;"></i>
+<p style="font-size:15px;font-weight:600;color:#1a2332;">Aucun communiqué publié</p>
+<p style="font-size:13px;margin-top:4px;color:#9ca3af;">Veuillez publier votre premier communiqué</p>
+</div>`;
 }
 }
-window.activerDesactiverComm = async function(id, activer) {
+window.gererComm = async function(id, estActif) {
+if (estActif) {
+showConfirm('DÉSACTIVER LE COMMUNIQUÉ', 'Voulez-vous désactiver ce communiqué ? Il ne sera plus visible dans l\'espace parental.', async () => {
 try {
-await updateDoc(doc(db, "ecoles", ECOLET_ID, "communiques", id), { actif: activer });
-toast(activer ? '✅ Communiqué activé' : '⛔ Communiqué désactivé', 'success');
+await updateDoc(doc(db, "ecoles", ECOLET_ID, "communiques", id), { actif: false });
+toast('⛔ Communiqué désactivé', 'warning');
 chargerCommuniques();
-} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
-};
-window.supprimerComm = async function(id) {
-showConfirm('Supprimer le communiqué', 'Voulez-vous vraiment supprimer ce communiqué ?', async () => {
+} catch(e) {
+toast('❌ Erreur: ' + e.message, 'error');
+}
+});
+} else {
+showConfirm('SUPPRIMER LE COMMUNIQUÉ', 'Voulez-vous vraiment supprimer définitivement ce communiqué ?', async () => {
 try {
 await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", id));
 toast('🗑️ Communiqué supprimé', 'success');
 chargerCommuniques();
-} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
+} catch(e) {
+toast('❌ Erreur: ' + e.message, 'error');
+}
 });
+}
 };
 function initApp() {
 chargerAccessCode();
@@ -1486,6 +1585,9 @@ afficherCorbeille();
 initReco();
 initGestionEleves();
 updateStats();
+chargerCommuniques();
+nettoyerCommuniquesExpires();
+setInterval(nettoyerCommuniquesExpires, 3600000);
 setInterval(updateStats, 60000);
 setTimeout(scrollRecoToBottom, 800);
 }
