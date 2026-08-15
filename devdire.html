@@ -685,6 +685,7 @@ body.reco-fullscreen #recoMessagesContainer{flex:1;display:flex;flex-direction:c
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, query, where, onSnapshot, addDoc, deleteDoc, updateDoc, orderBy } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword } from "firebase/auth";
+
 const firebaseConfig = {
 apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
 authDomain: "gesco-67c43.firebaseapp.com",
@@ -694,18 +695,24 @@ messagingSenderId: "333004443566",
 appId: "1:333004443566:web:de41f60000e418dce9023f",
 measurementId: "G-V7MF88Y5EE"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
 const urlParams = new URLSearchParams(window.location.search);
 const schoolId = urlParams.get('ecole');
 const codeFromUrl = urlParams.get('code');
+
 if (!schoolId) { window.location.href = 'https://www.netubex.com/login?error=ecole_requise'; throw new Error('Redirection'); }
 if (!codeFromUrl) { window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_requis`; throw new Error('Redirection'); }
+
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g, '_');
 const SCHOOL_DISPLAY_NAME = schoolId;
 document.getElementById('schoolNameSpan').textContent = SCHOOL_DISPLAY_NAME.toUpperCase();
+
 const SC = {PROFESSEURS:"professeurs",PUNITIONS:"punitions",FICHES:"fiches",LOGS:"logs",SETTINGS:"settings",CORBEILLE:"corbeille",COMPTA_ELEVES:"compta_eleves"};
+
 let currentAuthUser = null;
 let profsUnsubscribe = null;
 let elevesUnsubscribe = null;
@@ -714,10 +721,12 @@ let communiquesUnsubscribe = null;
 let ACCESS_CODE = null;
 let toastQueue = [];
 let toastActive = false;
+
 function toast(message, type='success') {
 toastQueue.push({message, type});
 if (!toastActive) processToastQueue();
 }
+
 function processToastQueue() {
 if (toastQueue.length === 0) { toastActive = false; return; }
 toastActive = true;
@@ -740,7 +749,9 @@ processToastQueue();
 }, 400);
 }, 3500);
 }
+
 function escapeHtml(s){if(!s)return'';return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
 function showModalSlideUp(title,bodyHTML,footerHTML){
 const overlay=document.createElement('div');
 overlay.className='modal-slide-up';
@@ -749,6 +760,7 @@ document.body.appendChild(overlay);
 setTimeout(()=>overlay.classList.add('show'),10);
 return overlay;
 }
+
 function showPrompt(title,message,placeholder,callback,extraInputs) {
 let extraHtml = extraInputs || '';
 const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;margin-bottom:12px;">${message}</p><input type="text" id="modalInput" placeholder="${placeholder}" style="width:100%;padding:10px 14px;border-radius:12px;background:#f8fafc;border:2px solid #e2e6ea;color:#1a2332;font-size:13px;outline:none;font-family:'Inter',sans-serif;margin-bottom:8px;">${extraHtml}`,'<button class="btn btn-sm btn-outline" id="promptCancel">ANNULER</button><button class="btn btn-sm btn-success" id="promptConfirm">CONFIRMER</button>');
@@ -761,11 +773,13 @@ if(callback) callback(val, sexe);
 };
 setTimeout(()=>{const inp=m.querySelector('#modalInput');if(inp)inp.focus()},100);
 }
+
 function showConfirm(title,message,onConfirm){
 const m=showModalSlideUp(title,`<p style="color:#6b7280;font-size:14px;line-height:1.6;">${message}</p>`,'<button class="btn btn-sm btn-outline" id="confirmCancel">ANNULER</button><button class="btn btn-sm btn-danger" id="confirmOk">CONFIRMER</button>');
 m.querySelector('#confirmCancel').onclick=()=>m.remove();
 m.querySelector('#confirmOk').onclick=()=>{m.remove();if(onConfirm)onConfirm()};
 }
+
 function showValidationPopUp(titre, contenu, priorite, onConfirm) {
 const prioriteLabels = {
 'haute': { label: '🔴 HAUTE', color: '#dc2626', bg: '#fef2f2' },
@@ -796,6 +810,7 @@ const m = showModalSlideUp('PUBLIER LE COMMUNIQUÉ ?', bodyHTML, footerHTML);
 m.querySelector('#cancelPopUp').onclick=()=>m.remove();
 m.querySelector('#confirmPopUp').onclick=()=>{m.remove();if(onConfirm)onConfirm();};
 }
+
 function deconnecterUtilisateur() {
 if(profsUnsubscribe){profsUnsubscribe();profsUnsubscribe=null;}
 if(recoUnsubscribe){recoUnsubscribe();recoUnsubscribe=null;}
@@ -803,7 +818,9 @@ if(elevesUnsubscribe){elevesUnsubscribe();elevesUnsubscribe=null;}
 if(communiquesUnsubscribe){communiquesUnsubscribe();communiquesUnsubscribe=null;}
 window.location.href=`https://www.netubex.com/login?ecole=${schoolId}`;
 }
+
 document.getElementById('logoutBtn').addEventListener('click', deconnecterUtilisateur);
+
 async function chargerAccessCode() {
 try {
 const docRef = doc(db, "ecoles", ECOLET_ID, SC.SETTINGS, "data");
@@ -825,6 +842,7 @@ return true;
 return false;
 } catch (error) { return false; }
 }
+
 async function verifierCohérenceCode() {
 if (!ACCESS_CODE || !currentAuthUser) return false;
 try {
@@ -841,6 +859,7 @@ return true;
 return false;
 }
 }
+
 async function verifierCodeDirection() {
 try {
 const ref = doc(db, "ecoles", ECOLET_ID, "settings", "data");
@@ -888,12 +907,15 @@ window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=co
 return false;
 }
 }
+
 function genererEmailProfesseur(nom, ecoleId) {
 if (!nom) return '';
 const nomPropre = nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z\s]/g, '').trim().replace(/\s+/g, '.');
 return `prof.${nomPropre}.${ecoleId}@gmail.com`;
 }
+
 function genererCodeAcces() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+
 async function chargerProfs() {
 try {
 const q = query(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEURS), where("_type", "==", "prof"));
@@ -907,6 +929,7 @@ profs.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
 return profs;
 } catch(e) { return []; }
 }
+
 function afficherProfs(profs) {
 const c = document.getElementById('profsListContainer');
 if(!c) return;
@@ -940,6 +963,7 @@ ${estActif ? '⛔ DÉSACTIVER' : '✅ RÉACTIVER'}
 html += '</div>';
 c.innerHTML = html;
 }
+
 window.toggleProfActif = async function(id) {
 showConfirm('CHANGER LE STATUT', 'Voulez-vous changer le statut de ce professeur ?', async () => {
 try {
@@ -952,6 +976,7 @@ chargerProfs().then(p => afficherProfs(p));
 } catch(e) { toast('❌ Erreur: '+e.message, 'error'); }
 });
 };
+
 function ecouterProfs() {
 if(profsUnsubscribe){profsUnsubscribe();profsUnsubscribe=null;}
 try {
@@ -967,6 +992,7 @@ afficherProfs(profs);
 }, (error) => {});
 } catch(e) {}
 }
+
 document.getElementById('addProfBtn').onclick = function() {
 const extraHtml = `
 <div style="margin-top:8px;">
@@ -1026,13 +1052,16 @@ chargerProfs().then(p => afficherProfs(p));
 } catch(e) { toast('❌ Erreur: '+e.message, 'error'); }
 }, extraHtml);
 };
+
 document.getElementById('searchProfInput').addEventListener('input', function() {
 chargerProfs().then(p => afficherProfs(p));
 });
+
 document.getElementById('refreshProfsBtn').addEventListener('click', function() {
 chargerProfs().then(p => afficherProfs(p));
 toast('✅ Professeurs actualisés', 'success');
 });
+
 async function chargerPunitions() {
 const c = document.getElementById('punitionClasseSelect').value;
 const en = document.getElementById('punitionEleveSelect').value;
@@ -1065,6 +1094,7 @@ container.innerHTML = html;
 container.innerHTML = '<div style="text-align:center;padding:16px;color:#dc2626;"><i class="fas fa-exclamation-circle" style="font-size:24px;display:block;margin-bottom:4px;"></i><p>Erreur de chargement</p></div>';
 }
 }
+
 window.annulerPunition = async function(id) {
 showConfirm('ANNULER LA PUNITION', 'Voulez-vous vraiment annuler cette punition ?', async () => {
 try {
@@ -1075,6 +1105,7 @@ chargerPunitions();
 } catch(e) {}
 });
 };
+
 document.getElementById('addPunitionBtn').onclick = function() {
 const form = document.getElementById('punitionForm');
 const es = document.getElementById('punitionEleveSelect');
@@ -1085,9 +1116,11 @@ document.getElementById('punitionJustification').value = '';
 form.classList.add('show');
 document.getElementById('punitionMotif').focus();
 };
+
 document.getElementById('cancelPunitionBtn').onclick = function() {
 document.getElementById('punitionForm').classList.remove('show');
 };
+
 document.getElementById('savePunitionBtn').onclick = async function() {
 const es = document.getElementById('punitionEleveSelect');
 const c = document.getElementById('punitionClasseSelect').value;
@@ -1114,6 +1147,7 @@ chargerPunitions();
 toast('✅ Punition enregistrée', 'success');
 } catch(e) { toast('Erreur: '+e.message, 'error'); }
 };
+
 async function updatePunitionEleves() {
 const c = document.getElementById('punitionClasseSelect').value;
 const es = document.getElementById('punitionEleveSelect');
@@ -1142,8 +1176,10 @@ es.appendChild(opt);
 });
 } catch(e) { es.innerHTML = '<option value="">Erreur de chargement</option>'; }
 }
+
 document.getElementById('punitionClasseSelect').onchange = function(){ updatePunitionEleves(); chargerPunitions(); };
 document.getElementById('punitionEleveSelect').onchange = function(){ chargerPunitions(); };
+
 async function afficherCorbeille() {
 const c = document.getElementById('corbeilleList');
 if(!c) return;
@@ -1203,11 +1239,13 @@ c.innerHTML = html;
 c.innerHTML = `<div style="text-align:center;padding:20px;color:#dc2626;font-size:13px;"><div style="font-size:28px;margin-bottom:8px;">❌</div><p>Erreur de chargement de la corbeille</p></div>`;
 }
 }
+
 window.confirmerRestauration = function(ficheId) {
 showConfirm('🔄 RESTAURER LA FICHE DE COTATION', 'Voulez-vous vraiment restaurer cette <strong>fiche de cotation</strong> ?<br><br>La fiche sera remise dans l\'espace du professeur sélectionné.<br>Les données (élèves, notes, épreuves) seront conservées.', function() {
 window.restaurerFicheCorbeille(ficheId);
 });
 };
+
 window.restaurerFicheCorbeille = async function(ficheId) {
 try {
 const docRef = doc(db, "ecoles", ECOLET_ID, SC.CORBEILLE, ficheId);
@@ -1255,6 +1293,7 @@ return;
 await restaurerFiche(ficheId, fiche, nouveauProfId, nouveauProfNom);
 } catch(e) { toast('Erreur: '+e.message, 'error'); }
 };
+
 async function restaurerFiche(ficheId, ficheData, nouveauProfId, nouveauProfNom) {
 try {
 const docRef = doc(db, "ecoles", ECOLET_ID, SC.FICHES, ficheId);
@@ -1273,11 +1312,13 @@ toast('✅ Fiche de cotation restaurée avec succès', 'success');
 afficherCorbeille();
 } catch(e) { toast('Erreur: '+e.message, 'error'); }
 }
+
 async function chargerEleves(filtreClasse = '', searchTerm = '') {
 const container = document.getElementById('elevesListContainer');
 if (!container) return;
 container.innerHTML = `<div class="empty-state" style="padding:30px;"><i class="fas fa-lock" style="font-size:32px;display:block;margin-bottom:8px;color:#dc2626;"></i><p style="font-weight:600;color:#dc2626;">Liste des élèves masquée</p><p style="font-size:13px;color:#6b7280;">L'inscription est désactivée pour cette école</p></div>`;
 }
+
 async function updateStats() {
 try {
 const profsSnap = await getDocs(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEURS));
@@ -1302,14 +1343,17 @@ totalCorbeille++;
 document.getElementById('statTotalCorbeille').textContent = totalCorbeille;
 } catch(e) {}
 }
+
 function initGestionEleves() {
 document.getElementById('inscriptionStatusBadge').innerHTML = '<i class="fas fa-lock"></i> DÉSACTIVÉ';
 document.getElementById('inscriptionStatusBadge').style.background = '#fee2e2';
 document.getElementById('inscriptionStatusBadge').style.color = '#dc2626';
 }
+
 let pendingReply = null;
 let botWaitingMessageSent = false;
 let recoMessages = [];
+
 function getNaturalReply(subject, message) {
 const replies = {
 'amelioration': ['Excellente suggestion ! 💡 Je transmets à l\'équipe.', 'Ah, c\'est une super idée ! 😍', 'Wouah ! 🤩 Votre suggestion est géniale !', '👍 J\'adore cette idée !'],
@@ -1327,6 +1371,7 @@ const possibleReplies = replies[type] || replies['autre'];
 const index = Math.floor(Math.random() * possibleReplies.length);
 return possibleReplies[index];
 }
+
 function scrollRecoToBottom() {
 const recoBody = document.getElementById('recoBody');
 if(recoBody) {
@@ -1335,6 +1380,7 @@ setTimeout(() => { recoBody.scrollTop = recoBody.scrollHeight; }, 100);
 setTimeout(() => { recoBody.scrollTop = recoBody.scrollHeight; }, 300);
 }
 }
+
 function addRecoMessage(sender, nom, message) {
 const container = document.getElementById('recoMessagesContainer');
 if(!container) return;
@@ -1347,6 +1393,7 @@ div.innerHTML = `<div class="bubble"><div class="sender">${nom}</div><div class=
 container.appendChild(div);
 setTimeout(scrollRecoToBottom, 50);
 }
+
 function addTypingIndicator() {
 const container = document.getElementById('recoMessagesContainer');
 if(!container) return;
@@ -1358,10 +1405,12 @@ div.innerHTML = `<div class="dots"><span class="dot"></span><span class="dot"></
 container.appendChild(div);
 setTimeout(scrollRecoToBottom, 50);
 }
+
 function removeTypingIndicator() {
 const el = document.getElementById('typingIndicator');
 if(el) el.remove();
 }
+
 function showTypingAndAutoReplyWithCustomReply(subject, customReply) {
 if(pendingReply) { clearTimeout(pendingReply); removeTypingIndicator(); }
 botWaitingMessageSent = false;
@@ -1382,6 +1431,7 @@ botWaitingMessageSent = true;
 pendingReply = null;
 }, delay);
 }
+
 function initReco() {
 if(recoUnsubscribe) return;
 const docRef = doc(db, "communication", "support_netubex_board");
@@ -1404,12 +1454,14 @@ document.getElementById('recoSubjectSelect').addEventListener('change', function
 this.classList.remove('error');
 });
 }
+
 function updateRecoUI() {
 const container = document.getElementById('recoMessagesContainer');
 if(!container) return;
 const empty = container.querySelector('.reco-empty');
 if(empty) empty.remove();
 }
+
 function sendRecoMessage() {
 const input = document.getElementById('recoInput');
 const subjectSelect = document.getElementById('recoSubjectSelect');
@@ -1423,6 +1475,7 @@ input.value = '';
 const customReply = getNaturalReply(subject, message);
 showTypingAndAutoReplyWithCustomReply(subject, customReply);
 }
+
 async function envoyerStatut(actif) {
 try {
 const statusRef = doc(db, "ecoles", ECOLET_ID, "status", "direction");
@@ -1435,9 +1488,11 @@ lastUpdate: Date.now()
 });
 } catch(e) {}
 }
+
 const INACTIVITY_TIMEOUT = 300;
 let inactivityTimer = null;
 let isActive = false;
+
 function resetInactivityTimer() {
 clearTimeout(inactivityTimer);
 if(!isActive) { isActive = true; envoyerStatut(true); }
@@ -1445,7 +1500,9 @@ inactivityTimer = setTimeout(() => {
 if(isActive) { isActive = false; envoyerStatut(false); }
 }, INACTIVITY_TIMEOUT * 1000);
 }
+
 function detectInteraction() { resetInactivityTimer(); }
+
 function demarrerSurveillanceInactiviteDirection() {
 const events = ['click', 'mousemove', 'scroll', 'keydown', 'touchstart', 'touchmove', 'focus'];
 events.forEach(event => { document.addEventListener(event, detectInteraction); });
@@ -1453,6 +1510,7 @@ isActive = true;
 envoyerStatut(true);
 resetInactivityTimer();
 }
+
 function arreterSurveillanceInactiviteDirection() {
 const events = ['click', 'mousemove', 'scroll', 'keydown', 'touchstart', 'touchmove', 'focus'];
 events.forEach(event => { document.removeEventListener(event, detectInteraction); });
@@ -1460,6 +1518,7 @@ clearTimeout(inactivityTimer);
 isActive = false;
 envoyerStatut(false);
 }
+
 async function initialiserCollectionCommuniques() {
 try {
 const testRef = doc(db, "ecoles", ECOLET_ID, "communiques", "_test");
@@ -1467,6 +1526,7 @@ await setDoc(testRef, { _init: true });
 await deleteDoc(testRef);
 } catch(e) {}
 }
+
 async function nettoyerCommuniquesExpires() {
 try {
 const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"));
@@ -1482,30 +1542,33 @@ await deleteDoc(doc(db, "ecoles", ECOLET_ID, "communiques", ds.id));
 });
 } catch(e) {}
 }
+
+// ✅ FONCTION PUBLIER COMMUNIQUÉ CORRIGÉE
 async function publierCommunique(titre, contenu, priorite) {
-try {
-const collectionRef = collection(db, "ecoles", ECOLET_ID, "communiques");
-await addDoc(collectionRef, {
-titre: titre,
-contenu: contenu,
-priorite: priorite,
-date: new Date().toISOString(),
-actif: true,
-publiePar: "Direction",
-ecoleId: ECOLET_ID,
-ecoleNom: SCHOOL_DISPLAY_NAME
-});
-toast('✅ Communiqué publié avec succès !', 'success');
-document.getElementById('commTitre').value = '';
-document.getElementById('commContenu').value = '';
-} catch(e) {
-if (e.code === 'permission-denied') {
-toast('❌ Erreur de permission. Vérifiez les règles Firebase.', 'error');
-} else {
-toast('❌ Erreur: ' + e.message, 'error');
+    try {
+        const collectionRef = collection(db, "ecoles", ECOLET_ID, "communiques");
+        await addDoc(collectionRef, {
+            titre: titre,
+            contenu: contenu,
+            priorite: priorite,
+            date: new Date().toISOString(),
+            actif: true,           // ✅ AJOUTÉ : nécessaire pour l'espace parental
+            publiePar: "Direction",
+            ecoleId: ECOLET_ID,
+            ecoleNom: SCHOOL_DISPLAY_NAME
+        });
+        toast('✅ Communiqué publié avec succès !', 'success');
+        document.getElementById('commTitre').value = '';
+        document.getElementById('commContenu').value = '';
+    } catch(e) {
+        if (e.code === 'permission-denied') {
+            toast('❌ Erreur de permission. Vérifiez les règles Firebase.', 'error');
+        } else {
+            toast('❌ Erreur: ' + e.message, 'error');
+        }
+    }
 }
-}
-}
+
 function ecouterCommuniques() {
 if (communiquesUnsubscribe) {
 communiquesUnsubscribe();
@@ -1569,6 +1632,7 @@ container.innerHTML = `<div style="text-align:center;padding:30px 20px;color:#6b
 });
 } catch(e) {}
 }
+
 window.gererComm = async function(id, estActif) {
 if (estActif) {
 showConfirm('DÉSACTIVER LE COMMUNIQUÉ', 'Voulez-vous désactiver ce communiqué ? Il ne sera plus visible dans l\'espace parental.', async () => {
@@ -1590,6 +1654,7 @@ toast('❌ Erreur: ' + e.message, 'error');
 });
 }
 };
+
 function initApp() {
 chargerAccessCode();
 initialiserCollectionCommuniques();
@@ -1606,7 +1671,9 @@ setInterval(nettoyerCommuniquesExpires, 3600000);
 setInterval(updateStats, 60000);
 setTimeout(scrollRecoToBottom, 800);
 }
+
 verifierCodeDirection();
+
 document.querySelectorAll('.tab').forEach(btn => {
 btn.onclick = function() {
 if(this.id === 'darkModeBtn') {
@@ -1630,6 +1697,7 @@ afficherCorbeille();
 if(this.dataset.tab === 'tabStats') { updateStats(); }
 };
 });
+
 document.getElementById('recoBackBtn').addEventListener('click', function() {
 document.body.classList.remove('reco-fullscreen');
 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1637,6 +1705,7 @@ document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('activ
 document.querySelector('.tab[data-tab="tabStats"]').classList.add('active');
 document.getElementById('tabStats').classList.add('active');
 });
+
 document.getElementById('publierCommBtn').addEventListener('click', function() {
 const titre = document.getElementById('commTitre').value.trim();
 const contenu = document.getElementById('commContenu').value.trim();
@@ -1646,10 +1715,12 @@ showValidationPopUp(titre, contenu, priorite, function() {
 publierCommunique(titre, contenu, priorite);
 });
 });
+
 document.getElementById('annulerCommBtn').addEventListener('click', function() {
 document.getElementById('commTitre').value = '';
 document.getElementById('commContenu').value = '';
 });
+
 document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
 document.addEventListener('keydown', function(e) {
 if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
@@ -1659,6 +1730,7 @@ if (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) { e.preventDefault(); retu
 if (e.ctrlKey && (e.key === 'S' || e.keyCode === 83)) { e.preventDefault(); return false; }
 return true;
 });
+
 document.body.style.overscrollBehavior = 'none';
 document.body.style.webkitOverscrollBehavior = 'none';
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
