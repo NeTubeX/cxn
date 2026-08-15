@@ -218,8 +218,6 @@ body.dark-mode .section-title{color:#e8edf4}
 <div class="stat-item"><div class="label">Hier</div><div class="value cyan" id="inscritsHier">0</div></div>
 <div class="stat-item"><div class="label">Cette semaine</div><div class="value purple" id="inscritsSemaine">0</div></div>
 </div>
-<!-- SECTION PAIEMENTS MINERVAL SUPPRIMÉE -->
-<!-- SECTION FRAIS D'INSCRIPTION SUPPRIMÉE -->
 </div>
 </div>
 
@@ -376,7 +374,7 @@ body.dark-mode .section-title{color:#e8edf4}
 
 <script type="module">
 import{initializeApp}from"firebase/app";
-import{getFirestore,collection,getDocs,query,where,onSnapshot,doc,getDoc}from"firebase/firestore";
+import{getFirestore,collection,onSnapshot,doc,getDoc}from"firebase/firestore";
 
 const firebaseConfig={apiKey:"AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",authDomain:"gesco-67c43.firebaseapp.com",projectId:"gesco-67c43",storageBucket:"gesco-67c43.firebasestorage.app",messagingSenderId:"333004443566",appId:"1:333004443566:web:de41f60000e418dce9023f"};
 const app=initializeApp(firebaseConfig);
@@ -538,7 +536,13 @@ const optionsBody=document.getElementById('optionsBody');if(optionsBody){if(opti
 
 const exoList=eleves.filter(e=>e.exonere);document.getElementById('exoneresCount').textContent=exoList.length;const exoneresBody=document.getElementById('exoneresBody');if(exoneresBody){if(exoList.length===0){exoneresBody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#5a6f86;padding:20px;font-size:15px;">Aucun exonéré</td></tr>';}else{let html='';exoList.forEach((e,i)=>{html+='<tr><td>'+(i+1)+'</td><td class="nom">'+e.nom+' '+(e.postnom||'')+' '+(e.prenom||'')+'</td><td>'+e.classe+'</td><td>'+(e.option||'-')+'</td><td>'+(e.motifExon||'-')+'</td><td>'+(e.approbateur||'-')+'</td></tr>';});exoneresBody.innerHTML=html;}}
 
-document.getElementById('minervalAttendu').textContent=formatNb(totalMinerval)+' FC';document.getElementById('minervalRecu').textContent=formatNb(totalPaye)+' FC';const taux=totalMinerval?Math.round(totalPaye/totalMinerval*100):0;document.getElementById('tauxRecouvrement').textContent=taux+'%';document.getElementById('resteAPayer').textContent=formatNb(totalMinerval-totalPaye)+' FC';document.getElementById('elevesAJour').textContent=aJour;document.getElementById('listeNoire').textContent=listeNoire;
+document.getElementById('minervalAttendu').textContent=formatNb(totalMinerval)+' FC';
+document.getElementById('minervalRecu').textContent=formatNb(totalPaye)+' FC';
+const taux=totalMinerval?Math.round(totalPaye/totalMinerval*100):0;
+document.getElementById('tauxRecouvrement').textContent=taux+'%';
+document.getElementById('resteAPayer').textContent=formatNb(totalMinerval-totalPaye)+' FC';
+document.getElementById('elevesAJour').textContent=aJour;
+document.getElementById('listeNoire').textContent=listeNoire;
 
 const recouvrementBody=document.getElementById('recouvrementBody');if(recouvrementBody){if(classesListe.length===0){recouvrementBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#5a6f86;padding:20px;font-size:15px;">Aucune donnée</td></tr>';}else{let html='';let totalAttendu=0,totalRecu=0;classesListe.forEach(cl=>{const elevesClasse=eleves.filter(e=>e.classe===cl&&!e.exonere);let attendu=0,recu=0;elevesClasse.forEach(e=>{const min=e.minerval||45000;attendu+=min*10;const p=e.paiements||{};for(const m of moisListe)recu+=(p[m]?.montant||0);});totalAttendu+=attendu;totalRecu+=recu;const tauxClasse=attendu?Math.round(recu/attendu*100):0;const clsColor=tauxClasse>=70?'high':tauxClasse>=40?'medium':'low';html+='<tr><td class="nom">'+cl+'</td><td>'+formatNb(attendu)+' FC</td><td>'+formatNb(recu)+' FC</td><td class="taux '+clsColor+'">'+tauxClasse+'%</td><td>'+formatNb(attendu-recu)+' FC</td></tr>';});const tauxTotal=totalAttendu?Math.round(totalRecu/totalAttendu*100):0;const totalColor=tauxTotal>=70?'high':tauxTotal>=40?'medium':'low';html+='<tr style="background:rgba(0,0,0,0.02);font-weight:700;"><td>TOTAL</td><td>'+formatNb(totalAttendu)+' FC</td><td>'+formatNb(totalRecu)+' FC</td><td class="taux '+totalColor+'">'+tauxTotal+'%</td><td>'+formatNb(totalAttendu-totalRecu)+' FC</td></tr>';recouvrementBody.innerHTML=html;}}
 
@@ -620,20 +624,50 @@ paiementsBody.innerHTML=html;
 }
 
 function setupRealtimeListeners(){
-const q=query(collection(db,"ecoles",ECOLET_ID,"compta_eleves"),where("_type","==","compta_eleve"));
-onSnapshot(q,(snapshot)=>{
-allEleves=[];
-snapshot.forEach(ds=>{const d=ds.data();allEleves.push({id:d.eleveId,nom:d.nom||'',postnom:d.postnom||'',prenom:d.prenom||'',classe:d.classe||'',option:d.option||'',sexe:d.sexe||'M',minerval:d.minerval||45000,exonere:d.exonere||false,motifExon:d.motifExon||'',approbateur:d.approbateur||'',abandon:d.abandon||false,dateInscription:d.dateInscription||new Date().toISOString(),paiements:d.paiements||{},moisBlancs:d.moisBlancs||[],fraisInscriptionTotal:d.fraisInscriptionTotal||0});});
+// ✅ Lecture sans filtre - comme Direction
+const q = collection(db, "ecoles", ECOLET_ID, "compta_eleves");
+onSnapshot(q, (snapshot) => {
+allEleves = [];
+snapshot.forEach(ds => {
+const d = ds.data();
+allEleves.push({
+id: d.eleveId || ds.id,
+nom: d.nom || '',
+postnom: d.postnom || '',
+prenom: d.prenom || '',
+classe: d.classe || '',
+option: d.option || '',
+sexe: d.sexe || 'M',
+minerval: d.minerval || 45000,
+exonere: d.exonere || false,
+motifExon: d.motifExon || '',
+approbateur: d.approbateur || '',
+abandon: d.abandon || false,
+dateInscription: d.dateInscription || new Date().toISOString(),
+paiements: d.paiements || {},
+moisBlancs: d.moisBlancs || [],
+fraisInscriptionTotal: d.fraisInscriptionTotal || 0
+});
+});
 afficherStats();
-document.getElementById('lastUpdate').innerHTML='<i class="fas fa-clock"></i> '+new Date().toLocaleTimeString();
-document.getElementById('syncStatus').innerHTML='<i class="fas fa-circle online"></i> Connecté';
-},(error)=>{document.getElementById('syncStatus').innerHTML='<i class="fas fa-circle" style="color:#b13e3e;"></i> Hors ligne';});
+document.getElementById('lastUpdate').innerHTML = '<i class="fas fa-clock"></i> ' + new Date().toLocaleTimeString();
+document.getElementById('syncStatus').innerHTML = '<i class="fas fa-circle online"></i> Connecté';
+}, (error) => {
+document.getElementById('syncStatus').innerHTML = '<i class="fas fa-circle" style="color:#b13e3e;"></i> Hors ligne';
+console.error('Erreur onSnapshot compta_eleves:', error);
+});
 
-const qProfs=query(collection(db,"ecoles",ECOLET_ID,"professeurs"),where("_type","==","prof"));
-onSnapshot(qProfs,(snapshot)=>{
-allProfs=[];
-snapshot.forEach(ds=>{const d=ds.data();if(d.nom)allProfs.push({id:ds.id,nom:d.nom,actif:d.actif!==false});});
+// ✅ Lecture sans filtre - comme Direction
+const qProfs = collection(db, "ecoles", ECOLET_ID, "professeurs");
+onSnapshot(qProfs, (snapshot) => {
+allProfs = [];
+snapshot.forEach(ds => {
+const d = ds.data();
+if (d.nom) allProfs.push({ id: ds.id, nom: d.nom, actif: d.actif !== false });
+});
 afficherProfs();
+}, (error) => {
+console.error('Erreur onSnapshot professeurs:', error);
 });
 }
 
