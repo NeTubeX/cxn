@@ -1458,6 +1458,16 @@ clearTimeout(inactivityTimer);
 isActive = false;
 envoyerStatut(false);
 }
+async function initialiserCollectionCommuniques() {
+try {
+const testRef = doc(db, "ecoles", ECOLET_ID, "communiques", "_test");
+await setDoc(testRef, { _init: true });
+await deleteDoc(testRef);
+console.log("✅ Collection communiques initialisée");
+} catch(e) {
+console.log("⚠️ Collection communiques déjà existante ou erreur:", e);
+}
+}
 async function nettoyerCommuniquesExpires() {
 try {
 const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), orderBy("date", "desc"));
@@ -1480,7 +1490,8 @@ console.log(`🗑️ ${supprime} communiqué(s) expiré(s) supprimé(s)`);
 }
 async function publierCommunique(titre, contenu, priorite) {
 try {
-await addDoc(collection(db, "ecoles", ECOLET_ID, "communiques"), {
+const collectionRef = collection(db, "ecoles", ECOLET_ID, "communiques");
+const docRef = await addDoc(collectionRef, {
 titre: titre,
 contenu: contenu,
 priorite: priorite,
@@ -1495,7 +1506,11 @@ document.getElementById('commTitre').value = '';
 document.getElementById('commContenu').value = '';
 chargerCommuniques();
 } catch(e) {
+if (e.code === 'permission-denied') {
+toast('❌ Erreur de permission. Vérifiez les règles Firebase.', 'error');
+} else {
 toast('❌ Erreur: ' + e.message, 'error');
+}
 }
 }
 async function chargerCommuniques() {
@@ -1578,6 +1593,7 @@ toast('❌ Erreur: ' + e.message, 'error');
 };
 function initApp() {
 chargerAccessCode();
+initialiserCollectionCommuniques();
 updatePunitionEleves();
 chargerPunitions();
 ecouterProfs();
