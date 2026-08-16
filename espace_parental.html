@@ -522,7 +522,7 @@ body.light-mode #loginError{color:#b91c1c !important;}
 <div class="school-sub" id="schoolSubHeader">CHARGEMENT...</div>
 </div>
 </div>
-<div class="header-gest">SYSTÈME DE GESTION DE SCOLARITÉ</div>
+<div class="header-gest"></div>
 </div>
 </div>
 
@@ -531,7 +531,7 @@ body.light-mode #loginError{color:#b91c1c !important;}
     <div class="placeholder" id="parentLogoPlaceholder">🏫<br>Espace<br>Parental</div>
 </button>
 
-<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:50px;height:50px;flex-shrink:0;"><div style="position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:3px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:11px;color:#10b981;font-weight:600;">Système Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:10px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">✕</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 10px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">📊</span><span style="color:#4ade80;font-size:11px;font-weight:700;" id="compteurDisplay">20</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
+<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:50px;height:50px;flex-shrink:0;"><div style="position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:3px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:11px;color:#10b981;font-weight:600;">Système Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:10px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">✕</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 10px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">📊</span><span style="color:#4ade80;font-size:20px;font-weight:800;" id="compteurDisplay">20</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
 
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"}}
@@ -561,7 +561,6 @@ let schoolId = urlParams.get('ecole');
 if (!schoolId) { window.location.href = '/schoolchoice'; throw new Error('Redirection'); }
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g,'_');
 
-// ✅ CONFIGURATION DU COMPTEUR
 const CONFIG_COMPTEUR = {
     MAX_QUESTIONS: 20,
     HEURE_OUVERTURE: 7,
@@ -569,7 +568,6 @@ const CONFIG_COMPTEUR = {
     HEURE_RESET_SOIR: 18
 };
 
-// ✅ GESTIONNAIRE INDEXEDDB
 class CompteurParentDB {
     constructor() {
         this.dbName = 'parent_compteur_db';
@@ -624,7 +622,6 @@ class CompteurParentDB {
 
 const compteurDB = new CompteurParentDB();
 
-// ✅ FONCTIONS DU COMPTEUR
 function getCompteurId(code, date) {
     return `${ECOLET_ID}_${code}_${date}`;
 }
@@ -794,7 +791,6 @@ async function peutPoserQuestion(code) {
         message = ` (Plus que ${restant})`;
     }
     
-    // ✅ Mettre à jour l'affichage immédiatement
     await mettreAJourCompteurAffichage(code);
     
     return { 
@@ -805,7 +801,101 @@ async function peutPoserQuestion(code) {
     };
 }
 
-// ✅ LISTE DES MOIS AVEC AOUT
+const cache = {
+    fiches: null,
+    eleves: null,
+    punitions: {},
+    presences: {},
+    notes: {},
+    timestamp: null
+};
+
+const CACHE_TTL = 12 * 60 * 60 * 1000;
+
+function viderCache() {
+    cache.fiches = null;
+    cache.eleves = null;
+    cache.punitions = {};
+    cache.presences = {};
+    cache.notes = {};
+    cache.timestamp = null;
+}
+
+async function rechargerDepuisFirebase() {
+    const snapFiches = await getDocs(collection(db, "ecoles", ECOLET_ID, "fiches"));
+    cache.fiches = [];
+    snapFiches.forEach(ds => {
+        const data = ds.data();
+        if (!data._type && data.eleves) {
+            cache.fiches.push({
+                id: ds.id,
+                cours: data.cours,
+                classe: data.classe,
+                option: data.option || '',
+                eleves: data.eleves || [],
+                epreuvesParPeriode: data.epreuvesParPeriode || {},
+                p1Max: data.p1Max || 20,
+                titulaire: data.titulaire || ''
+            });
+        }
+    });
+    
+    const snapPunitions = await getDocs(collection(db, "ecoles", ECOLET_ID, "punitions"));
+    cache.punitions = {};
+    snapPunitions.forEach(ds => {
+        const data = ds.data();
+        if (data.statut === "active") {
+            if (!cache.punitions[data.eleveNom]) cache.punitions[data.eleveNom] = [];
+            cache.punitions[data.eleveNom].push({
+                motif: data.motif,
+                justification: data.justification,
+                date: data.date,
+                gravite: data.gravite || 'moyenne',
+                classe: data.classe
+            });
+        }
+    });
+    
+    const snapPresences = await getDocs(collection(db, "ecoles", ECOLET_ID, "presences"));
+    cache.presences = {};
+    snapPresences.forEach(ds => {
+        const data = ds.data();
+        if (!data.eleves) return;
+        data.eleves.forEach(e => {
+            if (!cache.presences[e.nom]) cache.presences[e.nom] = [];
+            cache.presences[e.nom].push({
+                date: data.date,
+                present: e.present,
+                classe: data.classe,
+                option: data.option || ''
+            });
+        });
+    });
+    
+    cache.timestamp = Date.now();
+}
+
+async function getAllFiches() {
+    if (!cache.fiches || !cache.timestamp || (Date.now() - cache.timestamp) > CACHE_TTL) {
+        await rechargerDepuisFirebase();
+    }
+    return cache.fiches;
+}
+
+async function chercherPunitionsParNom(nom) {
+    if (!cache.punitions || !cache.timestamp || (Date.now() - cache.timestamp) > CACHE_TTL) {
+        await rechargerDepuisFirebase();
+    }
+    return cache.punitions[nom] || [];
+}
+
+async function chercherPresencesParNom(nom) {
+    if (!cache.presences || !cache.timestamp || (Date.now() - cache.timestamp) > CACHE_TTL) {
+        await rechargerDepuisFirebase();
+    }
+    return (cache.presences[nom] || []).slice(0, 5);
+}
+
 const moisListe = ["Aout", "Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
 
 let dernierEleveData = null;
@@ -1014,7 +1104,7 @@ return resultats;
 } catch (e) { return null; }
 }
 
-async function getAllFiches() {
+async function getAllFichesOriginal() {
 try {
 const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, "fiches"));
 const fiches = [];
@@ -1088,57 +1178,6 @@ presences: presences
 }
 }
 return resultats;
-}
-
-async function chercherPunitionsParNom(nom) {
-try {
-const q = query(collection(db, "ecoles", ECOLET_ID, "punitions"), where("eleveNom", "==", nom), where("statut", "==", "active"));
-const snap = await getDocs(q);
-const punitions = [];
-snap.forEach(ds => {
-const data = ds.data();
-punitions.push({
-motif: data.motif,
-justification: data.justification,
-date: data.date,
-gravite: data.gravite || 'moyenne',
-classe: data.classe
-});
-});
-return punitions;
-} catch (e) { return []; }
-}
-
-async function chercherPresencesParNom(nom) {
-try {
-const snap = await getDocs(collection(db, "ecoles", ECOLET_ID, "presences"));
-const presences = [];
-const maintenant = new Date();
-const heureActuelle = maintenant.getHours() + maintenant.getMinutes() / 60;
-const aujourdhui = maintenant.toISOString().slice(0, 10);
-snap.forEach(ds => {
-const data = ds.data();
-if (!data.eleves) return;
-data.eleves.forEach(e => {
-if (e.nom === nom) {
-const dateStr = data.date ? data.date.slice(0, 10) : '';
-if (dateStr === aujourdhui) {
-if (heureActuelle >= 12 && heureActuelle < 17.5) {
-presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: true, enCours: true, heureActuelle: heureActuelle });
-} else if (heureActuelle < 12) {
-presences.push({ date: data.date, present: null, classe: data.classe, option: data.option || '', estAujourdhui: true, avantCours: true, heureActuelle: heureActuelle });
-} else {
-presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: true, apresCours: true, heureActuelle: heureActuelle });
-}
-} else {
-presences.push({ date: data.date, present: e.present, classe: data.classe, option: data.option || '', estAujourdhui: false });
-}
-}
-});
-});
-presences.sort((a, b) => b.date.localeCompare(a.date));
-return presences.slice(0, 5);
-} catch (e) { return []; }
 }
 
 async function getDernierCommunique() {
@@ -2021,12 +2060,10 @@ async function traiterMessage(message) {
 const msg = message.trim().toLowerCase();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
 
-// ✅ GESTION DES RÉPONSES "OUI" / "NON" CONTEXTUELLES
 const reponsesPositives = ['oui', 'o', 'ouais', 'ouep', 'oe', 'ok', 'okay', 'okey', 'oké', 'oki', 'd\'accord', 'd accord', 'dac', 'dak', 'vas-y', 'vas y', 'allez', 'allons-y', 'go', 'go!', 'c\'est bon', 'cest bon', 'ça marche', 'ca marche', 'ça me va', 'ca me va', 'ça va', 'ca va', 'yes', 'y', 'yep', 'yeah', 'yup', 'affirmatif', 'affirmative', 'absolument', 'certainement', 'assurément', 'avec plaisir', 'volontiers', 'bien sûr', 'bien sur', 'sans problème', 'sans souci', 'aucun problème', 'aucun souci', 'je confirme', 'je valide', 'je suis d\'accord', 'je suis ok', 'je suis partant', 'je veux', 'je le veux', 'je souhaite', 'je souhaite voir', 'je voudrais', 'je désire', 'je desire', 'pourquoi pas', 'faites-le', 'faites le', 'fais-le', 'fais le', 'continue', 'continuer', 'poursuivre', 'continuez', 'envoyer', 'envoie', 'montre', 'montrez', 'affiche', 'affichez', 'présente', 'presente', 'montrez-moi', 'montre-moi', 'oui bien sûr', 'oui bien sur', 'oui merci', 'oui svp', 'oui s\'il vous plaît', 'oui s il vous plait', 'oui stp', 'oui je confirme'];
 
 const reponsesNegatives = ['non', 'n', 'non non', 'nan', 'nope', 'no', 'nah', 'nop', 'pas question', 'pas du tout', 'jamais', 'non merci', 'pas maintenant', 'plus tard', 'attends', 'attendez', 'stop', 'non je ne souhaite pas', 'non je ne veux pas', 'je ne veux pas', 'je ne souhaite pas', 'je ne désire pas', 'je ne suis pas intéressé', 'pas intéressé', 'pas pour l\'instant', 'non je confirme pas', 'non je ne confirme pas', 'négatif', 'negative', 'rien', 'non rien', 'non c\'est non', 'non non et non', 'je refuse', 'refuse', 'refuser', 'pas d\'accord', 'pas d accord', 'pas ok', 'pas okay', 'pas okey', 'non ok'];
 
-// ✅ Vérifier si le parent répond à une question de confirmation (Oui/Non)
 if (dernierEleveData && contexteConversation.enAttenteConfirmation) {
     const msgLower = message.toLowerCase().trim();
     
@@ -2050,15 +2087,15 @@ if (dernierEleveData && contexteConversation.enAttenteConfirmation) {
     }
 }
 
-// ✅ Vérification du code parent
 if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
     const code = msg;
     
-    // ✅ Vérifier le compteur AVANT de chercher les élèves
     const verifCompteur = await peutPoserQuestion(code);
     if (!verifCompteur.allowed) {
         return verifCompteur.message;
     }
+    
+    await rechargerDepuisFirebase();
     
     const infos = await chercherElevesParCode(code);
     if (!infos || infos.length === 0) {
@@ -2095,7 +2132,6 @@ if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
         reponse += `Veuillez répondre avec le numéro de l'élève souhaité. ${numeros.join(', ')}.`;
     }
     
-    // ✅ Ajouter le nombre restant de questions
     if (verifCompteur.restant <= 5 && verifCompteur.restant > 0) {
         reponse += `\n\n📊 ${verifCompteur.restant} question${verifCompteur.restant > 1 ? 's' : ''} restante${verifCompteur.restant > 1 ? 's' : ''} aujourd'hui.`;
     } else if (verifCompteur.restant === 0) {
@@ -2200,7 +2236,6 @@ if (dernierEleveData) {
 const eleveData = dernierEleveData;
 const section = eleveData.section;
 
-// ✅ MOTS-CLÉS POUR LES FRAIS (avec "finance", "bordereau", "reçu", "recu")
 const motsFrais = ['frais', 'finance', 'finance', 'argent', 'dette', 'payer', 'minerval', 'paiement', 'cout', 'prix', 'facture', 'scolarité', 'mensualité', 'reste', 'impayé', 'payé', 'crédit', 'solde', 'montant', 'total', 'annuel', 'mois', 'la finance', 'situation financière', 'situation financiere', 'comptabilité', 'comptabilite', 'financier', 'financiere', 'bordereau', 'recu', 'reçu'];
 if (motsFrais.some(m => message.toLowerCase().includes(m))) {
 contexteConversation.dernierSujet = 'frais';
@@ -2378,7 +2413,6 @@ listeElevesComplets = [];
 historiqueSections = {};
 contexteConversation = { dernierSujet: null, questionsPosees: [], codeParent: null, enAttenteConfirmation: false };
 
-// ✅ Réinitialiser l'affichage du compteur
 const compteurDisplay = document.getElementById('compteurDisplay');
 if (compteurDisplay) {
     compteurDisplay.textContent = CONFIG_COMPTEUR.MAX_QUESTIONS;
@@ -2439,7 +2473,6 @@ parentSendBtnNew.onclick = async () => {
     const message = parentQuestionInputNew.value.trim();
     if (!message) return;
 
-    // ✅ EFFET VISUEL : Désactiver le bouton et afficher un spinner
     const sendBtn = parentSendBtnNew;
     const originalText = sendBtn.innerHTML;
     sendBtn.disabled = true;
@@ -2448,19 +2481,16 @@ parentSendBtnNew.onclick = async () => {
     sendBtn.style.transform = 'scale(0.95)';
 
     try {
-        // ✅ INCÉMENTER LE COMPTEUR ICI - À CHAQUE CLIC SUR ENVOYER
         const isCodeParent = /^\d{4}$/.test(message.trim()) || /^\d{6}$/.test(message.trim());
         
         if (currentParentCode && !isCodeParent) {
             const verifCompteur = await peutPoserQuestion(currentParentCode);
             if (!verifCompteur.allowed) {
-                // ✅ Réinitialiser le bouton
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = originalText;
                 sendBtn.style.opacity = '1';
                 sendBtn.style.transform = 'scale(1)';
                 
-                // Afficher le message d'erreur
                 const typingElement = document.getElementById('typingIndicator');
                 if (typingElement) typingElement.remove();
                 
@@ -2478,7 +2508,6 @@ parentSendBtnNew.onclick = async () => {
             }
         }
 
-        // ✅ Afficher le message de l'utilisateur
         parentChatMessagesNew.innerHTML += `<div class="parent-msg user"><div class="bubble">${escapeHtml(message)}</div></div>`;
         parentQuestionInputNew.value = '';
         parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
@@ -2529,7 +2558,6 @@ parentSendBtnNew.onclick = async () => {
             estEnAttenteReponse = false;
         }
     } finally {
-        // ✅ Restaurer le bouton
         sendBtn.disabled = false;
         sendBtn.innerHTML = originalText;
         sendBtn.style.opacity = '1';
