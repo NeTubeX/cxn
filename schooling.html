@@ -568,7 +568,8 @@ body.light-mode #loginError{color:#b91c1c !important;}
 <script type="module">
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, query, where } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+// MODIFICATION 1 : Ajout de signInWithEmailAndPassword
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
 apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
@@ -2359,7 +2360,8 @@ try {
 const snap = await getDocs(query(collection(db, "ecoles", ECOLET_ID, SC.PROFESSEURS), where("nom", "==", n)));
 snap.forEach(ds => {
 const data = ds.data();
-if (data.school === ECOLET_ID) fp = { id: data.profId, nom: data.nom, code: data.code, profId: data.profId };
+// MODIFICATION 2 : Ajout de l'email dans les données du professeur
+if (data.school === ECOLET_ID) fp = { id: data.profId, nom: data.nom, code: data.code, email: data.emailProf || data.email, profId: data.profId };
 });
 } catch (e) { console.error("Erreur recherche professeur:", e); }
 }
@@ -2379,8 +2381,10 @@ btn.innerHTML = 'Se connecter';
 btn.style.opacity = '1';
 return;
 }
-if (c === fp.code) {
-currentProf = { id: fp.id, nom: n, code: fp.code, createdAt: Date.now() };
+// MODIFICATION 3 : Vérification avec Firebase Auth au lieu de simple comparaison
+try {
+const userCred = await signInWithEmailAndPassword(auth, fp.email, c);
+currentProf = { id: fp.id, nom: n, code: c, email: fp.email, createdAt: Date.now() };
 sauvegarderSession(currentProf);
 document.getElementById('loginOverlay').remove();
 document.getElementById('mainApp').style.display = 'block';
@@ -2394,9 +2398,14 @@ toast("Bienvenue " + currentProf.nom, 'success');
 btn.disabled = false;
 btn.innerHTML = 'Se connecter';
 btn.style.opacity = '1';
-} else {
+} catch (authError) {
+if (authError.code === 'auth/wrong-password') {
 document.getElementById('loginError').innerHTML = 'Code incorrect';
 toast("Code d'accès incorrect", 'error');
+} else {
+document.getElementById('loginError').innerHTML = 'Erreur: ' + authError.message;
+toast("Erreur de connexion", 'error');
+}
 btn.disabled = false;
 btn.innerHTML = 'Se connecter';
 btn.style.opacity = '1';
