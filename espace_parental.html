@@ -2021,7 +2021,7 @@ async function traiterMessage(message) {
 const msg = message.trim().toLowerCase();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
 
-// ✅ GESTION DES RÉPONSES "OUI" / "NON" CONTEXTUELLES (ne supprime pas les mots-clés existants)
+// ✅ GESTION DES RÉPONSES "OUI" / "NON" CONTEXTUELLES
 const reponsesPositives = ['oui', 'o', 'ouais', 'ouep', 'oe', 'ok', 'okay', 'okey', 'oké', 'oki', 'd\'accord', 'd accord', 'dac', 'dak', 'vas-y', 'vas y', 'allez', 'allons-y', 'go', 'go!', 'c\'est bon', 'cest bon', 'ça marche', 'ca marche', 'ça me va', 'ca me va', 'ça va', 'ca va', 'yes', 'y', 'yep', 'yeah', 'yup', 'affirmatif', 'affirmative', 'absolument', 'certainement', 'assurément', 'avec plaisir', 'volontiers', 'bien sûr', 'bien sur', 'sans problème', 'sans souci', 'aucun problème', 'aucun souci', 'je confirme', 'je valide', 'je suis d\'accord', 'je suis ok', 'je suis partant', 'je veux', 'je le veux', 'je souhaite', 'je souhaite voir', 'je voudrais', 'je désire', 'je desire', 'pourquoi pas', 'faites-le', 'faites le', 'fais-le', 'fais le', 'continue', 'continuer', 'poursuivre', 'continuez', 'envoyer', 'envoie', 'montre', 'montrez', 'affiche', 'affichez', 'présente', 'presente', 'montrez-moi', 'montre-moi', 'oui bien sûr', 'oui bien sur', 'oui merci', 'oui svp', 'oui s\'il vous plaît', 'oui s il vous plait', 'oui stp', 'oui je confirme'];
 
 const reponsesNegatives = ['non', 'n', 'non non', 'nan', 'nope', 'no', 'nah', 'nop', 'pas question', 'pas du tout', 'jamais', 'non merci', 'pas maintenant', 'plus tard', 'attends', 'attendez', 'stop', 'non je ne souhaite pas', 'non je ne veux pas', 'je ne veux pas', 'je ne souhaite pas', 'je ne désire pas', 'je ne suis pas intéressé', 'pas intéressé', 'pas pour l\'instant', 'non je confirme pas', 'non je ne confirme pas', 'négatif', 'negative', 'rien', 'non rien', 'non c\'est non', 'non non et non', 'je refuse', 'refuse', 'refuser', 'pas d\'accord', 'pas d accord', 'pas ok', 'pas okay', 'pas okey', 'non ok'];
@@ -2033,10 +2033,7 @@ if (dernierEleveData && contexteConversation.enAttenteConfirmation) {
     if (reponsesPositives.some(m => msgLower === m || msgLower.includes(m))) {
         contexteConversation.enAttenteConfirmation = false;
         const reponse = await genererReponseFrais(dernierEleveData);
-        // ✅ Mettre à jour le compteur après la réponse
-        if (currentParentCode) {
-            await mettreAJourCompteurAffichage(currentParentCode);
-        }
+        if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
         return reponse;
     }
     
@@ -2048,10 +2045,7 @@ if (dernierEleveData && contexteConversation.enAttenteConfirmation) {
             reponse += `\n- Tapez "notes" pour voir ses notes\n- Tapez "punitions" pour voir ses punitions`;
         }
         reponse += `\n- Tapez "frais" pour voir sa situation financière\n- Tapez "aide" pour voir toutes les options`;
-        // ✅ Mettre à jour le compteur après la réponse
-        if (currentParentCode) {
-            await mettreAJourCompteurAffichage(currentParentCode);
-        }
+        if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
         return reponse;
     }
 }
@@ -2076,7 +2070,6 @@ if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
     listeElevesComplets = infos;
     contexteConversation.codeParent = code;
     
-    // ✅ Mettre à jour l'affichage du compteur
     await mettreAJourCompteurAffichage(code);
     
     let reponse = "";
@@ -2207,7 +2200,8 @@ if (dernierEleveData) {
 const eleveData = dernierEleveData;
 const section = eleveData.section;
 
-const motsFrais = ['frais', 'finance', 'argent', 'dette', 'payer', 'minerval', 'paiement', 'cout', 'prix', 'facture', 'scolarité', 'mensualité', 'reste', 'impayé', 'payé', 'crédit', 'solde', 'montant', 'total', 'annuel', 'mois', 'la finance', 'situation financière', 'situation financiere', 'comptabilité', 'comptabilite', 'financier', 'financiere'];
+// ✅ MOTS-CLÉS POUR LES FRAIS (avec "finance", "bordereau", "reçu", "recu")
+const motsFrais = ['frais', 'finance', 'finance', 'argent', 'dette', 'payer', 'minerval', 'paiement', 'cout', 'prix', 'facture', 'scolarité', 'mensualité', 'reste', 'impayé', 'payé', 'crédit', 'solde', 'montant', 'total', 'annuel', 'mois', 'la finance', 'situation financière', 'situation financiere', 'comptabilité', 'comptabilite', 'financier', 'financiere', 'bordereau', 'recu', 'reçu'];
 if (motsFrais.some(m => message.toLowerCase().includes(m))) {
 contexteConversation.dernierSujet = 'frais';
 const reponse = await genererReponseFrais(eleveData);
@@ -2437,59 +2431,110 @@ estEnAttenteReponse = false;
 
 if (parentSendBtnNew) {
 parentSendBtnNew.onclick = async () => {
-if (estEnAttenteReponse) {
-toast("Veuillez patienter, je suis en train d'écrire", 'warning');
-return;
-}
+    if (estEnAttenteReponse) {
+        toast("Veuillez patienter, je suis en train d'écrire", 'warning');
+        return;
+    }
 
-const message = parentQuestionInputNew.value.trim();
-if (!message) return;
+    const message = parentQuestionInputNew.value.trim();
+    if (!message) return;
 
-parentChatMessagesNew.innerHTML += `<div class="parent-msg user"><div class="bubble">${escapeHtml(message)}</div></div>`;
-parentQuestionInputNew.value = '';
-parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+    // ✅ EFFET VISUEL : Désactiver le bouton et afficher un spinner
+    const sendBtn = parentSendBtnNew;
+    const originalText = sendBtn.innerHTML;
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = `<span class="loader-spinner" style="display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:#fff;animation:spin 0.6s linear infinite;"></span>`;
+    sendBtn.style.opacity = '0.7';
+    sendBtn.style.transform = 'scale(0.95)';
 
-const typingIndicator = createTypingIndicator();
-parentChatMessagesNew.appendChild(typingIndicator);
-parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
-estEnAttenteReponse = true;
+    try {
+        // ✅ INCÉMENTER LE COMPTEUR ICI - À CHAQUE CLIC SUR ENVOYER
+        const isCodeParent = /^\d{4}$/.test(message.trim()) || /^\d{6}$/.test(message.trim());
+        
+        if (currentParentCode && !isCodeParent) {
+            const verifCompteur = await peutPoserQuestion(currentParentCode);
+            if (!verifCompteur.allowed) {
+                // ✅ Réinitialiser le bouton
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = originalText;
+                sendBtn.style.opacity = '1';
+                sendBtn.style.transform = 'scale(1)';
+                
+                // Afficher le message d'erreur
+                const typingElement = document.getElementById('typingIndicator');
+                if (typingElement) typingElement.remove();
+                
+                const msgBotDiv = document.createElement('div');
+                msgBotDiv.className = 'parent-msg bot';
+                const bubbleBot = document.createElement('div');
+                bubbleBot.className = 'bubble';
+                bubbleBot.textContent = verifCompteur.message;
+                msgBotDiv.appendChild(bubbleBot);
+                parentChatMessagesNew.appendChild(msgBotDiv);
+                parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+                
+                await mettreAJourCompteurAffichage(currentParentCode);
+                return;
+            }
+        }
 
-try {
-const reponse = await traiterMessage(message);
-const typingElement = document.getElementById('typingIndicator');
-if (typingElement) typingElement.remove();
+        // ✅ Afficher le message de l'utilisateur
+        parentChatMessagesNew.innerHTML += `<div class="parent-msg user"><div class="bubble">${escapeHtml(message)}</div></div>`;
+        parentQuestionInputNew.value = '';
+        parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
 
-const msgBotDiv = document.createElement('div');
-msgBotDiv.className = 'parent-msg bot';
-const bubbleBot = document.createElement('div');
-bubbleBot.className = 'bubble';
-msgBotDiv.appendChild(bubbleBot);
-parentChatMessagesNew.appendChild(msgBotDiv);
-parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+        const typingIndicator = createTypingIndicator();
+        parentChatMessagesNew.appendChild(typingIndicator);
+        parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+        estEnAttenteReponse = true;
 
-await typeWriterEffect(bubbleBot, reponse, 12);
-parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
-voixParentale(reponse);
+        try {
+            const reponse = await traiterMessage(message);
+            const typingElement = document.getElementById('typingIndicator');
+            if (typingElement) typingElement.remove();
 
-if (dernierEleveData) {
-const questionKey = getCacheKey(message, dernierEleveData);
-if (questionKey) reponseCache.set(questionKey, reponse);
-}
-} catch (error) {
-const typingElement = document.getElementById('typingIndicator');
-if (typingElement) typingElement.remove();
+            const msgBotDiv = document.createElement('div');
+            msgBotDiv.className = 'parent-msg bot';
+            const bubbleBot = document.createElement('div');
+            bubbleBot.className = 'bubble';
+            msgBotDiv.appendChild(bubbleBot);
+            parentChatMessagesNew.appendChild(msgBotDiv);
+            parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
 
-const msgBotDiv = document.createElement('div');
-msgBotDiv.className = 'parent-msg bot';
-const bubbleBot = document.createElement('div');
-bubbleBot.className = 'bubble';
-bubbleBot.textContent = "Je prends le temps de rassembler les informations. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.";
-msgBotDiv.appendChild(bubbleBot);
-parentChatMessagesNew.appendChild(msgBotDiv);
-parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
-} finally {
-estEnAttenteReponse = false;
-}
+            await typeWriterEffect(bubbleBot, reponse, 12);
+            parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+            voixParentale(reponse);
+
+            if (currentParentCode) {
+                await mettreAJourCompteurAffichage(currentParentCode);
+            }
+
+            if (dernierEleveData) {
+                const questionKey = getCacheKey(message, dernierEleveData);
+                if (questionKey) reponseCache.set(questionKey, reponse);
+            }
+        } catch (error) {
+            const typingElement = document.getElementById('typingIndicator');
+            if (typingElement) typingElement.remove();
+
+            const msgBotDiv = document.createElement('div');
+            msgBotDiv.className = 'parent-msg bot';
+            const bubbleBot = document.createElement('div');
+            bubbleBot.className = 'bubble';
+            bubbleBot.textContent = "Je prends le temps de rassembler les informations. En attendant, je peux vous renseigner sur ses notes, sa situation financière, sa présence aux cours et ses punitions éventuelles. Dites-moi ce que vous souhaitez consulter en premier.";
+            msgBotDiv.appendChild(bubbleBot);
+            parentChatMessagesNew.appendChild(msgBotDiv);
+            parentChatMessagesNew.scrollTop = parentChatMessagesNew.scrollHeight;
+        } finally {
+            estEnAttenteReponse = false;
+        }
+    } finally {
+        // ✅ Restaurer le bouton
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = originalText;
+        sendBtn.style.opacity = '1';
+        sendBtn.style.transform = 'scale(1)';
+    }
 };
 }
 
