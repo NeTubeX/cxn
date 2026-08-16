@@ -531,7 +531,7 @@ body.light-mode #loginError{color:#b91c1c !important;}
     <div class="placeholder" id="parentLogoPlaceholder">🏫<br>Espace<br>Parental</div>
 </button>
 
-<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:50px;height:50px;flex-shrink:0;"><div style="position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:3px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:11px;color:#10b981;font-weight:600;">Systeme Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:10px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">X</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 10px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">🔋</span><span style="color:#4ade80;font-size:10px;font-weight:600;">CHARGE ILLIMITEE</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
+<div class="parent-modal-overlay" id="parentModalOverlay"><div class="parent-modal"><div class="header-fixe"><div style="display:flex;align-items:center;gap:14px;padding:4px 0;"><div style="position:relative;width:50px;height:50px;flex-shrink:0;"><div style="position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#f59e0b);padding:3px;"><div style="width:100%;height:100%;border-radius:50%;background:#0a0e1a;overflow:hidden;"><img id="parentModalLogo" src="https://www.netubex.com/png.png" alt="Logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div></div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px;white-space:nowrap;">ESPACE PARENTAL</div><div style="font-size:11px;color:#10b981;font-weight:600;">Système Intelligent</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;background:rgba(18,25,45,0.6);border-radius:10px;padding:4px 12px;margin-top:4px;border:1px solid rgba(59,130,246,0.15);"><button id="closeParentModal" style="background:rgba(239,68,68,0.1);border:none;color:#f87171;font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;line-height:1;">✕</button><button class="light-mode-toggle-btn" id="parentLightModeToggle" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:4px 10px;color:#fff;cursor:pointer;font-size:14px;transition:all 0.3s ease;display:flex;align-items:center;gap:4px;font-family:'Inter',sans-serif;font-weight:500;">☀️</button><div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:2px 10px 2px 8px;border-radius:40px;border:1px solid rgba(255,255,255,0.06);"><span style="font-size:10px;color:#94a3b8;">📊</span><span style="color:#4ade80;font-size:11px;font-weight:700;" id="compteurDisplay">20</span></div></div></div><div class="parent-modal-body"><div id="parentChatContainer" class="parent-chat" style="display:flex;height:100%;"><div class="parent-info"><div class="parent-info-left"><span id="parentInfoEleve" style="font-size:12px;color:#94a3b8;"></span></div><div class="parent-info-right"></div></div><div id="parentChatMessages" class="parent-messages"></div><div class="parent-input-area"><textarea id="parentQuestionInput" class="parent-input" placeholder="Code parent (4 ou 6 chiffres)..." rows="1" style="height:auto;min-height:42px;max-height:120px;"></textarea><button id="parentSendBtn" class="parent-send">📤</button></div></div></div></div></div>
 
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"}}
@@ -561,6 +561,250 @@ let schoolId = urlParams.get('ecole');
 if (!schoolId) { window.location.href = '/schoolchoice'; throw new Error('Redirection'); }
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g,'_');
 
+// ✅ CONFIGURATION DU COMPTEUR
+const CONFIG_COMPTEUR = {
+    MAX_QUESTIONS: 20,
+    HEURE_OUVERTURE: 7,
+    HEURE_FERMETURE: 23,
+    HEURE_RESET_SOIR: 18
+};
+
+// ✅ GESTIONNAIRE INDEXEDDB
+class CompteurParentDB {
+    constructor() {
+        this.dbName = 'parent_compteur_db';
+        this.storeName = 'compteurs';
+        this.db = null;
+    }
+
+    async open() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.dbName, 1);
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(this.storeName)) {
+                    db.createObjectStore(this.storeName, { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve(this.db);
+            };
+            request.onerror = (event) => reject(event.target.error);
+        });
+    }
+
+    async get(id) {
+        await this.ensureOpen();
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([this.storeName], 'readonly');
+            const store = transaction.objectStore(this.storeName);
+            const request = store.get(id);
+            request.onsuccess = () => resolve(request.result || null);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async put(data) {
+        await this.ensureOpen();
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            const request = store.put(data);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async ensureOpen() {
+        if (!this.db) await this.open();
+        return this.db;
+    }
+}
+
+const compteurDB = new CompteurParentDB();
+
+// ✅ FONCTIONS DU COMPTEUR
+function getCompteurId(code, date) {
+    return `${ECOLET_ID}_${code}_${date}`;
+}
+
+function horairesAutorises() {
+    const maintenant = new Date();
+    const heures = maintenant.getHours();
+    const minutes = maintenant.getMinutes();
+    const heureActuelle = heures + minutes / 60;
+    
+    if (heureActuelle >= 7 && heureActuelle < 23) {
+        return { allowed: true };
+    } else {
+        return { 
+            allowed: false, 
+            message: "🚫 L'espace parental est accessible de 7h00 à 23h00."
+        };
+    }
+}
+
+function getDateReference() {
+    const maintenant = new Date();
+    const heures = maintenant.getHours();
+    const heureActuelle = heures + maintenant.getMinutes() / 60;
+    
+    if (heureActuelle >= 23 || heureActuelle < 7) {
+        return { status: "ferme", date: null };
+    }
+    
+    let dateRef = new Date(maintenant);
+    let periode = "jour";
+    
+    if (heureActuelle >= 18 && heureActuelle < 23) {
+        periode = "soir";
+    }
+    
+    if (heureActuelle >= 7 && heureActuelle < 18) {
+        periode = "jour";
+        if (heures < 8) {
+            dateRef.setDate(dateRef.getDate() - 1);
+        }
+    }
+    
+    return {
+        status: "ouvert",
+        date: dateRef.toISOString().slice(0, 10),
+        periode: periode,
+        heureActuelle: heureActuelle
+    };
+}
+
+async function mettreAJourCompteurAffichage(code) {
+    if (!code) return;
+    
+    try {
+        const dateRef = getDateReference();
+        const compteurDisplay = document.getElementById('compteurDisplay');
+        if (!compteurDisplay) return;
+        
+        if (dateRef.status === "ferme") {
+            compteurDisplay.textContent = "🔒";
+            compteurDisplay.style.color = '#ef4444';
+            return;
+        }
+        
+        const id = getCompteurId(code, dateRef.date);
+        const compteur = await compteurDB.get(id);
+        
+        let restant = CONFIG_COMPTEUR.MAX_QUESTIONS;
+        
+        if (compteur && compteur.date === dateRef.date) {
+            restant = CONFIG_COMPTEUR.MAX_QUESTIONS - compteur.count;
+            if (restant < 0) restant = 0;
+        }
+        
+        compteurDisplay.textContent = restant;
+        
+        if (restant <= 5 && restant > 0) {
+            compteurDisplay.style.color = '#f59e0b';
+        } else if (restant === 0) {
+            compteurDisplay.style.color = '#ef4444';
+        } else {
+            compteurDisplay.style.color = '#4ade80';
+        }
+    } catch (error) {
+        console.error("Erreur mise à jour compteur:", error);
+    }
+}
+
+async function peutPoserQuestion(code) {
+    const horaire = horairesAutorises();
+    if (!horaire.allowed) {
+        return { allowed: false, message: horaire.message };
+    }
+    
+    const dateRef = getDateReference();
+    if (dateRef.status === "ferme") {
+        return { allowed: false, message: "🚫 Service fermé" };
+    }
+    
+    const id = getCompteurId(code, dateRef.date);
+    let compteur = await compteurDB.get(id);
+    
+    if (!compteur) {
+        compteur = {
+            id: id,
+            code: code,
+            date: dateRef.date,
+            count: 0,
+            resetTime: dateRef.periode === "soir" ? "18h00" : null,
+            resetCount: 0
+        };
+        await compteurDB.put(compteur);
+    }
+    
+    let needReset = false;
+    if (compteur.date !== dateRef.date) {
+        needReset = true;
+    }
+    if (dateRef.periode === "soir" && compteur.resetTime !== "18h00") {
+        needReset = true;
+    }
+    
+    if (needReset) {
+        compteur = {
+            id: id,
+            code: code,
+            date: dateRef.date,
+            count: 0,
+            resetTime: dateRef.periode === "soir" ? "18h00" : null,
+            resetCount: (compteur.resetCount || 0) + 1
+        };
+        await compteurDB.put(compteur);
+    }
+    
+    if (compteur.count >= CONFIG_COMPTEUR.MAX_QUESTIONS) {
+        const heure = dateRef.heureActuelle;
+        let message = "⚠️ Limite de 20 questions atteinte.";
+        
+        if (heure < 18) {
+            const temps = (18 - heure);
+            const h = Math.floor(temps);
+            const m = Math.round((temps - h) * 60);
+            if (h > 0) {
+                message += ` Revenez dans ${h}h${m > 0 ? ` ${m}min` : ''} (à 18h00).`;
+            } else {
+                message += ` Revenez à 18h00.`;
+            }
+        } else {
+            message += ` Revenez demain à partir de 8h00.`;
+        }
+        return { allowed: false, message: message };
+    }
+    
+    compteur.count += 1;
+    compteur.lastQuestion = new Date().toISOString();
+    if (!compteur.firstQuestion) {
+        compteur.firstQuestion = compteur.lastQuestion;
+    }
+    await compteurDB.put(compteur);
+    
+    const restant = CONFIG_COMPTEUR.MAX_QUESTIONS - compteur.count;
+    let message = "";
+    if (restant === 0) {
+        message = " ⚠️ Dernière question !";
+    } else if (restant <= 5) {
+        message = ` (Plus que ${restant})`;
+    }
+    
+    // ✅ Mettre à jour l'affichage immédiatement
+    await mettreAJourCompteurAffichage(code);
+    
+    return { 
+        allowed: true, 
+        count: compteur.count, 
+        restant: restant,
+        message: message
+    };
+}
+
 // ✅ LISTE DES MOIS AVEC AOUT
 const moisListe = ["Aout", "Septembre", "Octobre", "Novembre", "Decembre", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin"];
 
@@ -579,7 +823,8 @@ let historiqueSections = {};
 let contexteConversation = {
     dernierSujet: null,
     questionsPosees: [],
-    codeParent: null
+    codeParent: null,
+    enAttenteConfirmation: false
 };
 let schoolLogoUrl = null;
 let clickCountSchool = 0;
@@ -637,7 +882,6 @@ if (classesPrimaire.includes(classe)) return "PRIMAIRE";
 return "SECONDAIRE";
 }
 
-// ✅ MOIS ACTUEL AVEC AOUT
 function getMoisActuel() {
     const date = new Date();
     const mois = date.getMonth();
@@ -649,7 +893,6 @@ function getMoisActuel() {
     return "Septembre";
 }
 
-// ✅ MOIS FROM DATE AVEC AOUT
 function getMoisFromDate(dateISO) {
     if (!dateISO) return "Septembre";
     const date = new Date(dateISO);
@@ -722,7 +965,6 @@ try {
 const logoUrl = await getSchoolLogo(ECOLET_ID);
 if (logoUrl) {
 schoolLogoUrl = logoUrl;
-// Logo du bouton flottant
 const img = document.getElementById('parentLogoImg');
 const placeholder = document.getElementById('parentLogoPlaceholder');
 img.src = logoUrl;
@@ -734,7 +976,6 @@ img.onerror = function() {
 placeholder.style.display = 'flex';
 img.style.display = 'none';
 };
-// Logo du header
 const headerLogo = document.getElementById('headerLogo');
 if (headerLogo) {
 headerLogo.src = logoUrl;
@@ -743,7 +984,6 @@ headerLogo.onerror = function() {
 this.style.display = 'none';
 };
 }
-// Logo du modal
 const modalLogo = document.getElementById('parentModalLogo');
 if (modalLogo) {
 modalLogo.src = logoUrl;
@@ -987,10 +1227,6 @@ window.speechSynthesis.cancel();
 
 let texteParle = texte;
 
-// ✅ Remplacer "sur votre enfant" par "au sujet de votre enfant" pour une meilleure prononciation
-texteParle = texteParle.replace(/sur votre enfant/g, "au sujet de votre enfant");
-
-// ✅ Remplacer "votre enfant" par le prénom de l'élève
 if (dernierEleveData && dernierEleveData.prenom) {
     const prenom = dernierEleveData.prenom.trim();
     if (prenom) {
@@ -1048,10 +1284,6 @@ texteParle = "Aucune punition active. Bravo !";
 
 if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
 texteParle = "Au revoir, bonne journée.";
-}
-
-if (texte.includes("Veuillez taper un autre code parent")) {
-texteParle = texteParle.replace(/Veuillez taper un autre code parent.*/, "Veuillez taper un autre code parent. Je suis là pour vous aider.");
 }
 
 if (texte.includes("exonéré")) {
@@ -1242,7 +1474,6 @@ reponse += `\n\nVous avez déjà vu toutes les informations pour ${nomComplet}. 
 return reponse;
 }
 
-// ✅ GENERER REPONSE FRAIS CORRIGÉE
 async function genererReponseFrais(eleveData) {
 ajouterSectionVisitee('frais');
 const nomComplet = `${eleveData.nom} ${eleveData.prenom || ''}`.trim();
@@ -1288,11 +1519,9 @@ let moisImpayes = [];
 let moisPayesAvancePartiel = [];
 let moisPayesAvanceComplet = [];
 
-// Parcourir TOUS les mois de l'année pour détecter les paiements en avance
 for (let i = 0; i < moisListe.length; i++) {
     const mois = moisListe[i];
     
-    // ✅ IGNORER AOÛT (pas un mois scolaire)
     if (mois === "Aout") {
         continue;
     }
@@ -1306,25 +1535,20 @@ for (let i = 0; i < moisListe.length; i++) {
     }
 
     if (montant === 0) {
-        // ✅ Mois non payé uniquement si c'est un mois passé ou actuel (et pas Août)
-        if (i < indexActuel && i > 0) { // i > 0 pour ignorer Août
+        if (i < indexActuel && i > 0) {
             moisImpayes.push({ mois, reste: minerval, date: null });
         }
         continue;
     }
 
-    // ✅ Vérifier si c'est un paiement en avance
     let estAvance = false;
-    // Si le mois est dans le futur par rapport au mois actuel
     if (i >= indexActuel) {
         estAvance = true;
     }
-    // Ou si la date de paiement est différente du mois payé
     if (datePaiement) {
         const datePay = new Date(datePaiement);
         const moisPayeIndex = moisListe.indexOf(mois);
         const moisPaiement = datePay.getMonth();
-        // Ajustement pour Août (mois 7)
         if (moisPaiement !== moisPayeIndex + 7) {
             estAvance = true;
         }
@@ -1342,7 +1566,6 @@ for (let i = 0; i < moisListe.length; i++) {
         const resteMois = minerval - montant;
         if (estAvance) {
             moisPayesAvancePartiel.push({ mois, montant, date: datePaiement, reste: resteMois });
-            // ❌ NE PAS ajouter dans moisImpayes (le paiement est en avance)
         } else {
             moisImpayes.push({ mois, reste: resteMois, date: datePaiement });
         }
@@ -1353,7 +1576,6 @@ for (let i = 0; i < moisListe.length; i++) {
     }
 }
 
-// ✅ Filtrer les mois impayés uniques (éviter les doublons)
 const moisImpayesUniques = [];
 const moisVus = new Set();
 for (const mi of moisImpayes) {
@@ -1790,6 +2012,8 @@ reponseEcran += `Je peux vous parler de sa situation financière, ses notes de c
 reponseEcran += `Je peux vous parler de sa situation financière. Voulez-vous la voir ?`;
 }
 
+contexteConversation.enAttenteConfirmation = true;
+
 return reponseEcran;
 }
 
@@ -1797,39 +2021,95 @@ async function traiterMessage(message) {
 const msg = message.trim().toLowerCase();
 const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
 
+// ✅ GESTION DES RÉPONSES "OUI" / "NON" CONTEXTUELLES (ne supprime pas les mots-clés existants)
+const reponsesPositives = ['oui', 'o', 'ouais', 'ouep', 'oe', 'ok', 'okay', 'okey', 'oké', 'oki', 'd\'accord', 'd accord', 'dac', 'dak', 'vas-y', 'vas y', 'allez', 'allons-y', 'go', 'go!', 'c\'est bon', 'cest bon', 'ça marche', 'ca marche', 'ça me va', 'ca me va', 'ça va', 'ca va', 'yes', 'y', 'yep', 'yeah', 'yup', 'affirmatif', 'affirmative', 'absolument', 'certainement', 'assurément', 'avec plaisir', 'volontiers', 'bien sûr', 'bien sur', 'sans problème', 'sans souci', 'aucun problème', 'aucun souci', 'je confirme', 'je valide', 'je suis d\'accord', 'je suis ok', 'je suis partant', 'je veux', 'je le veux', 'je souhaite', 'je souhaite voir', 'je voudrais', 'je désire', 'je desire', 'pourquoi pas', 'faites-le', 'faites le', 'fais-le', 'fais le', 'continue', 'continuer', 'poursuivre', 'continuez', 'envoyer', 'envoie', 'montre', 'montrez', 'affiche', 'affichez', 'présente', 'presente', 'montrez-moi', 'montre-moi', 'oui bien sûr', 'oui bien sur', 'oui merci', 'oui svp', 'oui s\'il vous plaît', 'oui s il vous plait', 'oui stp', 'oui je confirme'];
+
+const reponsesNegatives = ['non', 'n', 'non non', 'nan', 'nope', 'no', 'nah', 'nop', 'pas question', 'pas du tout', 'jamais', 'non merci', 'pas maintenant', 'plus tard', 'attends', 'attendez', 'stop', 'non je ne souhaite pas', 'non je ne veux pas', 'je ne veux pas', 'je ne souhaite pas', 'je ne désire pas', 'je ne suis pas intéressé', 'pas intéressé', 'pas pour l\'instant', 'non je confirme pas', 'non je ne confirme pas', 'négatif', 'negative', 'rien', 'non rien', 'non c\'est non', 'non non et non', 'je refuse', 'refuse', 'refuser', 'pas d\'accord', 'pas d accord', 'pas ok', 'pas okay', 'pas okey', 'non ok'];
+
+// ✅ Vérifier si le parent répond à une question de confirmation (Oui/Non)
+if (dernierEleveData && contexteConversation.enAttenteConfirmation) {
+    const msgLower = message.toLowerCase().trim();
+    
+    if (reponsesPositives.some(m => msgLower === m || msgLower.includes(m))) {
+        contexteConversation.enAttenteConfirmation = false;
+        const reponse = await genererReponseFrais(dernierEleveData);
+        // ✅ Mettre à jour le compteur après la réponse
+        if (currentParentCode) {
+            await mettreAJourCompteurAffichage(currentParentCode);
+        }
+        return reponse;
+    }
+    
+    if (reponsesNegatives.some(m => msgLower === m || msgLower.includes(m))) {
+        contexteConversation.enAttenteConfirmation = false;
+        const section = dernierEleveData.section;
+        let reponse = "D'accord, je comprends. Que voulez-vous consulter d'autre ?\n\n📌 Options disponibles :";
+        if (section === "SECONDAIRE") {
+            reponse += `\n- Tapez "notes" pour voir ses notes\n- Tapez "punitions" pour voir ses punitions`;
+        }
+        reponse += `\n- Tapez "frais" pour voir sa situation financière\n- Tapez "aide" pour voir toutes les options`;
+        // ✅ Mettre à jour le compteur après la réponse
+        if (currentParentCode) {
+            await mettreAJourCompteurAffichage(currentParentCode);
+        }
+        return reponse;
+    }
+}
+
+// ✅ Vérification du code parent
 if (/^\d{4}$/.test(msg) || /^\d{6}$/.test(msg)) {
-const code = msg;
-const infos = await chercherElevesParCode(code);
-if (!infos || infos.length === 0) {
-dernierEleveData = null;
-listeElevesComplets = [];
-return `Code parent "${code}" non reconnu à l'école ${nomEcole}. Veuillez vérifier votre code ou contacter la comptabilité.`;
-}
-currentParentCode = code;
-listeElevesComplets = infos;
-contexteConversation.codeParent = code;
-if (infos.length === 1) {
-return await afficherInfosEleve(infos[0], true);
-} else {
-enAttenteChoixEleve = true;
-listeElevesEnAttente = infos;
-let reponse = `Plusieurs élèves sont associés à ce code parent :\n\n`;
-infos.forEach((eleve, index) => {
-const section = getSectionFromClasse(eleve.classe);
-reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n`;
-reponse += `   Classe : ${eleve.classe}`;
-if (section === "SECONDAIRE" && eleve.option && eleve.option !== "TOUTES") {
-reponse += `\n   Option : ${eleve.option}`;
-}
-reponse += `\n   Section : ${section}\n\n`;
-});
-const numeros = [];
-for (let i = 1; i <= infos.length; i++) {
-numeros.push(i);
-}
-reponse += `Veuillez répondre avec le numéro de l'élève souhaité. ${numeros.join(', ')}.`;
-return reponse;
-}
+    const code = msg;
+    
+    // ✅ Vérifier le compteur AVANT de chercher les élèves
+    const verifCompteur = await peutPoserQuestion(code);
+    if (!verifCompteur.allowed) {
+        return verifCompteur.message;
+    }
+    
+    const infos = await chercherElevesParCode(code);
+    if (!infos || infos.length === 0) {
+        dernierEleveData = null;
+        listeElevesComplets = [];
+        return `Code parent "${code}" non reconnu à l'école ${nomEcole}. Veuillez vérifier votre code ou contacter la comptabilité.`;
+    }
+    currentParentCode = code;
+    listeElevesComplets = infos;
+    contexteConversation.codeParent = code;
+    
+    // ✅ Mettre à jour l'affichage du compteur
+    await mettreAJourCompteurAffichage(code);
+    
+    let reponse = "";
+    if (infos.length === 1) {
+        reponse = await afficherInfosEleve(infos[0], true);
+    } else {
+        enAttenteChoixEleve = true;
+        listeElevesEnAttente = infos;
+        reponse = `Plusieurs élèves sont associés à ce code parent :\n\n`;
+        infos.forEach((eleve, index) => {
+            const section = getSectionFromClasse(eleve.classe);
+            reponse += `${index+1}. ${eleve.nom} ${eleve.prenom||''}\n`;
+            reponse += `   Classe : ${eleve.classe}`;
+            if (section === "SECONDAIRE" && eleve.option && eleve.option !== "TOUTES") {
+                reponse += `\n   Option : ${eleve.option}`;
+            }
+            reponse += `\n   Section : ${section}\n\n`;
+        });
+        const numeros = [];
+        for (let i = 1; i <= infos.length; i++) {
+            numeros.push(i);
+        }
+        reponse += `Veuillez répondre avec le numéro de l'élève souhaité. ${numeros.join(', ')}.`;
+    }
+    
+    // ✅ Ajouter le nombre restant de questions
+    if (verifCompteur.restant <= 5 && verifCompteur.restant > 0) {
+        reponse += `\n\n📊 ${verifCompteur.restant} question${verifCompteur.restant > 1 ? 's' : ''} restante${verifCompteur.restant > 1 ? 's' : ''} aujourd'hui.`;
+    } else if (verifCompteur.restant === 0) {
+        reponse += `\n\n⚠️ C'était votre dernière question.`;
+    }
+    
+    return reponse;
 }
 
 if (msg.includes('aide') || msg.includes('help') || msg.includes('que puis-je faire')) {
@@ -1848,6 +2128,7 @@ reponse += `- Tapez "au revoir" pour quitter`;
 } else {
 reponse += `- Entrez votre code parent (4 ou 6 chiffres) pour commencer\n- Tapez "au revoir" pour quitter`;
 }
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
 return reponse;
 }
 
@@ -1870,7 +2151,10 @@ let nextIndex = (foundIndex + 1) % listeElevesComplets.length;
 const eleve = listeElevesComplets[nextIndex];
 const estPremier = (nextIndex === 0);
 historiqueSections = {};
-return await afficherInfosEleve(eleve, estPremier);
+contexteConversation.enAttenteConfirmation = false;
+const reponse = await afficherInfosEleve(eleve, estPremier);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 }
 
@@ -1889,6 +2173,7 @@ const estActif = dernierEleveData && eleve.nom === dernierEleveData.nom && (elev
 reponse += `${estActif}\n\n`;
 });
 reponse += `Pour changer d'enfant, tapez "suivant".`;
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
 return reponse;
 } else if (listeElevesComplets.length === 1) {
 return `Vous avez un seul enfant associé à ce code : ${listeElevesComplets[0].nom} ${listeElevesComplets[0].prenom || ''}.`;
@@ -1904,7 +2189,10 @@ const eleveChoisi = listeElevesEnAttente[choix - 1];
 enAttenteChoixEleve = false;
 listeElevesEnAttente = [];
 historiqueSections = {};
-return await afficherInfosEleve(eleveChoisi, true);
+contexteConversation.enAttenteConfirmation = false;
+const reponse = await afficherInfosEleve(eleveChoisi, true);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 } else {
 let listeNoms = listeElevesEnAttente.map((e, i) => {
 const section = getSectionFromClasse(e.classe);
@@ -1922,37 +2210,53 @@ const section = eleveData.section;
 const motsFrais = ['frais', 'finance', 'argent', 'dette', 'payer', 'minerval', 'paiement', 'cout', 'prix', 'facture', 'scolarité', 'mensualité', 'reste', 'impayé', 'payé', 'crédit', 'solde', 'montant', 'total', 'annuel', 'mois', 'la finance', 'situation financière', 'situation financiere', 'comptabilité', 'comptabilite', 'financier', 'financiere'];
 if (motsFrais.some(m => message.toLowerCase().includes(m))) {
 contexteConversation.dernierSujet = 'frais';
-return await genererReponseFrais(eleveData);
+const reponse = await genererReponseFrais(eleveData);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 
 const motsNotes = ['note', 'notes', 'résultat', 'résultats', 'bulletin', 'point', 'points', 'epreuve', 'epreuves', 'devoir', 'devoirs', 'interro', 'interrogation', 'matière', 'matières', 'cours', 'contrôle', 'évaluation', 'test', 'examen', 'exercice', 'pratique', 'travaille pratique', 'travail en groupe', 'noté', 'notation', 'meilleure note'];
 if (motsNotes.some(m => message.toLowerCase().includes(m))) {
 if (section === "MATERNELLE" || section === "PRIMAIRE") {
 if (toutVu(eleveData)) {
-return `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+const reponse = `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
-return `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+const reponse = `Je suis désolé, les notes ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 contexteConversation.dernierSujet = 'notes';
-return await genererReponseNotes(eleveData);
+const reponse = await genererReponseNotes(eleveData);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 
 const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'comportement', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
 if (motsPunitions.some(m => message.toLowerCase().includes(m))) {
 if (section === "MATERNELLE" || section === "PRIMAIRE") {
 if (toutVu(eleveData)) {
-return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+const reponse = `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Vous avez déjà vu toutes les informations pour ${eleveData.nom} ${eleveData.prenom || ''}. Veuillez taper un autre code parent. Je suis là pour vous aider.`;
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
-return `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+const reponse = `Je suis désolé, les punitions ne sont pas disponibles pour la section ${section}. Voulez-vous voir la situation financière de ${eleveData.nom} ?`;
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 contexteConversation.dernierSujet = 'punitions';
-return await genererReponsePunitions(eleveData);
+const reponse = await genererReponsePunitions(eleveData);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 
 const motsPresence = ['présence', 'present', 'présent', 'absent', 'absence', 'assiduité', 'venir', 'viens', 'vient', 'venu', 'école', 'jour', 'aujourd\'hui', 'hier', 'semaine', 'retard', 'retards', 'ponctualité', 'cours'];
 if (motsPresence.some(m => message.toLowerCase().includes(m))) {
 contexteConversation.dernierSujet = 'presence';
-return await genererReponsePresence(eleveData);
+const reponse = await genererReponsePresence(eleveData);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 
 const motsAurevoir = ['au revoir', 'bye', 'bye bye', 'ciao', 'adieu', 'à bientôt', 'à plus', 'à tout à l\'heure', 'à demain', 'à la prochaine', 'bonne journée', 'bonne soirée', 'bonne nuit'];
@@ -1973,13 +2277,16 @@ return `De rien, c'est un plaisir de vous aider.`;
 const motsEncore = ['encore', 'revoir', 'affiche', 'montre', 'redemande', 'encore une fois'];
 if (motsEncore.some(m => message.toLowerCase().includes(m))) {
 if (contexteConversation.dernierSujet) {
+let reponse;
 switch(contexteConversation.dernierSujet) {
-case 'notes': return await genererReponseNotes(eleveData);
-case 'frais': return await genererReponseFrais(eleveData);
-case 'punitions': return await genererReponsePunitions(eleveData);
-case 'presence': return await genererReponsePresence(eleveData);
-default: return `Voulez-vous voir les frais, les notes ou les punitions ?`;
+case 'notes': reponse = await genererReponseNotes(eleveData); break;
+case 'frais': reponse = await genererReponseFrais(eleveData); break;
+case 'punitions': reponse = await genererReponsePunitions(eleveData); break;
+case 'presence': reponse = await genererReponsePresence(eleveData); break;
+default: reponse = `Voulez-vous voir les frais, les notes ou les punitions ?`;
 }
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 return `Voulez-vous voir les frais, les notes ou les punitions ?`;
 }
@@ -1989,10 +2296,13 @@ let reponse = `Vous avez déjà vu toutes les informations pour ${eleveData.nom}
 if (listeElevesComplets.length > 1) {
 reponse += ` Tapez "suivant" pour passer au prochain enfant.`;
 }
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
 return reponse;
 }
 
-return await genererReponseNaturelle(message, eleveData);
+const reponse = await genererReponseNaturelle(message, eleveData);
+if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
+return reponse;
 }
 
 const h = new Date().getHours();
@@ -2038,7 +2348,6 @@ if (schoolSubElement) schoolSubElement.textContent = `Année scolaire 2026-2027`
 
 await chargerLogoParental();
 
-// ✅ 3 clics sur TOUT le header pour rediriger
 const schoolHeader = document.querySelector('.school-header');
 if (schoolHeader) {
     schoolHeader.addEventListener('click', function(e) {
@@ -2073,7 +2382,14 @@ document.body.style.overflow = 'hidden';
 reponseCache.clear();
 listeElevesComplets = [];
 historiqueSections = {};
-contexteConversation = { dernierSujet: null, questionsPosees: [], codeParent: null };
+contexteConversation = { dernierSujet: null, questionsPosees: [], codeParent: null, enAttenteConfirmation: false };
+
+// ✅ Réinitialiser l'affichage du compteur
+const compteurDisplay = document.getElementById('compteurDisplay');
+if (compteurDisplay) {
+    compteurDisplay.textContent = CONFIG_COMPTEUR.MAX_QUESTIONS;
+    compteurDisplay.style.color = '#4ade80';
+}
 
 const dernierComm = await getDernierCommunique();
 let messageComm = '';
@@ -2083,7 +2399,7 @@ const prioLabel = dernierComm.priorite === 'haute' ? 'Haute priorité' : (dernie
 messageComm = `<div style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:14px 16px;margin:8px 0;"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-size:20px;">📢</span><span style="font-weight:700;color:#ffd700;font-size:15px;">${escapeHtml(dernierComm.titre)}</span><span style="font-size:11px;color:#94a3b8;background:rgba(255,255,255,0.05);padding:2px 12px;border-radius:30px;">${prioEmoji} ${prioLabel}</span><span style="font-size:11px;color:#4ade80;background:rgba(74,222,128,0.1);padding:2px 12px;border-radius:30px;">📅 ${dernierComm.statut}</span></div><div style="color:#e2e8f0;font-size:14px;margin-top:8px;line-height:1.6;">${escapeHtml(dernierComm.contenu)}</div><div style="font-size:10px;color:#64748b;margin-top:6px;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;">Publié par la Direction</div></div>`;
 }
 
-parentChatMessagesNew.innerHTML = `<div class="parent-msg bot"><div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;"><div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">ÉCOLE ${nomEcole}</div>${messageComm}<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">Entrez votre code parent</div><div style="color:#fbbf24;font-size:16px;background:rgba(245,158,11,0.1);border-radius:10px;padding:10px 14px;border:1px solid rgba(245,158,11,0.2);">Si vous n'avez pas de code, contactez la comptabilité</div><div style="color:#64748b;font-size:13px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">Service du lundi au dimanche</div></div></div>`;
+parentChatMessagesNew.innerHTML = `<div class="parent-msg bot"><div class="bubble" style="padding:16px 20px;max-width:92%;background:linear-gradient(135deg,rgba(18,25,45,0.95),rgba(10,15,30,0.95));border:2px solid rgba(59,130,246,0.3);border-radius:24px;"><div style="font-weight:700;color:#ffd700;font-size:20px;margin-bottom:4px;">🏫 ÉCOLE ${nomEcole}</div>${messageComm}<div style="color:#e2e8f0;font-size:17px;margin:8px 0 10px 0;font-weight:500;">🔑 Entrez votre <strong>code parent</strong> à 4 ou 6 chiffres</div><div style="color:#fbbf24;font-size:14px;background:rgba(245,158,11,0.1);border-radius:10px;padding:8px 12px;border:1px solid rgba(245,158,11,0.2);">📊 20 questions maximum par jour</div><div style="color:#64748b;font-size:12px;margin-top:8px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;">⏰ Service de 7h00 à 23h00</div></div></div>`;
 
 parentInfoEleveNew.innerHTML = `ÉCOLE ${nomEcole}`;
 parentQuestionInputNew.value = '';
