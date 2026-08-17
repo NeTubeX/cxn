@@ -24,21 +24,21 @@ body.source-a .topbar .brand .logo{background:linear-gradient(135deg,#3b82f6,#25
 body.source-a .source-btn[data-source="a"]{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6}
 body.source-a .badge-source{background:rgba(59,130,246,0.15);color:#3b82f6}
 body.source-a #sourceStatus{border-color:rgba(59,130,246,0.3);color:#3b82f6}
-body.source-a .tab-btn.active::after{background:#3b82f6}
+body.source-a .tab-btn.active{background:#3b82f6;border-color:#3b82f6}
 
 body.source-b{--accent:#10b981;--accent-glow:rgba(16,185,129,0.3)}
 body.source-b .topbar .brand .logo{background:linear-gradient(135deg,#10b981,#059669)}
 body.source-b .source-btn[data-source="b"]{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981}
 body.source-b .badge-source{background:rgba(16,185,129,0.15);color:#10b981}
 body.source-b #sourceStatus{border-color:rgba(16,185,129,0.3);color:#10b981}
-body.source-b .tab-btn.active::after{background:#10b981}
+body.source-b .tab-btn.active{background:#10b981;border-color:#10b981}
 
 body.source-merged{--accent:#f59e0b;--accent-glow:rgba(245,158,11,0.3)}
 body.source-merged .topbar .brand .logo{background:linear-gradient(135deg,#f59e0b,#d97706)}
 body.source-merged .source-btn[data-source="merged"]{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b}
 body.source-merged .badge-source{background:rgba(245,158,11,0.15);color:#f59e0b}
 body.source-merged #sourceStatus{border-color:rgba(245,158,11,0.3);color:#f59e0b}
-body.source-merged .tab-btn.active::after{background:#f59e0b}
+body.source-merged .tab-btn.active{background:#f59e0b;border-color:#f59e0b}
 
 #loginOverlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#0a1628 0%,#0f2942 40%,#0d1f35 70%,#0a1628 100%);transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1),transform 0.8s cubic-bezier(0.34,1.56,0.64,1)}
 #loginOverlay.hidden{opacity:0;pointer-events:none;transform:scale(0.95)}
@@ -127,11 +127,12 @@ body.source-merged .tab-btn.active::after{background:#f59e0b}
 .kpi-card .source-badge.a{background:rgba(59,130,246,0.15);color:#3b82f6}
 .kpi-card .source-badge.b{background:rgba(16,185,129,0.15);color:#10b981}
 .kpi-card .source-badge.merged{background:rgba(245,158,11,0.15);color:#f59e0b}
-.tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
-.tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
-.tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
-.tab-btn.active{color:#fff;background:rgba(255,255,255,0.06)}
-.tab-btn.active::after{content:'';position:absolute;bottom:2px;left:30%;right:30%;height:2px;background:var(--accent);border-radius:4px}
+
+.tabs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;padding:10px 20px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color)}
+.tab-btn{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);padding:8px 10px;border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition);text-align:center;white-space:nowrap}
+.tab-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-secondary);border-color:rgba(255,255,255,0.1)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 12px var(--accent-glow)}
+
 .tab-panel{display:none;padding:16px 20px}
 .tab-panel.active{display:block}
 .card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition)}
@@ -316,16 +317,16 @@ body.light .action-dropdown-item.danger{color:#DC2626}
 body.light .action-dropdown-item.danger:hover{background:rgba(220,38,38,0.08)}
 body.light .action-dropdown-box .close-btn{color:#A0AEC0}
 body.light .action-dropdown-box .close-btn:hover{color:#1A202C}
-body.light .tabs{background:#FFFFFF}
-body.light .tab-btn{color:#A0AEC0}
-body.light .tab-btn:hover{color:#4A5568}
-body.light .tab-btn.active{color:#1A202C;background:#F7FAFC}
+body.light .tabs-grid{background:#FFFFFF}
+body.light .tab-btn{color:#A0AEC0;border-color:#E2E8F0}
+body.light .tab-btn:hover{color:#4A5568;background:#F7FAFC}
+body.light .tab-btn.active{color:#fff}
 body.light #tab0{background:#F4F6F9}
 body.light .stats-header h2{color:#1A202C}
 body.light .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
 body.light .stats-header .btn-back:hover{background:#F7FAFC}
 body.light .badge-source{background:rgba(108,99,255,0.08);color:var(--accent)}
-@media(max-width:768px){.topbar{padding:10px 16px}.topbar .brand h1{font-size:16px}.topbar .brand .sub{display:none}.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}.kpi-card{padding:10px 14px}.kpi-card .value{font-size:20px}.source-selector{padding:8px 16px;gap:8px}.source-btn{font-size:11px;padding:4px 14px}.tabs{padding:4px 10px;gap:2px}.tab-btn{padding:8px 12px;font-size:11px}.tab-panel{padding:12px}.card-header{padding:10px 14px;font-size:14px}.card-body{padding:10px 12px}.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}.school-item .school-left{flex:1 1 100%;min-width:unset}.school-item .school-logo-center{width:48px;height:48px}.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}.form-grid{grid-template-columns:1fr}.filter-row{flex-direction:column;align-items:stretch}.filter-row select,.filter-row input{width:100%}.filter-group{width:100%;min-width:unset}.modal-card{padding:20px 16px 24px;margin:10px}.codes-grid{grid-template-columns:1fr}.teacher-grid{grid-template-columns:1fr}.login-card{padding:24px 20px;margin:16px}.code-input-group{flex-direction:column}}
+@media(max-width:768px){.topbar{padding:10px 16px}.topbar .brand h1{font-size:16px}.topbar .brand .sub{display:none}.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}.kpi-card{padding:10px 14px}.kpi-card .value{font-size:20px}.source-selector{padding:8px 16px;gap:8px}.source-btn{font-size:11px;padding:4px 14px}.tabs-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));padding:8px 12px;gap:4px}.tab-btn{font-size:10px;padding:6px 8px}.tab-panel{padding:12px}.card-header{padding:10px 14px;font-size:14px}.card-body{padding:10px 12px}.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}.school-item .school-left{flex:1 1 100%;min-width:unset}.school-item .school-logo-center{width:48px;height:48px}.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}.form-grid{grid-template-columns:1fr}.filter-row{flex-direction:column;align-items:stretch}.filter-row select,.filter-row input{width:100%}.filter-group{width:100%;min-width:unset}.modal-card{padding:20px 16px 24px;margin:10px}.codes-grid{grid-template-columns:1fr}.teacher-grid{grid-template-columns:1fr}.login-card{padding:24px 20px;margin:16px}.code-input-group{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -389,7 +390,7 @@ body.light .badge-source{background:rgba(108,99,255,0.08);color:var(--accent)}
 <div class="kpi-card"><div class="label">👥 Students</div><div class="value gold" id="hdrEleves">0</div><div class="source-badge a" id="hdrElevesBadge">SOURCE A</div></div>
 </div>
 
-<div class="tabs" id="tabContainer">
+<div class="tabs-grid" id="tabContainer">
 <button class="tab-btn active" data-tab="tab0">📊 STATS</button>
 <button class="tab-btn" data-tab="tab1">🏫 SCHOOLS</button>
 <button class="tab-btn" data-tab="tab2">👥 MEMBERS A</button>
@@ -633,10 +634,11 @@ body.light .badge-source{background:rgba(108,99,255,0.08);color:var(--accent)}
 
 <div class="toast-container" id="toastContainer"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module">
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfigA = {apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c", authDomain: "gesco-67c43.firebaseapp.com", projectId: "gesco-67c43", storageBucket: "gesco-67c43.firebasestorage.app", messagingSenderId: "333004443566", appId: "1:333004443566:web:de41f60000e418dce9023f"};
 const firebaseConfigB = {apiKey: "AIzaSyBma80S0bc9uzSuO38qn7JLSwLrYniV5Fw", authDomain: "gesco-2.firebaseapp.com", projectId: "gesco-2", storageBucket: "gesco-2.firebasestorage.app", messagingSenderId: "36319988765", appId: "1:36319988765:web:e8cd823804596495248af4"};
@@ -671,7 +673,6 @@ let statsChartInstance = null;
 
 function getDb() { return activeSource === 'a' ? dbA : dbB; }
 function getSourceLabel() { return activeSource === 'a' ? 'SOURCE A' : activeSource === 'b' ? 'SOURCE B' : 'FUSIONNÉ'; }
-function getSourceColor() { return activeSource === 'a' ? '#3b82f6' : activeSource === 'b' ? '#10b981' : '#f59e0b'; }
 
 function toast(msg, type) {
 type = type || "success";
@@ -686,7 +687,6 @@ setTimeout(() => { if (el.parentNode) { el.classList.add('removing'); setTimeout
 }
 
 function escapeHtml(s) { if (!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
-function formatNumber(n) { return new Intl.NumberFormat('en-US').format(n); }
 function genererCode6Chiffres() { return Math.floor(100000 + Math.random() * 900000).toString(); }
 function getSectionFromClasse(classe) { if (!classe) return 'secondary'; const c = classe.toLowerCase(); if (c.includes('niveau') || c.includes('nursery') || c.includes('maternelle')) return 'nursery'; if (['1ère','2ème','3ème','4ème','5ème','6ème'].some(s => c.includes(s))) return 'primary'; return 'secondary'; }
 function getSectionLabel(s) { const map = { 'secondary': 'SECONDARY', 'primary': 'PRIMARY', 'nursery': 'NURSERY' }; return map[s] || s; }
