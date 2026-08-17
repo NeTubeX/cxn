@@ -2,185 +2,974 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rapport Financier</title>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>Situation Financière</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e1a;font-family:'Inter',sans-serif;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}
-.container{max-width:750px;width:100%;display:flex;justify-content:center;align-items:center;min-height:100vh}
-.bubble{background:linear-gradient(145deg,#1a2332,#0f172a);border-radius:32px 32px 32px 8px;padding:35px 40px;border:1px solid rgba(255,215,0,0.15);box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,215,0,0.05);position:relative;max-width:700px;width:100%;animation:appear 0.6s cubic-bezier(0.34,1.56,0.64,1)}
-.bubble::after{content:'';position:absolute;bottom:-16px;left:30px;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:18px solid #0f172a;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
-@keyframes appear{0%{opacity:0;transform:scale(0.95) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
-.bubble-header{text-align:center;padding-bottom:20px;border-bottom:2px solid rgba(255,215,0,0.1);margin-bottom:20px}
-.bubble-header h1{color:#ffd700;font-size:22px;font-weight:700;letter-spacing:0.5px}
-.bubble-header .sub{color:#94a3b8;font-size:12px;margin-top:4px;font-weight:400}
-.bubble-body{font-family:'Courier New',monospace;font-size:13px;line-height:2;color:#e2e8f0;white-space:pre-wrap}
-.bubble-body .gold{color:#ffd700;font-weight:700}
-.bubble-body .green{color:#10b981}
-.bubble-body .orange{color:#f59e0b}
-.bubble-body .red{color:#ef4444}
-.bubble-body .blue{color:#60a5fa}
-.bubble-body .dim{color:#475569}
-.bubble-body .barre{color:#3b82f6;font-weight:400}
-.bubble-body .separator{color:#1e293b}
-.bubble-body .alert{color:#f59e0b;font-weight:700}
-.bubble-body .danger{color:#ef4444;font-weight:700}
-.bubble-footer{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,215,0,0.08);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#64748b}
-.bubble-footer .date{display:flex;align-items:center;gap:6px}
-.btn-close{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.15);color:#ffd700;padding:6px 16px;border-radius:30px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;transition:all 0.3s}
-.btn-close:hover{background:rgba(255,215,0,0.18)}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat-item{background:rgba(0,0,0,0.3);border-radius:12px;padding:10px 12px;text-align:center;border:1px solid rgba(255,215,0,0.06)}
-.stat-item .number{font-size:20px;font-weight:700;font-family:'Inter',sans-serif}
-.stat-item .number.gold{color:#ffd700}
-.stat-item .number.green{color:#10b981}
-.stat-item .number.orange{color:#f59e0b}
-.stat-item .number.red{color:#ef4444}
-.stat-item .label{font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+
+/* ================================
+   BASE
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(245,197,66,.08),
+            transparent 35%
+        ),
+        #070b14;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color:#f8fafc;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:10px;
+}
+
+
+/* ================================
+   CARTE
+================================ */
+
+.container{
+    width:100%;
+    max-width:720px;
+}
+
+.card{
+
+    width:100%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #121b2b,
+            #0b1220
+        );
+
+    border:1px solid rgba(245,197,66,.14);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.04);
+
+    animation:appear .45s ease;
+}
+
+@keyframes appear{
+
+    from{
+        opacity:0;
+        transform:scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.header{
+
+    min-height:62px;
+
+    padding:10px 16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-width:0;
+}
+
+.logo{
+
+    width:36px;
+    height:36px;
+
+    flex-shrink:0;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(245,197,66,.2),
+            rgba(245,197,66,.04)
+        );
+
+    border:
+        1px solid
+        rgba(245,197,66,.18);
+}
+
+.title{
+
+    min-width:0;
+}
+
+.title h1{
+
+    font-size:16px;
+
+    font-weight:800;
+
+    letter-spacing:-.3px;
+
+    white-space:nowrap;
+}
+
+.title p{
+
+    margin-top:2px;
+
+    color:#64748b;
+
+    font-size:7px;
+
+    letter-spacing:.5px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.global-rate{
+
+    font-size:20px;
+
+    font-weight:900;
+
+    color:#f5c542;
+
+    white-space:nowrap;
+}
+
+
+/* ================================
+   LIGNE FINANCIÈRE
+================================ */
+
+.finance-row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.finance-cell{
+
+    min-height:57px;
+
+    padding:9px 14px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.finance-cell + .finance-cell{
+
+    border-left:
+        1px solid
+        rgba(255,255,255,.06);
+
+}
+
+.finance-label{
+
+    color:#64748b;
+
+    font-size:7px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.6px;
+
+    margin-bottom:3px;
+}
+
+.finance-value{
+
+    font-size:14px;
+
+    font-weight:800;
+}
+
+.students{
+
+    color:#f5c542;
+}
+
+.paid{
+
+    color:#22c55e;
+}
+
+.remaining{
+
+    color:#f59e0b;
+}
+
+
+/* ================================
+   CLASSES
+================================ */
+
+.classes{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+.class-cell{
+
+    min-height:54px;
+
+    padding:8px 13px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    background:rgba(255,255,255,.012);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+}
+
+.class-cell:nth-child(odd){
+
+    border-right:
+        1px solid
+        rgba(255,255,255,.055);
+}
+
+.class-cell:nth-child(5),
+.class-cell:nth-child(6){
+
+    border-bottom:none;
+}
+
+
+/* classe + pourcentage */
+
+.class-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:5px;
+}
+
+.class-name{
+
+    font-size:9px;
+
+    font-weight:750;
+
+    color:#e2e8f0;
+}
+
+.class-rate{
+
+    font-size:11px;
+
+    font-weight:900;
+}
+
+
+/* ================================
+   BARRE
+================================ */
+
+.bar{
+
+    width:100%;
+
+    height:4px;
+
+    background:#1e293b;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+.bar-fill{
+
+    height:100%;
+
+    border-radius:20px;
+
+    transition:
+        width 1s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* COULEURS */
+
+.high{
+
+    color:#22c55e;
+}
+
+.high-fill{
+
+    background:#22c55e;
+
+    box-shadow:
+        0 0 8px
+        rgba(34,197,94,.25);
+}
+
+.medium{
+
+    color:#f59e0b;
+}
+
+.medium-fill{
+
+    background:#f59e0b;
+
+    box-shadow:
+        0 0 8px
+        rgba(245,158,11,.2);
+}
+
+.low{
+
+    color:#ef4444;
+}
+
+.low-fill{
+
+    background:#ef4444;
+
+    box-shadow:
+        0 0 8px
+        rgba(239,68,68,.2);
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.footer{
+
+    min-height:38px;
+
+    padding:7px 14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    color:#64748b;
+
+    font-size:7px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.close{
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:#94a3b8;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:7px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.close:hover{
+
+    color:#f5c542;
+
+    border-color:
+        rgba(245,197,66,.25);
+
+    background:
+        rgba(245,197,66,.07);
+}
+
+
+/* ================================
+   PETIT TÉLÉPHONE
+================================ */
+
+@media(max-width:390px){
+
+    body{
+        padding:6px;
+    }
+
+    .card{
+        border-radius:16px;
+    }
+
+    .header{
+        min-height:54px;
+
+        padding:8px 11px;
+    }
+
+    .logo{
+        width:30px;
+        height:30px;
+
+        font-size:14px;
+
+        border-radius:8px;
+    }
+
+    .title h1{
+        font-size:13px;
+    }
+
+    .title p{
+        font-size:6px;
+    }
+
+    .global-rate{
+        font-size:17px;
+    }
+
+    .finance-cell{
+        min-height:50px;
+
+        padding:7px 10px;
+    }
+
+    .finance-label{
+        font-size:6px;
+    }
+
+    .finance-value{
+        font-size:12px;
+    }
+
+    .class-cell{
+        min-height:48px;
+
+        padding:7px 10px;
+    }
+
+    .class-name{
+        font-size:8px;
+    }
+
+    .class-rate{
+        font-size:10px;
+    }
+
+    .bar{
+        height:3px;
+    }
+
+    .footer{
+        min-height:32px;
+
+        padding:5px 10px;
+    }
+
+}
+
+
+/* ================================
+   TRÈS PETIT ÉCRAN
+================================ */
+
+@media(max-width:390px) and (max-height:650px){
+
+    .header{
+        min-height:48px;
+    }
+
+    .logo{
+        width:27px;
+        height:27px;
+    }
+
+    .finance-cell{
+        min-height:44px;
+    }
+
+    .class-cell{
+        min-height:43px;
+    }
+
+    .footer{
+        min-height:28px;
+    }
+
+}
+
 </style>
 </head>
+
+
 <body>
+
+
 <div class="container">
-<div class="bubble">
-<div class="bubble-header">
-<h1>📊 SITUATION FINANCIÈRE</h1>
-<div class="sub">COMPLEXE SCOLAIRE KINSHASA · Année 2026-2027</div>
+
+<div class="card">
+
+
+<!-- ================================
+     HEADER
+================================ -->
+
+<div class="header">
+
+    <div class="header-left">
+
+        <div class="logo">
+            📊
+        </div>
+
+        <div class="title">
+
+            <h1>
+                SITUATION FINANCIÈRE
+            </h1>
+
+            <p>
+                COMPLEXE SCOLAIRE KINSHASA · 2026-2027
+            </p>
+
+        </div>
+
+    </div>
+
+    <div
+        class="global-rate"
+        id="globalRate">
+        72%
+    </div>
+
 </div>
-<div class="stats-row">
-<div class="stat-item"><div class="number gold">63</div><div class="label">Total Élèves</div></div>
-<div class="stat-item"><div class="number green">72%</div><div class="label">Taux Recouvrement</div></div>
-<div class="stat-item"><div class="number orange">1 750 000 FC</div><div class="label">Reste à Payer</div></div>
-<div class="stat-item"><div class="number red">12</div><div class="label">Élèves Impayés</div></div>
+
+
+<!-- ================================
+     INFORMATIONS FINANCIÈRES
+================================ -->
+
+<div class="finance-row">
+
+
+    <div class="finance-cell">
+
+        <div class="finance-label">
+            👨‍🎓 Élèves
+        </div>
+
+        <div
+            class="finance-value students">
+            63
+        </div>
+
+    </div>
+
+
+    <div class="finance-cell">
+
+        <div class="finance-label">
+            💰 Montant encaissé
+        </div>
+
+        <div
+            class="finance-value paid">
+            4 500 000 FC
+        </div>
+
+    </div>
+
 </div>
-<div class="bubble-body" id="rapportBody"></div>
-<div class="bubble-footer">
-<span class="date">📅 <span id="dateUpdate">15 Septembre 2026</span></span>
-<button class="btn-close" onclick="fermer()">✕ Fermer</button>
+
+
+<div class="finance-row">
+
+
+    <div class="finance-cell">
+
+        <div class="finance-label">
+            ⚠ Reste
+        </div>
+
+        <div
+            class="finance-value remaining">
+            1 750 000 FC
+        </div>
+
+    </div>
+
+
+    <div class="finance-cell">
+
+        <div class="finance-label">
+            📋 Total attendu
+        </div>
+
+        <div
+            class="finance-value"
+            style="color:#cbd5e1;">
+            6 250 000 FC
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- ================================
+     CLASSES
+================================ -->
+
+<div class="classes">
+
+
+<!-- 7ème -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            7ème EB
+        </span>
+
+        <span class="class-rate high">
+            85%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill high-fill"
+            style="width:85%;">
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- 8ème -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            8ème EB
+        </span>
+
+        <span class="class-rate high">
+            78%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill high-fill"
+            style="width:78%;">
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- 1ère -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            1ère Année
+        </span>
+
+        <span class="class-rate medium">
+            65%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill medium-fill"
+            style="width:65%;">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 2ème -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            2ème Année
+        </span>
+
+        <span class="class-rate medium">
+            55%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill medium-fill"
+            style="width:55%;">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 3ème -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            3ème Année
+        </span>
+
+        <span class="class-rate low">
+            45%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill low-fill"
+            style="width:45%;">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 4ème -->
+
+<div class="class-cell">
+
+    <div class="class-top">
+
+        <span class="class-name">
+            4ème Année
+        </span>
+
+        <span class="class-rate low">
+            35%
+        </span>
+
+    </div>
+
+    <div class="bar">
+
+        <div
+            class="bar-fill low-fill"
+            style="width:35%;">
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- ================================
+     FOOTER
+================================ -->
+
+<div class="footer">
+
+    <span>
+        📅 Mise à jour :
+        <span id="dateUpdate"></span>
+    </span>
+
+    <button
+        class="close"
+        onclick="fermer()">
+        ✕ Fermer
+    </button>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <script>
-const donnees = {
-    nomEcole: 'COMPLEXE SCOLAIRE KINSHASA',
-    totalEleves: 63,
-    totalMinerval: 6250000,
-    totalPaye: 4500000,
-    reste: 1750000,
-    taux: 72,
-    elevesImpayes: 12,
-    parClasse: {
-        '7ème EB': { taux: 85, count: 21 },
-        '8ème EB': { taux: 78, count: 18 },
-        '1ère Année': { taux: 65, count: 15 },
-        '2ème Année': { taux: 55, count: 14 },
-        '3ème Année': { taux: 45, count: 12 },
-        '4ème Année': { taux: 35, count: 10 }
-    }
-};
 
-function genererBarre(taux) {
-    const nb = Math.round(taux / 4);
-    let barre = '';
-    for (let i = 0; i < nb; i++) barre += '█';
-    for (let i = nb; i < 25; i++) barre += '░';
-    return barre;
-}
+/* ================================
+   DATE
+================================ */
 
-function colorerTexte(texte) {
-    let resultat = '';
-    for (let i = 0; i < texte.length; i++) {
-        const c = texte[i];
-        if (c === '█') {
-            resultat += '<span class="barre">█</span>';
-        } else if (c === '░') {
-            resultat += '<span class="separator">░</span>';
-        } else if (c === '📊' || c === '💰' || c === '📌') {
-            resultat += '<span class="gold">' + c + '</span>';
-        } else if (c === '⚠') {
-            resultat += '<span class="alert">⚠</span>';
-        } else if (c === '🔴') {
-            resultat += '<span class="danger">🔴</span>';
-        } else if (c === '🟡') {
-            resultat += '<span class="orange">🟡</span>';
-        } else if (c === '🟢') {
-            resultat += '<span class="green">🟢</span>';
-        } else if (c === '━') {
-            resultat += '<span class="dim">━</span>';
-        } else {
-            resultat += c;
+document.getElementById(
+    "dateUpdate"
+).textContent =
+    new Date().toLocaleDateString(
+        "fr-FR",
+        {
+            day:"numeric",
+            month:"long",
+            year:"numeric"
         }
-    }
-    return resultat;
+    );
+
+
+/* ================================
+   FERMER
+================================ */
+
+function fermer(){
+
+    const card =
+        document.querySelector(".card");
+
+    card.style.transition =
+        ".25s ease";
+
+    card.style.opacity="0";
+
+    card.style.transform=
+        "scale(.96)";
+
+    setTimeout(function(){
+
+        card.style.display="none";
+
+    },250);
+
 }
 
-function genererRapport() {
-    const d = donnees;
-    let txt = '';
-    txt += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
-    txt += '📊 SITUATION FINANCIÈRE - ' + d.nomEcole + '\n';
-    txt += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
-    txt += '💰 RECOUVREMENT GLOBAL\n';
-    txt += '   Taux : ' + d.taux + '% (' + d.totalPaye.toLocaleString() + ' FC encaissés sur ' + d.totalMinerval.toLocaleString() + ' FC)\n';
-    txt += '   Reste : ' + d.reste.toLocaleString() + ' FC\n\n';
-    txt += '📊 PAR CLASSE :\n';
-    const classes = ['7ème EB', '8ème EB', '1ère Année', '2ème Année', '3ème Année', '4ème Année'];
-    for (const classe of classes) {
-        const data = d.parClasse[classe];
-        if (!data) continue;
-        const barre = genererBarre(data.taux);
-        const pourcent = data.taux.toString().padStart(3, ' ');
-        const count = data.count.toString().padStart(2, ' ');
-        txt += '   ' + classe.padEnd(12) + ' : ' + pourcent + '%  ' + barre + '  (' + count + ' élèves)\n';
-    }
-    txt += '\n';
-    let pireClasse = '', pireTaux = 100;
-    let meilleureClasse = '', meilleurTaux = 0;
-    for (const classe of classes) {
-        const data = d.parClasse[classe];
-        if (data) {
-            if (data.taux > meilleurTaux) { meilleurTaux = data.taux; meilleureClasse = classe; }
-            if (data.taux < pireTaux) { pireTaux = data.taux; pireClasse = classe; }
-        }
-    }
-    txt += '⚠️ POINTS D\'ATTENTION :\n';
-    txt += '   • ' + d.elevesImpayes + ' élèves en retard de paiement (3 mois +)\n';
-    if (pireClasse) txt += '   • ' + pireClasse + ' : taux le plus bas (' + pireTaux + '%)\n';
-    if (meilleureClasse) txt += '   • ' + meilleureClasse + ' : meilleur taux (' + meilleurTaux + '%)\n';
-    txt += '\n📌 RECOMMANDATIONS :\n';
-    let num = 1;
-    if (d.taux < 60) {
-        txt += '   ' + num + '. Mettre en place un suivi hebdomadaire des paiements\n';
-        num++;
-    }
-    if (d.elevesImpayes > 10) {
-        txt += '   ' + num + '. Contacter les parents des ' + d.elevesImpayes + ' élèves en retard\n';
-        num++;
-    }
-    txt += '   ' + num + '. Vérifier les exonérations dans les classes à faible taux\n';
-    num++;
-    txt += '   ' + num + '. Organiser une réunion avec les représentants des classes problématiques\n';
-    return txt;
-}
-
-function afficherRapport() {
-    const container = document.getElementById('rapportBody');
-    const texte = genererRapport();
-    container.innerHTML = colorerTexte(texte);
-    document.getElementById('dateUpdate').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-}
-
-function fermer() {
-    const bubble = document.querySelector('.bubble');
-    bubble.style.transition = 'all 0.3s ease';
-    bubble.style.opacity = '0';
-    bubble.style.transform = 'scale(0.95) translateY(10px)';
-    setTimeout(() => {
-        bubble.style.display = 'none';
-    }, 300);
-}
-
-document.addEventListener('DOMContentLoaded', afficherRapport);
 </script>
+
 </body>
 </html>
