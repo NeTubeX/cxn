@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport Financier Automatique</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;font-family:'Courier New',monospace;padding:20px;display:flex;justify-content:center;min-height:100vh}
+.container{max-width:800px;width:100%;background:rgba(18,18,31,0.95);border-radius:20px;padding:30px;border:1px solid rgba(255,215,0,0.2);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.header{text-align:center;margin-bottom:25px;padding-bottom:20px;border-bottom:2px solid rgba(255,215,0,0.2)}
+.header h1{color:#ffd700;font-size:22px;font-weight:700;letter-spacing:1px}
+.header .sub{color:#94a3b8;font-size:12px;margin-top:5px}
+.rapport{white-space:pre-wrap;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;color:#e2e8f0;min-height:400px}
+.rapport .title{color:#ffd700;font-weight:bold;font-size:16px}
+.rapport .highlight{color:#10b981}
+.rapport .warning{color:#f59e0b}
+.rapport .danger{color:#ef4444}
+.rapport .barre{color:#3b82f6}
+.rapport .separator{color:#334155}
+.footer{margin-top:20px;padding-top:15px;border-top:1px solid rgba(255,215,0,0.1);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#64748b}
+.btn-regen{background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);color:#ffd700;padding:8px 20px;border-radius:30px;cursor:pointer;font-size:12px;font-family:'Courier New',monospace;transition:all 0.3s}
+.btn-regen:hover{background:rgba(255,215,0,0.25);transform:scale(1.02)}
+.typewriter-cursor{display:inline-block;width:2px;height:1em;background:#ffd700;animation:blink 0.8s infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.stats-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-mini{background:rgba(15,23,42,0.6);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,215,0,0.08)}
+.stat-mini .number{font-size:22px;font-weight:700;color:#ffd700}
+.stat-mini .label{font-size:9px;color:#94a3b8;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+.stat-mini .number.green{color:#10b981}
+.stat-mini .number.orange{color:#f59e0b}
+.stat-mini .number.red{color:#ef4444}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>📊 SITUATION FINANCIÈRE</h1>
+<div class="sub">COMPLEXE SCOLAIRE KINSHASA - Année 2026-2027</div>
+</div>
+<div class="stats-mini">
+<div class="stat-mini"><div class="number" id="statTotal">63</div><div class="label">Total Élèves</div></div>
+<div class="stat-mini"><div class="number green" id="statTaux">72%</div><div class="label">Taux Recouvrement</div></div>
+<div class="stat-mini"><div class="number orange" id="statReste">1 750 000 FC</div><div class="label">Reste à Payer</div></div>
+<div class="stat-mini"><div class="number red" id="statImpayes">12</div><div class="label">Élèves Impayés</div></div>
+</div>
+<div class="rapport" id="rapportContainer"></div>
+<div class="footer">
+<span>📅 Dernière mise à jour : <span id="dateUpdate">15 Septembre 2026</span></span>
+<button class="btn-regen" onclick="relancerRapport()">⟳ Re-générer</button>
+</div>
+</div>
+
+<script>
+const donneesSimulees = {
+    nomEcole: 'COMPLEXE SCOLAIRE KINSHASA',
+    totalEleves: 63,
+    totalMinerval: 6250000,
+    totalPaye: 4500000,
+    reste: 1750000,
+    taux: 72,
+    elevesImpayes: 12,
+    elevesEnOrdre: 51,
+    parClasse: {
+        '7ème EB': { taux: 85, count: 21, paye: 1785000, attendu: 2100000 },
+        '8ème EB': { taux: 78, count: 18, paye: 1404000, attendu: 1800000 },
+        '1ère Année': { taux: 65, count: 15, paye: 975000, attendu: 1500000 },
+        '2ème Année': { taux: 55, count: 14, paye: 770000, attendu: 1400000 },
+        '3ème Année': { taux: 45, count: 12, paye: 540000, attendu: 1200000 },
+        '4ème Année': { taux: 35, count: 10, paye: 350000, attendu: 1000000 }
+    }
+};
+
+function genererRapport() {
+    const d = donneesSimulees;
+    let rapport = '';
+    rapport += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+    rapport += '📊 SITUATION FINANCIÈRE - ' + d.nomEcole + '\n';
+    rapport += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+    rapport += '💰 RECOUVREMENT GLOBAL\n';
+    rapport += '   Taux : ' + d.taux + '% (' + d.totalPaye.toLocaleString() + ' FC encaissés sur ' + d.totalMinerval.toLocaleString() + ' FC)\n';
+    rapport += '   Reste : ' + d.reste.toLocaleString() + ' FC\n\n';
+    rapport += '📊 PAR CLASSE :\n';
+    const classes = ['7ème EB', '8ème EB', '1ère Année', '2ème Année', '3ème Année', '4ème Année'];
+    for (const classe of classes) {
+        const data = d.parClasse[classe];
+        if (!data) continue;
+        const barre = '█'.repeat(Math.round(data.taux / 4)) + '░'.repeat(25 - Math.round(data.taux / 4));
+        const pourcent = data.taux.toString().padStart(3, ' ');
+        const count = data.count.toString().padStart(2, ' ');
+        rapport += '   ' + classe.padEnd(12) + ' : ' + pourcent + '%  ' + barre + '  (' + count + ' élèves)\n';
+    }
+    rapport += '\n';
+    const classesProblematiques = [];
+    for (const classe of classes) {
+        const data = d.parClasse[classe];
+        if (data && data.taux < 50) classesProblematiques.push(classe);
+    }
+    const meilleureClasse = classes.find(c => d.parClasse[c] && d.parClasse[c].taux === Math.max(...Object.values(d.parClasse).map(v => v.taux)));
+    const pireClasse = classes.find(c => d.parClasse[c] && d.parClasse[c].taux === Math.min(...Object.values(d.parClasse).map(v => v.taux)));
+    rapport += '⚠️ POINTS D\'ATTENTION :\n';
+    rapport += '   • ' + d.elevesImpayes + ' élèves en retard de paiement (3 mois +)\n';
+    if (pireClasse) rapport += '   • ' + pireClasse + ' : taux le plus bas (' + d.parClasse[pireClasse].taux + '%)\n';
+    if (meilleureClasse) rapport += '   • ' + meilleureClasse + ' : meilleur taux (' + d.parClasse[meilleureClasse].taux + '%)\n';
+    if (classesProblematiques.length > 0) {
+        rapport += '   • Classes critiques : ' + classesProblematiques.join(', ') + '\n';
+    }
+    rapport += '\n📌 RECOMMANDATIONS :\n';
+    let recoNum = 1;
+    if (classesProblematiques.length > 0) {
+        rapport += '   ' + recoNum + '. Prioriser les relances pour ' + classesProblematiques.join(', ') + '\n';
+        recoNum++;
+    }
+    if (d.taux < 60) {
+        rapport += '   ' + recoNum + '. Mettre en place un suivi hebdomadaire des paiements\n';
+        recoNum++;
+    }
+    if (d.elevesImpayes > 10) {
+        rapport += '   ' + recoNum + '. Contacter les parents des ' + d.elevesImpayes + ' élèves en retard\n';
+        recoNum++;
+    }
+    rapport += '   ' + recoNum + '. Vérifier les exonérations pour les classes à faible taux\n';
+    recoNum++;
+    rapport += '   ' + recoNum + '. Organiser une réunion avec les représentants des classes problématiques\n';
+    rapport += '\n📅 Dernière mise à jour : ' + new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + '\n';
+    rapport += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    return rapport;
+}
+
+function genererBarresHTML(texte) {
+    return texte.replace(/█/g, '<span class="barre">█</span>')
+                .replace(/░/g, '<span class="separator">░</span>')
+                .replace(/━━━/g, '<span class="separator">━━━</span>')
+                .replace(/⚠️/g, '<span class="warning">⚠️</span>')
+                .replace(/💰/g, '<span class="highlight">💰</span>')
+                .replace(/📊/g, '<span class="title">📊</span>')
+                .replace(/📌/g, '<span class="title">📌</span>')
+                .replace(/🔴/g, '<span class="danger">🔴</span>')
+                .replace(/🟡/g, '<span class="warning">🟡</span>')
+                .replace(/🟢/g, '<span class="highlight">🟢</span>');
+}
+
+async function typeWriterEffect(element, text, speed = 15) {
+    element.innerHTML = '';
+    let i = 0;
+    const chars = text.split('');
+    while (i < chars.length) {
+        if (chars[i] === '\n') {
+            element.innerHTML += '\n';
+            i++;
+            continue;
+        }
+        let chunk = '';
+        let j = i;
+        while (j < chars.length && chars[j] !== '\n') {
+            chunk += chars[j];
+            j++;
+        }
+        for (let k = 0; k < chunk.length; k++) {
+            element.innerHTML += chunk[k];
+            const delay = chunk[k] === '█' ? 2 : chunk[k] === '░' ? 1 : speed;
+            await new Promise(r => setTimeout(r, delay));
+        }
+        if (j < chars.length && chars[j] === '\n') {
+            element.innerHTML += '\n';
+            i = j + 1;
+        } else {
+            i = j;
+        }
+        element.scrollTop = element.scrollHeight;
+    }
+}
+
+function mettreAJourStats() {
+    const d = donneesSimulees;
+    document.getElementById('statTotal').textContent = d.totalEleves;
+    document.getElementById('statTaux').textContent = d.taux + '%';
+    document.getElementById('statReste').textContent = d.reste.toLocaleString() + ' FC';
+    document.getElementById('statImpayes').textContent = d.elevesImpayes;
+}
+
+async function afficherRapport() {
+    const container = document.getElementById('rapportContainer');
+    const rapportTexte = genererRapport();
+    const rapportHTML = genererBarresHTML(rapportTexte);
+    container.innerHTML = '';
+    await typeWriterEffect(container, rapportHTML, 12);
+}
+
+async function relancerRapport() {
+    const container = document.getElementById('rapportContainer');
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8;">⏳ Régénération du rapport...</div>';
+    await new Promise(r => setTimeout(r, 500));
+    await afficherRapport();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('dateUpdate').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    mettreAJourStats();
+    afficherRapport();
+});
+</script>
+</body>
+</html>
