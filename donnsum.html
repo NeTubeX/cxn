@@ -85,7 +85,10 @@ function genererRapport() {
     for (const classe of classes) {
         const data = d.parClasse[classe];
         if (!data) continue;
-        const barre = '█'.repeat(Math.round(data.taux / 4)) + '░'.repeat(25 - Math.round(data.taux / 4));
+        const nbCarres = Math.round(data.taux / 4);
+        let barre = '';
+        for (let i = 0; i < nbCarres; i++) barre += '█';
+        for (let i = nbCarres; i < 25; i++) barre += '░';
         const pourcent = data.taux.toString().padStart(3, ' ');
         const count = data.count.toString().padStart(2, ' ');
         rapport += '   ' + classe.padEnd(12) + ' : ' + pourcent + '%  ' + barre + '  (' + count + ' élèves)\n';
@@ -96,12 +99,21 @@ function genererRapport() {
         const data = d.parClasse[classe];
         if (data && data.taux < 50) classesProblematiques.push(classe);
     }
-    const meilleureClasse = classes.find(c => d.parClasse[c] && d.parClasse[c].taux === Math.max(...Object.values(d.parClasse).map(v => v.taux)));
-    const pireClasse = classes.find(c => d.parClasse[c] && d.parClasse[c].taux === Math.min(...Object.values(d.parClasse).map(v => v.taux)));
+    let meilleureClasse = '';
+    let meilleurTaux = 0;
+    let pireClasse = '';
+    let pireTaux = 100;
+    for (const classe of classes) {
+        const data = d.parClasse[classe];
+        if (data) {
+            if (data.taux > meilleurTaux) { meilleurTaux = data.taux; meilleureClasse = classe; }
+            if (data.taux < pireTaux) { pireTaux = data.taux; pireClasse = classe; }
+        }
+    }
     rapport += '⚠️ POINTS D\'ATTENTION :\n';
     rapport += '   • ' + d.elevesImpayes + ' élèves en retard de paiement (3 mois +)\n';
-    if (pireClasse) rapport += '   • ' + pireClasse + ' : taux le plus bas (' + d.parClasse[pireClasse].taux + '%)\n';
-    if (meilleureClasse) rapport += '   • ' + meilleureClasse + ' : meilleur taux (' + d.parClasse[meilleureClasse].taux + '%)\n';
+    if (pireClasse) rapport += '   • ' + pireClasse + ' : taux le plus bas (' + pireTaux + '%)\n';
+    if (meilleureClasse) rapport += '   • ' + meilleureClasse + ' : meilleur taux (' + meilleurTaux + '%)\n';
     if (classesProblematiques.length > 0) {
         rapport += '   • Classes critiques : ' + classesProblematiques.join(', ') + '\n';
     }
@@ -128,32 +140,47 @@ function genererRapport() {
 }
 
 function genererBarresHTML(texte) {
-    return texte.replace(/█/g, '<span class="barre">█</span>')
-                .replace(/░/g, '<span class="separator">░</span>')
-                .replace(/━━━/g, '<span class="separator">━━━</span>')
-                .replace(/⚠️/g, '<span class="warning">⚠️</span>')
-                .replace(/💰/g, '<span class="highlight">💰</span>')
-                .replace(/📊/g, '<span class="title">📊</span>')
-                .replace(/📌/g, '<span class="title">📌</span>')
-                .replace(/🔴/g, '<span class="danger">🔴</span>')
-                .replace(/🟡/g, '<span class="warning">🟡</span>')
-                .replace(/🟢/g, '<span class="highlight">🟢</span>');
+    let resultat = '';
+    for (let i = 0; i < texte.length; i++) {
+        const c = texte[i];
+        if (c === '█') {
+            resultat += '<span class="barre">█</span>';
+        } else if (c === '░') {
+            resultat += '<span class="separator">░</span>';
+        } else if (c === '━') {
+            resultat += '<span class="separator">━</span>';
+        } else if (c === '⚠') {
+            resultat += '<span class="warning">⚠</span>';
+        } else if (c === '💰') {
+            resultat += '<span class="highlight">💰</span>';
+        } else if (c === '📊' || c === '📌') {
+            resultat += '<span class="title">' + c + '</span>';
+        } else if (c === '🔴') {
+            resultat += '<span class="danger">🔴</span>';
+        } else if (c === '🟡') {
+            resultat += '<span class="warning">🟡</span>';
+        } else if (c === '🟢') {
+            resultat += '<span class="highlight">🟢</span>';
+        } else {
+            resultat += c;
+        }
+    }
+    return resultat;
 }
 
 async function typeWriterEffect(element, text, speed = 15) {
     element.innerHTML = '';
     let i = 0;
-    const chars = text.split('');
-    while (i < chars.length) {
-        if (chars[i] === '\n') {
+    while (i < text.length) {
+        if (text[i] === '\n') {
             element.innerHTML += '\n';
             i++;
             continue;
         }
         let chunk = '';
         let j = i;
-        while (j < chars.length && chars[j] !== '\n') {
-            chunk += chars[j];
+        while (j < text.length && text[j] !== '\n') {
+            chunk += text[j];
             j++;
         }
         for (let k = 0; k < chunk.length; k++) {
@@ -161,7 +188,7 @@ async function typeWriterEffect(element, text, speed = 15) {
             const delay = chunk[k] === '█' ? 2 : chunk[k] === '░' ? 1 : speed;
             await new Promise(r => setTimeout(r, delay));
         }
-        if (j < chars.length && chars[j] === '\n') {
+        if (j < text.length && text[j] === '\n') {
             element.innerHTML += '\n';
             i = j + 1;
         } else {
