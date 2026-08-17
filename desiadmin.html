@@ -431,6 +431,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 <script type="module">
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfigA = {
 apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
@@ -454,6 +455,8 @@ const appA = initializeApp(firebaseConfigA, 'sourceA');
 const appB = initializeApp(firebaseConfigB, 'sourceB');
 const dbA = getFirestore(appA);
 const dbB = getFirestore(appB);
+
+const auth = getAuth(appA);
 
 let activeSource = 'a';
 let allDataA = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
@@ -572,6 +575,43 @@ const source = activeSource === 'a' ? 'a' : 'b';
 el.className = 'source-badge ' + source;
 el.textContent = activeSource === 'a' ? 'SOURCE A' : 'SOURCE B';
 });
+}
+
+async function loadMergedData() {
+document.body.classList.add('source-merged-mode');
+document.getElementById('sourceStatus').className = 'merged';
+document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
+try {
+const [dataA, dataB] = await Promise.all([
+loadSourceData('a'),
+loadSourceData('b')
+]);
+const merged = {
+schools: [...dataA.schools, ...dataB.schools],
+teachers: [...dataA.teachers, ...dataB.teachers],
+sheets: [...dataA.sheets, ...dataB.sheets],
+students: [...dataA.students, ...dataB.students],
+codes: [...dataA.codes, ...dataB.codes],
+parentCodes: [...dataA.parentCodes, ...dataB.parentCodes]
+};
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+el.className = 'source-badge merged';
+el.textContent = 'FUSIONNÉ';
+});
+updateCounters(merged);
+loadSchools(merged);
+loadMembers(merged);
+loadTeachers(merged);
+loadSheets(merged);
+loadCodes(merged);
+loadParentCodes(merged);
+loadWhiteMonths(merged);
+loadExplorer(merged);
+toast('📊 Données fusionnées chargées', 'success');
+} catch (e) {
+console.error('Erreur chargement fusionné:', e);
+toast('❌ Erreur chargement fusionné', 'error');
+}
 }
 
 function updateCounters(data) {
@@ -796,58 +836,105 @@ let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minma
 container.innerHTML = html;
 }
 
+function attachEvents() {
+console.log('🔗 Attachement des événements...');
+
 document.querySelectorAll('.source-btn').forEach(btn => {
-btn.addEventListener('click', function() {
-document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active', 'active-a', 'active-b', 'active-merged'));
-this.classList.add('active');
-if (this.dataset.source === 'a') { this.classList.add('active-a'); activeSource = 'a'; }
-else if (this.dataset.source === 'b') { this.classList.add('active-b'); activeSource = 'b'; }
-else { this.classList.add('active-merged'); activeSource = 'merged'; }
-document.getElementById('membersPagination').style.display = 'none';
-currentPage = 1;
-if (activeSource === 'merged') {
-document.body.classList.add('source-merged-mode');
-document.getElementById('sourceStatus').className = 'merged';
-document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
-toast('📊 Mode Fusionné activé - Affichage combiné des deux sources', 'info');
-} else {
-loadAll();
-}
-});
-});
-
-document.getElementById('themeToggle').addEventListener('click', function() {
-document.body.classList.toggle('light');
-this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-});
-
-document.getElementById('clearCacheBtn').addEventListener('click', function() {
-toast('🧹 Cache cleared successfully!', 'success');
-location.reload();
+btn.removeEventListener('click', handleSourceClick);
+btn.addEventListener('click', handleSourceClick);
 });
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
-btn.addEventListener('click', function() {
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-this.classList.add('active');
-document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-document.getElementById(this.dataset.tab).classList.add('active');
-});
+btn.removeEventListener('click', handleTabClick);
+btn.addEventListener('click', handleTabClick);
 });
 
-document.getElementById('schoolSearch').addEventListener('input', () => loadAll());
-document.getElementById('schoolStatusFilter').addEventListener('change', () => loadAll());
-document.getElementById('membersSearch').addEventListener('input', () => loadAll());
-document.getElementById('membersEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('teachersSearch').addEventListener('input', () => loadAll());
-document.getElementById('teachersEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('sheetsSearch').addEventListener('input', () => loadAll());
-document.getElementById('sheetsEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('codesEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('parentCodesEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('parentCodesSearch').addEventListener('input', () => loadAll());
-document.getElementById('wmEcoleFilter').addEventListener('change', () => loadAll());
-document.getElementById('explorerEcoleFilter').addEventListener('change', () => loadAll());
+const filters = [
+'schoolSearch', 'schoolStatusFilter',
+'membersSearch', 'membersEcoleFilter',
+'teachersSearch', 'teachersEcoleFilter',
+'sheetsSearch', 'sheetsEcoleFilter',
+'codesEcoleFilter',
+'parentCodesEcoleFilter', 'parentCodesSearch',
+'wmEcoleFilter',
+'explorerEcoleFilter'
+];
+
+filters.forEach(id => {
+const el = document.getElementById(id);
+if (el) {
+el.removeEventListener('input', handleFilterChange);
+el.removeEventListener('change', handleFilterChange);
+if (el.tagName === 'INPUT') {
+el.addEventListener('input', handleFilterChange);
+} else {
+el.addEventListener('change', handleFilterChange);
+}
+}
+});
+
+console.log('✅ Événements attachés');
+}
+
+function handleSourceClick(e) {
+const btn = e.currentTarget;
+const source = btn.dataset.source;
+
+document.querySelectorAll('.source-btn').forEach(b => {
+b.classList.remove('active', 'active-a', 'active-b', 'active-merged');
+});
+
+btn.classList.add('active');
+
+if (source === 'a') {
+btn.classList.add('active-a');
+activeSource = 'a';
+document.body.classList.add('source-a-mode');
+document.body.classList.remove('source-b-mode', 'source-merged-mode');
+document.getElementById('sourceStatus').className = 'a';
+document.getElementById('sourceStatus').textContent = '🔵 SOURCE A · gesco-67c43';
+} else if (source === 'b') {
+btn.classList.add('active-b');
+activeSource = 'b';
+document.body.classList.add('source-b-mode');
+document.body.classList.remove('source-a-mode', 'source-merged-mode');
+document.getElementById('sourceStatus').className = 'b';
+document.getElementById('sourceStatus').textContent = '🟢 SOURCE B · gesco-2';
+} else {
+btn.classList.add('active-merged');
+activeSource = 'merged';
+document.body.classList.add('source-merged-mode');
+document.body.classList.remove('source-a-mode', 'source-b-mode');
+document.getElementById('sourceStatus').className = 'merged';
+document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
+toast('📊 Mode Fusionné activé', 'info');
+}
+
+document.getElementById('membersPagination').style.display = 'none';
+currentPage = 1;
+
+if (activeSource === 'merged') {
+loadMergedData();
+} else {
+loadAll();
+}
+}
+
+function handleTabClick(e) {
+const btn = e.currentTarget;
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById(btn.dataset.tab).classList.add('active');
+}
+
+function handleFilterChange() {
+if (activeSource === 'merged') {
+loadMergedData();
+} else {
+loadAll();
+}
+}
 
 function updateSelectors(data) {
 const selectors = ['membersEcoleFilter', 'teachersEcoleFilter', 'sheetsEcoleFilter', 'codesEcoleFilter', 'parentCodesEcoleFilter', 'wmEcoleFilter', 'explorerEcoleFilter'];
@@ -866,13 +953,35 @@ if (val && el.querySelector('option[value="' + val + '"]')) el.value = val;
 });
 }
 
-function updateAll() {
-const data = activeSource === 'a' ? allDataA : allDataB;
-updateSelectors(data);
-loadAll();
+async function initDashboard() {
+console.log('🚀 Initialisation du Dashboard...');
+
+const user = auth.currentUser;
+
+if (!user) {
+console.log('⛔ Non authentifié, redirection vers login');
+window.location.href = 'login_admin.html';
+return;
 }
 
-loadAll();
+console.log('✅ Utilisateur authentifié:', user.email);
+
+await loadAll();
+
+attachEvents();
+
+console.log('✅ Dashboard prêt !');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+console.log('📄 DOM prêt');
+initDashboard();
+});
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+console.log('📄 DOM déjà prêt');
+initDashboard();
+}
 </script>
 </body>
 </html>
