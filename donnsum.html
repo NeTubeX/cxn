@@ -6,46 +6,57 @@
 <title>Rapport Financier</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e1a;font-family:'Courier New',monospace;padding:20px;display:flex;justify-content:center;min-height:100vh}
-.container{max-width:900px;width:100%;background:rgba(18,18,31,0.95);border-radius:20px;padding:30px;border:1px solid rgba(255,215,0,0.2)}
-.header{text-align:center;margin-bottom:25px;padding-bottom:20px;border-bottom:2px solid rgba(255,215,0,0.2)}
-.header h1{color:#ffd700;font-size:22px;font-weight:700}
-.header .sub{color:#94a3b8;font-size:12px;margin-top:5px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:25px}
-.stat-card{background:rgba(15,23,42,0.8);border-radius:14px;padding:16px;text-align:center;border:1px solid rgba(255,215,0,0.1)}
-.stat-card .number{font-size:26px;font-weight:700;color:#ffd700}
-.stat-card .number.green{color:#10b981}
-.stat-card .number.orange{color:#f59e0b}
-.stat-card .number.red{color:#ef4444}
-.stat-card .label{font-size:10px;color:#94a3b8;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
-.rapport{font-family:'Courier New',monospace;font-size:13px;line-height:1.8;color:#e2e8f0;background:rgba(0,0,0,0.3);border-radius:12px;padding:20px;white-space:pre-wrap;overflow-x:auto}
-.rapport .title{color:#ffd700;font-weight:bold}
-.rapport .highlight{color:#10b981}
-.rapport .warning{color:#f59e0b}
-.rapport .danger{color:#ef4444}
-.rapport .barre{color:#3b82f6}
-.rapport .separator{color:#334155}
-.footer{margin-top:20px;padding-top:15px;border-top:1px solid rgba(255,215,0,0.1);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#64748b}
-.btn-regen{background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);color:#ffd700;padding:8px 20px;border-radius:30px;cursor:pointer;font-size:12px;font-family:'Courier New',monospace;transition:all 0.3s}
-.btn-regen:hover{background:rgba(255,215,0,0.25)}
+body{background:#0a0e1a;font-family:'Inter',sans-serif;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.container{max-width:750px;width:100%;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.bubble{background:linear-gradient(145deg,#1a2332,#0f172a);border-radius:32px 32px 32px 8px;padding:35px 40px;border:1px solid rgba(255,215,0,0.15);box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,215,0,0.05);position:relative;max-width:700px;width:100%;animation:appear 0.6s cubic-bezier(0.34,1.56,0.64,1)}
+.bubble::after{content:'';position:absolute;bottom:-16px;left:30px;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:18px solid #0f172a;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
+@keyframes appear{0%{opacity:0;transform:scale(0.95) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.bubble-header{text-align:center;padding-bottom:20px;border-bottom:2px solid rgba(255,215,0,0.1);margin-bottom:20px}
+.bubble-header h1{color:#ffd700;font-size:22px;font-weight:700;letter-spacing:0.5px}
+.bubble-header .sub{color:#94a3b8;font-size:12px;margin-top:4px;font-weight:400}
+.bubble-body{font-family:'Courier New',monospace;font-size:13px;line-height:2;color:#e2e8f0;white-space:pre-wrap}
+.bubble-body .gold{color:#ffd700;font-weight:700}
+.bubble-body .green{color:#10b981}
+.bubble-body .orange{color:#f59e0b}
+.bubble-body .red{color:#ef4444}
+.bubble-body .blue{color:#60a5fa}
+.bubble-body .dim{color:#475569}
+.bubble-body .barre{color:#3b82f6;font-weight:400}
+.bubble-body .separator{color:#1e293b}
+.bubble-body .alert{color:#f59e0b;font-weight:700}
+.bubble-body .danger{color:#ef4444;font-weight:700}
+.bubble-footer{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,215,0,0.08);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#64748b}
+.bubble-footer .date{display:flex;align-items:center;gap:6px}
+.btn-close{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.15);color:#ffd700;padding:6px 16px;border-radius:30px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;transition:all 0.3s}
+.btn-close:hover{background:rgba(255,215,0,0.18)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-item{background:rgba(0,0,0,0.3);border-radius:12px;padding:10px 12px;text-align:center;border:1px solid rgba(255,215,0,0.06)}
+.stat-item .number{font-size:20px;font-weight:700;font-family:'Inter',sans-serif}
+.stat-item .number.gold{color:#ffd700}
+.stat-item .number.green{color:#10b981}
+.stat-item .number.orange{color:#f59e0b}
+.stat-item .number.red{color:#ef4444}
+.stat-item .label{font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
 </style>
 </head>
 <body>
 <div class="container">
-<div class="header">
+<div class="bubble">
+<div class="bubble-header">
 <h1>📊 SITUATION FINANCIÈRE</h1>
-<div class="sub">COMPLEXE SCOLAIRE KINSHASA - Année 2026-2027</div>
+<div class="sub">COMPLEXE SCOLAIRE KINSHASA · Année 2026-2027</div>
 </div>
-<div class="stats-grid">
-<div class="stat-card"><div class="number" id="statTotal">63</div><div class="label">Total Élèves</div></div>
-<div class="stat-card"><div class="number green" id="statTaux">72%</div><div class="label">Taux Recouvrement</div></div>
-<div class="stat-card"><div class="number orange" id="statReste">1 750 000 FC</div><div class="label">Reste à Payer</div></div>
-<div class="stat-card"><div class="number red" id="statImpayes">12</div><div class="label">Élèves Impayés</div></div>
+<div class="stats-row">
+<div class="stat-item"><div class="number gold">63</div><div class="label">Total Élèves</div></div>
+<div class="stat-item"><div class="number green">72%</div><div class="label">Taux Recouvrement</div></div>
+<div class="stat-item"><div class="number orange">1 750 000 FC</div><div class="label">Reste à Payer</div></div>
+<div class="stat-item"><div class="number red">12</div><div class="label">Élèves Impayés</div></div>
 </div>
-<div class="rapport" id="rapportContainer"></div>
-<div class="footer">
-<span>📅 <span id="dateUpdate">15 Septembre 2026</span></span>
-<button class="btn-regen" onclick="genererRapport()">⟳ Actualiser</button>
+<div class="bubble-body" id="rapportBody"></div>
+<div class="bubble-footer">
+<span class="date">📅 <span id="dateUpdate">15 Septembre 2026</span></span>
+<button class="btn-close" onclick="fermer()">✕ Fermer</button>
+</div>
 </div>
 </div>
 
@@ -76,16 +87,43 @@ function genererBarre(taux) {
     return barre;
 }
 
+function colorerTexte(texte) {
+    let resultat = '';
+    for (let i = 0; i < texte.length; i++) {
+        const c = texte[i];
+        if (c === '█') {
+            resultat += '<span class="barre">█</span>';
+        } else if (c === '░') {
+            resultat += '<span class="separator">░</span>';
+        } else if (c === '📊' || c === '💰' || c === '📌') {
+            resultat += '<span class="gold">' + c + '</span>';
+        } else if (c === '⚠') {
+            resultat += '<span class="alert">⚠</span>';
+        } else if (c === '🔴') {
+            resultat += '<span class="danger">🔴</span>';
+        } else if (c === '🟡') {
+            resultat += '<span class="orange">🟡</span>';
+        } else if (c === '🟢') {
+            resultat += '<span class="green">🟢</span>';
+        } else if (c === '━') {
+            resultat += '<span class="dim">━</span>';
+        } else {
+            resultat += c;
+        }
+    }
+    return resultat;
+}
+
 function genererRapport() {
     const d = donnees;
-    let html = '';
-    html += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
-    html += '📊 SITUATION FINANCIÈRE - ' + d.nomEcole + '\n';
-    html += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
-    html += '💰 RECOUVREMENT GLOBAL\n';
-    html += '   Taux : ' + d.taux + '% (' + d.totalPaye.toLocaleString() + ' FC encaissés sur ' + d.totalMinerval.toLocaleString() + ' FC)\n';
-    html += '   Reste : ' + d.reste.toLocaleString() + ' FC\n\n';
-    html += '📊 PAR CLASSE :\n';
+    let txt = '';
+    txt += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+    txt += '📊 SITUATION FINANCIÈRE - ' + d.nomEcole + '\n';
+    txt += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+    txt += '💰 RECOUVREMENT GLOBAL\n';
+    txt += '   Taux : ' + d.taux + '% (' + d.totalPaye.toLocaleString() + ' FC encaissés sur ' + d.totalMinerval.toLocaleString() + ' FC)\n';
+    txt += '   Reste : ' + d.reste.toLocaleString() + ' FC\n\n';
+    txt += '📊 PAR CLASSE :\n';
     const classes = ['7ème EB', '8ème EB', '1ère Année', '2ème Année', '3ème Année', '4ème Année'];
     for (const classe of classes) {
         const data = d.parClasse[classe];
@@ -93,9 +131,9 @@ function genererRapport() {
         const barre = genererBarre(data.taux);
         const pourcent = data.taux.toString().padStart(3, ' ');
         const count = data.count.toString().padStart(2, ' ');
-        html += '   ' + classe.padEnd(12) + ' : ' + pourcent + '%  ' + barre + '  (' + count + ' élèves)\n';
+        txt += '   ' + classe.padEnd(12) + ' : ' + pourcent + '%  ' + barre + '  (' + count + ' élèves)\n';
     }
-    html += '\n';
+    txt += '\n';
     let pireClasse = '', pireTaux = 100;
     let meilleureClasse = '', meilleurTaux = 0;
     for (const classe of classes) {
@@ -105,35 +143,41 @@ function genererRapport() {
             if (data.taux < pireTaux) { pireTaux = data.taux; pireClasse = classe; }
         }
     }
-    html += '⚠️ POINTS D\'ATTENTION :\n';
-    html += '   • ' + d.elevesImpayes + ' élèves en retard de paiement (3 mois +)\n';
-    if (pireClasse) html += '   • ' + pireClasse + ' : taux le plus bas (' + pireTaux + '%)\n';
-    if (meilleureClasse) html += '   • ' + meilleureClasse + ' : meilleur taux (' + meilleurTaux + '%)\n';
-    html += '\n📌 RECOMMANDATIONS :\n';
+    txt += '⚠️ POINTS D\'ATTENTION :\n';
+    txt += '   • ' + d.elevesImpayes + ' élèves en retard de paiement (3 mois +)\n';
+    if (pireClasse) txt += '   • ' + pireClasse + ' : taux le plus bas (' + pireTaux + '%)\n';
+    if (meilleureClasse) txt += '   • ' + meilleureClasse + ' : meilleur taux (' + meilleurTaux + '%)\n';
+    txt += '\n📌 RECOMMANDATIONS :\n';
     let num = 1;
     if (d.taux < 60) {
-        html += '   ' + num + '. Mettre en place un suivi hebdomadaire des paiements\n';
+        txt += '   ' + num + '. Mettre en place un suivi hebdomadaire des paiements\n';
         num++;
     }
     if (d.elevesImpayes > 10) {
-        html += '   ' + num + '. Contacter les parents des ' + d.elevesImpayes + ' élèves en retard\n';
+        txt += '   ' + num + '. Contacter les parents des ' + d.elevesImpayes + ' élèves en retard\n';
         num++;
     }
-    html += '   ' + num + '. Vérifier les exonérations dans les classes à faible taux\n';
+    txt += '   ' + num + '. Vérifier les exonérations dans les classes à faible taux\n';
     num++;
-    html += '   ' + num + '. Organiser une réunion avec les représentants des classes problématiques\n';
-    html += '\n📅 ' + new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    return html;
+    txt += '   ' + num + '. Organiser une réunion avec les représentants des classes problématiques\n';
+    return txt;
 }
 
 function afficherRapport() {
-    const container = document.getElementById('rapportContainer');
-    container.textContent = genererRapport();
-    document.getElementById('statTotal').textContent = donnees.totalEleves;
-    document.getElementById('statTaux').textContent = donnees.taux + '%';
-    document.getElementById('statReste').textContent = donnees.reste.toLocaleString() + ' FC';
-    document.getElementById('statImpayes').textContent = donnees.elevesImpayes;
+    const container = document.getElementById('rapportBody');
+    const texte = genererRapport();
+    container.innerHTML = colorerTexte(texte);
     document.getElementById('dateUpdate').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function fermer() {
+    const bubble = document.querySelector('.bubble');
+    bubble.style.transition = 'all 0.3s ease';
+    bubble.style.opacity = '0';
+    bubble.style.transform = 'scale(0.95) translateY(10px)';
+    setTimeout(() => {
+        bubble.style.display = 'none';
+    }, 300);
 }
 
 document.addEventListener('DOMContentLoaded', afficherRapport);
