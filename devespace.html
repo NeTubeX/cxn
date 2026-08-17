@@ -1440,13 +1440,12 @@ historiqueSections[dernierEleveData.id].push(section);
 }
 
 function toutVu(eleveData) {
-if (!eleveData) return false;
-const section = eleveData.section;
-if (section === "SECONDAIRE") {
-return sectionDejaVisitee('frais') && sectionDejaVisitee('notes') && sectionDejaVisitee('punitions');
-} else {
-return sectionDejaVisitee('frais');
-}
+    if (!eleveData) return false;
+    const section = eleveData.section;
+    if (section === "SECONDAIRE") {
+        return sectionDejaVisitee('frais') && sectionDejaVisitee('notes') && sectionDejaVisitee('punitions');
+    }
+    return false;
 }
 
 async function genererReponseNotes(eleveData) {
@@ -1789,10 +1788,6 @@ FORMAT :
 - Notes : "Meilleure note : X/20 en [matière]"
 - Punitions : "[liste avec dates]"
 
-ÉLÈVE : ${eleveData.nom} ${eleveData.prenom||''}
-SECTION : ${section}
-QUESTION : ${question}
-
 Utilise "${pronom}". Sois court et direct.`;
 }
 
@@ -1916,8 +1911,10 @@ if (!reponse.toLowerCase().includes(nomEcole.toLowerCase())) {
 reponse = `À l'école ${nomEcole}, ${reponse.toLowerCase()}`;
 }
 } catch (e) {
+if (!reponse) {
 const nomComplet = `${eleveData.nom} ${eleveData.prenom||''}`.trim();
 reponse = `En tout cas. Je rassemble les informations pour ${nomComplet}. En attendant, que voulez-vous voir ? (frais, notes, punitions)`;
+}
 }
 }
 
@@ -2284,7 +2281,7 @@ if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
 return reponse;
 }
 
-const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'comportement', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
+const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
 if (motsPunitions.some(m => message.toLowerCase().includes(m))) {
 if (section === "MATERNELLE" || section === "PRIMAIRE") {
 if (toutVu(eleveData)) {
