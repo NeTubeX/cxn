@@ -305,7 +305,11 @@ function setupClicks(){
           baseUrl.searchParams.set('t', Date.now());
           targetUrl = baseUrl.toString();
         } else {
-          targetUrl = '/schooling?ecole=' + encodeURIComponent(prefixe);
+          if (prefixe === 'gloriadei') {
+            targetUrl = '/schooling2?ecole=' + encodeURIComponent(prefixe);
+          } else {
+            targetUrl = '/schooling?ecole=' + encodeURIComponent(prefixe);
+          }
         }
         window.location.href = targetUrl;
       }
