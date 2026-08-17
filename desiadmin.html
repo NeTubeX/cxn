@@ -20,17 +20,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:'Inter',sans-serif}
-:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--radius:16px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1);--source-a:#3b82f6;--source-b:#10b981;--source-merged:#f59e0b;--source-a-glow:rgba(59,130,246,0.3);--source-b-glow:rgba(16,185,129,0.3);--source-merged-glow:rgba(245,158,11,0.3)}
+:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--accent-glow:rgba(108,99,255,0.3);--success:#34D399;--warning:#FBBF24;--danger:#F87171;--radius:16px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
 html,body{overscroll-behavior:none;touch-action:pan-y;margin:0;padding:0;width:100%;min-height:100vh}
-body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:all 0.4s ease}
+body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:background 0.4s ease}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
 ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
-
-body.source-a-mode{--accent:var(--source-a);--accent-glow:var(--source-a-glow)}
-body.source-b-mode{--accent:var(--source-b);--accent-glow:var(--source-b-glow)}
-body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source-merged-glow)}
-
 .topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
 .topbar .brand{display:flex;align-items:center;gap:12px}
 .topbar .brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),#4A42D4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff}
@@ -42,26 +37,18 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
 .topbar .right .clear-cache-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 14px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:12px;font-weight:600;transition:var(--transition)}
 .topbar .right .clear-cache-btn:hover{background:rgba(248,113,113,0.15);color:#F87171;border-color:rgba(248,113,113,0.3)}
-
 .source-selector{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:8px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .source-selector .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
 .source-btn{padding:6px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;border:1px solid var(--border-color);background:transparent;color:var(--text-muted)}
 .source-btn:hover{background:rgba(255,255,255,0.05);color:var(--text-primary)}
-.source-btn[data-source="a"]{border-color:rgba(59,130,246,0.2)}
-.source-btn[data-source="a"]:hover{background:rgba(59,130,246,0.08);color:#3b82f6}
 .source-btn[data-source="a"].active{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,0.15)}
-.source-btn[data-source="b"]{border-color:rgba(16,185,129,0.2)}
-.source-btn[data-source="b"]:hover{background:rgba(16,185,129,0.08);color:#10b981}
 .source-btn[data-source="b"].active{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981;box-shadow:0 0 20px rgba(16,185,129,0.15)}
-.source-btn[data-source="merged"]{border-color:rgba(245,158,11,0.2)}
-.source-btn[data-source="merged"]:hover{background:rgba(245,158,11,0.08);color:#f59e0b}
 .source-btn[data-source="merged"].active{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b;box-shadow:0 0 20px rgba(245,158,11,0.15)}
 #sourceStatus{font-size:12px;font-weight:600;margin-left:auto;padding:4px 16px;border-radius:20px;background:rgba(255,255,255,0.03)}
 #sourceStatus.a{color:#3b82f6;border:1px solid rgba(59,130,246,0.2)}
 #sourceStatus.b{color:#10b981;border:1px solid rgba(16,185,129,0.2)}
 #sourceStatus.merged{color:#f59e0b;border:1px solid rgba(245,158,11,0.2)}
-
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:16px 24px 8px 24px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:20px 24px 8px 24px}
 .kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:14px 18px;transition:var(--transition)}
 .kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
 .kpi-card .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
@@ -74,7 +61,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .kpi-card .source-badge.a{background:rgba(59,130,246,0.15);color:#3b82f6}
 .kpi-card .source-badge.b{background:rgba(16,185,129,0.15);color:#10b981}
 .kpi-card .source-badge.merged{background:rgba(245,158,11,0.15);color:#f59e0b}
-
 .tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
 .tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
 .tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
@@ -82,13 +68,11 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .tab-btn.active::after{content:'';position:absolute;bottom:2px;left:30%;right:30%;height:2px;background:var(--accent);border-radius:4px}
 .tab-panel{display:none;padding:16px 20px}
 .tab-panel.active{display:block}
-
 .card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition)}
 .card:hover{border-color:rgba(255,255,255,0.08)}
 .card-header{padding:14px 18px;background:rgba(255,255,255,0.02);font-weight:700;font-size:15px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .card-header .count{font-weight:400;font-size:12px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 12px;border-radius:12px}
 .card-body{padding:14px 16px}
-
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow)}
 .btn:active{transform:translateY(0)}
@@ -99,8 +83,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .btn-danger:hover{box-shadow:0 4px 16px rgba(248,113,113,0.3)}
 .btn-success{background:var(--success);color:#fff;box-shadow:0 2px 8px rgba(52,211,153,0.2)}
 .btn-success:hover{box-shadow:0 4px 16px rgba(52,211,153,0.3)}
-.btn-primary{background:#5dade2;color:#fff;box-shadow:0 2px 8px rgba(93,173,226,0.2)}
-.btn-primary:hover{box-shadow:0 4px 16px rgba(93,173,226,0.3)}
 .btn-refresh{background:rgba(255,255,255,0.06);color:var(--text-secondary);box-shadow:none}
 .btn-refresh:hover{background:rgba(255,255,255,0.10);color:#fff}
 .btn-excel{background:#217346;color:#fff;box-shadow:0 2px 8px rgba(33,115,70,0.2)}
@@ -108,7 +90,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .w-100{width:100%}
 .mt-8{margin-top:8px}
 .mb-12{margin-bottom:12px}
-
 .form-group{margin-bottom:12px}
 .form-group label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
 .form-group input,.form-group select{width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:#1a1a2e;color:#fff;outline:none;transition:var(--transition)}
@@ -117,19 +98,16 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .form-group select option{background:#0d0d1a;color:#fff}
 .form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:768px){.form-grid{grid-template-columns:1fr}}
-
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
 .filter-row select,.filter-row input{padding:8px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;transition:var(--transition)}
 .filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:#1a1a2e}
 .filter-row select option{background:#0d0d1a;color:#fff}
 .filter-row label{font-size:12px;color:var(--text-muted);font-weight:500}
-
 .table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
 .table-wrapper table{width:100%;border-collapse:collapse;font-size:13px}
 .table-wrapper th,.table-wrapper td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
 .table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px}
 .table-wrapper tr:hover td{background:rgba(255,255,255,0.02)}
-
 .badge{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:700}
 .badge-success{background:rgba(52,211,153,0.15);color:var(--success)}
 .badge-danger{background:rgba(248,113,113,0.15);color:var(--danger)}
@@ -139,10 +117,8 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .badge-source-a{background:rgba(59,130,246,0.15);color:#3b82f6}
 .badge-source-b{background:rgba(16,185,129,0.15);color:#10b981}
 .badge-source-merged{background:rgba(245,158,11,0.15);color:#f59e0b}
-
 .empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:14px}
 .empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
-
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
 .modal-overlay.show{visibility:visible;opacity:1}
 .modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:440px;padding:28px 24px 32px;max-height:90vh;overflow-y:auto;transform:scale(0.9) translateZ(30px);box-shadow:0 30px 80px rgba(0,0,0,0.6);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1)}
@@ -153,7 +129,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .modal-info-line span:last-child{color:#fff;font-weight:600}
 .modal-buttons{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
 .modal-buttons .btn{flex:1;min-width:80px;font-size:14px}
-
 .toast-container{position:fixed;top:16px;right:16px;z-index:999999;display:flex;flex-direction:column-reverse;gap:8px;max-width:90%;pointer-events:none}
 .toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:14px 20px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:14px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:280px}
 .toast .toast-title{font-weight:700;font-size:15px;margin-bottom:2px}
@@ -164,7 +139,13 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .toast.success{border-left-color:var(--success)}
 @keyframes toastIn{from{transform:translateY(-80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 @keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
-
+.eleve-group{margin-bottom:14px;border:1px solid var(--border-color);border-radius:10px;overflow:hidden}
+.eleve-group-header{padding:10px 14px;background:rgba(255,255,255,0.02);font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border-color)}
+.eleve-group-body{padding:4px 6px}
+.eleve-group-body .eleve-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.02);flex-wrap:wrap;gap:4px}
+.eleve-group-body .eleve-item:hover{background:rgba(255,255,255,0.02)}
+.eleve-group-body .eleve-item .nom{font-weight:600;font-size:14px;color:#fff}
+.eleve-group-body .eleve-item .code-parent{font-family:monospace;font-size:14px;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;font-weight:700}
 .pagination-container{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;flex-wrap:wrap;gap:4px;border-top:1px solid var(--border-color)}
 .pagination-info{font-size:12px;color:var(--text-muted)}
 .pagination-buttons{display:flex;gap:3px;flex-wrap:wrap}
@@ -172,7 +153,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .pagination-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
 .pagination-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .pagination-btn:disabled{opacity:0.3;cursor:not-allowed}
-
 .school-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px 20px;transition:all 0.3s ease;display:flex;align-items:center;gap:16px;min-height:80px;margin-bottom:8px}
 .school-item:hover{background:rgba(255,255,255,0.04);border-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 .school-item .school-left{flex:1;min-width:200px}
@@ -187,15 +167,6 @@ body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source
 .school-item .school-logo-center img{width:100%;height:100%;object-fit:cover}
 .school-item .school-logo-center .fallback{font-size:24px}
 .school-item .school-right{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:auto}
-
-.eleve-group{margin-bottom:14px;border:1px solid var(--border-color);border-radius:10px;overflow:hidden}
-.eleve-group-header{padding:10px 14px;background:rgba(255,255,255,0.02);font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border-color)}
-.eleve-group-body{padding:4px 6px}
-.eleve-group-body .eleve-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.02);flex-wrap:wrap;gap:4px}
-.eleve-group-body .eleve-item:hover{background:rgba(255,255,255,0.02)}
-.eleve-group-body .eleve-item .nom{font-weight:600;font-size:14px;color:#fff}
-.eleve-group-body .eleve-item .code-parent{font-family:monospace;font-size:14px;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;font-weight:700}
-
 body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
 body.light .topbar{background:#0A1628}
 body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
@@ -243,30 +214,7 @@ body.light #sourceStatus.merged{border-color:rgba(245,158,11,0.2)}
 body.light .kpi-card .source-badge.a{background:rgba(59,130,246,0.08);color:#2563eb}
 body.light .kpi-card .source-badge.b{background:rgba(16,185,129,0.08);color:#059669}
 body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color:#d97706}
-
-@media(max-width:768px){
-.topbar{padding:10px 16px}
-.topbar .brand h1{font-size:16px}
-.topbar .brand .sub{display:none}
-.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}
-.kpi-card{padding:10px 14px}
-.kpi-card .value{font-size:20px}
-.source-selector{padding:8px 16px;gap:8px}
-.source-btn{font-size:11px;padding:4px 14px}
-.tabs{padding:4px 10px;gap:2px}
-.tab-btn{padding:8px 12px;font-size:11px}
-.tab-panel{padding:12px}
-.card-header{padding:10px 14px;font-size:14px}
-.card-body{padding:10px 12px}
-.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}
-.school-item .school-left{flex:1 1 100%;min-width:unset}
-.school-item .school-logo-center{width:48px;height:48px}
-.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}
-.form-grid{grid-template-columns:1fr}
-.filter-row{flex-direction:column;align-items:stretch}
-.filter-row select,.filter-row input{width:100%}
-.modal-card{padding:20px 16px 24px;margin:10px}
-}
+@media(max-width:768px){.topbar{padding:10px 16px}.topbar .brand h1{font-size:16px}.topbar .brand .sub{display:none}.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}.kpi-card{padding:10px 14px}.kpi-card .value{font-size:20px}.source-selector{padding:8px 16px;gap:8px}.source-btn{font-size:11px;padding:4px 14px}.tabs{padding:4px 10px;gap:2px}.tab-btn{padding:8px 12px;font-size:11px}.tab-panel{padding:12px}.card-header{padding:10px 14px;font-size:14px}.card-body{padding:10px 12px}.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}.school-item .school-left{flex:1 1 100%;min-width:unset}.school-item .school-logo-center{width:48px;height:48px}.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}.form-grid{grid-template-columns:1fr}.filter-row{flex-direction:column;align-items:stretch}.filter-row select,.filter-row input{width:100%}.modal-card{padding:20px 16px 24px;margin:10px}}
 </style>
 </head>
 <body>
@@ -297,7 +245,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 <div class="kpi-card"><div class="label">👥 Students</div><div class="value gold" id="hdrEleves">0</div><div class="source-badge a" id="hdrElevesBadge">SOURCE A</div></div>
 </div>
 
-<div class="tabs">
+<div class="tabs" id="tabContainer">
 <button class="tab-btn active" data-tab="tab1">🏫 SCHOOLS</button>
 <button class="tab-btn" data-tab="tab2">👥 MEMBERS</button>
 <button class="tab-btn" data-tab="tab3">👨‍🏫 TEACHERS</button>
@@ -310,10 +258,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab1" class="tab-panel active">
 <div class="card">
-<div class="card-header">
-<span>🏫 Schools</span>
-<span class="count" id="schoolCount">0</span>
-</div>
+<div class="card-header"><span>🏫 Schools</span><span class="count" id="schoolCount">0</span></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="schoolSearch" placeholder="Search school..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
@@ -326,10 +271,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab2" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>👥 Members</span>
-<span class="count" id="membersCount">0</span>
-</div>
+<div class="card-header"><span>👥 Members</span><span class="count" id="membersCount">0</span></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="membersSearch" placeholder="Search student..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
@@ -343,10 +285,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab3" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>👨‍🏫 Teachers</span>
-<span class="count" id="teachersCount">0</span>
-</div>
+<div class="card-header"><span>👨‍🏫 Teachers</span><span class="count" id="teachersCount">0</span></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="teachersSearch" placeholder="Search teacher..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
@@ -359,10 +298,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab4" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>📄 Sheets</span>
-<span class="count" id="sheetsCount">0</span>
-</div>
+<div class="card-header"><span>📄 Sheets</span><span class="count" id="sheetsCount">0</span></div>
 <div class="card-body">
 <div class="filter-row">
 <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="sheetsSearch" placeholder="Search..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
@@ -375,10 +311,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab5" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>🔐 Codes & Emails</span>
-<span class="count" id="codesCount">0</span>
-</div>
+<div class="card-header"><span>🔐 Codes & Emails</span><span class="count" id="codesCount">0</span></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="codesEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
 <div id="codesContainer"><div class="empty-state">Loading...</div></div>
@@ -388,10 +321,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab6" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>🔑 Parent Codes</span>
-<span class="count" id="parentCodesCount">0</span>
-</div>
+<div class="card-header"><span>🔑 Parent Codes</span><span class="count" id="parentCodesCount">0</span></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="parentCodesEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
 <div><input type="text" id="parentCodesSearch" placeholder="Search by name..." style="width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;margin-top:8px;"></div>
@@ -402,10 +332,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab7" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>❄️ White Months</span>
-<span class="count" id="wmCount">0</span>
-</div>
+<div class="card-header"><span>❄️ White Months</span><span class="count" id="wmCount">0</span></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="wmEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
 <div class="table-wrapper"><table><thead><tr><th>Student</th><th>Class</th><th>Section</th><th>School</th><th>Month</th></tr></thead><tbody id="wmBody"></tbody></table></div>
@@ -415,10 +342,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <div id="tab8" class="tab-panel">
 <div class="card">
-<div class="card-header">
-<span>🔍 Explorer</span>
-<span class="count" id="explorerCount">0</span>
-</div>
+<div class="card-header"><span>🔍 Explorer</span><span class="count" id="explorerCount">0</span></div>
 <div class="card-body">
 <div class="filter-row"><label>🏫</label><select id="explorerEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
 <div id="explorerContent"><div class="empty-state">Loading...</div></div>
@@ -430,7 +354,7 @@ body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color
 
 <script type="module">
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getFirestore, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfigA = {
@@ -455,19 +379,17 @@ const appA = initializeApp(firebaseConfigA, 'sourceA');
 const appB = initializeApp(firebaseConfigB, 'sourceB');
 const dbA = getFirestore(appA);
 const dbB = getFirestore(appB);
-
 const auth = getAuth(appA);
 
 let activeSource = 'a';
+let allData = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
 let allDataA = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
 let allDataB = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
-let filteredStudents = [];
 let currentPage = 1;
 const perPage = 20;
 
 function getDb() { return activeSource === 'a' ? dbA : dbB; }
 function getSourceLabel() { return activeSource === 'a' ? 'SOURCE A' : 'SOURCE B'; }
-function getSourceColor() { return activeSource === 'a' ? '#3b82f6' : '#10b981'; }
 function getSourceBadge() { return activeSource === 'a' ? 'badge-source-a' : 'badge-source-b'; }
 function getSourceStatus() { return activeSource === 'a' ? 'a' : 'b'; }
 
@@ -549,18 +471,9 @@ return data;
 }
 
 async function loadAll() {
-document.body.classList.remove('source-a-mode', 'source-b-mode', 'source-merged-mode');
-if (activeSource === 'a') {
-document.body.classList.add('source-a-mode');
-document.getElementById('sourceStatus').className = 'a';
-document.getElementById('sourceStatus').textContent = '🔵 SOURCE A · gesco-67c43';
-} else if (activeSource === 'b') {
-document.body.classList.add('source-b-mode');
-document.getElementById('sourceStatus').className = 'b';
-document.getElementById('sourceStatus').textContent = '🟢 SOURCE B · gesco-2';
-}
 const data = await loadSourceData(activeSource);
 if (activeSource === 'a') allDataA = data; else allDataB = data;
+allData = data;
 updateCounters(data);
 loadSchools(data);
 loadMembers(data);
@@ -577,10 +490,11 @@ el.textContent = activeSource === 'a' ? 'SOURCE A' : 'SOURCE B';
 });
 }
 
-async function loadMergedData() {
-document.body.classList.add('source-merged-mode');
-document.getElementById('sourceStatus').className = 'merged';
-document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
+async function loadMerged() {
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+el.className = 'source-badge merged';
+el.textContent = 'FUSIONNÉ';
+});
 try {
 const [dataA, dataB] = await Promise.all([
 loadSourceData('a'),
@@ -594,10 +508,7 @@ students: [...dataA.students, ...dataB.students],
 codes: [...dataA.codes, ...dataB.codes],
 parentCodes: [...dataA.parentCodes, ...dataB.parentCodes]
 };
-document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
-el.className = 'source-badge merged';
-el.textContent = 'FUSIONNÉ';
-});
+allData = merged;
 updateCounters(merged);
 loadSchools(merged);
 loadMembers(merged);
@@ -608,10 +519,7 @@ loadParentCodes(merged);
 loadWhiteMonths(merged);
 loadExplorer(merged);
 toast('📊 Données fusionnées chargées', 'success');
-} catch (e) {
-console.error('Erreur chargement fusionné:', e);
-toast('❌ Erreur chargement fusionné', 'error');
-}
+} catch(e) { toast('❌ Erreur fusion', 'error'); }
 }
 
 function updateCounters(data) {
@@ -663,7 +571,6 @@ const filter = document.getElementById('membersEcoleFilter')?.value || 'all';
 let students = data.students;
 if (filter !== 'all') students = students.filter(s => s.ecoleId === filter);
 if (search) students = students.filter(s => (s.nom + ' ' + (s.prenom||'')).toLowerCase().includes(search));
-filteredStudents = students;
 const totalPages = Math.ceil(students.length / perPage);
 if (currentPage > totalPages) currentPage = 1;
 const start = (currentPage - 1) * perPage;
@@ -777,7 +684,7 @@ const grouped = {};
 codes.forEach(c => { const key = c.ecole; if (!grouped[key]) grouped[key] = []; grouped[key].push(c); });
 let html = '';
 for (const [key, vals] of Object.entries(grouped)) {
-const ecoleNom = allDataA.schools.find(s => s.id === key)?.nom || allDataB.schools.find(s => s.id === key)?.nom || key;
+const ecoleNom = allData.schools.find(s => s.id === key)?.nom || key;
 html += `<div class="eleve-group"><div class="eleve-group-header">🏫 ${escapeHtml(ecoleNom)} <span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div><div class="eleve-group-body">`;
 vals.slice(0, 50).forEach(c => {
 const nom = (c.nom + ' ' + (c.prenom||'')).trim() || "Unknown";
@@ -836,106 +743,6 @@ let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minma
 container.innerHTML = html;
 }
 
-function attachEvents() {
-console.log('🔗 Attachement des événements...');
-
-document.querySelectorAll('.source-btn').forEach(btn => {
-btn.removeEventListener('click', handleSourceClick);
-btn.addEventListener('click', handleSourceClick);
-});
-
-document.querySelectorAll('.tab-btn').forEach(btn => {
-btn.removeEventListener('click', handleTabClick);
-btn.addEventListener('click', handleTabClick);
-});
-
-const filters = [
-'schoolSearch', 'schoolStatusFilter',
-'membersSearch', 'membersEcoleFilter',
-'teachersSearch', 'teachersEcoleFilter',
-'sheetsSearch', 'sheetsEcoleFilter',
-'codesEcoleFilter',
-'parentCodesEcoleFilter', 'parentCodesSearch',
-'wmEcoleFilter',
-'explorerEcoleFilter'
-];
-
-filters.forEach(id => {
-const el = document.getElementById(id);
-if (el) {
-el.removeEventListener('input', handleFilterChange);
-el.removeEventListener('change', handleFilterChange);
-if (el.tagName === 'INPUT') {
-el.addEventListener('input', handleFilterChange);
-} else {
-el.addEventListener('change', handleFilterChange);
-}
-}
-});
-
-console.log('✅ Événements attachés');
-}
-
-function handleSourceClick(e) {
-const btn = e.currentTarget;
-const source = btn.dataset.source;
-
-document.querySelectorAll('.source-btn').forEach(b => {
-b.classList.remove('active', 'active-a', 'active-b', 'active-merged');
-});
-
-btn.classList.add('active');
-
-if (source === 'a') {
-btn.classList.add('active-a');
-activeSource = 'a';
-document.body.classList.add('source-a-mode');
-document.body.classList.remove('source-b-mode', 'source-merged-mode');
-document.getElementById('sourceStatus').className = 'a';
-document.getElementById('sourceStatus').textContent = '🔵 SOURCE A · gesco-67c43';
-} else if (source === 'b') {
-btn.classList.add('active-b');
-activeSource = 'b';
-document.body.classList.add('source-b-mode');
-document.body.classList.remove('source-a-mode', 'source-merged-mode');
-document.getElementById('sourceStatus').className = 'b';
-document.getElementById('sourceStatus').textContent = '🟢 SOURCE B · gesco-2';
-} else {
-btn.classList.add('active-merged');
-activeSource = 'merged';
-document.body.classList.add('source-merged-mode');
-document.body.classList.remove('source-a-mode', 'source-b-mode');
-document.getElementById('sourceStatus').className = 'merged';
-document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
-toast('📊 Mode Fusionné activé', 'info');
-}
-
-document.getElementById('membersPagination').style.display = 'none';
-currentPage = 1;
-
-if (activeSource === 'merged') {
-loadMergedData();
-} else {
-loadAll();
-}
-}
-
-function handleTabClick(e) {
-const btn = e.currentTarget;
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-document.getElementById(btn.dataset.tab).classList.add('active');
-}
-
-function handleFilterChange() {
-if (activeSource === 'merged') {
-loadMergedData();
-} else {
-loadAll();
-}
-}
-
 function updateSelectors(data) {
 const selectors = ['membersEcoleFilter', 'teachersEcoleFilter', 'sheetsEcoleFilter', 'codesEcoleFilter', 'parentCodesEcoleFilter', 'wmEcoleFilter', 'explorerEcoleFilter'];
 selectors.forEach(id => {
@@ -953,33 +760,71 @@ if (val && el.querySelector('option[value="' + val + '"]')) el.value = val;
 });
 }
 
+function attachEvents() {
+document.querySelectorAll('.source-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+activeSource = this.dataset.source;
+if (activeSource === 'a') {
+document.getElementById('sourceStatus').className = 'a';
+document.getElementById('sourceStatus').textContent = '🔵 SOURCE A · gesco-67c43';
+document.body.style.setProperty('--accent', '#3b82f6');
+loadAll();
+} else if (activeSource === 'b') {
+document.getElementById('sourceStatus').className = 'b';
+document.getElementById('sourceStatus').textContent = '🟢 SOURCE B · gesco-2';
+document.body.style.setProperty('--accent', '#10b981');
+loadAll();
+} else {
+document.getElementById('sourceStatus').className = 'merged';
+document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + B';
+document.body.style.setProperty('--accent', '#f59e0b');
+loadMerged();
+}
+});
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById(this.dataset.tab).classList.add('active');
+});
+});
+
+document.getElementById('schoolSearch').addEventListener('input', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('schoolStatusFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('membersSearch').addEventListener('input', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('membersEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('teachersSearch').addEventListener('input', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('teachersEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('sheetsSearch').addEventListener('input', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('sheetsEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('codesEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('parentCodesEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('parentCodesSearch').addEventListener('input', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('wmEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+document.getElementById('explorerEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
+}
+
 async function initDashboard() {
-console.log('🚀 Initialisation du Dashboard...');
-
 const user = auth.currentUser;
-
 if (!user) {
-console.log('⛔ Non authentifié, redirection vers login');
 window.location.href = 'login_admin.html';
 return;
 }
-
-console.log('✅ Utilisateur authentifié:', user.email);
-
+console.log('✅ Admin authentifié:', user.email);
 await loadAll();
-
+updateSelectors(allData);
 attachEvents();
-
 console.log('✅ Dashboard prêt !');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-console.log('📄 DOM prêt');
-initDashboard();
-});
+document.addEventListener('DOMContentLoaded', initDashboard);
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
-console.log('📄 DOM déjà prêt');
 initDashboard();
 }
 </script>
