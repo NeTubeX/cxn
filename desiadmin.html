@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="max-age=86400, public">
+<meta http-equiv="Pragma" content="cache">
+<meta http-equiv="Expires" content="86400">
+<title>NeTubeX · Dashboard Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script type="importmap">
+{"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/storage":"https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:'Inter',sans-serif}
+:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--radius:16px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1);--source-a:#3b82f6;--source-b:#10b981;--source-merged:#f59e0b;--source-a-glow:rgba(59,130,246,0.3);--source-b-glow:rgba(16,185,129,0.3);--source-merged-glow:rgba(245,158,11,0.3)}
+html,body{overscroll-behavior:none;touch-action:pan-y;margin:0;padding:0;width:100%;min-height:100vh}
+body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:all 0.4s ease}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+body.source-a-mode{--accent:var(--source-a);--accent-glow:var(--source-a-glow)}
+body.source-b-mode{--accent:var(--source-b);--accent-glow:var(--source-b-glow)}
+body.source-merged-mode{--accent:var(--source-merged);--accent-glow:var(--source-merged-glow)}
+
+.topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.topbar .brand{display:flex;align-items:center;gap:12px}
+.topbar .brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),#4A42D4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff}
+.topbar .brand h1{font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.topbar .brand h1 span{color:var(--accent)}
+.topbar .brand .sub{font-size:12px;font-weight:400;color:var(--text-muted);margin-left:8px}
+.topbar .right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:16px;transition:var(--transition)}
+.topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
+.topbar .right .clear-cache-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 14px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:12px;font-weight:600;transition:var(--transition)}
+.topbar .right .clear-cache-btn:hover{background:rgba(248,113,113,0.15);color:#F87171;border-color:rgba(248,113,113,0.3)}
+
+.source-selector{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:8px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.source-selector .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.source-btn{padding:6px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;border:1px solid var(--border-color);background:transparent;color:var(--text-muted)}
+.source-btn:hover{background:rgba(255,255,255,0.05);color:var(--text-primary)}
+.source-btn[data-source="a"]{border-color:rgba(59,130,246,0.2)}
+.source-btn[data-source="a"]:hover{background:rgba(59,130,246,0.08);color:#3b82f6}
+.source-btn[data-source="a"].active{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,0.15)}
+.source-btn[data-source="b"]{border-color:rgba(16,185,129,0.2)}
+.source-btn[data-source="b"]:hover{background:rgba(16,185,129,0.08);color:#10b981}
+.source-btn[data-source="b"].active{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981;box-shadow:0 0 20px rgba(16,185,129,0.15)}
+.source-btn[data-source="merged"]{border-color:rgba(245,158,11,0.2)}
+.source-btn[data-source="merged"]:hover{background:rgba(245,158,11,0.08);color:#f59e0b}
+.source-btn[data-source="merged"].active{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b;box-shadow:0 0 20px rgba(245,158,11,0.15)}
+#sourceStatus{font-size:12px;font-weight:600;margin-left:auto;padding:4px 16px;border-radius:20px;background:rgba(255,255,255,0.03)}
+#sourceStatus.a{color:#3b82f6;border:1px solid rgba(59,130,246,0.2)}
+#sourceStatus.b{color:#10b981;border:1px solid rgba(16,185,129,0.2)}
+#sourceStatus.merged{color:#f59e0b;border:1px solid rgba(245,158,11,0.2)}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:16px 24px 8px 24px}
+.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:14px 18px;transition:var(--transition)}
+.kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
+.kpi-card .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
+.kpi-card .value{font-size:24px;font-weight:800;color:#fff;margin-top:2px}
+.kpi-card .value.blue{color:#5dade2}
+.kpi-card .value.green{color:var(--success)}
+.kpi-card .value.purple{color:#bb8fce}
+.kpi-card .value.gold{color:#f59e0b}
+.kpi-card .source-badge{font-size:9px;padding:2px 12px;border-radius:12px;margin-top:4px;display:inline-block;font-weight:700}
+.kpi-card .source-badge.a{background:rgba(59,130,246,0.15);color:#3b82f6}
+.kpi-card .source-badge.b{background:rgba(16,185,129,0.15);color:#10b981}
+.kpi-card .source-badge.merged{background:rgba(245,158,11,0.15);color:#f59e0b}
+
+.tabs{display:flex;background:rgba(255,255,255,0.02);padding:6px 16px;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border-color);flex-wrap:nowrap}
+.tab-btn{background:transparent;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative}
+.tab-btn:hover{color:var(--text-secondary);background:rgba(255,255,255,0.03)}
+.tab-btn.active{color:#fff;background:rgba(255,255,255,0.06)}
+.tab-btn.active::after{content:'';position:absolute;bottom:2px;left:30%;right:30%;height:2px;background:var(--accent);border-radius:4px}
+.tab-panel{display:none;padding:16px 20px}
+.tab-panel.active{display:block}
+
+.card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition)}
+.card:hover{border-color:rgba(255,255,255,0.08)}
+.card-header{padding:14px 18px;background:rgba(255,255,255,0.02);font-weight:700;font-size:15px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.card-header .count{font-weight:400;font-size:12px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 12px;border-radius:12px}
+.card-body{padding:14px 16px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow)}
+.btn:active{transform:translateY(0)}
+.btn-sm{padding:4px 12px;font-size:11px;border-radius:6px}
+.btn-outline{background:transparent;border:1px solid var(--border-color);color:var(--text-secondary);box-shadow:none}
+.btn-outline:hover{background:rgba(255,255,255,0.05);color:#fff;box-shadow:none}
+.btn-danger{background:var(--danger);color:#fff;box-shadow:0 2px 8px rgba(248,113,113,0.2)}
+.btn-danger:hover{box-shadow:0 4px 16px rgba(248,113,113,0.3)}
+.btn-success{background:var(--success);color:#fff;box-shadow:0 2px 8px rgba(52,211,153,0.2)}
+.btn-success:hover{box-shadow:0 4px 16px rgba(52,211,153,0.3)}
+.btn-primary{background:#5dade2;color:#fff;box-shadow:0 2px 8px rgba(93,173,226,0.2)}
+.btn-primary:hover{box-shadow:0 4px 16px rgba(93,173,226,0.3)}
+.btn-refresh{background:rgba(255,255,255,0.06);color:var(--text-secondary);box-shadow:none}
+.btn-refresh:hover{background:rgba(255,255,255,0.10);color:#fff}
+.btn-excel{background:#217346;color:#fff;box-shadow:0 2px 8px rgba(33,115,70,0.2)}
+.btn-excel:hover{box-shadow:0 4px 16px rgba(33,115,70,0.3)}
+.w-100{width:100%}
+.mt-8{margin-top:8px}
+.mb-12{margin-bottom:12px}
+
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:#1a1a2e;color:#fff;outline:none;transition:var(--transition)}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:#1a1a2e}
+.form-group input::placeholder{color:var(--text-muted)}
+.form-group select option{background:#0d0d1a;color:#fff}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:768px){.form-grid{grid-template-columns:1fr}}
+
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.filter-row select,.filter-row input{padding:8px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;transition:var(--transition)}
+.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:#1a1a2e}
+.filter-row select option{background:#0d0d1a;color:#fff}
+.filter-row label{font-size:12px;color:var(--text-muted);font-weight:500}
+
+.table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
+.table-wrapper table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrapper th,.table-wrapper td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
+.table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px}
+.table-wrapper tr:hover td{background:rgba(255,255,255,0.02)}
+
+.badge{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-success{background:rgba(52,211,153,0.15);color:var(--success)}
+.badge-danger{background:rgba(248,113,113,0.15);color:var(--danger)}
+.badge-warning{background:rgba(251,191,36,0.15);color:var(--warning)}
+.badge-primary{background:rgba(93,173,226,0.15);color:#5dade2}
+.badge-purple{background:rgba(187,143,206,0.15);color:#bb8fce}
+.badge-source-a{background:rgba(59,130,246,0.15);color:#3b82f6}
+.badge-source-b{background:rgba(16,185,129,0.15);color:#10b981}
+.badge-source-merged{background:rgba(245,158,11,0.15);color:#f59e0b}
+
+.empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:14px}
+.empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
+
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
+.modal-overlay.show{visibility:visible;opacity:1}
+.modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:440px;padding:28px 24px 32px;max-height:90vh;overflow-y:auto;transform:scale(0.9) translateZ(30px);box-shadow:0 30px 80px rgba(0,0,0,0.6);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.show .modal-card{transform:scale(1) translateZ(30px)}
+.modal-card h3{font-size:20px;font-weight:800;margin-bottom:14px;text-align:center;color:#fff}
+.modal-card h3::after{content:'';display:block;width:32px;height:3px;background:var(--accent);margin:8px auto 0;border-radius:4px}
+.modal-info-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);font-size:14px;color:var(--text-muted)}
+.modal-info-line span:last-child{color:#fff;font-weight:600}
+.modal-buttons{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.modal-buttons .btn{flex:1;min-width:80px;font-size:14px}
+
+.toast-container{position:fixed;top:16px;right:16px;z-index:999999;display:flex;flex-direction:column-reverse;gap:8px;max-width:90%;pointer-events:none}
+.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:14px 20px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:14px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:280px}
+.toast .toast-title{font-weight:700;font-size:15px;margin-bottom:2px}
+.toast .toast-msg{font-size:13px;opacity:0.9}
+.toast.removing{animation:toastOut .5s ease forwards}
+.toast.error{border-left-color:var(--danger)}
+.toast.warning{border-left-color:var(--warning)}
+.toast.success{border-left-color:var(--success)}
+@keyframes toastIn{from{transform:translateY(-80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
+
+.pagination-container{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;flex-wrap:wrap;gap:4px;border-top:1px solid var(--border-color)}
+.pagination-info{font-size:12px;color:var(--text-muted)}
+.pagination-buttons{display:flex;gap:3px;flex-wrap:wrap}
+.pagination-btn{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);color:var(--text-muted);padding:2px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:var(--transition)}
+.pagination-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
+.pagination-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pagination-btn:disabled{opacity:0.3;cursor:not-allowed}
+
+.school-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px 20px;transition:all 0.3s ease;display:flex;align-items:center;gap:16px;min-height:80px;margin-bottom:8px}
+.school-item:hover{background:rgba(255,255,255,0.04);border-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.school-item .school-left{flex:1;min-width:200px}
+.school-item .school-left .school-name{font-size:15px;font-weight:700;color:var(--text-primary)}
+.school-item .school-left .school-id{font-size:10px;color:var(--text-muted);font-family:monospace;background:rgba(255,255,255,0.04);padding:1px 8px;border-radius:4px;margin-left:8px}
+.school-item .school-left .school-location{font-size:12px;color:var(--text-muted);margin-top:2px}
+.school-item .school-left .school-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.school-item .school-left .school-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.school-item .school-left .school-stats .stat{font-size:11px;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,0.04);padding:1px 10px;border-radius:6px}
+.school-item .school-logo-center{flex-shrink:0;width:56px;height:56px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.04);border:2px solid var(--border-color);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+.school-item:hover .school-logo-center{border-color:var(--accent);transform:scale(1.05)}
+.school-item .school-logo-center img{width:100%;height:100%;object-fit:cover}
+.school-item .school-logo-center .fallback{font-size:24px}
+.school-item .school-right{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:auto}
+
+.eleve-group{margin-bottom:14px;border:1px solid var(--border-color);border-radius:10px;overflow:hidden}
+.eleve-group-header{padding:10px 14px;background:rgba(255,255,255,0.02);font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border-color)}
+.eleve-group-body{padding:4px 6px}
+.eleve-group-body .eleve-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.02);flex-wrap:wrap;gap:4px}
+.eleve-group-body .eleve-item:hover{background:rgba(255,255,255,0.02)}
+.eleve-group-body .eleve-item .nom{font-weight:600;font-size:14px;color:#fff}
+.eleve-group-body .eleve-item .code-parent{font-family:monospace;font-size:14px;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;font-weight:700}
+
+body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
+body.light .topbar{background:#0A1628}
+body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .kpi-card .value{color:#1A202C}
+body.light .card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .card-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
+body.light .card-header .count{color:#4A5568;background:#EDF2F7}
+body.light .form-group input,body.light .form-group select{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .form-group input::placeholder{color:#A0AEC0}
+body.light .filter-row select,body.light .filter-row input{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .table-wrapper{background:#FFFFFF;border-color:#E2E8F0}
+body.light .table-wrapper th{color:#4A5568;background:#F7FAFC}
+body.light .table-wrapper td{color:#1A202C;border-bottom-color:#EDF2F7}
+body.light .table-wrapper tr:hover td{background:#F7FAFC}
+body.light .eleve-group{border-color:#E2E8F0}
+body.light .eleve-group-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
+body.light .eleve-group-body .eleve-item .nom{color:#1A202C}
+body.light .eleve-group-body .eleve-item:hover{background:#F7FAFC}
+body.light .school-item{background:#FFFFFF;border-color:#E2E8F0}
+body.light .school-item:hover{background:#F7FAFC}
+body.light .modal-card{background:#FFFFFF}
+body.light .modal-card h3{color:#1A202C}
+body.light .modal-card h3::after{background:var(--accent)}
+body.light .modal-info-line{color:#4A5568;border-bottom-color:#E2E8F0}
+body.light .modal-info-line span:last-child{color:#1A202C}
+body.light .toast{background:#FFFFFF;color:#1A202C;border-left-color:var(--accent)}
+body.light .toast .toast-title{color:#1A202C}
+body.light .toast .toast-msg{color:#4A5568}
+body.light .pagination-btn{color:#4A5568;border-color:#E2E8F0;background:#FFFFFF}
+body.light .pagination-btn:hover{background:#F7FAFC;color:#1A202C}
+body.light .pagination-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+body.light .badge-source-a{background:rgba(59,130,246,0.10);color:#2563eb}
+body.light .badge-source-b{background:rgba(16,185,129,0.10);color:#059669}
+body.light .badge-source-merged{background:rgba(245,158,11,0.10);color:#d97706}
+body.light .eleve-group-body .eleve-item .code-parent{background:rgba(37,99,235,0.08);color:#2563eb}
+body.light .source-selector{background:#FFFFFF;border-color:#E2E8F0}
+body.light .source-btn{border-color:#E2E8F0;color:#A0AEC0}
+body.light .source-btn:hover{color:#1A202C}
+body.light .source-btn[data-source="a"].active{background:rgba(59,130,246,0.08);border-color:#3b82f6;color:#3b82f6}
+body.light .source-btn[data-source="b"].active{background:rgba(16,185,129,0.08);border-color:#10b981;color:#10b981}
+body.light .source-btn[data-source="merged"].active{background:rgba(245,158,11,0.08);border-color:#f59e0b;color:#f59e0b}
+body.light #sourceStatus.a{border-color:rgba(59,130,246,0.2)}
+body.light #sourceStatus.b{border-color:rgba(16,185,129,0.2)}
+body.light #sourceStatus.merged{border-color:rgba(245,158,11,0.2)}
+body.light .kpi-card .source-badge.a{background:rgba(59,130,246,0.08);color:#2563eb}
+body.light .kpi-card .source-badge.b{background:rgba(16,185,129,0.08);color:#059669}
+body.light .kpi-card .source-badge.merged{background:rgba(245,158,11,0.08);color:#d97706}
+
+@media(max-width:768px){
+.topbar{padding:10px 16px}
+.topbar .brand h1{font-size:16px}
+.topbar .brand .sub{display:none}
+.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}
+.kpi-card{padding:10px 14px}
+.kpi-card .value{font-size:20px}
+.source-selector{padding:8px 16px;gap:8px}
+.source-btn{font-size:11px;padding:4px 14px}
+.tabs{padding:4px 10px;gap:2px}
+.tab-btn{padding:8px 12px;font-size:11px}
+.tab-panel{padding:12px}
+.card-header{padding:10px 14px;font-size:14px}
+.card-body{padding:10px 12px}
+.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}
+.school-item .school-left{flex:1 1 100%;min-width:unset}
+.school-item .school-logo-center{width:48px;height:48px}
+.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}
+.form-grid{grid-template-columns:1fr}
+.filter-row{flex-direction:column;align-items:stretch}
+.filter-row select,.filter-row input{width:100%}
+.modal-card{padding:20px 16px 24px;margin:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="brand">
+<div class="logo">N</div>
+<h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Dashboard Admin</span></h1>
+</div>
+<div class="right">
+<button class="clear-cache-btn" id="clearCacheBtn">🧹 Clear Cache</button>
+<button class="theme-toggle" id="themeToggle">🌙</button>
+</div>
+</div>
+
+<div class="source-selector">
+<span class="label">📁 Source :</span>
+<button class="source-btn active" data-source="a">🔵 SOURCE A</button>
+<button class="source-btn" data-source="b">🟢 SOURCE B</button>
+<button class="source-btn" data-source="merged">🟡 FUSIONNÉ</button>
+<span id="sourceStatus" class="a">🔵 SOURCE A · gesco-67c43</span>
+</div>
+
+<div class="kpi-row">
+<div class="kpi-card"><div class="label">🏫 Schools</div><div class="value blue" id="hdrEcoles">0</div><div class="source-badge a" id="hdrEcolesBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">👨‍🏫 Teachers</div><div class="value purple" id="hdrEnseignants">0</div><div class="source-badge a" id="hdrEnseignantsBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">📄 Sheets</div><div class="value green" id="hdrFiches">0</div><div class="source-badge a" id="hdrFichesBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">👥 Students</div><div class="value gold" id="hdrEleves">0</div><div class="source-badge a" id="hdrElevesBadge">SOURCE A</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">🏫 SCHOOLS</button>
+<button class="tab-btn" data-tab="tab2">👥 MEMBERS</button>
+<button class="tab-btn" data-tab="tab3">👨‍🏫 TEACHERS</button>
+<button class="tab-btn" data-tab="tab4">📄 SHEETS</button>
+<button class="tab-btn" data-tab="tab5">🔐 CODES & EMAILS</button>
+<button class="tab-btn" data-tab="tab6">🔑 PARENT CODES</button>
+<button class="tab-btn" data-tab="tab7">❄️ WHITE MONTHS</button>
+<button class="tab-btn" data-tab="tab8">🔍 EXPLORER</button>
+</div>
+
+<div id="tab1" class="tab-panel active">
+<div class="card">
+<div class="card-header">
+<span>🏫 Schools</span>
+<span class="count" id="schoolCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="schoolSearch" placeholder="Search school..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
+<div style="display:flex;align-items:center;gap:8px;"><span>🏷️</span><select id="schoolStatusFilter" style="padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">All</option><option value="actif">Active</option><option value="inactif">Inactive</option><option value="masque">Hidden</option></select></div>
+</div>
+<div id="schoolsContainer"><div class="empty-state">Loading...</div></div>
+</div>
+</div>
+</div>
+
+<div id="tab2" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>👥 Members</span>
+<span class="count" id="membersCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="membersSearch" placeholder="Search student..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:150px;"><span>🏫</span><select id="membersEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+</div>
+<div id="membersContainer"><div class="empty-state">👥 No members found</div></div>
+<div class="pagination-container" id="membersPagination"><div class="pagination-info" id="membersPaginationInfo">0 members</div><div class="pagination-buttons" id="membersPaginationButtons"></div></div>
+</div>
+</div>
+</div>
+
+<div id="tab3" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>👨‍🏫 Teachers</span>
+<span class="count" id="teachersCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="teachersSearch" placeholder="Search teacher..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:150px;"><span>🏫</span><select id="teachersEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+</div>
+<div id="teachersContainer"><div class="empty-state">Loading...</div></div>
+</div>
+</div>
+</div>
+
+<div id="tab4" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>📄 Sheets</span>
+<span class="count" id="sheetsCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<div style="display:flex;align-items:center;gap:8px;flex:1;min-width:150px;"><span>🔍</span><input type="text" id="sheetsSearch" placeholder="Search..." style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"></div>
+<div style="display:flex;align-items:center;gap:8px;min-width:150px;"><span>🏫</span><select id="sheetsEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+</div>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>Subject</th><th>Class</th><th>Option</th><th>Teacher</th><th>School</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
+</div>
+</div>
+</div>
+
+<div id="tab5" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>🔐 Codes & Emails</span>
+<span class="count" id="codesCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="codesEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+<div id="codesContainer"><div class="empty-state">Loading...</div></div>
+</div>
+</div>
+</div>
+
+<div id="tab6" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>🔑 Parent Codes</span>
+<span class="count" id="parentCodesCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="parentCodesEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+<div><input type="text" id="parentCodesSearch" placeholder="Search by name..." style="width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;margin-top:8px;"></div>
+<div id="parentCodesContainer" style="max-height:400px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Select a school</div></div>
+</div>
+</div>
+</div>
+
+<div id="tab7" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>❄️ White Months</span>
+<span class="count" id="wmCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="wmEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+<div class="table-wrapper"><table><thead><tr><th>Student</th><th>Class</th><th>Section</th><th>School</th><th>Month</th></tr></thead><tbody id="wmBody"></tbody></table></div>
+</div>
+</div>
+</div>
+
+<div id="tab8" class="tab-panel">
+<div class="card">
+<div class="card-header">
+<span>🔍 Explorer</span>
+<span class="count" id="explorerCount">0</span>
+</div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="explorerEcoleFilter" style="flex:1;padding:10px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;"><option value="all">📊 All schools</option></select></div>
+<div id="explorerContent"><div class="empty-state">Loading...</div></div>
+</div>
+</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+
+const firebaseConfigA = {
+apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
+authDomain: "gesco-67c43.firebaseapp.com",
+projectId: "gesco-67c43",
+storageBucket: "gesco-67c43.firebasestorage.app",
+messagingSenderId: "333004443566",
+appId: "1:333004443566:web:de41f60000e418dce9023f"
+};
+
+const firebaseConfigB = {
+apiKey: "AIzaSyBma80S0bc9uzSuO38qn7JLSwLrYniV5Fw",
+authDomain: "gesco-2.firebaseapp.com",
+projectId: "gesco-2",
+storageBucket: "gesco-2.firebasestorage.app",
+messagingSenderId: "36319988765",
+appId: "1:36319988765:web:e8cd823804596495248af4"
+};
+
+const appA = initializeApp(firebaseConfigA, 'sourceA');
+const appB = initializeApp(firebaseConfigB, 'sourceB');
+const dbA = getFirestore(appA);
+const dbB = getFirestore(appB);
+
+let activeSource = 'a';
+let allDataA = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
+let allDataB = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
+let filteredStudents = [];
+let currentPage = 1;
+const perPage = 20;
+
+function getDb() { return activeSource === 'a' ? dbA : dbB; }
+function getSourceLabel() { return activeSource === 'a' ? 'SOURCE A' : 'SOURCE B'; }
+function getSourceColor() { return activeSource === 'a' ? '#3b82f6' : '#10b981'; }
+function getSourceBadge() { return activeSource === 'a' ? 'badge-source-a' : 'badge-source-b'; }
+function getSourceStatus() { return activeSource === 'a' ? 'a' : 'b'; }
+
+function toast(msg, type) {
+type = type || "success";
+const container = document.getElementById('toastContainer');
+if (!container) return;
+const titles = { success: "✅ Success", error: "❌ Error", warning: "⚠️ Warning" };
+const el = document.createElement("div");
+el.className = 'toast ' + type;
+el.innerHTML = '<div class="toast-title">' + (titles[type] || '') + '</div><div class="toast-msg">' + msg + '</div>';
+container.appendChild(el);
+setTimeout(() => { if (el.parentNode) { el.classList.add('removing'); setTimeout(() => { if (el.parentNode) el.remove(); }, 500); } }, 3500);
+}
+
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
+function formatNumber(n) { return new Intl.NumberFormat('en-US').format(n); }
+function getSectionFromClasse(classe) { if (!classe) return 'secondary'; const c = classe.toLowerCase(); if (c.includes('niveau') || c.includes('nursery') || c.includes('maternelle')) return 'nursery'; if (['1ère','2ème','3ème','4ème','5ème','6ème'].some(s => c.includes(s))) return 'primary'; return 'secondary'; }
+function getSectionLabel(s) { const map = { 'secondary': 'SECONDARY', 'primary': 'PRIMARY', 'nursery': 'NURSERY' }; return map[s] || s; }
+function getSectionBadge(s) { const map = { 'secondary': 'badge-purple', 'primary': 'badge-primary', 'nursery': 'badge-success' }; return map[s] || 'badge-primary'; }
+
+async function loadSourceData(source) {
+const db = source === 'a' ? dbA : dbB;
+const data = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
+try {
+const snap = await getDocs(collection(db, "ecoles"));
+for (const ds of snap.docs) {
+const e = ds.data();
+if (e.masque === true) continue;
+const school = { id: ds.id, nom: e.nom || ds.id, province: e.province || '', ville: e.ville || '', actif: e.actif !== false, masque: e.masque === true, logoUrl: e.logoUrl || null };
+data.schools.push(school);
+const collections = [
+{ name: "compta_eleves", section: 'secondary' },
+{ name: "prima_eleves", section: 'primary' },
+{ name: "mater_eleves", section: 'nursery' }
+];
+for (const { name, section } of collections) {
+try {
+const mSnap = await getDocs(collection(db, "ecoles", ds.id, name));
+mSnap.forEach(d => {
+const m = d.data();
+if (m.nom && !m.abandon) {
+data.students.push({ id: d.id, ecoleId: ds.id, ecoleNom: school.nom, nom: m.nom, prenom: m.prenom || '', sexe: m.sexe || 'M', classe: m.classe || '', section: section, parentCode: m.parentCode || null });
+}
+if (m.parentCode) {
+data.parentCodes.push({ id: d.id, ecole: ds.id, ecoleNom: school.nom, nom: m.nom, prenom: m.prenom || '', parentCode: m.parentCode, classe: m.classe || '', section: section });
+}
+});
+} catch (e) {}
+}
+try {
+const pSnap = await getDocs(collection(db, "ecoles", ds.id, "professeurs"));
+pSnap.forEach(d => {
+const p = d.data();
+if (p._type === "prof") {
+data.teachers.push({ id: d.id, ecoleId: ds.id, ecoleNom: school.nom, nom: p.nom || "Unknown", code: p.code || null, email: p.email || p.emailProf || null, actif: p.actif !== false });
+}
+});
+} catch (e) {}
+try {
+const fSnap = await getDocs(collection(db, "ecoles", ds.id, "fiches"));
+fSnap.forEach(d => {
+const f = d.data();
+if (!f._type) {
+data.sheets.push({ id: d.id, ecoleId: ds.id, ecoleNom: school.nom, cours: f.cours || "No subject", classe: f.classe || "", option: f.option || "", titulaire: f.titulaire || "" });
+}
+});
+} catch (e) {}
+try {
+const settingsSnap = await getDoc(doc(db, "ecoles", ds.id, "settings", "data"));
+if (settingsSnap.exists()) {
+const s = settingsSnap.data();
+data.codes.push({ ecoleId: ds.id, ecoleNom: school.nom, codeDirection: s.codeDirection || 'Not set', codeComptabilite: s.codeComptabilite || 'Not set', codePromoteur: s.codePromoteur || 'Not set', emailDirection: s.emailDirection || null, emailComptabilite: s.emailComptabilite || null, emailPromoteur: s.emailPromoteur || null });
+}
+} catch (e) {}
+}
+} catch (e) { console.error("Error loading source", e); }
+return data;
+}
+
+async function loadAll() {
+document.body.classList.remove('source-a-mode', 'source-b-mode', 'source-merged-mode');
+if (activeSource === 'a') {
+document.body.classList.add('source-a-mode');
+document.getElementById('sourceStatus').className = 'a';
+document.getElementById('sourceStatus').textContent = '🔵 SOURCE A · gesco-67c43';
+} else if (activeSource === 'b') {
+document.body.classList.add('source-b-mode');
+document.getElementById('sourceStatus').className = 'b';
+document.getElementById('sourceStatus').textContent = '🟢 SOURCE B · gesco-2';
+}
+const data = await loadSourceData(activeSource);
+if (activeSource === 'a') allDataA = data; else allDataB = data;
+updateCounters(data);
+loadSchools(data);
+loadMembers(data);
+loadTeachers(data);
+loadSheets(data);
+loadCodes(data);
+loadParentCodes(data);
+loadWhiteMonths(data);
+loadExplorer(data);
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+const source = activeSource === 'a' ? 'a' : 'b';
+el.className = 'source-badge ' + source;
+el.textContent = activeSource === 'a' ? 'SOURCE A' : 'SOURCE B';
+});
+}
+
+function updateCounters(data) {
+document.getElementById('hdrEcoles').textContent = data.schools.length;
+document.getElementById('hdrEnseignants').textContent = data.teachers.length;
+document.getElementById('hdrFiches').textContent = data.sheets.length;
+document.getElementById('hdrEleves').textContent = data.students.length;
+document.getElementById('schoolCount').textContent = data.schools.length;
+document.getElementById('membersCount').textContent = data.students.length;
+document.getElementById('teachersCount').textContent = data.teachers.length;
+document.getElementById('sheetsCount').textContent = data.sheets.length;
+document.getElementById('codesCount').textContent = data.codes.length;
+document.getElementById('parentCodesCount').textContent = data.parentCodes.length;
+document.getElementById('wmCount').textContent = '0';
+document.getElementById('explorerCount').textContent = data.schools.length + data.teachers.length + data.sheets.length + data.students.length;
+}
+
+function loadSchools(data) {
+const container = document.getElementById('schoolsContainer');
+const search = document.getElementById('schoolSearch')?.value?.toLowerCase() || '';
+const filter = document.getElementById('schoolStatusFilter')?.value || 'all';
+let schools = data.schools;
+if (search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search));
+if (filter === 'actif') schools = schools.filter(s => s.actif !== false);
+else if (filter === 'inactif') schools = schools.filter(s => s.actif === false);
+else if (filter === 'masque') schools = schools.filter(s => s.masque === true);
+if (!schools.length) { container.innerHTML = '<div class="empty-state">🏫 No schools found</div>'; return; }
+let html = '';
+schools.forEach(s => {
+const badge = s.actif !== false ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>';
+html += `
+<div class="school-item">
+<div class="school-left">
+<div class="school-name">${escapeHtml(s.nom)} <span class="school-id">${escapeHtml(s.id)}</span></div>
+<div class="school-location">📍 ${escapeHtml(s.province || '-')} · 🏙️ ${escapeHtml(s.ville || '-')}</div>
+<div class="school-badges">${badge}</div>
+</div>
+<div class="school-logo-center">${s.logoUrl ? `<img src="${escapeHtml(s.logoUrl)}" alt="${escapeHtml(s.nom)}" />` : `<span class="fallback">🏫</span>`}</div>
+<div class="school-right"><span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div>
+</div>`;
+});
+container.innerHTML = html;
+}
+
+function loadMembers(data) {
+const container = document.getElementById('membersContainer');
+const search = document.getElementById('membersSearch')?.value?.toLowerCase() || '';
+const filter = document.getElementById('membersEcoleFilter')?.value || 'all';
+let students = data.students;
+if (filter !== 'all') students = students.filter(s => s.ecoleId === filter);
+if (search) students = students.filter(s => (s.nom + ' ' + (s.prenom||'')).toLowerCase().includes(search));
+filteredStudents = students;
+const totalPages = Math.ceil(students.length / perPage);
+if (currentPage > totalPages) currentPage = 1;
+const start = (currentPage - 1) * perPage;
+const pageStudents = students.slice(start, start + perPage);
+if (!students.length) { container.innerHTML = '<div class="empty-state">👥 No members found</div>'; return; }
+const grouped = {};
+pageStudents.forEach(s => { const key = s.ecoleId; if (!grouped[key]) grouped[key] = { school: s.ecoleNom, members: [] }; grouped[key].members.push(s); });
+let html = '';
+for (const [key, val] of Object.entries(grouped)) {
+html += `<div class="eleve-group"><div class="eleve-group-header">🏫 ${escapeHtml(val.school)} <span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div><div class="eleve-group-body">`;
+val.members.forEach(m => {
+const nom = (m.nom + ' ' + (m.prenom||'')).trim() || "Unknown";
+const sectionBadge = getSectionBadge(m.section);
+html += `<div class="eleve-item"><span class="nom">${escapeHtml(nom)} <span class="badge ${sectionBadge}" style="font-size:9px;padding:1px 8px;">${getSectionLabel(m.section)}</span></span><span class="code-parent">${m.parentCode || '---'}</span></div>`;
+});
+html += '</div></div>';
+}
+container.innerHTML = html;
+const pagContainer = document.getElementById('membersPagination');
+const pagInfo = document.getElementById('membersPaginationInfo');
+const pagButtons = document.getElementById('membersPaginationButtons');
+if (totalPages > 1) {
+pagContainer.style.display = 'flex';
+pagInfo.textContent = 'Page ' + currentPage + '/' + totalPages + ' · ' + students.length + ' members';
+let btns = '';
+if (currentPage > 1) btns += '<button class="pagination-btn" data-page="' + (currentPage - 1) + '">◀</button>';
+for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+btns += '<button class="pagination-btn ' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
+}
+if (currentPage < totalPages) btns += '<button class="pagination-btn" data-page="' + (currentPage + 1) + '">▶</button>';
+pagButtons.innerHTML = btns;
+pagButtons.querySelectorAll('.pagination-btn').forEach(btn => {
+btn.addEventListener('click', function() { currentPage = parseInt(this.dataset.page); loadMembers(data); });
+});
+} else { pagContainer.style.display = 'none'; }
+}
+
+function loadTeachers(data) {
+const container = document.getElementById('teachersContainer');
+const search = document.getElementById('teachersSearch')?.value?.toLowerCase() || '';
+const filter = document.getElementById('teachersEcoleFilter')?.value || 'all';
+let teachers = data.teachers;
+if (filter !== 'all') teachers = teachers.filter(t => t.ecoleId === filter);
+if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
+if (!teachers.length) { container.innerHTML = '<div class="empty-state">👨‍🏫 No teachers found</div>'; return; }
+let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">';
+teachers.forEach(t => {
+const emailValid = t.email && t.email.includes('@');
+html += `
+<div class="card" style="margin-bottom:0;">
+<div class="card-body" style="padding:12px 14px;">
+<div style="font-weight:700;font-size:15px;color:var(--text-primary);">${escapeHtml(t.nom)}</div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);"><span>📧 Email</span><span style="color:${emailValid ? 'var(--success)' : 'var(--danger)'};">${t.email ? escapeHtml(t.email) : '❌'}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);"><span>🔑 Code</span><span style="color:var(--accent);font-family:monospace;font-weight:700;">${t.code || '---'}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);"><span>📊 Status</span><span>${t.actif ? '🟢 Active' : '🔴 Inactive'}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);border-bottom:none;"><span>🏫 School</span><span>${escapeHtml(t.ecoleNom)}</span></div>
+<div style="margin-top:6px;"><span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div>
+</div>
+</div>`;
+});
+html += '</div>';
+container.innerHTML = html;
+}
+
+function loadSheets(data) {
+const container = document.getElementById('sheetsBody');
+const search = document.getElementById('sheetsSearch')?.value?.toLowerCase() || '';
+const filter = document.getElementById('sheetsEcoleFilter')?.value || 'all';
+let sheets = data.sheets;
+if (filter !== 'all') sheets = sheets.filter(s => s.ecoleId === filter);
+if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
+if (!sheets.length) { container.innerHTML = '<tr><td colspan="6" class="empty-state">📄 No sheets found</td></tr>'; return; }
+let html = '';
+sheets.slice(0, 100).forEach((s, i) => {
+html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)} <span class="badge ${getSourceBadge()}" style="font-size:9px;">${getSourceLabel()}</span></td></tr>`;
+});
+container.innerHTML = html;
+}
+
+function loadCodes(data) {
+const container = document.getElementById('codesContainer');
+const filter = document.getElementById('codesEcoleFilter')?.value || 'all';
+let codes = data.codes;
+if (filter !== 'all') codes = codes.filter(c => c.ecoleId === filter);
+if (!codes.length) { container.innerHTML = '<div class="empty-state">🔐 No codes found</div>'; return; }
+let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;">';
+codes.forEach(c => {
+html += `
+<div class="card" style="margin-bottom:0;">
+<div class="card-body" style="padding:12px 14px;">
+<div style="font-weight:700;font-size:15px;color:var(--text-primary);">${escapeHtml(c.ecoleNom)} <span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid var(--border-color);"><span style="color:var(--text-muted);">👔 Director</span><span style="font-family:monospace;color:#bb8fce;">${escapeHtml(c.codeDirection)}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid var(--border-color);"><span style="color:var(--text-muted);">💰 Accounting</span><span style="font-family:monospace;color:var(--success);">${escapeHtml(c.codeComptabilite)}</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:none;"><span style="color:var(--text-muted);">👔 Promoter</span><span style="font-family:monospace;color:#5dade2;">${escapeHtml(c.codePromoteur)}</span></div>
+</div>
+</div>`;
+});
+html += '</div>';
+container.innerHTML = html;
+}
+
+function loadParentCodes(data) {
+const container = document.getElementById('parentCodesContainer');
+const filter = document.getElementById('parentCodesEcoleFilter')?.value || 'all';
+const search = document.getElementById('parentCodesSearch')?.value?.toLowerCase() || '';
+let codes = data.parentCodes;
+if (filter !== 'all') codes = codes.filter(c => c.ecole === filter);
+if (search) codes = codes.filter(c => (c.nom + ' ' + (c.prenom||'')).toLowerCase().includes(search));
+if (!codes.length) { container.innerHTML = '<div class="empty-state">🔑 No parent codes found</div>'; return; }
+const grouped = {};
+codes.forEach(c => { const key = c.ecole; if (!grouped[key]) grouped[key] = []; grouped[key].push(c); });
+let html = '';
+for (const [key, vals] of Object.entries(grouped)) {
+const ecoleNom = allDataA.schools.find(s => s.id === key)?.nom || allDataB.schools.find(s => s.id === key)?.nom || key;
+html += `<div class="eleve-group"><div class="eleve-group-header">🏫 ${escapeHtml(ecoleNom)} <span class="badge ${getSourceBadge()}">${getSourceLabel()}</span></div><div class="eleve-group-body">`;
+vals.slice(0, 50).forEach(c => {
+const nom = (c.nom + ' ' + (c.prenom||'')).trim() || "Unknown";
+html += `<div class="eleve-item"><span class="nom">${escapeHtml(nom)}</span><span class="code-parent">${escapeHtml(c.parentCode)}</span></div>`;
+});
+if (vals.length > 50) html += `<div style="padding:6px 10px;color:var(--text-muted);font-size:12px;">... and ${vals.length - 50} more</div>`;
+html += '</div></div>';
+}
+container.innerHTML = html;
+}
+
+function loadWhiteMonths(data) {
+const container = document.getElementById('wmBody');
+const filter = document.getElementById('wmEcoleFilter')?.value || 'all';
+let wm = [];
+const db = getDb();
+const schools = filter !== 'all' ? data.schools.filter(s => s.id === filter) : data.schools;
+for (const s of schools) {
+try {
+const snap = await getDocs(collection(db, "ecoles", s.id, "compta_eleves"));
+snap.forEach(d => {
+const m = d.data();
+const blancs = m.moisBlancs || [];
+blancs.forEach(mois => {
+wm.push({ docId: d.id, ecoleId: s.id, nom: m.nom || "Unknown", classe: m.classe || "", section: getSectionFromClasse(m.classe), ecoleNom: s.nom || s.id, mois: mois });
+});
+});
+} catch (e) {}
+}
+if (!wm.length) { container.innerHTML = '<tr><td colspan="5" class="empty-state">❄️ No white months</td></tr>'; return; }
+let html = '';
+wm.slice(0, 100).forEach(w => {
+const sectionBadge = getSectionBadge(w.section);
+html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)} <span class="badge ${getSourceBadge()}" style="font-size:9px;">${getSourceLabel()}</span></td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td></tr>`;
+});
+container.innerHTML = html;
+}
+
+function loadExplorer(data) {
+const container = document.getElementById('explorerContent');
+const filter = document.getElementById('explorerEcoleFilter')?.value || 'all';
+const total = data.schools.length + data.teachers.length + data.sheets.length + data.students.length;
+let html = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:12px;">
+<div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">${data.schools.length}</div><div style="font-size:11px;color:var(--text-muted);">Schools</div></div>
+<div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#bb8fce;">${data.teachers.length}</div><div style="font-size:11px;color:var(--text-muted);">Teachers</div></div>
+<div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">${data.sheets.length}</div><div style="font-size:11px;color:var(--text-muted);">Sheets</div></div>
+<div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#f59e0b;">${data.students.length}</div><div style="font-size:11px;color:var(--text-muted);">Students</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.02);border-radius:8px;padding:12px;border:1px solid var(--border-color);">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+<span style="font-weight:700;font-size:14px;">📊 Total documents</span>
+<span style="font-size:20px;font-weight:900;color:var(--accent);">${formatNumber(total)}</span>
+</div>
+<div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Source: ${getSourceLabel()} · ${data.schools.length} schools</div>
+</div>`;
+container.innerHTML = html;
+}
+
+document.querySelectorAll('.source-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active', 'active-a', 'active-b', 'active-merged'));
+this.classList.add('active');
+if (this.dataset.source === 'a') { this.classList.add('active-a'); activeSource = 'a'; }
+else if (this.dataset.source === 'b') { this.classList.add('active-b'); activeSource = 'b'; }
+else { this.classList.add('active-merged'); activeSource = 'merged'; }
+document.getElementById('membersPagination').style.display = 'none';
+currentPage = 1;
+if (activeSource === 'merged') {
+document.body.classList.add('source-merged-mode');
+document.getElementById('sourceStatus').className = 'merged';
+document.getElementById('sourceStatus').textContent = '🟡 FUSIONNÉ · SOURCE A + SOURCE B';
+toast('📊 Mode Fusionné activé - Affichage combiné des deux sources', 'info');
+} else {
+loadAll();
+}
+});
+});
+
+document.getElementById('themeToggle').addEventListener('click', function() {
+document.body.classList.toggle('light');
+this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+});
+
+document.getElementById('clearCacheBtn').addEventListener('click', function() {
+toast('🧹 Cache cleared successfully!', 'success');
+location.reload();
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.getElementById(this.dataset.tab).classList.add('active');
+});
+});
+
+document.getElementById('schoolSearch').addEventListener('input', () => loadAll());
+document.getElementById('schoolStatusFilter').addEventListener('change', () => loadAll());
+document.getElementById('membersSearch').addEventListener('input', () => loadAll());
+document.getElementById('membersEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('teachersSearch').addEventListener('input', () => loadAll());
+document.getElementById('teachersEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('sheetsSearch').addEventListener('input', () => loadAll());
+document.getElementById('sheetsEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('codesEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('parentCodesEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('parentCodesSearch').addEventListener('input', () => loadAll());
+document.getElementById('wmEcoleFilter').addEventListener('change', () => loadAll());
+document.getElementById('explorerEcoleFilter').addEventListener('change', () => loadAll());
+
+function updateSelectors(data) {
+const selectors = ['membersEcoleFilter', 'teachersEcoleFilter', 'sheetsEcoleFilter', 'codesEcoleFilter', 'parentCodesEcoleFilter', 'wmEcoleFilter', 'explorerEcoleFilter'];
+selectors.forEach(id => {
+const el = document.getElementById(id);
+if (!el) return;
+const val = el.value;
+el.innerHTML = '<option value="all">📊 All schools</option>';
+data.schools.forEach(s => {
+const opt = document.createElement('option');
+opt.value = s.id;
+opt.textContent = s.nom || s.id;
+el.appendChild(opt);
+});
+if (val && el.querySelector('option[value="' + val + '"]')) el.value = val;
+});
+}
+
+function updateAll() {
+const data = activeSource === 'a' ? allDataA : allDataB;
+updateSelectors(data);
+loadAll();
+}
+
+loadAll();
+</script>
+</body>
+</html>
