@@ -470,7 +470,9 @@ data.codes.push({ ecoleId: ds.id, ecoleNom: school.nom, codeDirection: s.codeDir
 return data;
 }
 
+// CORRECTION 1: loadAll devient async avec gestion d'erreurs
 async function loadAll() {
+try {
 const data = await loadSourceData(activeSource);
 if (activeSource === 'a') allDataA = data; else allDataB = data;
 allData = data;
@@ -481,12 +483,23 @@ loadTeachers(data);
 loadSheets(data);
 loadCodes(data);
 loadParentCodes(data);
-loadWhiteMonths(data);
+await loadWhiteMonths(data); // CORRECTION 2: Ajout de await
 loadExplorer(data);
-document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+updateSourceBadges();
+toast('✅ Données ' + getSourceLabel() + ' chargées', 'success');
+} catch (error) {
+console.error('❌ Erreur loadAll:', error);
+toast('❌ Erreur de chargement des données', 'error');
+}
+}
+
+// CORRECTION 3: Fonction helper pour les badges
+function updateSourceBadges() {
 const source = activeSource === 'a' ? 'a' : 'b';
+const label = activeSource === 'a' ? 'SOURCE A' : 'SOURCE B';
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
 el.className = 'source-badge ' + source;
-el.textContent = activeSource === 'a' ? 'SOURCE A' : 'SOURCE B';
+el.textContent = label;
 });
 }
 
@@ -516,10 +529,13 @@ loadTeachers(merged);
 loadSheets(merged);
 loadCodes(merged);
 loadParentCodes(merged);
-loadWhiteMonths(merged);
+await loadWhiteMonths(merged); // CORRECTION 4: Ajout de await
 loadExplorer(merged);
 toast('📊 Données fusionnées chargées', 'success');
-} catch(e) { toast('❌ Erreur fusion', 'error'); }
+} catch(e) { 
+console.error('❌ Erreur fusion:', e);
+toast('❌ Erreur fusion des données', 'error'); 
+}
 }
 
 function updateCounters(data) {
@@ -696,7 +712,8 @@ html += '</div></div>';
 container.innerHTML = html;
 }
 
-function loadWhiteMonths(data) {
+// CORRECTION 5: loadWhiteMonths devient async avec await
+async function loadWhiteMonths(data) {
 const container = document.getElementById('wmBody');
 const filter = document.getElementById('wmEcoleFilter')?.value || 'all';
 let wm = [];
@@ -809,7 +826,9 @@ document.getElementById('wmEcoleFilter').addEventListener('change', () => active
 document.getElementById('explorerEcoleFilter').addEventListener('change', () => activeSource === 'merged' ? loadMerged() : loadAll());
 }
 
+// CORRECTION 6: initDashboard avec await et gestion d'erreurs
 async function initDashboard() {
+try {
 const user = auth.currentUser;
 if (!user) {
 window.location.href = 'login_admin.html';
@@ -820,13 +839,14 @@ await loadAll();
 updateSelectors(allData);
 attachEvents();
 console.log('✅ Dashboard prêt !');
+} catch (error) {
+console.error('❌ Erreur initDashboard:', error);
+toast('❌ Erreur d\'initialisation du dashboard', 'error');
+}
 }
 
+// CORRECTION 7: Une seule initialisation
 document.addEventListener('DOMContentLoaded', initDashboard);
-
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-initDashboard();
-}
 </script>
 </body>
 </html>
