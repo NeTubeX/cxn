@@ -1595,7 +1595,6 @@ window.afficherFraisInscription = async function() {
         const statutLabel = e.statut === 'NON PAYÉ' ? 'NON PAYÉ' : (e.statut === 'EXONÉRÉ' ? 'EXONÉRÉ' : e.statut);
         const sexeIcon = e.sexe === 'F' ? '👩' : '👨';
         const dateInscription = e.dateInscription || '-';
-        const aPaye = e.montantPaye > 0;
         const peutPayer = (e.statut !== 'COMPLET' && e.statut !== 'EXONÉRÉ' && e.reste > 0);
         
         html += `
@@ -1608,7 +1607,7 @@ window.afficherFraisInscription = async function() {
             <td style="text-align:center;white-space:nowrap;"><span class="status-badge ${statutClass}">${statutLabel}</span></td>
             <td style="text-align:center;color:#94a3b8;font-size:12px;white-space:nowrap;">${dateInscription}</td>
             <td style="text-align:center;white-space:nowrap;">${peutPayer ? '<button class="btn btn-sm btn-inscription-pay" onclick="window.ouvrirPaiementInscription(\''+e.id+'\',\''+e.nom+'\','+e.reste+','+e.fraisTotal+','+e.montantPaye+')">PAYER</button>' : '<span style="color:#10b981;">✓</span>'}</td>
-            <td style="text-align:center;white-space:nowrap;">${aPaye ? '<button class="btn btn-sm btn-pdf" onclick="genererReçuInscriptionPDF(\''+e.id+'\',\''+e.nom+'\','+e.montantPaye+',\''+e.dateInscription+'\')">🧾 REÇU</button>' : '<span style="color:#64748b;font-size:10px;">-</span>'}</td>
+            <td style="text-align:center;white-space:nowrap;"><button class="btn btn-sm btn-pdf" onclick="genererReçuInscriptionPDF(\''+e.id+'\',\''+e.nom+'\','+e.montantPaye+',\''+e.dateInscription+'\')">🧾 REÇU</button></td>
         </tr>`;
     }
     
@@ -1627,7 +1626,7 @@ window.genererReçuPDF = async function(eleveId, mois, montant, datePaiement) {
         const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: [148, 175] });
         const pageWidth = doc.internal.pageSize.getWidth();
         let y = 6;
-        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || 'COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME));
+        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || SCHOOL_DISPLAY_NAME));
 
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
@@ -1696,6 +1695,7 @@ window.genererReçuPDF = async function(eleveId, mois, montant, datePaiement) {
 
         const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
         const prenomComplet = (eleve.prenom || '').toUpperCase();
+        const optionValue = eleve.option || '';
 
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
@@ -1703,8 +1703,12 @@ window.genererReçuPDF = async function(eleveId, mois, montant, datePaiement) {
         y += 8;
         doc.text('Prénom: ' + prenomComplet, 5, y + 6);
         y += 8;
-        doc.text('Classe/Niveau: ' + eleve.classe, 5, y + 6);
+        doc.text('Classe: ' + eleve.classe, 5, y + 6);
         y += 8;
+        if (optionValue && optionValue !== 'TOUTES' && optionValue !== '') {
+            doc.text('Option: ' + optionValue, 5, y + 6);
+            y += 8;
+        }
         doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, y + 6);
         y += 10;
 
@@ -1715,7 +1719,7 @@ window.genererReçuPDF = async function(eleveId, mois, montant, datePaiement) {
         doc.text('PÉRIODE: ' + mois, 5, y + 6);
         y += 12;
 
-        doc.setFontSize(22);
+        doc.setFontSize(20);
         doc.text('Moyen: Espèces', pageWidth / 2, y + 6, { align: 'center' });
 
         doc.save('Reçu_Paiement_' + eleve.nom + '_' + formatDateYMD() + '.pdf');
@@ -1739,7 +1743,7 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
         const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: [148, 175] });
         const pageWidth = doc.internal.pageSize.getWidth();
         let y = 6;
-        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || 'COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME));
+        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || SCHOOL_DISPLAY_NAME));
 
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
@@ -1808,6 +1812,7 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
 
         const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
         const prenomComplet = (eleve.prenom || '').toUpperCase();
+        const optionValue = eleve.option || '';
 
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
@@ -1815,8 +1820,12 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
         y += 8;
         doc.text('Prénom: ' + prenomComplet, 5, y + 6);
         y += 8;
-        doc.text('Classe/Niveau: ' + eleve.classe, 5, y + 6);
+        doc.text('Classe: ' + eleve.classe, 5, y + 6);
         y += 8;
+        if (optionValue && optionValue !== 'TOUTES' && optionValue !== '') {
+            doc.text('Option: ' + optionValue, 5, y + 6);
+            y += 8;
+        }
         doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, y + 6);
         y += 10;
 
@@ -1837,7 +1846,7 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
         doc.text('STATUT: ' + statut, 5, y + 6);
         y += 12;
 
-        doc.setFontSize(22);
+        doc.setFontSize(20);
         doc.text('Moyen: Espèces', pageWidth / 2, y + 6, { align: 'center' });
 
         doc.save('Reçu_Inscription_' + eleve.nom + '_' + formatDateYMD() + '.pdf');
