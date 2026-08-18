@@ -987,11 +987,9 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
         let y = 6;
         const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || schoolDisplayName));
 
-        // Fond blanc
         doc.setFillColor(255, 255, 255);
-        doc.rect(0, 0, pageWidth, 42, "F");
+        doc.rect(0, 0, pageWidth, 55, "F");
 
-        // Logo
         const logoX = 5, logoY = 4, logoSize = 28;
         let logoAdded = false;
         if (schoolLogoUrl) {
@@ -1003,50 +1001,32 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
                 }
             } catch (e) {}
         }
-        const startX = logoAdded ? logoX + logoSize + 5 : 5;
-        const titleY = logoAdded ? 4 : 3;
 
-        // Ligne 1: COMPLEXE SCOLAIRE (taille 18)
+        const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text('COMPLEXE SCOLAIRE', startX, titleY + 6);
+        doc.text(texteLigne1, pageWidth / 2, 20, { align: 'center' });
 
-        // Ligne 2: Nom de l'école (taille 18)
-        const nomLignes = nomEcole.match(/.{1,30}/g) || [nomEcole];
-        doc.text(nomLignes[0], startX, titleY + 12);
-        if (nomLignes.length > 1) {
-            doc.text(nomLignes[1], startX, titleY + 18);
-            var ligneEcole = 3;
-        } else {
-            var ligneEcole = 2;
-        }
+        const sectionTexte = espaceActif === 'primaire' ? 'SECTION PRIMAIRE' : 'SECTION MATERNELLE';
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text(sectionTexte, pageWidth / 2, 30, { align: 'center' });
 
-        // Ligne suivante: REÇU DE PAIEMENT (taille 22)
-        let currentY = titleY + (ligneEcole * 6) + 2;
-        doc.setFontSize(22);
-        doc.text('REÇU DE PAIEMENT', startX, currentY + 4);
-        currentY += 8;
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('2026-2027', pageWidth / 2, 42, { align: 'center' });
 
-        // SECTION PRIMAIRE (taille 22)
-        doc.setFontSize(22);
-        doc.text('SECTION PRIMAIRE', startX, currentY + 4);
-        currentY += 8;
-
-        // 2026-2027 (taille 22)
-        doc.setFontSize(22);
-        doc.text('2026-2027', startX, currentY + 4);
-        currentY += 10;
-
-        // LIGNE SEPARATRICE 1 - Sous le header
+        y = 50;
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.3);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
-        doc.line(5, currentY, pageWidth - 5, currentY);
+        doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        currentY += 6;
+        y += 6;
 
-        // REFERENCE (taille 18)
         const datePaiementFormatee = datePaiement ? formatDateFr(datePaiement) : formatDateFr(new Date());
         const chiffresId = (id || '').replace(/\D/g, '');
         const suffixeRef = chiffresId.length >= 4 ? chiffresId.slice(-4) : chiffresId.padStart(4, '0');
@@ -1055,54 +1035,43 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
         doc.setFont("helvetica", "bold");
         doc.setFontSize(18);
         doc.setTextColor(0, 0, 0);
-        doc.text('Réf: ' + reference, 5, currentY + 6);
-        currentY += 8;
+        doc.text('Réf: ' + reference, 5, y + 6);
+        y += 8;
 
-        // DATE (taille 22) - sur sa propre ligne
         doc.setFontSize(22);
-        doc.text('Date: ' + datePaiementFormatee, 5, currentY + 6);
-        currentY += 10;
+        doc.text('Date: ' + datePaiementFormatee, 5, y + 6);
+        y += 10;
 
-        // LIGNE SEPARATRICE 2 - Au-dessus du montant
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.5);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
-        doc.line(5, currentY, pageWidth - 5, currentY);
+        doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        currentY += 6;
+        y += 6;
 
-        // ÉLÈVE (taille 22)
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(22);
-        doc.text('ÉLÈVE', 5, currentY + 6);
-        currentY += 4;
-        currentY += 5;
-
-        // Infos élève (taille 22)
         const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
         const prenomComplet = (eleve.prenom || '').toUpperCase();
+
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text('Nom: ' + nomComplet, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Prénom: ' + prenomComplet, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Classe/Niveau: ' + eleve.classe, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, currentY + 6);
-        currentY += 10;
+        doc.text('Nom: ' + nomComplet, 5, y + 6);
+        y += 8;
+        doc.text('Prénom: ' + prenomComplet, 5, y + 6);
+        y += 8;
+        doc.text('Classe/Niveau: ' + eleve.classe, 5, y + 6);
+        y += 8;
+        doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, y + 6);
+        y += 10;
 
-        // MONTANT (taille 22)
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text('MONTANT: ' + formatNbSimple(montant) + ' FC', 5, currentY + 6);
-        currentY += 8;
-        doc.text('PÉRIODE: ' + periodeId, 5, currentY + 6);
-        currentY += 12;
+        doc.text('MONTANT: ' + formatNbSimple(montant) + ' FC', 5, y + 6);
+        y += 8;
+        doc.text('PÉRIODE: ' + periodeId, 5, y + 6);
+        y += 12;
 
-        // Moyen: Espèces en bas au centre (taille 22)
         doc.setFontSize(22);
-        doc.text('Moyen: Espèces', pageWidth / 2, currentY + 6, { align: 'center' });
+        doc.text('Moyen: Espèces', pageWidth / 2, y + 6, { align: 'center' });
 
         doc.save('Reçu_Paiement_' + eleve.nom + '_' + formatDateYMD() + '.pdf');
         toast('✅ Reçu généré avec succès', 'success');
@@ -1125,11 +1094,9 @@ window.genererReçuInscriptionPDF = async function(id) {
         let y = 6;
         const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || schoolDisplayName));
 
-        // Fond blanc
         doc.setFillColor(255, 255, 255);
-        doc.rect(0, 0, pageWidth, 42, "F");
+        doc.rect(0, 0, pageWidth, 55, "F");
 
-        // Logo
         const logoX = 5, logoY = 4, logoSize = 28;
         let logoAdded = false;
         if (schoolLogoUrl) {
@@ -1141,50 +1108,32 @@ window.genererReçuInscriptionPDF = async function(id) {
                 }
             } catch (e) {}
         }
-        const startX = logoAdded ? logoX + logoSize + 5 : 5;
-        const titleY = logoAdded ? 4 : 3;
 
-        // Ligne 1: COMPLEXE SCOLAIRE (taille 18)
+        const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text('COMPLEXE SCOLAIRE', startX, titleY + 6);
+        doc.text(texteLigne1, pageWidth / 2, 20, { align: 'center' });
 
-        // Ligne 2: Nom de l'école (taille 18)
-        const nomLignes = nomEcole.match(/.{1,30}/g) || [nomEcole];
-        doc.text(nomLignes[0], startX, titleY + 12);
-        if (nomLignes.length > 1) {
-            doc.text(nomLignes[1], startX, titleY + 18);
-            var ligneEcole = 3;
-        } else {
-            var ligneEcole = 2;
-        }
+        const sectionTexte = espaceActif === 'primaire' ? 'SECTION PRIMAIRE' : 'SECTION MATERNELLE';
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text(sectionTexte, pageWidth / 2, 30, { align: 'center' });
 
-        // Ligne suivante: REÇU D'INSCRIPTION (taille 22)
-        let currentY = titleY + (ligneEcole * 6) + 2;
-        doc.setFontSize(22);
-        doc.text('REÇU D\'INSCRIPTION', startX, currentY + 4);
-        currentY += 8;
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('2026-2027', pageWidth / 2, 42, { align: 'center' });
 
-        // SECTION PRIMAIRE (taille 22)
-        doc.setFontSize(22);
-        doc.text('SECTION PRIMAIRE', startX, currentY + 4);
-        currentY += 8;
-
-        // 2026-2027 (taille 22)
-        doc.setFontSize(22);
-        doc.text('2026-2027', startX, currentY + 4);
-        currentY += 10;
-
-        // LIGNE SEPARATRICE 1 - Sous le header
+        y = 50;
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.3);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
-        doc.line(5, currentY, pageWidth - 5, currentY);
+        doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        currentY += 6;
+        y += 6;
 
-        // REFERENCE (taille 18)
         const dateInscription = eleve.dateInscription || formatDateYMD(new Date());
         const chiffresId = (id || '').replace(/\D/g, '');
         const suffixeRef = chiffresId.length >= 4 ? chiffresId.slice(-4) : chiffresId.padStart(4, '0');
@@ -1193,65 +1142,53 @@ window.genererReçuInscriptionPDF = async function(id) {
         doc.setFont("helvetica", "bold");
         doc.setFontSize(18);
         doc.setTextColor(0, 0, 0);
-        doc.text('Réf: ' + reference, 5, currentY + 6);
-        currentY += 8;
+        doc.text('Réf: ' + reference, 5, y + 6);
+        y += 8;
 
-        // DATE (taille 22) - sur sa propre ligne
         doc.setFontSize(22);
-        doc.text('Date: ' + formatDateFr(new Date(dateInscription)), 5, currentY + 6);
-        currentY += 10;
+        doc.text('Date: ' + formatDateFr(new Date(dateInscription)), 5, y + 6);
+        y += 10;
 
-        // LIGNE SEPARATRICE 2 - Au-dessus du montant
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.5);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
-        doc.line(5, currentY, pageWidth - 5, currentY);
+        doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        currentY += 6;
+        y += 6;
 
-        // ÉLÈVE (taille 22)
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(22);
-        doc.text('ÉLÈVE', 5, currentY + 6);
-        currentY += 4;
-        currentY += 5;
-
-        // Infos élève (taille 22)
         const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
         const prenomComplet = (eleve.prenom || '').toUpperCase();
+
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text('Nom: ' + nomComplet, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Prénom: ' + prenomComplet, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Classe/Niveau: ' + eleve.classe, 5, currentY + 6);
-        currentY += 8;
-        doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, currentY + 6);
-        currentY += 10;
+        doc.text('Nom: ' + nomComplet, 5, y + 6);
+        y += 8;
+        doc.text('Prénom: ' + prenomComplet, 5, y + 6);
+        y += 8;
+        doc.text('Classe/Niveau: ' + eleve.classe, 5, y + 6);
+        y += 8;
+        doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, y + 6);
+        y += 10;
 
-        // FRAIS, PAYÉ, RESTE (taille 22)
         const montantPaye = eleve.fraisInscriptionPaye || 0;
         const totalFrais = eleve.fraisInscriptionTotal || 0;
         const reste = totalFrais - montantPaye;
 
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text('FRAIS: ' + formatNbSimple(totalFrais) + ' FC', 5, currentY + 6);
-        currentY += 8;
-        doc.text('PAYÉ: ' + formatNbSimple(montantPaye) + ' FC', 5, currentY + 6);
-        currentY += 8;
-        doc.text('RESTE: ' + (reste > 0 ? formatNbSimple(reste) + ' FC' : '0 FC'), 5, currentY + 6);
-        currentY += 10;
+        doc.text('FRAIS: ' + formatNbSimple(totalFrais) + ' FC', 5, y + 6);
+        y += 8;
+        doc.text('PAYÉ: ' + formatNbSimple(montantPaye) + ' FC', 5, y + 6);
+        y += 8;
+        doc.text('RESTE: ' + (reste > 0 ? formatNbSimple(reste) + ' FC' : '0 FC'), 5, y + 6);
+        y += 10;
 
-        // STATUT (taille 22)
         const statut = montantPaye >= totalFrais ? 'COMPLET' : (montantPaye > 0 ? 'PARTIEL' : 'NON PAYÉ');
-        doc.text('STATUT: ' + statut, 5, currentY + 6);
-        currentY += 12;
+        doc.text('STATUT: ' + statut, 5, y + 6);
+        y += 12;
 
-        // Moyen: Espèces en bas au centre (taille 22)
         doc.setFontSize(22);
-        doc.text('Moyen: Espèces', pageWidth / 2, currentY + 6, { align: 'center' });
+        doc.text('Moyen: Espèces', pageWidth / 2, y + 6, { align: 'center' });
 
         doc.save('Reçu_Inscription_' + eleve.nom + '_' + formatDateYMD() + '.pdf');
         toast('✅ Reçu d\'inscription généré avec succès', 'success');
