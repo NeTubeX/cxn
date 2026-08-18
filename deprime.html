@@ -990,7 +990,10 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
 
-        const logoX = 5, logoY = 4, logoSize = 28;
+        // LOGO CENTRE
+        const logoSize = 28;
+        const logoX = (pageWidth - logoSize) / 2;
+        const logoY = 4;
         let logoAdded = false;
         if (schoolLogoUrl) {
             try {
@@ -1002,6 +1005,7 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
             } catch (e) {}
         }
 
+        // TITRE CENTRE juste en dessous du logo
         const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
@@ -1097,7 +1101,10 @@ window.genererReçuInscriptionPDF = async function(id) {
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
 
-        const logoX = 5, logoY = 4, logoSize = 28;
+        // LOGO CENTRE
+        const logoSize = 28;
+        const logoX = (pageWidth - logoSize) / 2;
+        const logoY = 4;
         let logoAdded = false;
         if (schoolLogoUrl) {
             try {
@@ -1109,6 +1116,7 @@ window.genererReçuInscriptionPDF = async function(id) {
             } catch (e) {}
         }
 
+        // TITRE CENTRE juste en dessous du logo
         const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
