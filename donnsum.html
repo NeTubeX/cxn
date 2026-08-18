@@ -585,62 +585,6 @@ body.light-mode .periode-section .annee-label{color:#1a2332}
 
 .paiement-click-anim{animation:paymentPop 0.3s ease-out forwards !important}
 @keyframes paymentPop{0%{transform:scale(1)}30%{transform:scale(1.15);box-shadow:0 0 30px rgba(255,215,0,0.6)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
-
-.carte-financiere-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:99999;justify-content:center;align-items:center;padding:20px;opacity:0;transition:opacity 0.5s ease;}
-.carte-financiere-card{width:100%;max-width:720px;transform:translateY(-100%);transition:transform 0.6s cubic-bezier(0.34,1.56,0.64,1);}
-.carte-financiere-card .card{background:linear-gradient(145deg,#0f1f1a,#0a1a12);border:1px solid rgba(16,185,129,0.2);border-radius:20px;overflow:hidden;box-shadow:0 25px 70px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.04);}
-.carte-financiere-card .header{min-height:62px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,185,129,0.15);}
-.carte-financiere-card .header-left{display:flex;align-items:center;gap:10px;min-width:0;}
-.carte-financiere-card .logo{width:36px;height:36px;flex-shrink:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(145deg,rgba(16,185,129,0.2),rgba(16,185,129,0.04));border:1px solid rgba(16,185,129,0.18);}
-.carte-financiere-card .title{min-width:0;}
-.carte-financiere-card .title h1{font-size:14px;font-weight:800;letter-spacing:-0.3px;white-space:nowrap;color:#10b981;}
-.carte-financiere-card .title p{margin-top:2px;color:#64748b;font-size:7px;letter-spacing:0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.carte-financiere-card .global-rate{font-size:20px;font-weight:900;color:#10b981;white-space:nowrap;}
-.carte-financiere-card .finance-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(16,185,129,0.08);}
-.carte-financiere-card .finance-cell{min-height:57px;padding:9px 14px;display:flex;flex-direction:column;justify-content:center;}
-.carte-financiere-card .finance-cell + .finance-cell{border-left:1px solid rgba(16,185,129,0.08);}
-.carte-financiere-card .finance-label{color:#64748b;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px;}
-.carte-financiere-card .finance-value{font-size:14px;font-weight:800;}
-.carte-financiere-card .students{color:#10b981;}
-.carte-financiere-card .paid{color:#34d399;}
-.carte-financiere-card .remaining{color:#f59e0b;}
-.carte-financiere-card .classes{display:grid;grid-template-columns:1fr 1fr;}
-.carte-financiere-card .class-cell{min-height:54px;padding:8px 13px;display:flex;flex-direction:column;justify-content:center;background:rgba(255,255,255,0.012);border-bottom:1px solid rgba(16,185,129,0.08);}
-.carte-financiere-card .class-cell:nth-child(odd){border-right:1px solid rgba(16,185,129,0.08);}
-.carte-financiere-card .class-cell:nth-child(5),.carte-financiere-card .class-cell:nth-child(6){border-bottom:none;}
-.carte-financiere-card .class-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.carte-financiere-card .class-name{font-size:9px;font-weight:750;color:#e2e8f0;}
-.carte-financiere-card .class-rate{font-size:11px;font-weight:900;}
-.carte-financiere-card .bar{width:100%;height:4px;background:#1e293b;border-radius:20px;overflow:hidden;}
-.carte-financiere-card .bar-fill{height:100%;border-radius:20px;transition:width 1s cubic-bezier(0.2,0.8,0.2,1);}
-.carte-financiere-card .high{color:#22c55e;}
-.carte-financiere-card .high-fill{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,0.25);}
-.carte-financiere-card .medium{color:#f59e0b;}
-.carte-financiere-card .medium-fill{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,0.2);}
-.carte-financiere-card .low{color:#ef4444;}
-.carte-financiere-card .low-fill{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,0.2);}
-.carte-financiere-card .footer{min-height:38px;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;color:#64748b;font-size:7px;border-top:1px solid rgba(16,185,129,0.08);}
-.carte-financiere-card .close{display:inline-flex;align-items:center;justify-content:center;gap:4px;border:1px solid rgba(16,185,129,0.25);background:rgba(16,185,129,0.1);color:#34d399;padding:6px 14px;border-radius:20px;font-size:8px;font-weight:600;cursor:pointer;transition:all 0.3s ease;min-height:32px;min-width:60px;box-shadow:0 2px 8px rgba(16,185,129,0.1);}
-.carte-financiere-card .close:hover{color:#10b981;border-color:rgba(16,185,129,0.5);background:rgba(16,185,129,0.2);transform:scale(1.02);box-shadow:0 4px 16px rgba(16,185,129,0.2);}
-.carte-financiere-card .close:active{transform:scale(0.95);}
-.carte-financiere-card .timer{font-family:'Courier New',monospace;font-size:13px;font-weight:700;color:#10b981;letter-spacing:0.5px;background:rgba(16,185,129,0.08);padding:4px 12px;border-radius:20px;border:1px solid rgba(16,185,129,0.1);}
-.carte-financiere-card .timer .ms{font-size:10px;opacity:0.6;}
-
-@media(max-width:390px){.carte-financiere-card .header{min-height:54px;padding:8px 11px;}
-.carte-financiere-card .logo{width:30px;height:30px;font-size:14px;border-radius:8px;}
-.carte-financiere-card .title h1{font-size:13px;}
-.carte-financiere-card .title p{font-size:6px;}
-.carte-financiere-card .global-rate{font-size:17px;}
-.carte-financiere-card .finance-cell{min-height:50px;padding:7px 10px;}
-.carte-financiere-card .finance-label{font-size:6px;}
-.carte-financiere-card .finance-value{font-size:12px;}
-.carte-financiere-card .class-cell{min-height:48px;padding:7px 10px;}
-.carte-financiere-card .class-name{font-size:8px;}
-.carte-financiere-card .class-rate{font-size:10px;}
-.carte-financiere-card .bar{height:3px;}
-.carte-financiere-card .footer{min-height:32px;padding:5px 10px;}
-.carte-financiere-card .close{font-size:7px;padding:4px 10px;min-height:28px;min-width:50px;}
-.carte-financiere-card .timer{font-size:11px;padding:3px 8px;}}
 </style>
 </head>
 <body>
@@ -648,58 +592,6 @@ body.light-mode .periode-section .annee-label{color:#1a2332}
 <div class="spinner"></div>
 <div class="loading-text">⏳ Chargement des données en cours…</div>
 </div>
-
-<div class="carte-financiere-overlay" id="carteFinanciereOverlay">
-    <div class="carte-financiere-card" id="carteFinanciere">
-        <div class="card">
-            <div class="header">
-                <div class="header-left">
-                    <div class="logo">🧠</div>
-                    <div class="title">
-                        <h1>INTELLIGENCE ARTIFICIELLE</h1>
-                        <p>RAPPORT QUOTIDIEN - ACTIVITÉS DU JOUR</p>
-                    </div>
-                </div>
-                <div class="global-rate" id="carteHeure" style="font-size:16px;font-weight:400;color:#94a3b8;">
-                    <span id="carteHorloge"></span>
-                </div>
-            </div>
-            <div class="finance-row">
-                <div class="finance-cell">
-                    <div class="finance-label">👨‍🎓 Élèves inscrits</div>
-                    <div class="finance-value students" id="carteTotalEleves">0</div>
-                </div>
-                <div class="finance-cell">
-                    <div class="finance-label">📅 Inscriptions cette semaine</div>
-                    <div class="finance-value" id="carteInscriptionsSemaine" style="color:#34d399;">0</div>
-                </div>
-            </div>
-            <div class="finance-row">
-                <div class="finance-cell">
-                    <div class="finance-label">📈 Semaine passée</div>
-                    <div class="finance-value" id="carteSemainePasse" style="color:#3b82f6;">0</div>
-                </div>
-                <div class="finance-cell">
-                    <div class="finance-label">📈 Semaine actuelle</div>
-                    <div class="finance-value" id="carteSemaineActuelle" style="color:#10b981;">0</div>
-                </div>
-            </div>
-            <div class="finance-row" style="border-bottom:1px solid rgba(16,185,129,0.08);">
-                <div class="finance-cell" style="grid-column: span 2; border-bottom:none; padding:12px 14px;">
-                    <div class="finance-label" style="font-size:8px; letter-spacing:0.5px; color:#94a3b8; margin-bottom:10px;">
-                        📈 RÉPARTITION DES INSCRIPTIONS PAR CLASSE
-                    </div>
-                    <div id="carteInscriptionsParClasse" style="display:flex; flex-direction:column; gap:6px;"></div>
-                </div>
-            </div>
-            <div class="footer">
-                <span class="timer" id="carteTimerDisplay">⏱️ 03:00:00</span>
-                <button class="close" id="carteCloseBtn">✕ Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container" id="mainApp" style="display:none">
 <div class="school-header">
 <div class="header-left">
@@ -1077,7 +969,32 @@ body.light-mode .periode-section .annee-label{color:#1a2332}
 </div>
 </div>
 </div>
-
+<div class="modal-overlay" id="editEleveModal">
+<div class="modal-card">
+<h3>✏️ MODIFIER L'ÉLÈVE</h3>
+<div id="editEleveInfo"></div>
+<div class="form-row">
+<div class="form-group-modern"><label>NOM</label><input type="text" id="editEleveNom" placeholder="Nom"></div>
+<div class="form-group-modern"><label>POST-NOM</label><input type="text" id="editElevePostnom" placeholder="Post-nom"></div>
+</div>
+<div class="form-group-modern"><label>PRÉNOM</label><input type="text" id="editElevePrenom" placeholder="Prénom"></div>
+<div class="modal-buttons">
+<button class="btn btn-success" id="confirmEditEleve">💾 ENREGISTRER</button>
+<button class="btn btn-outline" id="cancelEditEleve">ANNULER</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="editMontantModal">
+<div class="modal-card">
+<h3>✏️ MODIFIER LE MONTANT PAYÉ</h3>
+<div id="editMontantInfo" style="margin-bottom:16px;"></div>
+<div class="form-group"><label>NOUVEAU MONTANT (FC)</label><input type="number" id="editMontantInput" step="100" value="0"></div>
+<div class="modal-buttons">
+<button class="btn btn-success" id="confirmEditMontant">💾 ENREGISTRER</button>
+<button class="btn btn-outline" id="cancelEditMontant">ANNULER</button>
+</div>
+</div>
+</div>
 <div class="modal-overlay" id="codeValidationModal">
 <div class="modal-card">
 <h3>🔐 CODE DE VALIDATION</h3>
@@ -1087,18 +1004,6 @@ body.light-mode .periode-section .annee-label{color:#1a2332}
 <div class="modal-buttons">
 <button class="btn" id="codeValidationConfirm">VALIDER</button>
 <button class="btn btn-outline" id="codeValidationCancel">ANNULER</button>
-</div>
-</div>
-</div>
-
-<div class="modal-overlay" id="editMontantModal">
-<div class="modal-card">
-<h3>✏️ MODIFIER LE MONTANT PAYÉ</h3>
-<div id="editMontantInfo" style="margin-bottom:16px;"></div>
-<div class="form-group"><label>NOUVEAU MONTANT (FC)</label><input type="number" id="editMontantInput" step="100" value="0"></div>
-<div class="modal-buttons">
-<button class="btn btn-success" id="confirmEditMontant">💾 ENREGISTRER</button>
-<button class="btn btn-outline" id="cancelEditMontant">ANNULER</button>
 </div>
 </div>
 </div>
@@ -1130,8 +1035,6 @@ const toastQueue=[];
 let isToastShowing=false;
 let unsubscribeFirebase=null;
 let codeValidationResolve=null;
-let timerCarteInterval=null;
-let timerCarteSecondes=180;
 
 let cacheData={
 eleves:null,
@@ -1305,7 +1208,7 @@ function afficherOptionsConfig(){const container=document.getElementById('option
 
 document.getElementById('configClasseOptions').onchange=function(){afficherOptionsConfig();};
 
-async function synchroniserOptionsAvecCompta(){try{const snap=await getDocs(collection(db,"ecoles",ECOLET_ID,"compta_eleves"));let compteurCorrige=0;for(const ds of snap.docs){const d=ds.data();if(d._type==='config'||d._type==='settings')continue;if(!d.classe)continue;const optionsValides=optionsParClasse[d.classe]||[];if(d.classe==='7ème EB'||d.classe==='8ème EB'){if(d.option&&d.option!==''&&d.option!=='TOUTES'){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}continue;}if(d.option&&d.option!==''&&!optionsValides.includes(d.option)&&d.option!=='TOUTES'){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}if(!d.option||d.option===''){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}}if(compteurCorrige>0){toast('✅ '+compteurCorrige+' élève(s) corrigé(s) avec l\'option TOUTES','info');}return compteurCorrige;}catch(e){console.error("Erreur synchronisation options:",e);return 0;}}
+async function synchroniserOptionsAvecCompta(){try{const snap=await getDocs(collection(db,"ecoles",ECOLET_ID,"compta_eleves"));let compteurCorrige=0;for(const ds of snap.docs){const d=ds.data();if(d._type==='config'||d._type==='settings')continue;if(!d.classe)continue;const optionsValides=optionsParClasse[d.classe]||[];if(d.classe==='7ème EB'||d.classe==='8ème EB'){if(d.option&&d.option!==''&&d.option!=='TOUTES'){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}continue;}if(d.option&&d.option!==''&&!optionsValides.includes(d.option)&&d.option!=='TOUTES'){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}if(!d.option||d.option===''){await updateDoc(ds.ref,{option:'TOUTES'});compteurCorrige++;}}if(compteurCorrige>0){toast('✅ '+compteurCorrige+' élève(s) corrigé(s) avec l\'option TOUTES','info');}return compteurCorrige;}catch(e){console.error("Erreur synchronisation options:",e);return 0;}
 
 async function chargerConfigEcole(){try{const configRef=doc(db,"ecoles",ECOLET_ID,SC.SETTINGS,"data");const configSnap=await getDoc(configRef);if(configSnap.exists()){currentSchoolConfig=configSnap.data();}else{currentSchoolConfig={nom:'COMPLEXE SCOLAIRE '+SCHOOL_DISPLAY_NAME,adresse:"",maxExonerations:999999};await setDoc(configRef,currentSchoolConfig);}document.getElementById("ecoleNom").value=currentSchoolConfig.nom||'COMPLEXE SCOLAIRE '+SCHOOL_DISPLAY_NAME;document.getElementById("ecoleAdresse").value=currentSchoolConfig.adresse||"";if(currentSchoolConfig.codeComptabilite){document.getElementById("currentCodeDisplay").textContent=currentSchoolConfig.codeComptabilite;}if(currentSchoolConfig.lastCodeChange){document.getElementById("lastCodeChange").textContent=formatDateFr(currentSchoolConfig.lastCodeChange);}return currentSchoolConfig;}catch(error){console.error("Erreur chargement config:",error);return null;}}
 
@@ -1380,7 +1283,7 @@ async function mettreAJourStatsDetaillees(){const tous=await getAllComptaEleves(
 
 async function getElevesFiltres(incAbandons=false){let res=await getTousElevesAvecInfos();res=res.filter(e=>estEleveValide(e));if(!incAbandons)res=res.filter(e=>!e.abandon);if(isFilterActive&&filteredEleves.length>0){res=res.filter(e=>filteredEleves.some(f=>f.id===e.id));}const nom=document.getElementById("searchNom")?.value.trim()||"";const cls=document.getElementById("filterClasse")?.value||"";const opt=document.getElementById("filterOption")?.value||"";if(nom)res=res.filter(e=>e.nom.toLowerCase().includes(nom.toLowerCase())||(e.postnom&&e.postnom.toLowerCase().includes(nom.toLowerCase())));if(cls)res=res.filter(e=>e.classe===cls);if(opt)res=res.filter(e=>e.option===opt);if(currentFilter==="normal")return res.filter(e=>!e.exonere&&e.moisImpayes<3);if(currentFilter==="exonere")return res.filter(e=>e.exonere===true);if(currentFilter==="listenoir")return res.filter(e=>!e.exonere&&e.moisImpayes>=3);if(currentFilter==="enordre")return res.filter(e=>e.exonere||e.estEnOrdreMoisCourant);return res;}
 
-async function afficherListeEleves(){const eleves=await getElevesFiltres();const cont=document.getElementById("elevesContainer");if(!eleves.length){cont.innerHTML='<div class="empty-state">📭 Aucun élève</div>';return;}let html='<div class="eleve-cards">';for(let e of eleves){const estLN=(!e.exonere&&e.moisImpayes>=3);const estOrdre=(e.exonere||e.estEnOrdreMoisCourant);let badge='',classeSpec='';const sexeBadge=e.sexe==='F'?'<span class="badge badge-fille">👩 Fille</span>':'<span class="badge badge-garcon">👨 Garçon</span>';if(e.exonere){badge='<span class="badge badge-exonere">EXONÉRÉ</span>';}else if(estLN){badge='<span class="badge badge-listenoire">LISTE NOIRE</span>';classeSpec='liste-noire';}else if(estOrdre){badge='<span class="badge badge-en-ordre">EN ORDRE</span>';classeSpec='en-ordre';}else if(e.moisImpayes>0){badge='<span class="badge badge-impaye">IMPAYÉ</span>';}const codeDisplay=e.parentCode?'<span class="badge badge-code">🔑 '+e.parentCode+'</span>':'';const nomComplet=(e.nom+' '+(e.postnom||'')+' '+(e.prenom||'')).toUpperCase();const eleveId=e.id;const eleveNom=e.nom;const eleveClasse=e.classe;const eleveOption=e.option||"";html+='<div class="eleve-card '+classeSpec+'" data-id="'+eleveId+'"><div class="eleve-card-header"><div class="eleve-nom">'+nomComplet+'</div><div class="eleve-badges">'+sexeBadge+badge+codeDisplay+'</div></div><div class="eleve-card-body"><div class="eleve-info-item"><span class="eleve-info-label">📚</span><span class="eleve-info-value">'+e.classe+(e.option?' - '+e.option:'')+'</span></div><div class="eleve-info-item"><span class="eleve-info-label">💰</span><span class="eleve-info-value">'+(e.exonere?"EXONÉRÉ":formatNbSimple(e.minerval)+" FC/mois")+'</span></div>'+(e.phone?'<div class="eleve-info-item"><span class="eleve-info-label">📞</span><span class="eleve-info-value">'+e.phone+'</span></div>':'')+'</div><div class="eleve-card-footer"><div class="dropdown"><button class="dropdown-btn" onclick="toggleDropdown(this)">⋮ ACTIONS</button><div class="dropdown-content"><div class="dropdown-item btn-paiements" data-id="'+eleveId+'" data-nom="'+eleveNom+'" data-classe="'+eleveClasse+'" data-option="'+eleveOption+'">PAIEMENTS</div><div class="dropdown-item" onclick="ouvrirEditParentCode(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">CODE PARENT</div><div class="dropdown-item" onclick="ouvrirRattacherFamille(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">RATTACHER</div><div class="dropdown-item" onclick="ouvrirEditOption(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\',\''+(e.option||"")+'\')">MODIFIER OPTION</div><div class="dropdown-item" onclick="ouvrirModifierApprobateur(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.approbateur||"")+'\')">APPROBATEUR</div><div class="dropdown-item" onclick="changerSexe(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.sexe+'\')">CHANGER SEXE</div><div class="dropdown-item" onclick="changerClasse(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\')">CHANGER CLASSE</div><div class="dropdown-item" onclick="voirMoisPayes(\''+e.id+'\')">MOIS PAYÉS</div><div class="dropdown-item danger" onclick="marquerAbandonPrompt(\''+e.id+'\',\''+e.nom+'\')">ABANDON</div><div class="dropdown-item danger" onclick="supprimerEleve(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\')">SUPPRIMER</div></div></div></div></div>';}html+='</div>';cont.innerHTML=html;await mettreAJourStatsDetaillees();}
+async function afficherListeEleves(){const eleves=await getElevesFiltres();const cont=document.getElementById("elevesContainer");if(!eleves.length){cont.innerHTML='<div class="empty-state">📭 Aucun élève</div>';return;}let html='<div class="eleve-cards">';for(let e of eleves){const estLN=(!e.exonere&&e.moisImpayes>=3);const estOrdre=(e.exonere||e.estEnOrdreMoisCourant);let badge='',classeSpec='';const sexeBadge=e.sexe==='F'?'<span class="badge badge-fille">👩 Fille</span>':'<span class="badge badge-garcon">👨 Garçon</span>';if(e.exonere){badge='<span class="badge badge-exonere">EXONÉRÉ</span>';}else if(estLN){badge='<span class="badge badge-listenoire">LISTE NOIRE</span>';classeSpec='liste-noire';}else if(estOrdre){badge='<span class="badge badge-en-ordre">EN ORDRE</span>';classeSpec='en-ordre';}else if(e.moisImpayes>0){badge='<span class="badge badge-impaye">IMPAYÉ</span>';}const codeDisplay=e.parentCode?'<span class="badge badge-code">🔑 '+e.parentCode+'</span>':'';const nomComplet=(e.nom+' '+(e.postnom||'')+' '+(e.prenom||'')).toUpperCase();const eleveId=e.id;const eleveNom=e.nom;const eleveClasse=e.classe;const eleveOption=e.option||"";html+='<div class="eleve-card '+classeSpec+'" data-id="'+eleveId+'"><div class="eleve-card-header"><div class="eleve-nom">'+nomComplet+'</div><div class="eleve-badges">'+sexeBadge+badge+codeDisplay+'</div></div><div class="eleve-card-body"><div class="eleve-info-item"><span class="eleve-info-label">📚</span><span class="eleve-info-value">'+e.classe+(e.option?' - '+e.option:'')+'</span></div><div class="eleve-info-item"><span class="eleve-info-label">💰</span><span class="eleve-info-value">'+(e.exonere?"EXONÉRÉ":formatNbSimple(e.minerval)+" FC/mois")+'</span></div>'+(e.phone?'<div class="eleve-info-item"><span class="eleve-info-label">📞</span><span class="eleve-info-value">'+e.phone+'</span></div>':'')+'</div><div class="eleve-card-footer"><div class="dropdown"><button class="dropdown-btn" onclick="toggleDropdown(this)">⋮ ACTIONS</button><div class="dropdown-content"><div class="dropdown-item btn-paiements" data-id="'+eleveId+'" data-nom="'+eleveNom+'" data-classe="'+eleveClasse+'" data-option="'+eleveOption+'">PAIEMENTS</div><div class="dropdown-item" onclick="ouvrirEditParentCode(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">CODE PARENT</div><div class="dropdown-item" onclick="ouvrirRattacherFamille(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">RATTACHER</div><div class="dropdown-item" onclick="ouvrirEditOption(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\',\''+(e.option||"")+'\')">MODIFIER OPTION</div><div class="dropdown-item" onclick="ouvrirModifierApprobateur(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.approbateur||"")+'\')">APPROBATEUR</div><div class="dropdown-item" onclick="changerSexe(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.sexe+'\')">CHANGER SEXE</div><div class="dropdown-item" onclick="changerClasse(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\')">CHANGER CLASSE</div><div class="dropdown-item" onclick="ouvrirModifierEleve(\''+e.id+'\',\''+e.nom+'\',\''+(e.postnom||'')+'\',\''+(e.prenom||'')+'\')">MODIFIER NOM</div><div class="dropdown-item" onclick="voirMoisPayes(\''+e.id+'\')">MOIS PAYÉS</div><div class="dropdown-item danger" onclick="marquerAbandonPrompt(\''+e.id+'\',\''+e.nom+'\')">ABANDON</div><div class="dropdown-item danger" onclick="supprimerEleve(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\')">SUPPRIMER</div></div></div></div></div>';}html+='</div>';cont.innerHTML=html;await mettreAJourStatsDetaillees();}
 
 window.supprimerEleve=async function(id,nom){
 const ok=await showCodeValidation('🔐 Pour supprimer <strong>'+nom+'</strong>, veuillez entrer le code de sécurité.');
@@ -1424,6 +1327,45 @@ window.changerClasse=function(eleveId,eleveNom,classeActuelle){const modal=docum
 document.getElementById('confirmEditClasse').onclick=async function(){applyClickEffect(this);const eleveId=window.currentEditClasseId;const nouvelleClasse=document.getElementById('editClasseSelect').value;if(!eleveId)return;try{const docId='compta_'+eleveId;const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId);let nouvelleOption='';if(nouvelleClasse!=='7ème EB'&&nouvelleClasse!=='8ème EB'){nouvelleOption='TOUTES';}await updateDoc(ref,{classe:nouvelleClasse,option:nouvelleOption});const idx=localEleves.findIndex(e=>e.id===eleveId);if(idx!==-1){localEleves[idx].classe=nouvelleClasse;localEleves[idx].option=nouvelleOption;}toast('✅ Classe modifiée avec succès','success');document.getElementById('editClasseModal').classList.remove('show');await afficherListeEleves();await afficherCartesIdentite();if(currentEleve&&currentEleve.id===eleveId)await afficherReleve(currentEleve);await mettreAJourStatsDetaillees();}catch(error){toast('Erreur lors de la modification','error');}};
 
 document.getElementById('cancelEditClasse').onclick=function(){applyClickEffect(this);document.getElementById('editClasseModal').classList.remove('show');};
+
+window.ouvrirModifierEleve=function(eleveId,eleveNom,elevePostnom,elevePrenom){
+const modal=document.getElementById('editEleveModal');
+document.getElementById('editEleveInfo').innerHTML='<div class="modal-info-line"><span>ÉLÈVE</span><span style="color:#ffd700;font-weight:bold;">'+eleveNom+' '+(elevePostnom||'')+' '+(elevePrenom||'')+'</span></div>';
+document.getElementById('editEleveNom').value=eleveNom;
+document.getElementById('editElevePostnom').value=elevePostnom||'';
+document.getElementById('editElevePrenom').value=elevePrenom||'';
+window.currentEditEleveId=eleveId;
+modal.classList.add('show');
+};
+
+document.getElementById('confirmEditEleve').onclick=async function(){
+applyClickEffect(this);
+const eleveId=window.currentEditEleveId;
+const nouveauNom=document.getElementById('editEleveNom').value.trim();
+const nouveauPostnom=document.getElementById('editElevePostnom').value.trim();
+const nouveauPrenom=document.getElementById('editElevePrenom').value.trim();
+if(!nouveauNom){toast('Le nom est requis','error');return;}
+if(!nouveauPrenom){toast('Le prénom est requis','error');return;}
+try{
+const docId='compta_'+eleveId;
+const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId);
+await updateDoc(ref,{nom:nouveauNom,postnom:nouveauPostnom,prenom:nouveauPrenom});
+const idx=localEleves.findIndex(e=>e.id===eleveId);
+if(idx!==-1){localEleves[idx].nom=nouveauNom;localEleves[idx].postnom=nouveauPostnom;localEleves[idx].prenom=nouveauPrenom;}
+toast('✅ Élève modifié avec succès','success');
+document.getElementById('editEleveModal').classList.remove('show');
+await afficherListeEleves();
+await afficherCartesIdentite();
+await afficherParentCodes();
+if(currentEleve&&currentEleve.id===eleveId){currentEleve.nom=nouveauNom;currentEleve.postnom=nouveauPostnom;currentEleve.prenom=nouveauPrenom;await afficherReleve(currentEleve);}
+await mettreAJourStatsDetaillees();
+}catch(error){toast('Erreur lors de la modification','error');}
+};
+
+document.getElementById('cancelEditEleve').onclick=function(){
+applyClickEffect(this);
+document.getElementById('editEleveModal').classList.remove('show');
+};
 
 async function enregistrerPaiementMinerval(eleveId,mois,montant){const id='compta_'+eleveId;const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",id);try{let result=false;await runTransaction(db,async(transaction)=>{const snap=await transaction.get(ref);if(!snap.exists()){toast('Veuillez patienter quelques minutes ou rafraîchissez la page','error');result=false;return;}const d=snap.data();const actuel=d.paiements?.[mois]||{montant:0,date:null,historique:[]};const minervalMensuel=d.exonere?0:(d.minerval||45000);const dejaPaye=actuel.montant||0;if(dejaPaye>=minervalMensuel){toast('⚠️ Ce mois est déjà entièrement payé','warning');result=false;return;}const reste=minervalMensuel-dejaPaye;const montantEffectif=Math.min(montant,reste);const nouveauMontant=dejaPaye+montantEffectif;const maintenant=new Date();const dateStr=maintenant.toISOString().slice(0,19).replace('T',' ');const histItem={montant:montantEffectif,date:dateStr,nouveauTotal:nouveauMontant,timestamp:Date.now()};const nvHist=[...(actuel.historique||[]),histItem];const paiementsMisAJour={...(d.paiements||{})};paiementsMisAJour[mois]={montant:nouveauMontant,date:dateStr,historique:nvHist,lastUpdate:Date.now()};transaction.update(ref,{paiements:paiementsMisAJour,dernierPaiement:dateStr});const idx=localEleves.findIndex(e=>e.id===eleveId);if(idx!==-1){localEleves[idx].paiements=paiementsMisAJour;if(currentEleve&&currentEleve.id===eleveId){currentEleve.paiements=paiementsMisAJour;}}toast('✅ Paiement de '+formatNbSimple(montantEffectif)+' FC enregistré pour '+mois,"success");result=true;});return result;}catch(error){console.error('Erreur paiement:',error);toast('Erreur lors du paiement','error');return false;}}
 
@@ -1555,9 +1497,351 @@ window.getElevesAvecFraisInscription=async function(){const tous=await getAllCom
 
 window.afficherFraisInscription=async function(){const container=document.getElementById('inscriptionsContainer');const liste=await window.getElevesAvecFraisInscription();if(liste.length===0){container.innerHTML='<div class="empty-state">📭 Aucun élève inscrit</div>';return;}const complets=liste.filter(e=>e.statut==='COMPLET').length;const partiels=liste.filter(e=>e.statut==='PARTIEL').length;const nonPayes=liste.filter(e=>e.statut==='NON PAYÉ').length;const totalPaye=liste.reduce((s,e)=>s+e.montantPaye,0);const totalFrais=liste.reduce((s,e)=>s+e.fraisTotal,0);let html='<div class="inscription-stats"><div class="inscription-stat-card total"><div class="number">'+liste.length+'</div><div class="label">Total élèves</div></div><div class="inscription-stat-card complet"><div class="number">'+complets+'</div><div class="label">Payé intégralement</div></div><div class="inscription-stat-card partiel"><div class="number">'+partiels+'</div><div class="label">Payé partiellement</div></div><div class="inscription-stat-card nonpaye"><div class="number">'+nonPayes+'</div><div class="label">Non payé</div></div><div class="inscription-stat-card reste"><div class="number">'+formatNbSimple(totalFrais-totalPaye)+' FC</div><div class="label">Reste total</div></div></div><div style="overflow-x:auto;"><table class="inscription-table"><thead><tr><th>ÉLÈVE</th><th>CLASSE</th><th style="text-align:right;">FRAIS TOTAL</th><th style="text-align:right;">PAYÉ</th><th style="text-align:right;">RESTE</th><th style="text-align:center;">STATUT</th><th style="text-align:center;">DATE INSCRIPTION</th><th style="text-align:center;">ACTION</th><th style="text-align:center;">REÇU</th></tr></thead><tbody>';for(const e of liste){const color=e.statut==='COMPLET'?'#10b981':(e.statut==='PARTIEL'?'#f59e0b':'#64748b');const reste=e.reste>0?e.reste:0;const nomComplet=e.nom.toUpperCase();const statutClass=e.statut==='COMPLET'?'complet':(e.statut==='PARTIEL'?'partiel':'nonpaye');const statutLabel=e.statut==='NON PAYÉ'?'NON PAYÉ':e.statut;const sexeIcon=e.sexe==='F'?'👩':'👨';const dateInscription=e.dateInscription||'-';const aPaye=e.montantPaye>0;html+='<tr class="'+statutClass+'"><td style="font-weight:500;color:white;white-space:nowrap;">'+sexeIcon+' '+nomComplet+'</td><td style="color:#94a3b8;white-space:nowrap;">'+e.classe+(e.option?' - '+e.option:'')+'</td><td style="text-align:right;color:white;white-space:nowrap;">'+formatNbSimple(e.fraisTotal)+' FC</td><td style="text-align:right;color:'+color+';font-weight:bold;white-space:nowrap;">'+formatNbSimple(e.montantPaye)+' FC</td><td style="text-align:right;color:'+(reste>0?'#ef4444':'#10b981')+';font-weight:bold;white-space:nowrap;">'+(reste>0?formatNbSimple(reste)+' FC':'✓')+'</td><td style="text-align:center;white-space:nowrap;"><span class="status-badge '+statutClass+'">'+statutLabel+'</span></td><td style="text-align:center;color:#94a3b8;font-size:12px;white-space:nowrap;">'+dateInscription+'</td><td style="text-align:center;white-space:nowrap;">'+(reste>0?'<button class="btn btn-sm btn-inscription-pay" onclick="window.ouvrirPaiementInscription(\''+e.id+'\',\''+e.nom+'\','+e.reste+','+e.fraisTotal+','+e.montantPaye+')">PAYER</button>':'<span style="color:#10b981;">✓</span>')+'</td><td style="text-align:center;white-space:nowrap;">'+(aPaye?'<button class="btn btn-sm btn-pdf" onclick="genererReçuInscriptionPDF(\''+e.id+'\',\''+e.nom+'\','+e.montantPaye+',\''+e.dateInscription+'\')">🧾 REÇU</button>':'<span style="color:#64748b;font-size:10px;">-</span>')+'</td></tr>';}html+='</tbody></table></div>';container.innerHTML=html;};
 
-window.genererReçuPDF=async function(eleveId,mois,montant,datePaiement){if(isGeneratingReceipt){toast('Génération en cours, veuillez patienter...','warning');return;}isGeneratingReceipt=true;isGeneratingPDF=true;try{const eleve=localEleves.find(e=>e.id===eleveId);if(!eleve){toast('Élève non trouvé','error');isGeneratingReceipt=false;isGeneratingPDF=false;return;}const{jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a5');const pageWidth=doc.internal.pageSize.getWidth();let y=6;const nomEcole=mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom||'COMPLEXE SCOLAIRE '+SCHOOL_DISPLAY_NAME));doc.setFillColor(255,255,255);doc.rect(0,0,pageWidth,38,"F");doc.setDrawColor(0,0,0);doc.setLineWidth(0.8);doc.setGState(new doc.GState({opacity:0.4}));doc.line(5,36,pageWidth-5,36);doc.setGState(new doc.GState({opacity:1}));const logoX=5;const logoY=4;const logoSize=30;let logoAdded=false;if(schoolLogoUrl){try{const logoBase64=await loadLogoBase64();if(logoBase64){doc.addImage(logoBase64,'JPEG',logoX,logoY,logoSize,logoSize);logoAdded=true;}}catch(e){console.error("Erreur ajout logo:",e);}}const startX=logoAdded?logoX+logoSize+6:5;const titleY=logoAdded?7:5;const nomEcoleCourt=nomEcole.length>30?nomEcole.substring(0,28)+'...':nomEcole;doc.setFontSize(logoAdded?14:13);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text(nomEcoleCourt,startX,titleY);doc.setFontSize(logoAdded?13:12);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text('REÇU MINERVAL',startX,titleY+(logoAdded?8:7));doc.setFontSize(logoAdded?9:8);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text('ANNEE SCOLAIRE '+anneeScolaireCourante,startX,titleY+(logoAdded?14:12));y=42;const datePaiementFormatee=datePaiement?formatDateFr(datePaiement):formatDateFr(new Date());const reference=Date.now().toString().slice(-8)+eleve.id.substring(eleve.id.length-4);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(0,0,0);doc.text('REFERENCE',5,y);y+=5;doc.setDrawColor(0,0,0);doc.setLineWidth(0.2);doc.setGState(new doc.GState({opacity:0.3}));doc.line(5,y,pageWidth-5,y);doc.setGState(new doc.GState({opacity:1}));y+=5;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Ref: '+reference,5,y);doc.text('Date: '+datePaiementFormatee,85,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('ELEVE',5,y);y+=3;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.line(5,y,pageWidth-5,y);y+=5;const nomComplet=(eleve.nom+' '+(eleve.postnom||'')).toUpperCase();const prenomComplet=(eleve.prenom||'').toUpperCase();doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('Nom: '+nomComplet,5,y);y+=6;doc.text('Prenom: '+prenomComplet,5,y);y+=6;doc.text('Classe: '+eleve.classe,5,y);y+=6;doc.text('Option: '+(eleve.option||'Aucune'),5,y);y+=6;doc.text('Code parent: '+(eleve.parentCode||'Non attribué'),5,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;const minervalMensuel=eleve.exonere?0:(eleve.minerval||45000);const estPayeTotal=montant>=minervalMensuel;const statut=eleve.exonere?'EXONERE':(estPayeTotal?'PAYE':'PARTIEL');doc.setFont("helvetica","bold");doc.setFontSize(14);doc.setTextColor(0,0,0);doc.text('MONTANT PAYÉ: '+formatNbSimple(montant)+' FC',5,y);y+=7;doc.text('MOIS PAYÉ: '+mois.toUpperCase(),5,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('DETAIL PAIEMENT',5,y);y+=3;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.line(5,y,pageWidth-5,y);y+=5;const pageWidth2=doc.internal.pageSize.getWidth();const marginX=5;const tableWidth=pageWidth2-(marginX*2);const colWidth=tableWidth/4;doc.autoTable({startY:y,head:[['MOIS','MINERVAL','PAYÉ','STATUT']],body:[[mois.toUpperCase(),formatNbSimple(minervalMensuel)+' FC',formatNbSimple(montant)+' FC',statut]],theme:'plain',styles:{fontSize:11,cellPadding:4,textColor:[0,0,0],lineColor:[0,0,0],lineWidth:0.3,fontStyle:'bold',valign:'middle',halign:'center',fillColor:[255,255,255]},headStyles:{fillColor:[255,255,255],textColor:[0,0,0],fontStyle:'bold',halign:'center',fontSize:11,lineWidth:0.3,lineColor:[0,0,0]},bodyStyles:{fillColor:[255,255,255]},columnStyles:{0:{cellWidth:colWidth,halign:'center'},1:{cellWidth:colWidth,halign:'center'},2:{cellWidth:colWidth,halign:'center'},3:{cellWidth:colWidth,halign:'center'}},margin:{left:marginX,right:marginX},tableWidth:tableWidth});y=doc.lastAutoTable.finalY+5;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=4;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Moyen: Espèces',5,y);y+=7;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.setLineDashPattern([2,2],0);doc.rect(5,y,pageWidth-10,20);doc.setLineDashPattern([],0);doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Cachet et signature',pageWidth/2,y+12,{align:'center'});y+=22;doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(0,0,0);doc.text('Reçu valant paiement',pageWidth/2,y,{align:'center'});const nomFichier='Reçu_Minerval_'+eleve.nom+'_'+formatDateYMD()+'.pdf';doc.save(nomFichier);toast('🧾 Reçu généré avec succès !','success');}catch(error){console.error('Erreur lors de la génération du reçu:',error);toast('Erreur lors de la génération du reçu','error');}finally{await new Promise(resolve=>setTimeout(resolve,300));isGeneratingReceipt=false;isGeneratingPDF=false;}};
+window.genererReçuPDF = async function(eleveId, mois, montant, datePaiement) {
+    if (isGeneratingReceipt) {
+        toast('Génération en cours, veuillez patienter...', 'warning');
+        return;
+    }
+    isGeneratingReceipt = true;
+    isGeneratingPDF = true;
+    try {
+        const eleve = localEleves.find(e => e.id === eleveId);
+        if (!eleve) {
+            toast('Élève non trouvé', 'error');
+            isGeneratingReceipt = false;
+            isGeneratingPDF = false;
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a5');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        let y = 6;
+        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || 'COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME));
+        
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, 0, pageWidth, 38, "F");
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.8);
+        doc.setGState(new doc.GState({ opacity: 0.4 }));
+        doc.line(5, 36, pageWidth - 5, 36);
+        doc.setGState(new doc.GState({ opacity: 1 }));
+        
+        const logoX = 5;
+        const logoY = 4;
+        const logoSize = 30;
+        let logoAdded = false;
+        if (schoolLogoUrl) {
+            try {
+                const logoBase64 = await loadLogoBase64();
+                if (logoBase64) {
+                    doc.addImage(logoBase64, 'JPEG', logoX, logoY, logoSize, logoSize);
+                    logoAdded = true;
+                }
+            } catch (e) {
+                console.error("Erreur ajout logo:", e);
+            }
+        }
+        const startX = logoAdded ? logoX + logoSize + 6 : 5;
+        const titleY = logoAdded ? 7 : 5;
+        const nomEcoleCourt = nomEcole.length > 30 ? nomEcole.substring(0, 28) + '...' : nomEcole;
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text(nomEcoleCourt, startX, titleY);
+        doc.text('REÇU MINERVAL', startX, titleY + 8);
+        doc.text('ANNEE SCOLAIRE ' + anneeScolaireCourante, startX, titleY + 16);
+        
+        y = 42;
+        const datePaiementFormatee = datePaiement ? formatDateFr(datePaiement) : formatDateFr(new Date());
+        const reference = Date.now().toString().slice(-8) + eleve.id.substring(eleve.id.length - 4);
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('REFERENCE', 5, y);
+        y += 5;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.2);
+        doc.setGState(new doc.GState({ opacity: 0.3 }));
+        doc.line(5, y, pageWidth - 5, y);
+        doc.setGState(new doc.GState({ opacity: 1 }));
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Ref: ' + reference, 5, y);
+        doc.text('Date: ' + datePaiementFormatee, 85, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('ELEVE', 5, y);
+        y += 3;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.3);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
+        const prenomComplet = (eleve.prenom || '').toUpperCase();
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Nom: ' + nomComplet, 5, y);
+        y += 7;
+        doc.text('Prenom: ' + prenomComplet, 5, y);
+        y += 7;
+        doc.text('Classe: ' + eleve.classe, 5, y);
+        y += 7;
+        doc.text('Option: ' + (eleve.option || 'Aucune'), 5, y);
+        y += 7;
+        doc.text('Code parent: ' + (eleve.parentCode || 'Non attribué'), 5, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        const minervalMensuel = eleve.exonere ? 0 : (eleve.minerval || 45000);
+        const estPayeTotal = montant >= minervalMensuel;
+        const statut = eleve.exonere ? 'EXONERE' : (estPayeTotal ? 'PAYE' : 'PARTIEL');
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('MONTANT PAYÉ: ' + formatNbSimple(montant) + ' FC', 5, y);
+        y += 7;
+        doc.text('MOIS PAYÉ: ' + mois.toUpperCase(), 5, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('DETAIL PAIEMENT', 5, y);
+        y += 3;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.3);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        const pageWidth2 = doc.internal.pageSize.getWidth();
+        const marginX = 5;
+        const tableWidth = pageWidth2 - (marginX * 2);
+        const colWidth = tableWidth / 4;
+        doc.autoTable({
+            startY: y,
+            head: [['MOIS', 'MINERVAL', 'PAYÉ', 'STATUT']],
+            body: [[mois.toUpperCase(), formatNbSimple(minervalMensuel) + ' FC', formatNbSimple(montant) + ' FC', statut]],
+            theme: 'plain',
+            styles: { fontSize: 14, cellPadding: 4, textColor: [0, 0, 0], lineColor: [0, 0, 0], lineWidth: 0.3, fontStyle: 'bold', valign: 'middle', halign: 'center', fillColor: [255, 255, 255] },
+            headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center', fontSize: 14, lineWidth: 0.3, lineColor: [0, 0, 0] },
+            bodyStyles: { fillColor: [255, 255, 255] },
+            columnStyles: { 0: { cellWidth: colWidth, halign: 'center' }, 1: { cellWidth: colWidth, halign: 'center' }, 2: { cellWidth: colWidth, halign: 'center' }, 3: { cellWidth: colWidth, halign: 'center' } },
+            margin: { left: marginX, right: marginX },
+            tableWidth: tableWidth
+        });
+        y = doc.lastAutoTable.finalY + 5;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 8;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Moyen: Espèces', pageWidth / 2, y, { align: 'center' });
+        y += 10;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Reçu valant paiement', pageWidth / 2, y, { align: 'center' });
+        const nomFichier = 'Reçu_Minerval_' + eleve.nom + '_' + formatDateYMD() + '.pdf';
+        doc.save(nomFichier);
+        toast('🧾 Reçu généré avec succès !', 'success');
+    } catch (error) {
+        console.error('Erreur lors de la génération du reçu:', error);
+        toast('Erreur lors de la génération du reçu', 'error');
+    } finally {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        isGeneratingReceipt = false;
+        isGeneratingPDF = false;
+    }
+};
 
-window.genererReçuInscriptionPDF=async function(eleveId,nom,montant,dateInscription){if(isGeneratingReceipt){toast('Génération en cours, veuillez patienter...','warning');return;}isGeneratingReceipt=true;isGeneratingPDF=true;try{const eleve=localEleves.find(e=>e.id===eleveId);if(!eleve){toast('Élève non trouvé','error');isGeneratingReceipt=false;isGeneratingPDF=false;return;}const{jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a5');const pageWidth=doc.internal.pageSize.getWidth();let y=6;const nomEcole=mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom||'COMPLEXE SCOLAIRE '+SCHOOL_DISPLAY_NAME));doc.setFillColor(255,255,255);doc.rect(0,0,pageWidth,38,"F");doc.setDrawColor(0,0,0);doc.setLineWidth(0.8);doc.setGState(new doc.GState({opacity:0.4}));doc.line(5,36,pageWidth-5,36);doc.setGState(new doc.GState({opacity:1}));const logoX=5;const logoY=4;const logoSize=30;let logoAdded=false;if(schoolLogoUrl){try{const logoBase64=await loadLogoBase64();if(logoBase64){doc.addImage(logoBase64,'JPEG',logoX,logoY,logoSize,logoSize);logoAdded=true;}}catch(e){console.error("Erreur ajout logo:",e);}}const startX=logoAdded?logoX+logoSize+6:5;const titleY=logoAdded?7:5;const nomEcoleCourt=nomEcole.length>30?nomEcole.substring(0,28)+'...':nomEcole;doc.setFontSize(logoAdded?14:13);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text(nomEcoleCourt,startX,titleY);doc.setFontSize(logoAdded?13:12);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text('REÇU D\'INSCRIPTION',startX,titleY+(logoAdded?8:7));doc.setFontSize(logoAdded?9:8);doc.setFont("helvetica","bold");doc.setTextColor(0,0,0);doc.text('ANNEE SCOLAIRE '+anneeScolaireCourante,startX,titleY+(logoAdded?14:12));y=42;const dateInscriptionFormatee=dateInscription?formatDateFr(dateInscription):formatDateFr(new Date());const reference=Date.now().toString().slice(-8)+eleve.id.substring(eleve.id.length-4);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(0,0,0);doc.text('REFERENCE',5,y);y+=5;doc.setDrawColor(0,0,0);doc.setLineWidth(0.2);doc.setGState(new doc.GState({opacity:0.3}));doc.line(5,y,pageWidth-5,y);doc.setGState(new doc.GState({opacity:1}));y+=5;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Ref: '+reference,5,y);doc.text('Date: '+dateInscriptionFormatee,85,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('ELEVE',5,y);y+=3;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.line(5,y,pageWidth-5,y);y+=5;const nomComplet=(eleve.nom+' '+(eleve.postnom||'')).toUpperCase();const prenomComplet=(eleve.prenom||'').toUpperCase();const moisInscription=getMoisFromDate(dateInscription)||'Inconnu';doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('Nom: '+nomComplet,5,y);y+=6;doc.text('Prenom: '+prenomComplet,5,y);y+=6;doc.text('Classe: '+eleve.classe,5,y);y+=6;doc.text('Option: '+(eleve.option||'Aucune'),5,y);y+=6;doc.text('Code parent: '+(eleve.parentCode||'Non attribué'),5,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;doc.setFont("helvetica","bold");doc.setFontSize(14);doc.setTextColor(0,0,0);doc.text('MONTANT PAYÉ: '+formatNbSimple(montant)+' FC',5,y);y+=7;doc.text('MOIS D\'INSCRIPTION: '+moisInscription.toUpperCase(),5,y);y+=8;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=5;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(0,0,0);doc.text('DETAIL PAIEMENT',5,y);y+=3;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.line(5,y,pageWidth-5,y);y+=5;const pageWidth2=doc.internal.pageSize.getWidth();const marginX=5;const tableWidth=pageWidth2-(marginX*2);const colWidth=tableWidth/4;doc.autoTable({startY:y,head:[['MOIS','FRAIS TOTAL','PAYÉ','STATUT']],body:[[moisInscription.toUpperCase(),formatNbSimple(eleve.fraisInscriptionTotal)+' FC',formatNbSimple(montant)+' FC',eleve.exonere?'EXONERE':'PAYE']],theme:'plain',styles:{fontSize:11,cellPadding:4,textColor:[0,0,0],lineColor:[0,0,0],lineWidth:0.3,fontStyle:'bold',valign:'middle',halign:'center',fillColor:[255,255,255]},headStyles:{fillColor:[255,255,255],textColor:[0,0,0],fontStyle:'bold',halign:'center',fontSize:11,lineWidth:0.3,lineColor:[0,0,0]},bodyStyles:{fillColor:[255,255,255]},columnStyles:{0:{cellWidth:colWidth,halign:'center'},1:{cellWidth:colWidth,halign:'center'},2:{cellWidth:colWidth,halign:'center'},3:{cellWidth:colWidth,halign:'center'}},margin:{left:marginX,right:marginX},tableWidth:tableWidth});y=doc.lastAutoTable.finalY+5;doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(5,y,pageWidth-5,y);y+=4;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Moyen: Espèces',5,y);y+=7;doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.setLineDashPattern([2,2],0);doc.rect(5,y,pageWidth-10,20);doc.setLineDashPattern([],0);doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(0,0,0);doc.text('Cachet et signature',pageWidth/2,y+12,{align:'center'});y+=22;doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(0,0,0);doc.text('Reçu valant paiement',pageWidth/2,y,{align:'center'});const nomFichier='Reçu_Inscription_'+eleve.nom+'_'+formatDateYMD()+'.pdf';doc.save(nomFichier);toast('🧾 Reçu d\'inscription généré avec succès !','success');}catch(error){console.error('Erreur lors de la génération du reçu:',error);toast('Erreur lors de la génération du reçu','error');}finally{await new Promise(resolve=>setTimeout(resolve,300));isGeneratingReceipt=false;isGeneratingPDF=false;}};
+window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateInscription) {
+    if (isGeneratingReceipt) {
+        toast('Génération en cours, veuillez patienter...', 'warning');
+        return;
+    }
+    isGeneratingReceipt = true;
+    isGeneratingPDF = true;
+    try {
+        const eleve = localEleves.find(e => e.id === eleveId);
+        if (!eleve) {
+            toast('Élève non trouvé', 'error');
+            isGeneratingReceipt = false;
+            isGeneratingPDF = false;
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a5');
+        const pageWidth = doc.internal.pageSize.getWidth();
+        let y = 6;
+        const nomEcole = mettreEnMajuscules(sansAccent(currentSchoolConfig?.nom || 'COMPLEXE SCOLAIRE ' + SCHOOL_DISPLAY_NAME));
+        
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, 0, pageWidth, 38, "F");
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.8);
+        doc.setGState(new doc.GState({ opacity: 0.4 }));
+        doc.line(5, 36, pageWidth - 5, 36);
+        doc.setGState(new doc.GState({ opacity: 1 }));
+        
+        const logoX = 5;
+        const logoY = 4;
+        const logoSize = 30;
+        let logoAdded = false;
+        if (schoolLogoUrl) {
+            try {
+                const logoBase64 = await loadLogoBase64();
+                if (logoBase64) {
+                    doc.addImage(logoBase64, 'JPEG', logoX, logoY, logoSize, logoSize);
+                    logoAdded = true;
+                }
+            } catch (e) {
+                console.error("Erreur ajout logo:", e);
+            }
+        }
+        const startX = logoAdded ? logoX + logoSize + 6 : 5;
+        const titleY = logoAdded ? 7 : 5;
+        const nomEcoleCourt = nomEcole.length > 30 ? nomEcole.substring(0, 28) + '...' : nomEcole;
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text(nomEcoleCourt, startX, titleY);
+        doc.text('REÇU D\'INSCRIPTION', startX, titleY + 8);
+        doc.text('ANNEE SCOLAIRE ' + anneeScolaireCourante, startX, titleY + 16);
+        
+        y = 42;
+        const dateInscriptionFormatee = dateInscription ? formatDateFr(dateInscription) : formatDateFr(new Date());
+        const reference = Date.now().toString().slice(-8) + eleve.id.substring(eleve.id.length - 4);
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('REFERENCE', 5, y);
+        y += 5;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.2);
+        doc.setGState(new doc.GState({ opacity: 0.3 }));
+        doc.line(5, y, pageWidth - 5, y);
+        doc.setGState(new doc.GState({ opacity: 1 }));
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Ref: ' + reference, 5, y);
+        doc.text('Date: ' + dateInscriptionFormatee, 85, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('ELEVE', 5, y);
+        y += 3;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.3);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        const nomComplet = (eleve.nom + ' ' + (eleve.postnom || '')).toUpperCase();
+        const prenomComplet = (eleve.prenom || '').toUpperCase();
+        const moisInscription = getMoisFromDate(dateInscription) || 'Inconnu';
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Nom: ' + nomComplet, 5, y);
+        y += 7;
+        doc.text('Prenom: ' + prenomComplet, 5, y);
+        y += 7;
+        doc.text('Classe: ' + eleve.classe, 5, y);
+        y += 7;
+        doc.text('Option: ' + (eleve.option || 'Aucune'), 5, y);
+        y += 7;
+        doc.text('Code parent: ' + (eleve.parentCode || 'Non attribué'), 5, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('MONTANT PAYÉ: ' + formatNbSimple(montant) + ' FC', 5, y);
+        y += 7;
+        doc.text('MOIS D\'INSCRIPTION: ' + moisInscription.toUpperCase(), 5, y);
+        y += 8;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('DETAIL PAIEMENT', 5, y);
+        y += 3;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.3);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 5;
+        const pageWidth2 = doc.internal.pageSize.getWidth();
+        const marginX = 5;
+        const tableWidth = pageWidth2 - (marginX * 2);
+        const colWidth = tableWidth / 4;
+        doc.autoTable({
+            startY: y,
+            head: [['MOIS', 'FRAIS TOTAL', 'PAYÉ', 'STATUT']],
+            body: [[moisInscription.toUpperCase(), formatNbSimple(eleve.fraisInscriptionTotal) + ' FC', formatNbSimple(montant) + ' FC', eleve.exonere ? 'EXONERE' : 'PAYE']],
+            theme: 'plain',
+            styles: { fontSize: 14, cellPadding: 4, textColor: [0, 0, 0], lineColor: [0, 0, 0], lineWidth: 0.3, fontStyle: 'bold', valign: 'middle', halign: 'center', fillColor: [255, 255, 255] },
+            headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center', fontSize: 14, lineWidth: 0.3, lineColor: [0, 0, 0] },
+            bodyStyles: { fillColor: [255, 255, 255] },
+            columnStyles: { 0: { cellWidth: colWidth, halign: 'center' }, 1: { cellWidth: colWidth, halign: 'center' }, 2: { cellWidth: colWidth, halign: 'center' }, 3: { cellWidth: colWidth, halign: 'center' } },
+            margin: { left: marginX, right: marginX },
+            tableWidth: tableWidth
+        });
+        y = doc.lastAutoTable.finalY + 5;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(5, y, pageWidth - 5, y);
+        y += 8;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Moyen: Espèces', pageWidth / 2, y, { align: 'center' });
+        y += 10;
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text('Reçu valant paiement', pageWidth / 2, y, { align: 'center' });
+        const nomFichier = 'Reçu_Inscription_' + eleve.nom + '_' + formatDateYMD() + '.pdf';
+        doc.save(nomFichier);
+        toast('🧾 Reçu d\'inscription généré avec succès !', 'success');
+    } catch (error) {
+        console.error('Erreur lors de la génération du reçu:', error);
+        toast('Erreur lors de la génération du reçu', 'error');
+    } finally {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        isGeneratingReceipt = false;
+        isGeneratingPDF = false;
+    }
+};
 
 window.ouvrirPaiementInscription=function(eleveId,nom,reste,fraisTotal,dejaPaye){const modal=document.getElementById('inscriptionPaymentModal');document.getElementById('inscriptionModalInfo').innerHTML='<div class="modal-info-line"><span>ÉLÈVE</span><span style="font-weight:bold;color:#ffd700;">'+nom+'</span></div><div class="modal-info-line"><span>FRAIS D\'INSCRIPTION</span><span>'+formatNbSimple(fraisTotal)+' FC</span></div><div class="modal-info-line"><span>DÉJÀ PAYÉ</span><span style="color:#10b981;">'+formatNbSimple(dejaPaye)+' FC</span></div><div class="modal-info-line"><span>RESTE À PAYER</span><span style="color:#ef4444;font-weight:bold;">'+formatNbSimple(reste)+' FC</span></div>';document.getElementById('inscriptionPaymentAmount').value=reste;window.inscriptionPaiementData={eleveId,reste,fraisTotal,dejaPaye};modal.classList.add('show');};
 
@@ -1772,244 +2056,48 @@ function ajouterPiedPage(doc,pageNumber,totalPages){const y=doc.internal.pageSiz
 
 function genererTableauPleinEcran(doc,head,body,startY,options={}){const pageWidth=doc.internal.pageSize.width;const marginX=10;const nbColonnes=head[0].length;const largeurDisponible=pageWidth-(marginX*2);const largeurColonne=largeurDisponible/nbColonnes;let columnStyles={};head[0].forEach((col,index)=>{columnStyles[index]={cellWidth:largeurColonne};});const headNettoye=head.map(row=>row.map(col=>sansAccent(col)));const bodyNettoye=body.map(row=>row.map(cell=>typeof cell==='string'?sansAccent(cell):cell));return doc.autoTable({startY:startY,head:headNettoye,body:bodyNettoye,theme:"striped",styles:{fontSize:8,cellPadding:3,textColor:[30,30,30],lineColor:[200,200,200],lineWidth:0.1,overflow:'linebreak',valign:'middle'},headStyles:{fillColor:[40,80,130],textColor:[255,255,255],fontSize:9,fontStyle:"bold",halign:"center",valign:"middle"},alternateRowStyles:{fillColor:[245,247,250]},columnStyles:columnStyles,margin:{left:marginX,right:marginX},tableWidth:'auto',showHead:'everyPage',pageBreak:'auto',...options});}
 
-function doitAfficherCarteFinanciere() {
-    const lastShow = localStorage.getItem('carte_financiere_last_show');
-    if (!lastShow) return true;
-    const lastDate = new Date(parseInt(lastShow));
-    const now = new Date();
-    const diffHours = (now - lastDate) / (1000 * 60 * 60);
-    if (diffHours >= 24) return true;
-    const lastDay = lastDate.getDate();
-    const currentDay = now.getDate();
-    const currentHour = now.getHours();
-    if (lastDay !== currentDay && currentHour >= 6) {
-        return true;
-    }
-    return false;
+async function initApp(){document.getElementById('btnAddOption').disabled=false;document.getElementById('newOptionName').disabled=false;document.getElementById('btnAddOption').onclick=async function(){applyClickEffect(this);const classe=document.getElementById('configClasseOptions').value;const option=document.getElementById('newOptionName').value.trim();if(!option){toast("Veuillez entrer un nom d'option","error");return;}if(!optionsParClasse[classe])optionsParClasse[classe]=[];if(optionsParClasse[classe].includes(option)){toast("Cette option existe déjà","warning");return;}optionsParClasse[classe].push(option);document.getElementById('newOptionName').value='';mettreAJourSelectsOptions();afficherOptionsConfig();mettreAJourSelectsFiltre();await synchroniserOptionsAvecCompta();toast('Option "'+option+'" ajoutée à '+classe,"success");};await chargerLogoEcole();await mettreAJourSelectsOptions();await mettreAJourSelectsFiltre();await afficherOptionsConfig();await chargerConfigEcole();await chargerTarifs();await chargerFraisInscription();await synchroniserOptionsAvecCompta();await afficherListeEleves();await mettreAJourStatsDetaillees();await setupStatCards();await afficherCartesIdentite();await afficherParentCodes();await window.afficherFraisInscription();initTabsEvents();initFilterEvents();document.getElementById('loadingOverlay').classList.add('hidden');if(unsubscribeFirebase){unsubscribeFirebase();}
+const q=query(collection(db,"ecoles",ECOLET_ID,"compta_eleves"));
+unsubscribeFirebase=onSnapshot(q,(snapshot)=>{
+let modifie=false;
+const idsVus=new Set();
+snapshot.docChanges().forEach((change)=>{
+const data=change.doc.data();
+if(!estEleveValide(data))return;
+const eleveId=data.eleveId||data.id||change.doc.id;
+if(idsVus.has(eleveId)){return;}
+idsVus.add(eleveId);
+const idx=localEleves.findIndex(e=>e.id===eleveId);
+if(change.type==="added"||change.type==="modified"){
+if(idx!==-1){
+localEleves[idx]={...localEleves[idx],...data};
+}else{
+localEleves.push({...data});
 }
-
-function enregistrerAffichageCarte() {
-    localStorage.setItem('carte_financiere_last_show', Date.now().toString());
+modifie=true;
+}else if(change.type==="removed"){
+if(idx!==-1){
+localEleves.splice(idx,1);
+modifie=true;
 }
-
-window.fermerCarteFinanciere = function() {
-    if (timerCarteInterval) {
-        clearInterval(timerCarteInterval);
-        timerCarteInterval = null;
-    }
-    const overlay = document.getElementById('carteFinanciereOverlay');
-    const card = document.getElementById('carteFinanciere');
-    overlay.style.opacity = '0';
-    card.style.transform = 'translateY(-100%)';
-    setTimeout(function() {
-        overlay.style.display = 'none';
-    }, 500);
-};
-
-function demarrerTimerCarte() {
-    timerCarteSecondes = 180;
-    const display = document.getElementById('carteTimerDisplay');
-    if (timerCarteInterval) {
-        clearInterval(timerCarteInterval);
-        timerCarteInterval = null;
-    }
-    timerCarteInterval = setInterval(function() {
-        timerCarteSecondes--;
-        if (timerCarteSecondes <= 0) {
-            clearInterval(timerCarteInterval);
-            timerCarteInterval = null;
-            window.fermerCarteFinanciere();
-            return;
-        }
-        const min = Math.floor(timerCarteSecondes / 60);
-        const sec = timerCarteSecondes % 60;
-        const ms = Math.floor((timerCarteSecondes % 1) * 100);
-        display.textContent = '⏱️ ' + min.toString().padStart(2, '0') + ':' + sec.toString().padStart(2, '0') + ':' + ms.toString().padStart(2, '0');
-    }, 10);
 }
-
-function getClasseCouleur(taux) {
-    if (taux >= 70) return { color: '#22c55e', fill: '#22c55e', shadow: 'rgba(34,197,94,0.25)' };
-    if (taux >= 50) return { color: '#f59e0b', fill: '#f59e0b', shadow: 'rgba(245,158,11,0.2)' };
-    return { color: '#ef4444', fill: '#ef4444', shadow: 'rgba(239,68,68,0.2)' };
+});
+if(modifie){
+afficherListeEleves();
+mettreAJourStatsDetaillees();
+afficherCartesIdentite();
+afficherParentCodes();
+if(currentEleve){
+const updated=localEleves.find(e=>e.id===currentEleve.id);
+if(updated){
+currentEleve=updated;
+afficherReleve(currentEleve);
 }
-
-function genererBarreCarte(taux) {
-    const nb = Math.round(taux / 4);
-    let barre = '';
-    for (let i = 0; i < nb; i++) barre += '█';
-    for (let i = nb; i < 25; i++) barre += '░';
-    return barre;
 }
-
-function mettreAJourHorloge() {
-    const now = new Date();
-    const heures = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    document.getElementById('carteHorloge').textContent = heures + ':' + minutes;
 }
-
-async function mettreAJourCarteInscriptions() {
-    try {
-        const eleves = await getAllComptaEleves();
-        const actifs = eleves.filter(e => !e.abandon);
-        const classes = ['7ème EB', '8ème EB', '1ère Année', '2ème Année', '3ème Année', '4ème Année'];
-        const aujourdhui = new Date();
-        const debutSemainePasse = new Date(aujourdhui);
-        debutSemainePasse.setDate(debutSemainePasse.getDate() - 14);
-        debutSemainePasse.setHours(0, 0, 0, 0);
-        const finSemainePasse = new Date(aujourdhui);
-        finSemainePasse.setDate(finSemainePasse.getDate() - 7);
-        finSemainePasse.setHours(23, 59, 59, 999);
-        const debutSemaineActuelle = new Date(aujourdhui);
-        debutSemaineActuelle.setDate(debutSemaineActuelle.getDate() - 7);
-        debutSemaineActuelle.setHours(0, 0, 0, 0);
-        
-        document.getElementById('carteTotalEleves').textContent = actifs.length;
-        
-        const sp = actifs.filter(e => {
-            const date = new Date(e.dateInscription);
-            return date >= debutSemainePasse && date <= finSemainePasse;
-        });
-        document.getElementById('carteSemainePasse').textContent = sp.length;
-        
-        const sa = actifs.filter(e => {
-            const date = new Date(e.dateInscription);
-            return date >= debutSemaineActuelle && date <= aujourdhui;
-        });
-        document.getElementById('carteSemaineActuelle').textContent = sa.length;
-        document.getElementById('carteInscriptionsSemaine').textContent = sa.length;
-        
-        const container = document.getElementById('carteInscriptionsParClasse');
-        let html = '';
-        for (const classe of classes) {
-            const elevesClasse = actifs.filter(e => e.classe === classe);
-            const spClasse = elevesClasse.filter(e => {
-                const date = new Date(e.dateInscription);
-                return date >= debutSemainePasse && date <= finSemainePasse;
-            });
-            const saClasse = elevesClasse.filter(e => {
-                const date = new Date(e.dateInscription);
-                return date >= debutSemaineActuelle && date <= aujourdhui;
-            });
-            const total = spClasse.length + saClasse.length;
-            const pctPasse = total > 0 ? Math.round((spClasse.length / total) * 100) : 0;
-            const pctActuelle = total > 0 ? Math.round((saClasse.length / total) * 100) : 0;
-            html += '<div style="display:flex; align-items:center; gap:6px; padding:4px 0;">';
-            html += '<span style="font-size:9px; font-weight:700; color:#e2e8f0; min-width:75px;">' + classe + '</span>';
-            html += '<span style="font-size:8px; color:#94a3b8; min-width:20px;">(' + total + ')</span>';
-            html += '<span style="font-size:9px; color:#3b82f6; min-width:45px;">● ' + spClasse.length + ' (' + pctPasse + '%)</span>';
-            html += '<span style="font-size:9px; color:#10b981; min-width:45px;">○ ' + saClasse.length + ' (' + pctActuelle + '%)</span>';
-            html += '<div class="bar" style="flex:1; height:4px; background:#1e293b; border-radius:20px; overflow:hidden;">';
-            html += '<div style="width:' + pctPasse + '%; height:100%; background:linear-gradient(90deg, #3b82f6, #10b981); border-radius:20px; transition:width 0.8s cubic-bezier(0.2,0.8,0.2,1);"></div>';
-            html += '</div></div>';
-        }
-        container.innerHTML = html;
-    } catch (e) {
-        console.error('Erreur mise à jour carte inscriptions:', e);
-    }
-}
-
-function afficherCarteFinanciere() {
-    if (!doitAfficherCarteFinanciere()) return;
-    const overlay = document.getElementById('carteFinanciereOverlay');
-    const card = document.getElementById('carteFinanciere');
-    overlay.style.display = 'flex';
-    overlay.style.opacity = '0';
-    card.style.transform = 'translateY(-100%)';
-    requestAnimationFrame(function() {
-        overlay.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-    });
-    enregistrerAffichageCarte();
-    demarrerTimerCarte();
-    mettreAJourCarteInscriptions();
-}
-
-async function initApp(){
-    document.getElementById('btnAddOption').disabled=false;
-    document.getElementById('newOptionName').disabled=false;
-    document.getElementById('btnAddOption').onclick=async function(){
-        applyClickEffect(this);
-        const classe=document.getElementById('configClasseOptions').value;
-        const option=document.getElementById('newOptionName').value.trim();
-        if(!option){toast("Veuillez entrer un nom d'option","error");return;}
-        if(!optionsParClasse[classe])optionsParClasse[classe]=[];
-        if(optionsParClasse[classe].includes(option)){toast("Cette option existe déjà","warning");return;}
-        optionsParClasse[classe].push(option);
-        document.getElementById('newOptionName').value='';
-        mettreAJourSelectsOptions();
-        afficherOptionsConfig();
-        mettreAJourSelectsFiltre();
-        await synchroniserOptionsAvecCompta();
-        toast('Option "'+option+'" ajoutée à '+classe,"success");
-    };
-    await chargerLogoEcole();
-    await mettreAJourSelectsOptions();
-    await mettreAJourSelectsFiltre();
-    await afficherOptionsConfig();
-    await chargerConfigEcole();
-    await chargerTarifs();
-    await chargerFraisInscription();
-    await synchroniserOptionsAvecCompta();
-    await afficherListeEleves();
-    await mettreAJourStatsDetaillees();
-    await setupStatCards();
-    await afficherCartesIdentite();
-    await afficherParentCodes();
-    await window.afficherFraisInscription();
-    initTabsEvents();
-    initFilterEvents();
-    document.getElementById('loadingOverlay').classList.add('hidden');
-    if(unsubscribeFirebase){unsubscribeFirebase();}
-    const q=query(collection(db,"ecoles",ECOLET_ID,"compta_eleves"));
-    unsubscribeFirebase=onSnapshot(q,function(snapshot){
-        let modifie=false;
-        const idsVus=new Set();
-        snapshot.docChanges().forEach(function(change){
-            const data=change.doc.data();
-            if(!estEleveValide(data))return;
-            const eleveId=data.eleveId||data.id||change.doc.id;
-            if(idsVus.has(eleveId)){return;}
-            idsVus.add(eleveId);
-            const idx=localEleves.findIndex(function(e){return e.id===eleveId;});
-            if(change.type==="added"||change.type==="modified"){
-                if(idx!==-1){
-                    localEleves[idx]={...localEleves[idx],...data};
-                }else{
-                    localEleves.push({...data});
-                }
-                modifie=true;
-            }else if(change.type==="removed"){
-                if(idx!==-1){
-                    localEleves.splice(idx,1);
-                    modifie=true;
-                }
-            }
-        });
-        if(modifie){
-            afficherListeEleves();
-            mettreAJourStatsDetaillees();
-            afficherCartesIdentite();
-            afficherParentCodes();
-            if(currentEleve){
-                const updated=localEleves.find(function(e){return e.id===currentEleve.id;});
-                if(updated){
-                    currentEleve=updated;
-                    afficherReleve(currentEleve);
-                }
-            }
-            mettreAJourCarteInscriptions();
-        }
-    }, function(error){
-        console.error('Erreur synchronisation Firebase:',error);
-    });
-    mettreAJourHorloge();
-    setInterval(mettreAJourHorloge, 60000);
-    document.getElementById('carteCloseBtn').addEventListener('click', function() {
-        window.fermerCarteFinanciere();
-    });
-    setTimeout(afficherCarteFinanciere, 1000);
+},(error)=>{
+console.error('Erreur synchronisation Firebase:',error);
+});
 }
 await initApp();
 console.log('✅ ESPACE COMPTABILITÉ - Sécurisé avec Cache + Firebase');
