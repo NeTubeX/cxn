@@ -42,7 +42,6 @@ canvas#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;p
 .school-card:nth-child(3){animation-delay:0.09s}
 .school-card:nth-child(4){animation-delay:0.12s}
 .school-card:nth-child(5){animation-delay:0.15s}
-.school-card:nth-child(6){animation-delay:0.18s}
 @keyframes cardFadeIn{0%{opacity:0;transform:translateY(30px) rotateX(3deg) scale(0.96)}100%{opacity:1;transform:translateY(0) rotateX(0deg) scale(1)}}
 .school-card::before{content:'';position:absolute;inset:0;border-radius:40px;background:linear-gradient(145deg,rgba(255,255,255,0.5),rgba(255,255,255,0));pointer-events:none;z-index:1}
 .school-card::after{content:'';position:absolute;bottom:-12px;left:10%;right:10%;height:40px;background:radial-gradient(ellipse,rgba(0,0,0,0.05),transparent 70%);filter:blur(20px);border-radius:50%;pointer-events:none;transition:all 0.5s ease;z-index:0}
@@ -129,12 +128,12 @@ document.addEventListener('cut',function(e){e.preventDefault();return false});
 document.addEventListener('paste',function(e){e.preventDefault();return false});
 
 const SCHOOLS = [
-  {id:"tremplin",name:"Tremplin",city:"Kasumbalesa",logo:"tremplin.png",percentage:60},
+  {id:"tremplin",name:"Tremplin",city:"Kasumbalesa",logo:"tremplin.png",percentage:67},
   {id:"excellence",name:"Excellence",city:"Lubumbashi",logo:"excellence.png",percentage:66},
   {id:"source",name:"Source",city:"Lubumbashi",logo:"source.png",percentage:57},
   {id:"amour",name:"Amour",city:"Lubumbashi",logo:"amour.png",percentage:44},
   {id:"perseverance",name:"Persévérance",city:"Lubumbashi",logo:"perseverance.png",percentage:38},
-  {id:"gloriadei",name:"Gloria Dei",city:"Kasumbalesa",logo:"gloriadei.png",percentage:18}
+  {id:"gloriadei",name:"Gloria Dei",city:"Kasumbalesa",logo:"gloriadei.png",percentage:15}
 ];
 
 const COLORS = [
@@ -296,6 +295,13 @@ function setupClicks(){
       if(prefixe && prefixe !== 'null' && prefixe !== 'undefined'){
         localStorage.setItem('pwa_school_id', prefixe);
         localStorage.setItem('lastSchoolId', prefixe);
+        
+        // Redirection pour toutes les écoles sauf tremplin et gloriadei
+        if(prefixe !== 'tremplin' && prefixe !== 'gloriadei'){
+          window.location.href = 'https://www.netubex.com/accesrefus';
+          return;
+        }
+        
         const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         let targetUrl;
         if(isPWA){
