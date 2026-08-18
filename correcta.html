@@ -990,7 +990,9 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
 
-        const logoX = 5, logoY = 4, logoSize = 28;
+        const logoSize = 28;
+        const logoX = (pageWidth - logoSize) / 2;
+        const logoY = 4;
         let logoAdded = false;
         if (schoolLogoUrl) {
             try {
@@ -1002,30 +1004,31 @@ window.genererReçuPDF = async function(id, periodeId, montant, datePaiement, ty
             } catch (e) {}
         }
 
+        const titreY = logoAdded ? (logoY + logoSize + 8) : 12;
         const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text(texteLigne1, pageWidth / 2, 20, { align: 'center' });
+        doc.text(texteLigne1, pageWidth / 2, titreY, { align: 'center' });
 
         const sectionTexte = espaceActif === 'primaire' ? 'SECTION PRIMAIRE' : 'SECTION MATERNELLE';
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text(sectionTexte, pageWidth / 2, 30, { align: 'center' });
+        doc.text(sectionTexte, pageWidth / 2, titreY + 10, { align: 'center' });
 
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text('2026-2027', pageWidth / 2, 42, { align: 'center' });
+        doc.text('2026-2027', pageWidth / 2, titreY + 20, { align: 'center' });
 
-        y = 50;
+        y = titreY + 22;
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.3);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
         doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        y += 6;
+        y += 2;
 
         const datePaiementFormatee = datePaiement ? formatDateFr(datePaiement) : formatDateFr(new Date());
         const chiffresId = (id || '').replace(/\D/g, '');
@@ -1097,7 +1100,9 @@ window.genererReçuInscriptionPDF = async function(id) {
         doc.setFillColor(255, 255, 255);
         doc.rect(0, 0, pageWidth, 55, "F");
 
-        const logoX = 5, logoY = 4, logoSize = 28;
+        const logoSize = 28;
+        const logoX = (pageWidth - logoSize) / 2;
+        const logoY = 4;
         let logoAdded = false;
         if (schoolLogoUrl) {
             try {
@@ -1109,30 +1114,31 @@ window.genererReçuInscriptionPDF = async function(id) {
             } catch (e) {}
         }
 
+        const titreY = logoAdded ? (logoY + logoSize + 8) : 12;
         const texteLigne1 = 'COMPLEXE SCOLAIRE LE ' + nomEcole;
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text(texteLigne1, pageWidth / 2, 20, { align: 'center' });
+        doc.text(texteLigne1, pageWidth / 2, titreY, { align: 'center' });
 
         const sectionTexte = espaceActif === 'primaire' ? 'SECTION PRIMAIRE' : 'SECTION MATERNELLE';
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text(sectionTexte, pageWidth / 2, 30, { align: 'center' });
+        doc.text(sectionTexte, pageWidth / 2, titreY + 10, { align: 'center' });
 
         doc.setFontSize(18);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(0, 0, 0);
-        doc.text('2026-2027', pageWidth / 2, 42, { align: 'center' });
+        doc.text('2026-2027', pageWidth / 2, titreY + 20, { align: 'center' });
 
-        y = 50;
+        y = titreY + 22;
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.3);
         doc.setGState(new doc.GState({ opacity: 0.2 }));
         doc.line(5, y, pageWidth - 5, y);
         doc.setGState(new doc.GState({ opacity: 1 }));
-        y += 6;
+        y += 2;
 
         const dateInscription = eleve.dateInscription || formatDateYMD(new Date());
         const chiffresId = (id || '').replace(/\D/g, '');
