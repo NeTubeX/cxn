@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN - FRAIS INSCRIPTION - TREMPLIN</title>
+    <title>ADMIN - FRAIS D'INSCRIPTION - TREMPLIN</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -53,7 +53,7 @@
         .stat-card .number.orange{color:#f59e0b}
         
         .table-container{background:rgba(15,23,42,0.8);border-radius:16px;border:1px solid rgba(255,215,0,0.1);overflow:auto;max-height:70vh}
-        table{width:100%;border-collapse:collapse;font-size:13px;min-width:1000px}
+        table{width:100%;border-collapse:collapse;font-size:13px;min-width:1100px}
         th{background:rgba(255,215,0,0.08);color:#ffd700;padding:12px 14px;text-align:left;font-weight:600;position:sticky;top:0;z-index:10;white-space:nowrap}
         td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);color:#e2e8f0;vertical-align:middle}
         tr:hover{background:rgba(255,215,0,0.04)}
@@ -65,10 +65,10 @@
         .btn-sm:hover{transform:translateY(-1px)}
         .btn-sm.reçu{background:#3b82f6;color:#fff}
         .btn-sm.reçu:hover{box-shadow:0 4px 16px rgba(59,130,246,0.4)}
-        .btn-sm.zero{background:#ef4444;color:#fff}
-        .btn-sm.zero:hover{box-shadow:0 4px 16px rgba(239,68,68,0.4)}
-        .btn-sm.zero-frais{background:#8b5cf6;color:#fff}
-        .btn-sm.zero-frais:hover{box-shadow:0 4px 16px rgba(139,92,246,0.4)}
+        .btn-sm.zero-total{background:#8b5cf6;color:#fff}
+        .btn-sm.zero-total:hover{box-shadow:0 4px 16px rgba(139,92,246,0.4)}
+        .btn-sm.zero-paye{background:#ef4444;color:#fff}
+        .btn-sm.zero-paye:hover{box-shadow:0 4px 16px rgba(239,68,68,0.4)}
         .action-cell{display:flex;gap:4px;flex-wrap:wrap}
         .loading{text-align:center;padding:40px;color:#94a3b8}
         .empty{text-align:center;padding:40px;color:#64748b}
@@ -122,6 +122,9 @@
     <div class="header">
         <div>
             <h1>🏫 COMPLEXE SCOLAIRE TREMPLIN <span>SECONDAIRE</span></h1>
+            <div style="font-size:13px;color:#94a3b8;margin-top:4px;">
+                💰 Gestion des <strong style="color:#ffd700;">FRAIS D'INSCRIPTION</strong> uniquement (pas de minerval)
+            </div>
             <div class="total">Total élèves : <strong id="totalEleves">0</strong></div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -133,9 +136,9 @@
 
     <div class="stats">
         <div class="stat-card"><div class="number" id="statTotal">0</div><div class="label">Total Élèves</div></div>
-        <div class="stat-card"><div class="number green" id="statPayeTotal">0</div><div class="label">Frais payé intégralement</div></div>
-        <div class="stat-card"><div class="number orange" id="statPartiel">0</div><div class="label">Frais payé partiellement</div></div>
-        <div class="stat-card"><div class="number red" id="statNonPaye">0</div><div class="label">Frais non payé</div></div>
+        <div class="stat-card"><div class="number green" id="statPayeTotal">0</div><div class="label">Frais d'inscription payé intégralement</div></div>
+        <div class="stat-card"><div class="number orange" id="statPartiel">0</div><div class="label">Frais d'inscription payé partiellement</div></div>
+        <div class="stat-card"><div class="number red" id="statNonPaye">0</div><div class="label">Frais d'inscription non payé</div></div>
     </div>
 
     <div class="toolbar">
@@ -158,7 +161,7 @@
             <option value="partiel">⚠️ Partiel</option>
             <option value="nonpaye">❌ Non payé</option>
         </select>
-        <button class="btn btn-danger" onclick="toutMettreAZero()">⬇️ TOUT À 0 FC</button>
+        <button class="btn btn-danger" onclick="toutMettreAZero()">⬇️ TOUS LES FRAIS D'INSCRIPTION À 0 FC</button>
     </div>
 
     <div class="table-container" id="tableContainer">
@@ -367,15 +370,15 @@ function afficherEleves() {
             <td>${sexeIcon} ${nomComplet}</td>
             <td>${e.classe}</td>
             <td>${e.option || '-'}</td>
-            <td style="text-align:right;">${formatNbSimple(fraisTotal)} FC</td>
+            <td style="text-align:right;font-weight:600;">${formatNbSimple(fraisTotal)} FC</td>
             <td style="text-align:right;color:${fraisPaye >= fraisTotal && fraisTotal > 0 ? '#10b981' : '#e2e8f0'};">${formatNbSimple(fraisPaye)} FC</td>
-            <td style="text-align:right;color:${reste > 0 ? '#ef4444' : '#10b981'};">${reste > 0 ? formatNbSimple(reste) + ' FC' : '✓'}</td>
+            <td style="text-align:right;color:${reste > 0 ? '#ef4444' : '#10b981'};font-weight:700;">${reste > 0 ? formatNbSimple(reste) + ' FC' : '✓'}</td>
             <td style="text-align:center;"><span class="badge-status ${statutClass}">${statutLabel}</span></td>
             <td>
                 <div class="action-cell">
                     <button class="btn-sm reçu" onclick="ouvrirReçu('${e.id}')">🧾 REÇU</button>
-                    <button class="btn-sm zero" onclick="zeroFraisPaye('${e.id}')">0 FRAIS PAYÉ</button>
-                    <button class="btn-sm zero-frais" onclick="zeroFraisTotal('${e.id}')">0 FRAIS TOTAL</button>
+                    <button class="btn-sm zero-total" onclick="zeroFraisTotal('${e.id}')">0 FRAIS TOTAL</button>
+                    <button class="btn-sm zero-paye" onclick="zeroFraisPaye('${e.id}')">0 FRAIS PAYÉ</button>
                 </div>
             </td>
         </tr>`;
@@ -414,8 +417,9 @@ window.rafraichir = function() {
     toast('✅ Données actualisées', 'success');
 };
 
+// BOUTON 0 FRAIS TOTAL : Met le FRAIS D'INSCRIPTION TOTAL à 0 → LE RESTE DEVIENT 0
 window.zeroFraisTotal = async function(id) {
-    if (!await showConfirm('⚠️ Mettre le <strong>FRAIS D\'INSCRIPTION TOTAL</strong> à <strong>0 FC</strong> pour cet élève ?')) return;
+    if (!await showConfirm('⚠️ Mettre le <strong>FRAIS D\'INSCRIPTION TOTAL</strong> à <strong>0 FC</strong> pour cet élève ?<br><br>Le <strong>RESTE À PAYER</strong> deviendra également <strong>0 FC</strong>.')) return;
     try {
         const docId = 'compta_' + id;
         const ref = doc(db, "ecoles", ECOLET_ID, COLLECTION, docId);
@@ -427,14 +431,15 @@ window.zeroFraisTotal = async function(id) {
         }
         afficherEleves();
         mettreAJourStats();
-        toast('✅ Frais d\'inscription total mis à 0 FC', 'success');
+        toast('✅ Frais d\'inscription total mis à 0 FC - Reste à payer: 0 FC', 'success');
     } catch (e) {
         toast('Erreur: ' + e.message, 'error');
     }
 };
 
+// BOUTON 0 FRAIS PAYÉ : Met le FRAIS D'INSCRIPTION PAYÉ à 0 → LE RESTE REDEVIENT LE TOTAL
 window.zeroFraisPaye = async function(id) {
-    if (!await showConfirm('⚠️ Mettre le <strong>FRAIS D\'INSCRIPTION PAYÉ</strong> à <strong>0 FC</strong> pour cet élève ?')) return;
+    if (!await showConfirm('⚠️ Mettre le <strong>FRAIS D\'INSCRIPTION PAYÉ</strong> à <strong>0 FC</strong> pour cet élève ?<br><br>Le <strong>RESTE À PAYER</strong> redeviendra le <strong>FRAIS TOTAL</strong>.')) return;
     try {
         const docId = 'compta_' + id;
         const ref = doc(db, "ecoles", ECOLET_ID, COLLECTION, docId);
@@ -446,14 +451,15 @@ window.zeroFraisPaye = async function(id) {
         }
         afficherEleves();
         mettreAJourStats();
-        toast('✅ Frais d\'inscription payé mis à 0 FC', 'success');
+        toast('✅ Frais d\'inscription payé mis à 0 FC - Reste à payer: ' + formatNbSimple(tousLesEleves.find(e => e.id === id)?.fraisInscriptionTotal || 0) + ' FC', 'success');
     } catch (e) {
         toast('Erreur: ' + e.message, 'error');
     }
 };
 
+// BOUTON TOUT À 0 FC : Met TOTAL + PAYÉ à 0 → LE RESTE DEVIENT 0
 window.toutMettreAZero = async function() {
-    if (!await showConfirm('⚠️ Mettre <strong>TOUS LES FRAIS D\'INSCRIPTION (TOTAL ET PAYÉ)</strong> à <strong>0 FC</strong> pour tous les élèves ?<br><br>Cette action est irréversible !')) return;
+    if (!await showConfirm('⚠️ Mettre <strong>TOUS LES FRAIS D\'INSCRIPTION</strong> (TOTAL + PAYÉ) à <strong>0 FC</strong> pour <strong>TOUS LES ÉLÈVES</strong> ?<br><br>Le <strong>RESTE À PAYER</strong> deviendra <strong>0 FC</strong> pour tous.<br><br>⚠️ Cette action est irréversible !')) return;
     
     try {
         let compteur = 0;
@@ -471,7 +477,7 @@ window.toutMettreAZero = async function() {
         }
         afficherEleves();
         mettreAJourStats();
-        toast('✅ ' + compteur + ' élève(s) mis à 0 FC', 'success');
+        toast('✅ ' + compteur + ' élève(s) mis à 0 FC (frais total + frais payé)', 'success');
     } catch (e) {
         toast('Erreur: ' + e.message, 'error');
     }
@@ -616,7 +622,7 @@ function genererReçuPDF(eleve) {
     doc.text('Moyen: Espèces', pageWidth / 2, y + 6, { align: 'center' });
     
     doc.save('Reçu_Inscription_' + eleve.nom + '_' + formatDateFr(new Date()).replace(/\//g, '') + '.pdf');
-    toast('✅ Reçu téléchargé avec succès', 'success');
+    toast('✅ Reçu d\'inscription téléchargé avec succès', 'success');
 }
 
 // AUTHENTIFICATION
