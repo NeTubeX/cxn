@@ -995,6 +995,20 @@ body.light-mode .periode-section .annee-label{color:#1a2332}
 </div>
 </div>
 
+<div class="modal-overlay" id="editNomModal">
+<div class="modal-card">
+<h3>✏️ CHANGER LE NOM</h3>
+<div id="editNomInfo" style="margin-bottom:16px;"></div>
+<div class="form-group"><label>NOUVEAU NOM</label><input type="text" id="editNomInput" placeholder="Entrez le nouveau nom" style="width:100%;background:#2d3748;border:1px solid #334155;border-radius:12px;padding:10px 14px;color:#fff;font-size:14px;"></div>
+<div class="form-group"><label>NOUVEAU POST-NOM</label><input type="text" id="editPostnomInput" placeholder="Entrez le nouveau post-nom" style="width:100%;background:#2d3748;border:1px solid #334155;border-radius:12px;padding:10px 14px;color:#fff;font-size:14px;"></div>
+<div class="form-group"><label>NOUVEAU PRÉNOM</label><input type="text" id="editPrenomInput" placeholder="Entrez le nouveau prénom" style="width:100%;background:#2d3748;border:1px solid #334155;border-radius:12px;padding:10px 14px;color:#fff;font-size:14px;"></div>
+<div class="modal-buttons">
+<button class="btn btn-success" id="confirmEditNom">💾 ENREGISTRER</button>
+<button class="btn btn-outline" id="cancelEditNom">ANNULER</button>
+</div>
+</div>
+</div>
+
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"}}
 </script>
@@ -1022,6 +1036,7 @@ const toastQueue=[];
 let isToastShowing=false;
 let unsubscribeFirebase=null;
 let codeValidationResolve=null;
+let editNomEleveId=null;
 
 let cacheData={
 eleves:null,
@@ -1270,7 +1285,7 @@ async function mettreAJourStatsDetaillees(){const tous=await getAllComptaEleves(
 
 async function getElevesFiltres(incAbandons=false){let res=await getTousElevesAvecInfos();res=res.filter(e=>estEleveValide(e));if(!incAbandons)res=res.filter(e=>!e.abandon);if(isFilterActive&&filteredEleves.length>0){res=res.filter(e=>filteredEleves.some(f=>f.id===e.id));}const nom=document.getElementById("searchNom")?.value.trim()||"";const cls=document.getElementById("filterClasse")?.value||"";const opt=document.getElementById("filterOption")?.value||"";if(nom)res=res.filter(e=>e.nom.toLowerCase().includes(nom.toLowerCase())||(e.postnom&&e.postnom.toLowerCase().includes(nom.toLowerCase())));if(cls)res=res.filter(e=>e.classe===cls);if(opt)res=res.filter(e=>e.option===opt);if(currentFilter==="normal")return res.filter(e=>!e.exonere&&e.moisImpayes<3);if(currentFilter==="exonere")return res.filter(e=>e.exonere===true);if(currentFilter==="listenoir")return res.filter(e=>!e.exonere&&e.moisImpayes>=3);if(currentFilter==="enordre")return res.filter(e=>e.exonere||e.estEnOrdreMoisCourant);return res;}
 
-async function afficherListeEleves(){const eleves=await getElevesFiltres();const cont=document.getElementById("elevesContainer");if(!eleves.length){cont.innerHTML='<div class="empty-state">📭 Aucun élève</div>';return;}let html='<div class="eleve-cards">';for(let e of eleves){const estLN=(!e.exonere&&e.moisImpayes>=3);const estOrdre=(e.exonere||e.estEnOrdreMoisCourant);let badge='',classeSpec='';const sexeBadge=e.sexe==='F'?'<span class="badge badge-fille">👩 Fille</span>':'<span class="badge badge-garcon">👨 Garçon</span>';if(e.exonere){badge='<span class="badge badge-exonere">EXONÉRÉ</span>';}else if(estLN){badge='<span class="badge badge-listenoire">LISTE NOIRE</span>';classeSpec='liste-noire';}else if(estOrdre){badge='<span class="badge badge-en-ordre">EN ORDRE</span>';classeSpec='en-ordre';}else if(e.moisImpayes>0){badge='<span class="badge badge-impaye">IMPAYÉ</span>';}const codeDisplay=e.parentCode?'<span class="badge badge-code">🔑 '+e.parentCode+'</span>':'';const nomComplet=(e.nom+' '+(e.postnom||'')+' '+(e.prenom||'')).toUpperCase();const eleveId=e.id;const eleveNom=e.nom;const eleveClasse=e.classe;const eleveOption=e.option||"";html+='<div class="eleve-card '+classeSpec+'" data-id="'+eleveId+'"><div class="eleve-card-header"><div class="eleve-nom">'+nomComplet+'</div><div class="eleve-badges">'+sexeBadge+badge+codeDisplay+'</div></div><div class="eleve-card-body"><div class="eleve-info-item"><span class="eleve-info-label">📚</span><span class="eleve-info-value">'+e.classe+(e.option?' - '+e.option:'')+'</span></div><div class="eleve-info-item"><span class="eleve-info-label">💰</span><span class="eleve-info-value">'+(e.exonere?"EXONÉRÉ":formatNbSimple(e.minerval)+" FC/mois")+'</span></div>'+(e.phone?'<div class="eleve-info-item"><span class="eleve-info-label">📞</span><span class="eleve-info-value">'+e.phone+'</span></div>':'')+'</div><div class="eleve-card-footer"><div class="dropdown"><button class="dropdown-btn" onclick="toggleDropdown(this)">⋮ ACTIONS</button><div class="dropdown-content"><div class="dropdown-item btn-paiements" data-id="'+eleveId+'" data-nom="'+eleveNom+'" data-classe="'+eleveClasse+'" data-option="'+eleveOption+'">PAIEMENTS</div><div class="dropdown-item" onclick="ouvrirEditParentCode(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">CODE PARENT</div><div class="dropdown-item" onclick="ouvrirRattacherFamille(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">RATTACHER</div><div class="dropdown-item" onclick="ouvrirEditOption(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\',\''+(e.option||"")+'\')">MODIFIER OPTION</div><div class="dropdown-item" onclick="ouvrirModifierApprobateur(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.approbateur||"")+'\')">APPROBATEUR</div><div class="dropdown-item" onclick="changerSexe(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.sexe+'\')">CHANGER SEXE</div><div class="dropdown-item" onclick="changerClasse(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\')">CHANGER CLASSE</div><div class="dropdown-item" onclick="voirMoisPayes(\''+e.id+'\')">MOIS PAYÉS</div><div class="dropdown-item danger" onclick="marquerAbandonPrompt(\''+e.id+'\',\''+e.nom+'\')">ABANDON</div><div class="dropdown-item danger" onclick="supprimerEleve(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\')">SUPPRIMER</div></div></div></div></div>';}html+='</div>';cont.innerHTML=html;await mettreAJourStatsDetaillees();}
+async function afficherListeEleves(){const eleves=await getElevesFiltres();const cont=document.getElementById("elevesContainer");if(!eleves.length){cont.innerHTML='<div class="empty-state">📭 Aucun élève</div>';return;}let html='<div class="eleve-cards">';for(let e of eleves){const estLN=(!e.exonere&&e.moisImpayes>=3);const estOrdre=(e.exonere||e.estEnOrdreMoisCourant);let badge='',classeSpec='';const sexeBadge=e.sexe==='F'?'<span class="badge badge-fille">👩 Fille</span>':'<span class="badge badge-garcon">👨 Garçon</span>';if(e.exonere){badge='<span class="badge badge-exonere">EXONÉRÉ</span>';}else if(estLN){badge='<span class="badge badge-listenoire">LISTE NOIRE</span>';classeSpec='liste-noire';}else if(estOrdre){badge='<span class="badge badge-en-ordre">EN ORDRE</span>';classeSpec='en-ordre';}else if(e.moisImpayes>0){badge='<span class="badge badge-impaye">IMPAYÉ</span>';}const codeDisplay=e.parentCode?'<span class="badge badge-code">🔑 '+e.parentCode+'</span>':'';const nomComplet=(e.nom+' '+(e.postnom||'')+' '+(e.prenom||'')).toUpperCase();const eleveId=e.id;const eleveNom=e.nom;const eleveClasse=e.classe;const eleveOption=e.option||"";html+='<div class="eleve-card '+classeSpec+'" data-id="'+eleveId+'"><div class="eleve-card-header"><div class="eleve-nom">'+nomComplet+'</div><div class="eleve-badges">'+sexeBadge+badge+codeDisplay+'</div></div><div class="eleve-card-body"><div class="eleve-info-item"><span class="eleve-info-label">📚</span><span class="eleve-info-value">'+e.classe+(e.option?' - '+e.option:'')+'</span></div><div class="eleve-info-item"><span class="eleve-info-label">💰</span><span class="eleve-info-value">'+(e.exonere?"EXONÉRÉ":formatNbSimple(e.minerval)+" FC/mois")+'</span></div>'+(e.phone?'<div class="eleve-info-item"><span class="eleve-info-label">📞</span><span class="eleve-info-value">'+e.phone+'</span></div>':'')+'</div><div class="eleve-card-footer"><div class="dropdown"><button class="dropdown-btn" onclick="toggleDropdown(this)">⋮ ACTIONS</button><div class="dropdown-content"><div class="dropdown-item btn-paiements" data-id="'+eleveId+'" data-nom="'+eleveNom+'" data-classe="'+eleveClasse+'" data-option="'+eleveOption+'">PAIEMENTS</div><div class="dropdown-item" onclick="ouvrirEditParentCode(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">CODE PARENT</div><div class="dropdown-item" onclick="ouvrirRattacherFamille(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.parentCode||'')+'\')">RATTACHER</div><div class="dropdown-item" onclick="ouvrirEditOption(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\',\''+(e.option||"")+'\')">MODIFIER OPTION</div><div class="dropdown-item" onclick="ouvrirModifierApprobateur(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+(e.approbateur||"")+'\')">APPROBATEUR</div><div class="dropdown-item" onclick="changerSexe(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.sexe+'\')">CHANGER SEXE</div><div class="dropdown-item" onclick="changerClasse(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.classe+'\')">CHANGER CLASSE</div><div class="dropdown-item" onclick="ouvrirEditNom(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\',\''+e.nom+'\',\''+(e.postnom||'')+'\',\''+(e.prenom||'')+'\')">CHANGER NOM</div><div class="dropdown-item" onclick="voirMoisPayes(\''+e.id+'\')">MOIS PAYÉS</div><div class="dropdown-item danger" onclick="marquerAbandonPrompt(\''+e.id+'\',\''+e.nom+'\')">ABANDON</div><div class="dropdown-item danger" onclick="supprimerEleve(\''+e.id+'\',\''+e.nom+' '+(e.prenom||'')+'\')">SUPPRIMER</div></div></div></div></div>';}html+='</div>';cont.innerHTML=html;await mettreAJourStatsDetaillees();}
 
 window.supprimerEleve=async function(id,nom){
 const ok=await showCodeValidation('🔐 Pour supprimer <strong>'+nom+'</strong>, veuillez entrer le code de sécurité.');
@@ -1296,6 +1311,40 @@ document.getElementById("releveContainer").innerHTML='<div class="empty-state">S
 toast('❌ Suppression annulée','warning');
 }
 };
+
+window.ouvrirEditNom=function(eleveId,eleveNom,nomActuel,postnomActuel,prenomActuel){
+const modal=document.getElementById('editNomModal');
+document.getElementById('editNomInfo').innerHTML='<div class="modal-info-line"><span>ÉLÈVE</span><span style="color:#ffd700;font-weight:bold;">'+eleveNom+'</span></div><div class="modal-info-line"><span>NOM ACTUEL</span><span style="color:#f59e0b;">'+nomActuel+'</span></div>';
+document.getElementById('editNomInput').value=nomActuel||'';
+document.getElementById('editPostnomInput').value=postnomActuel||'';
+document.getElementById('editPrenomInput').value=prenomActuel||'';
+editNomEleveId=eleveId;
+modal.classList.add('show');
+};
+
+document.getElementById('confirmEditNom').onclick=async function(){
+applyClickEffect(this);
+const nom=document.getElementById('editNomInput').value.trim();
+const postnom=document.getElementById('editPostnomInput').value.trim();
+const prenom=document.getElementById('editPrenomInput').value.trim();
+if(!nom){toast('Le nom est requis','error');return;}
+const ok=await showCodeValidation('🔐 Pour modifier le nom de l\'élève, veuillez entrer le code de sécurité.');
+if(!ok){toast('❌ Modification annulée','warning');return;}
+try{
+const docId='compta_'+editNomEleveId;
+const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId);
+await updateDoc(ref,{nom:nom,postnom:postnom,prenom:prenom});
+const idx=localEleves.findIndex(e=>e.id===editNomEleveId);
+if(idx!==-1){localEleves[idx].nom=nom;localEleves[idx].postnom=postnom;localEleves[idx].prenom=prenom;}
+document.getElementById('editNomModal').classList.remove('show');
+toast('✅ Nom modifié avec succès','success');
+await afficherListeEleves();
+await afficherCartesIdentite();
+if(currentEleve&&currentEleve.id===editNomEleveId){currentEleve=localEleves.find(e=>e.id===editNomEleveId);await afficherReleve(currentEleve);}
+}catch(error){toast('Erreur lors de la modification','error');}
+};
+
+document.getElementById('cancelEditNom').onclick=function(){applyClickEffect(this);document.getElementById('editNomModal').classList.remove('show');editNomEleveId=null;};
 
 window.toggleDropdown=function(btn){applyClickEffect(btn);const dropdown=btn.closest('.dropdown');const content=dropdown.querySelector('.dropdown-content');const allDropdowns=document.querySelectorAll('.dropdown-content');allDropdowns.forEach(d=>{if(d!==content)d.classList.remove('show');});content.classList.toggle('show');};
 
@@ -1484,7 +1533,6 @@ let approbateurFinal=approbateur;
 if(approbateur==='Autre'){approbateurFinal=document.getElementById("newEleveApprobateurAutre").value.trim();}
 const newCompta={_type:"compta_eleve",eleveId:id,nom:nom,postnom:postnom||"",prenom:prenom||"",dateNaiss:dateNaiss||"",lieuNaiss:lieuNaiss||"",nomPere:nomPere||"",nomMere:nomMere||"",adresse:adresse||"",sexe:sexe||"M",phone:phone||"",classe:classe,option:optionFinale,minerval:minerval,fraisInscriptionTotal:fraisInscriptionTotal,anneeScolaire:anneeScolaireCourante,paiements:paiements,exonere:exonere||false,motifExon:motifExon||"",approbateur:approbateurFinal||"",abandon:false,dateAbandon:null,parentCode:codeParent,fraisInscriptionPaye:montantInscription||0,dateInscription:dateInscription,moisBlancs:[]};
 await setDoc(doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId),newCompta);
-// Invalider le cache après l'inscription pour forcer le rechargement des données
 cacheData.timestamp = 0;
 toast('✅ Élève inscrit. Code parent: '+codeParent,"success");
 return newCompta;
@@ -1527,7 +1575,6 @@ document.getElementById('newEleveApprobateur').addEventListener('change',functio
 
 document.getElementById('newEleveSexe').addEventListener('change',updatePreview);
 
-// Ajout des écouteurs pour mettre à jour le montant d'inscription
 document.getElementById('newEleveClasse').addEventListener('change', function() {
     updateFraisInscriptionDisplay();
 });
