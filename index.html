@@ -137,159 +137,269 @@
     @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,0.3)}70%{box-shadow:0 0 0 20px rgba(37,99,235,0)}100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}}
     section{opacity:0;transform:translateY(40px);transition:all .7s cubic-bezier(.4,0,.2,1)}
     section.visible{opacity:1;transform:translateY(0)}
+    #app-container{display:none;width:100%;height:100vh;position:fixed;top:0;left:0;z-index:9999;background:#0a0e1a}
+    #app-iframe{width:100%;height:100vh;border:none;display:block}
+    #app-loader{display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0a0e1a;color:#ffd700;font-family:'Inter',sans-serif;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000}
+    .spinner{width:50px;height:50px;border:4px solid rgba(255,215,0,0.1);border-top:4px solid #ffd700;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .loader-text{font-size:18px;font-weight:600;letter-spacing:2px}
+    body.iframe-active .bg-fixed,body.iframe-active .bg-overlay,body.iframe-active .navbar,body.iframe-active .container,body.iframe-active footer,body.iframe-active .support-float{display:none !important}
     @media(max-width:1024px){.section-alternate{grid-template-columns:1fr;gap:32px}.section-alternate.reverse{direction:ltr}.section-title{font-size:2.2rem}.section-media img{height:280px}.stats-grid{gap:14px}.stat-item{padding:24px 20px;min-width:120px;max-width:160px}.stat-number{font-size:2.6rem}.stat-label{font-size:.85rem}.benefits-grid{grid-template-columns:1fr 1fr}.space-desc-grid{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr 1fr}.hero h1{font-size:3rem}}
     @media(max-width:768px){.navbar{padding:8px 14px;gap:8px;min-width:auto;width:95%}.logo-img{width:40px;height:40px}.logo-text{font-size:1.15rem}.nav-buttons{display:none}.menu-toggle{display:block;font-size:.85rem;padding:6px 14px}.container{padding:calc(85px + env(safe-area-inset-top,0px)) 16px 40px 16px}.hero{padding:40px 20px}.hero h1{font-size:2.5rem}.hero p{font-size:1.1rem}.section-title{font-size:1.8rem}.section-text{font-size:1rem}.section-text .spaces-grid{grid-template-columns:1fr}.section-media img{height:220px}.support-float{width:56px;height:56px;font-size:1.4rem}.support-banner{padding:16px 20px;flex-direction:column;text-align:center}.stat-item{min-width:100px;padding:16px 14px;max-width:140px}.stat-number{font-size:2rem}.stat-label{font-size:.75rem}.benefits-grid{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr}}
     @media(max-width:480px){.hero-buttons{gap:12px}.btn-primary,.btn-secondary{padding:10px 20px;font-size:.9rem}.footer-inner{grid-template-columns:1fr}.navbar{padding:6px 10px;gap:6px}.logo-text{font-size:1rem}.logo-img{width:34px;height:34px}.menu-toggle{font-size:.75rem;padding:4px 10px}.btn-nav{font-size:.75rem;padding:6px 12px}.support-banner .support-phone{font-size:.95rem;padding:8px 16px}.space-desc-grid{grid-template-columns:1fr}.hero h1{font-size:2rem}}
   </style>
 </head>
 <body>
-  <div class="bg-fixed"><div class="bg-fixed-inner"></div></div>
-  <div class="bg-overlay"></div>
-  <div class="navbar" id="navbar">
-    <div class="logo"><img src="favicon.png.png" alt="NeTubeX SARL" class="logo-img" loading="lazy"><span class="logo-text">NeTubeX</span></div>
-    <div class="nav-buttons"><button class="btn-nav btn-nav-primary" id="loginNavBtn"><i class="fas fa-sign-in-alt"></i> Système Scolarité</button></div>
-    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i> Menu</button>
+
+<div class="bg-fixed"><div class="bg-fixed-inner"></div></div>
+<div class="bg-overlay"></div>
+
+<div class="navbar" id="navbar">
+  <div class="logo"><img src="favicon.png.png" alt="NeTubeX SARL" class="logo-img" loading="lazy"><span class="logo-text">NeTubeX</span></div>
+  <div class="nav-buttons"><button class="btn-nav btn-nav-primary" id="loginNavBtn"><i class="fas fa-sign-in-alt"></i> Système Scolarité</button></div>
+  <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i> Menu</button>
+</div>
+
+<div class="floating-menu" id="floatingMenu">
+  <div class="floating-item" data-action="login"><i class="fas fa-sign-in-alt"></i> SYSTÈME DE GESTION DE SCOLARITÉ</div>
+  <div class="floating-item" data-action="mission"><i class="fas fa-bullseye"></i> Notre mission</div>
+  <div class="floating-item" data-action="services"><i class="fas fa-graduation-cap"></i> Nos services</div>
+  <div class="floating-item" data-action="apropos"><i class="fas fa-info-circle"></i> À propos</div>
+</div>
+
+<div id="app-loader" style="display:none;">
+  <div class="spinner"></div>
+  <div class="loader-text">⏳ Chargement...</div>
+</div>
+
+<div id="app-container" style="display:none;">
+  <iframe id="app-iframe" src="about:blank" frameborder="0" scrolling="auto"></iframe>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <h1>NeTubeX <span class="highlight">SARL</span></h1>
+    <p><strong>NeTubeX SARL</strong> est une société à responsabilité limitée au service de l'innovation et du développement numérique, qui combine l'éducation, la technologie et l'inclusion. Des outils simples, puissants et inclusifs pour piloter votre école au quotidien.</p>
+    <div class="hero-buttons"><button class="btn-primary" id="heroLoginBtn"><i class="fas fa-sign-in-alt"></i> SYSTÈME DE GESTION DE SCOLARITÉ</button></div>
   </div>
-  <div class="floating-menu" id="floatingMenu">
-    <div class="floating-item" data-action="login"><i class="fas fa-sign-in-alt"></i> SYSTÈME DE GESTION DE SCOLARITÉ</div>
-    <div class="floating-item" data-action="mission"><i class="fas fa-bullseye"></i> Notre mission</div>
-    <div class="floating-item" data-action="services"><i class="fas fa-graduation-cap"></i> Nos services</div>
-    <div class="floating-item" data-action="apropos"><i class="fas fa-info-circle"></i> À propos</div>
+
+  <div class="clock-bar">
+    <div class="clock-item"><i class="fas fa-calendar-day"></i><span class="clock-value" id="dateDisplay">--</span></div>
+    <div class="clock-item"><i class="fas fa-clock"></i><span class="clock-value" id="timeDisplay">--:--:--</span></div>
+    <div class="clock-item"><i class="fas fa-globe-africa"></i><span class="clock-value">RDC / Kinshasa</span></div>
   </div>
-  <div class="container">
-    <div class="hero">
-      <h1>NeTubeX <span class="highlight">SARL</span></h1>
-      <p><strong>NeTubeX SARL</strong> est une société à responsabilité limitée au service de l'innovation et du développement numérique, qui combine l'éducation, la technologie et l'inclusion. Des outils simples, puissants et inclusifs pour piloter votre école au quotidien.</p>
-      <div class="hero-buttons"><button class="btn-primary" id="heroLoginBtn"><i class="fas fa-sign-in-alt"></i> SYSTÈME DE GESTION DE SCOLARITÉ</button></div>
+
+  <section id="missionSection">
+    <div class="section-alternate">
+      <div class="section-content">
+        <div class="section-icon"><i class="fas fa-bullseye"></i></div>
+        <div class="section-title">Notre mission</div>
+        <div class="section-text">Accompagner les établissements scolaires dans leur transition numérique avec des solutions simples, puissantes et inclusives.</div>
+        <div class="stats-grid">
+          <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">Établissements</div></div>
+          <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Enseignants</div></div>
+          <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">Préfets</div></div>
+          <div class="stat-item"><div class="stat-number">92%</div><div class="stat-label">Satisfaction</div></div>
+        </div>
+      </div>
+      <div class="section-media"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop&crop=center" alt="Équipe NeTubeX" loading="lazy" width="800" height="600"></div>
     </div>
-    <div class="clock-bar">
-      <div class="clock-item"><i class="fas fa-calendar-day"></i><span class="clock-value" id="dateDisplay">--</span></div>
-      <div class="clock-item"><i class="fas fa-clock"></i><span class="clock-value" id="timeDisplay">--:--:--</span></div>
-      <div class="clock-item"><i class="fas fa-globe-africa"></i><span class="clock-value">RDC / Kinshasa</span></div>
+  </section>
+
+  <div class="wave-separator"></div>
+
+  <section id="servicesSection">
+    <div class="section-alternate reverse">
+      <div class="section-content">
+        <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="section-title">Nos services</div>
+        <div class="section-text"><strong>NeTubeX</strong> dans le <strong>SYSTÈME DE GESTION DE SCOLARITÉ</strong> offre <strong>8 Espaces</strong> :<div class="spaces-grid"><div class="space-item"><i class="fas fa-search"></i> Espace Inspection</div><div class="space-item"><i class="fas fa-user-tie"></i> Espace Promoteur</div><div class="space-item"><i class="fas fa-building"></i> Espace Direction</div><div class="space-item"><i class="fas fa-calculator"></i> Espace Comptabilité</div><div class="space-item"><i class="fas fa-user-tie"></i> Espace Préfet</div><div class="space-item"><i class="fas fa-chalkboard-teacher"></i> Espace Titulaire</div><div class="space-item"><i class="fas fa-user-graduate"></i> Espace Professeur</div><div class="space-item"><i class="fas fa-users"></i> Espace Parentale</div></div></div>
+        <div class="space-desc-grid">
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-search"></i> Espace Inspection</div><div class="sd-desc">Suivez en temps réel les performances académiques, identifiez les axes d'amélioration.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-tie"></i> Espace Promoteur</div><div class="sd-desc">Pilotez votre établissement avec des indicateurs clés de performance.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-building"></i> Espace Direction</div><div class="sd-desc"><strong>Gestion administrative sécurisée</strong> — plus de perte de dossiers élèves.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-calculator"></i> Espace Comptabilité</div><div class="sd-desc"><strong>Fini les pertes de traçabilité financière</strong>, réduisez votre charge de travail.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-tie"></i> Espace Préfet</div><div class="sd-desc">Gérez les élèves, les classes, les absences et les punitions.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-chalkboard-teacher"></i> Espace Titulaire</div><div class="sd-desc"><strong>Finis les erreurs fréquentes</strong>, la saisie manuelle des bulletins.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-graduate"></i> Espace Professeur</div><div class="sd-desc"><strong>Fini les erreurs de correction</strong>, concentrez-vous sur l'essentiel.</div></div>
+          <div class="space-desc-item"><div class="sd-title"><i class="fas fa-users"></i> Espace Parentale</div><div class="sd-desc">Suivez les performances, les notes et les présences de vos enfants.</div></div>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card"><i class="fas fa-clock"></i><div class="benefit-title">Gain de temps</div><div class="benefit-desc">Réduisez votre charge de travail</div></div>
+          <div class="benefit-card"><i class="fas fa-shield-alt"></i><div class="benefit-title">Sécurisé</div><div class="benefit-desc">Données protégées et traçabilité totale</div></div>
+          <div class="benefit-card"><i class="fas fa-mobile-alt"></i><div class="benefit-title">Accessible</div><div class="benefit-desc">De partout, à tout moment</div></div>
+          <div class="benefit-card"><i class="fas fa-robot"></i><div class="benefit-title">Intelligent</div><div class="benefit-desc">Système d'analyse et de recommandation</div></div>
+        </div>
+      </div>
+      <div class="section-media"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&h=600&fit=crop&crop=center" alt="Interface du système de gestion de scolarité" loading="lazy" width="800" height="600"></div>
     </div>
-    <section id="missionSection">
-      <div class="section-alternate">
-        <div class="section-content">
-          <div class="section-icon"><i class="fas fa-bullseye"></i></div>
-          <div class="section-title">Notre mission</div>
-          <div class="section-text">Accompagner les établissements scolaires dans leur transition numérique avec des solutions simples, puissantes et inclusives.</div>
-          <div class="stats-grid">
-            <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">Établissements</div></div>
-            <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Enseignants</div></div>
-            <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">Préfets</div></div>
-            <div class="stat-item"><div class="stat-number">92%</div><div class="stat-label">Satisfaction</div></div>
-          </div>
-        </div>
-        <div class="section-media"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop&crop=center" alt="Équipe NeTubeX" loading="lazy" width="800" height="600"></div>
+  </section>
+
+  <div class="wave-separator"></div>
+
+  <section id="whySection">
+    <div class="why-netubex">
+      <div class="why-title">Pourquoi choisir NeTubeX ?</div>
+      <div class="why-sub">Le <strong>SYSTÈME DE GESTION DE SCOLARITÉ</strong> qui révolutionne l'éducation</div>
+      <div class="why-grid">
+        <div class="why-item"><span class="why-icon"><i class="fas fa-bolt"></i></span><div class="why-name">Simplicité</div><div class="why-desc">Interface intuitive, prise en main rapide.</div></div>
+        <div class="why-item"><span class="why-icon"><i class="fas fa-lock"></i></span><div class="why-name">Sécurité</div><div class="why-desc">Données chiffrées, accès sécurisé par rôle.</div></div>
+        <div class="why-item"><span class="why-icon"><i class="fas fa-globe"></i></span><div class="why-name">Accessibilité</div><div class="why-desc">Disponible en ligne, hors ligne et sur mobile.</div></div>
+        <div class="why-item"><span class="why-icon"><i class="fas fa-brain"></i></span><div class="why-name">Innovation</div><div class="why-desc">Système intelligent qui anticipe vos besoins.</div></div>
       </div>
-    </section>
-    <div class="wave-separator"></div>
-    <section id="servicesSection">
-      <div class="section-alternate reverse">
-        <div class="section-content">
-          <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
-          <div class="section-title">Nos services</div>
-          <div class="section-text"><strong>NeTubeX</strong> dans le <strong>SYSTÈME DE GESTION DE SCOLARITÉ</strong> offre <strong>8 Espaces</strong> :<div class="spaces-grid"><div class="space-item"><i class="fas fa-search"></i> Espace Inspection</div><div class="space-item"><i class="fas fa-user-tie"></i> Espace Promoteur</div><div class="space-item"><i class="fas fa-building"></i> Espace Direction</div><div class="space-item"><i class="fas fa-calculator"></i> Espace Comptabilité</div><div class="space-item"><i class="fas fa-user-tie"></i> Espace Préfet</div><div class="space-item"><i class="fas fa-chalkboard-teacher"></i> Espace Titulaire</div><div class="space-item"><i class="fas fa-user-graduate"></i> Espace Professeur</div><div class="space-item"><i class="fas fa-users"></i> Espace Parentale</div></div></div>
-          <div class="space-desc-grid">
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-search"></i> Espace Inspection</div><div class="sd-desc">Suivez en temps réel les performances académiques, identifiez les axes d'amélioration.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-tie"></i> Espace Promoteur</div><div class="sd-desc">Pilotez votre établissement avec des indicateurs clés de performance.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-building"></i> Espace Direction</div><div class="sd-desc"><strong>Gestion administrative sécurisée</strong> — plus de perte de dossiers élèves.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-calculator"></i> Espace Comptabilité</div><div class="sd-desc"><strong>Fini les pertes de traçabilité financière</strong>, réduisez votre charge de travail.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-tie"></i> Espace Préfet</div><div class="sd-desc">Gérez les élèves, les classes, les absences et les punitions.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-chalkboard-teacher"></i> Espace Titulaire</div><div class="sd-desc"><strong>Finis les erreurs fréquentes</strong>, la saisie manuelle des bulletins.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-user-graduate"></i> Espace Professeur</div><div class="sd-desc"><strong>Fini les erreurs de correction</strong>, concentrez-vous sur l'essentiel.</div></div>
-            <div class="space-desc-item"><div class="sd-title"><i class="fas fa-users"></i> Espace Parentale</div><div class="sd-desc">Suivez les performances, les notes et les présences de vos enfants.</div></div>
-          </div>
-          <div class="benefits-grid">
-            <div class="benefit-card"><i class="fas fa-clock"></i><div class="benefit-title">Gain de temps</div><div class="benefit-desc">Réduisez votre charge de travail</div></div>
-            <div class="benefit-card"><i class="fas fa-shield-alt"></i><div class="benefit-title">Sécurisé</div><div class="benefit-desc">Données protégées et traçabilité totale</div></div>
-            <div class="benefit-card"><i class="fas fa-mobile-alt"></i><div class="benefit-title">Accessible</div><div class="benefit-desc">De partout, à tout moment</div></div>
-            <div class="benefit-card"><i class="fas fa-robot"></i><div class="benefit-title">Intelligent</div><div class="benefit-desc">Système d'analyse et de recommandation</div></div>
-          </div>
-        </div>
-        <div class="section-media"><img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=800&h=600&fit=crop&crop=center" alt="Interface du système de gestion de scolarité" loading="lazy" width="800" height="600"></div>
-      </div>
-    </section>
-    <div class="wave-separator"></div>
-    <section id="whySection">
-      <div class="why-netubex">
-        <div class="why-title">Pourquoi choisir NeTubeX ?</div>
-        <div class="why-sub">Le <strong>SYSTÈME DE GESTION DE SCOLARITÉ</strong> qui révolutionne l'éducation</div>
-        <div class="why-grid">
-          <div class="why-item"><span class="why-icon"><i class="fas fa-bolt"></i></span><div class="why-name">Simplicité</div><div class="why-desc">Interface intuitive, prise en main rapide.</div></div>
-          <div class="why-item"><span class="why-icon"><i class="fas fa-lock"></i></span><div class="why-name">Sécurité</div><div class="why-desc">Données chiffrées, accès sécurisé par rôle.</div></div>
-          <div class="why-item"><span class="why-icon"><i class="fas fa-globe"></i></span><div class="why-name">Accessibilité</div><div class="why-desc">Disponible en ligne, hors ligne et sur mobile.</div></div>
-          <div class="why-item"><span class="why-icon"><i class="fas fa-brain"></i></span><div class="why-name">Innovation</div><div class="why-desc">Système intelligent qui anticipe vos besoins.</div></div>
-        </div>
-      </div>
-    </section>
-    <div class="wave-separator"></div>
-    <section id="aproposSection">
-      <div class="section-alternate">
-        <div class="section-content">
-          <div class="section-icon"><i class="fas fa-users"></i></div>
-          <div class="section-title">Espace Parental Intelligent</div>
-          <div class="section-text">L'<strong>espace parental</strong> de NeTubeX permet aux parents de suivre en temps réel les performances scolaires de leurs enfants, leurs présences, leurs notes et leur situation financière via un système intelligent intégré.</div>
-        </div>
-        <div class="section-media"><img src="https://www.netubex.com/parent.jpg" alt="Espace parental NeTubeX" loading="lazy" width="800" height="600" onerror="this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&h=600&fit=crop&crop=center';this.onerror=null"></div>
-      </div>
-    </section>
-    <div class="wave-separator"></div>
-    <section id="iaSection">
-      <div class="section-alternate reverse">
-        <div class="section-content">
-          <div class="section-icon"><i class="fas fa-robot"></i></div>
-          <div class="section-title">Système Intelligent Intégré</div>
-          <div class="section-text">Notre <strong>système intelligent</strong> fait l'<strong>intermédiaire entre les parents et les établissements scolaires</strong>. Il analyse les données, génère des rapports personnalisés et facilite la communication.</div>
-        </div>
-        <div class="section-media"><img src="https://www.netubex.com/bat1.png?w=800&h=600&fit=crop&crop=center" alt="Système intelligent NeTubeX" loading="lazy" width="800" height="600"></div>
-      </div>
-    </section>
-    <div class="support-banner">
-      <div class="support-text"><i class="fas fa-headset"></i><span>Besoin d'assistance ? Contactez le <strong>Support NeTubeX</strong></span></div>
-      <a href="tel:+243845048412" class="support-phone"><i class="fas fa-phone-alt"></i> +243 845 048 412</a>
     </div>
+  </section>
+
+  <div class="wave-separator"></div>
+
+  <section id="aproposSection">
+    <div class="section-alternate">
+      <div class="section-content">
+        <div class="section-icon"><i class="fas fa-users"></i></div>
+        <div class="section-title">Espace Parental Intelligent</div>
+        <div class="section-text">L'<strong>espace parental</strong> de NeTubeX permet aux parents de suivre en temps réel les performances scolaires de leurs enfants, leurs présences, leurs notes et leur situation financière via un système intelligent intégré.</div>
+      </div>
+      <div class="section-media"><img src="https://www.netubex.com/parent.jpg" alt="Espace parental NeTubeX" loading="lazy" width="800" height="600" onerror="this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&h=600&fit=crop&crop=center';this.onerror=null"></div>
+    </div>
+  </section>
+
+  <div class="wave-separator"></div>
+
+  <section id="iaSection">
+    <div class="section-alternate reverse">
+      <div class="section-content">
+        <div class="section-icon"><i class="fas fa-robot"></i></div>
+        <div class="section-title">Système Intelligent Intégré</div>
+        <div class="section-text">Notre <strong>système intelligent</strong> fait l'<strong>intermédiaire entre les parents et les établissements scolaires</strong>. Il analyse les données, génère des rapports personnalisés et facilite la communication.</div>
+      </div>
+      <div class="section-media"><img src="https://www.netubex.com/bat1.png?w=800&h=600&fit=crop&crop=center" alt="Système intelligent NeTubeX" loading="lazy" width="800" height="600"></div>
+    </div>
+  </section>
+
+  <div class="support-banner">
+    <div class="support-text"><i class="fas fa-headset"></i><span>Besoin d'assistance ? Contactez le <strong>Support NeTubeX</strong></span></div>
+    <a href="tel:+243845048412" class="support-phone"><i class="fas fa-phone-alt"></i> +243 845 048 412</a>
   </div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-col"><h4><i class="fas fa-rocket"></i> NeTubeX</h4><div class="footer-description">Société à responsabilité limitée au service de l'innovation et du développement numérique. Éducation, technologie et inclusion.</div><div class="footer-social"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></div></div>
-      <div class="footer-col"><h4>Découvrir</h4><a class="footer-link" data-action="mission">Notre mission</a><a class="footer-link" data-action="services">Nos services</a><a class="footer-link" data-action="apropos">À propos</a></div>
-      <div class="footer-col"><h4>Support</h4><p><i class="fas fa-phone"></i> +243 845 048 412</p><p><i class="fas fa-envelope"></i> support@netubex.com</p></div>
-      <div class="footer-col"><h4>Contact</h4><p><i class="fas fa-envelope"></i> contact@netubex.com</p><p><i class="fas fa-map-marker-alt"></i> Kinshasa, RD Congo</p></div>
-    </div>
-    <div class="footer-copyright"><p>© 2026 NeTubeX SARL — SYSTÈME DE GESTION DE SCOLARITÉ</p></div>
-  </footer>
-  <a href="tel:+243845048412" class="support-float" id="supportFloat" aria-label="Appeler le support"><i class="fas fa-phone-alt"></i></a>
-  <script>
-    document.addEventListener('contextmenu',function(e){e.preventDefault();return false});
-    document.addEventListener('keydown',function(e){if(e.key==='F12'||e.keyCode===123){e.preventDefault();return false}if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C')){e.preventDefault();return false}if(e.ctrlKey&&(e.key==='U'||e.key==='S'||e.key==='P')){e.preventDefault();return false}return true});
-    document.addEventListener('selectstart',function(e){e.preventDefault();return false});
-    document.addEventListener('copy',function(e){e.preventDefault();return false});
-    document.addEventListener('cut',function(e){e.preventDefault();return false});
-    document.addEventListener('paste',function(e){e.preventDefault();return false});
-    document.querySelectorAll('img').forEach(function(img){img.addEventListener('contextmenu',function(e){e.preventDefault()});img.addEventListener('dragstart',function(e){e.preventDefault()})});
-    function updateClock(){var d=new Date();var days=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];var months=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];var dateStr=days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();var timeStr=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')+':'+d.getSeconds().toString().padStart(2,'0');document.getElementById('dateDisplay').textContent=dateStr;document.getElementById('timeDisplay').textContent=timeStr}
-    updateClock();setInterval(updateClock,1000);
-    const SCHOOLCHOICE_URL="https://www.netubex.com/schoolchoice";
-    function redirectSchoolChoice(){window.location.href=SCHOOLCHOICE_URL}
-    document.getElementById('heroLoginBtn')?.addEventListener('click',redirectSchoolChoice);
-    document.getElementById('loginNavBtn')?.addEventListener('click',redirectSchoolChoice);
-    const menuToggle=document.getElementById('menuToggle');
-    const floatingMenu=document.getElementById('floatingMenu');
-    if(menuToggle)menuToggle.addEventListener('click',function(){floatingMenu.classList.toggle('active')});
-    document.querySelectorAll('.floating-item').forEach(function(item){item.addEventListener('click',function(){floatingMenu.classList.remove('active');var action=this.getAttribute('data-action');if(action==='login')redirectSchoolChoice();else if(action==='apropos')window.location.href='https://www.netubex.com/about.html';else if(action==='mission')document.getElementById('missionSection')?.scrollIntoView({behavior:'smooth'});else if(action==='services')document.getElementById('servicesSection')?.scrollIntoView({behavior:'smooth'})})});
-    document.querySelectorAll('.footer-link').forEach(function(link){link.addEventListener('click',function(e){e.preventDefault();var action=this.getAttribute('data-action');if(action==='mission')document.getElementById('missionSection')?.scrollIntoView({behavior:'smooth'});else if(action==='services')document.getElementById('servicesSection')?.scrollIntoView({behavior:'smooth'});else if(action==='apropos')window.location.href='https://www.netubex.com/about.html'})});
-    var sections=document.querySelectorAll('section');
-    function checkFade(){var h=window.innerHeight;sections.forEach(function(el){var rect=el.getBoundingClientRect();if(rect.top<h-100)el.classList.add('visible')})}
-    window.addEventListener('scroll',checkFade);
-    window.addEventListener('load',checkFade);
-    setTimeout(checkFade,100);
-    var lastY=window.scrollY;
-    window.addEventListener('scroll',function(){var nav=document.getElementById('navbar');if(window.scrollY>lastY&&window.scrollY>100)nav.classList.add('scrolled');else nav.classList.remove('scrolled');lastY=window.scrollY});
-    var supportFloat=document.getElementById('supportFloat');
-    var scrollTimeout;
-    function handleFloatOnScroll(){if(supportFloat){supportFloat.classList.add('hidden');clearTimeout(scrollTimeout);scrollTimeout=setTimeout(function(){supportFloat.classList.remove('hidden')},300)}}
-    window.addEventListener('scroll',handleFloatOnScroll);
-  </script>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col"><h4><i class="fas fa-rocket"></i> NeTubeX</h4><div class="footer-description">Société à responsabilité limitée au service de l'innovation et du développement numérique. Éducation, technologie et inclusion.</div><div class="footer-social"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></div></div>
+    <div class="footer-col"><h4>Découvrir</h4><a class="footer-link" data-action="mission">Notre mission</a><a class="footer-link" data-action="services">Nos services</a><a class="footer-link" data-action="apropos">À propos</a></div>
+    <div class="footer-col"><h4>Support</h4><p><i class="fas fa-phone"></i> +243 845 048 412</p><p><i class="fas fa-envelope"></i> support@netubex.com</p></div>
+    <div class="footer-col"><h4>Contact</h4><p><i class="fas fa-envelope"></i> contact@netubex.com</p><p><i class="fas fa-map-marker-alt"></i> Kinshasa, RD Congo</p></div>
+  </div>
+  <div class="footer-copyright"><p>© 2026 NeTubeX SARL — SYSTÈME DE GESTION DE SCOLARITÉ</p></div>
+</footer>
+
+<a href="tel:+243845048412" class="support-float" id="supportFloat" aria-label="Appeler le support"><i class="fas fa-phone-alt"></i></a>
+
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();return false});
+document.addEventListener('keydown',function(e){if(e.key==='F12'||e.keyCode===123){e.preventDefault();return false}if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C')){e.preventDefault();return false}if(e.ctrlKey&&(e.key==='U'||e.key==='S'||e.key==='P')){e.preventDefault();return false}return true});
+document.addEventListener('selectstart',function(e){e.preventDefault();return false});
+document.addEventListener('copy',function(e){e.preventDefault();return false});
+document.addEventListener('cut',function(e){e.preventDefault();return false});
+document.addEventListener('paste',function(e){e.preventDefault();return false});
+document.querySelectorAll('img').forEach(function(img){img.addEventListener('contextmenu',function(e){e.preventDefault()});img.addEventListener('dragstart',function(e){e.preventDefault()})});
+
+function updateClock(){var d=new Date();var days=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];var months=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];var dateStr=days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();var timeStr=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')+':'+d.getSeconds().toString().padStart(2,'0');document.getElementById('dateDisplay').textContent=dateStr;document.getElementById('timeDisplay').textContent=timeStr}
+updateClock();setInterval(updateClock,1000);
+
+const SCHOOLCHOICE_URL="https://www.netubex.com/schoolchoice";
+
+function redirectSchoolChoice(){window.location.href=SCHOOLCHOICE_URL}
+
+document.getElementById('heroLoginBtn')?.addEventListener('click',redirectSchoolChoice);
+document.getElementById('loginNavBtn')?.addEventListener('click',redirectSchoolChoice);
+
+const menuToggle=document.getElementById('menuToggle');
+const floatingMenu=document.getElementById('floatingMenu');
+if(menuToggle)menuToggle.addEventListener('click',function(){floatingMenu.classList.toggle('active')});
+
+document.querySelectorAll('.floating-item').forEach(function(item){item.addEventListener('click',function(){floatingMenu.classList.remove('active');var action=this.getAttribute('data-action');if(action==='login')redirectSchoolChoice();else if(action==='apropos')window.location.href='https://www.netubex.com/about.html';else if(action==='mission')document.getElementById('missionSection')?.scrollIntoView({behavior:'smooth'});else if(action==='services')document.getElementById('servicesSection')?.scrollIntoView({behavior:'smooth'})})});
+
+document.querySelectorAll('.footer-link').forEach(function(link){link.addEventListener('click',function(e){e.preventDefault();var action=this.getAttribute('data-action');if(action==='mission')document.getElementById('missionSection')?.scrollIntoView({behavior:'smooth'});else if(action==='services')document.getElementById('servicesSection')?.scrollIntoView({behavior:'smooth'});else if(action==='apropos')window.location.href='https://www.netubex.com/about.html'})});
+
+var sections=document.querySelectorAll('section');
+function checkFade(){var h=window.innerHeight;sections.forEach(function(el){var rect=el.getBoundingClientRect();if(rect.top<h-100)el.classList.add('visible')})}
+window.addEventListener('scroll',checkFade);
+window.addEventListener('load',checkFade);
+setTimeout(checkFade,100);
+
+var lastY=window.scrollY;
+window.addEventListener('scroll',function(){var nav=document.getElementById('navbar');if(window.scrollY>lastY&&window.scrollY>100)nav.classList.add('scrolled');else nav.classList.remove('scrolled');lastY=window.scrollY});
+
+var supportFloat=document.getElementById('supportFloat');
+var scrollTimeout;
+function handleFloatOnScroll(){if(supportFloat){supportFloat.classList.add('hidden');clearTimeout(scrollTimeout);scrollTimeout=setTimeout(function(){supportFloat.classList.remove('hidden')},300)}}
+window.addEventListener('scroll',handleFloatOnScroll);
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('app-loader').style.display = 'none';
+    document.getElementById('app-container').style.display = 'none';
+    
+    var ecoleId = sessionStorage.getItem('ecoleId');
+    var role = sessionStorage.getItem('role');
+    var isAuthenticated = sessionStorage.getItem('isAuthenticated');
+    var code = sessionStorage.getItem('code');
+    var loginTime = parseInt(sessionStorage.getItem('loginTime') || '0');
+    var now = Date.now();
+    var sessionAge = now - loginTime;
+    var maxAge = 30 * 60 * 1000;
+
+    if (isAuthenticated && ecoleId && role && sessionAge < maxAge) {
+        document.getElementById('app-loader').style.display = 'flex';
+        document.body.classList.add('iframe-active');
+        document.getElementById('app-container').style.display = 'block';
+
+        var pageUrl = '';
+        switch(role) {
+            case 'direction':
+                pageUrl = '/schooldirection.html';
+                break;
+            case 'comptabilite':
+                pageUrl = '/schoolcompta.html';
+                break;
+            case 'promoteur':
+                pageUrl = '/schoolpromo.html';
+                break;
+            default:
+                sessionStorage.clear();
+                window.location.href = '/login';
+                return;
+        }
+
+        var fullUrl = pageUrl + '?ecole=' + ecoleId + '&code=' + code + '&role=' + role;
+        var iframe = document.getElementById('app-iframe');
+        
+        iframe.onload = function() {
+            document.getElementById('app-loader').style.display = 'none';
+        };
+
+        iframe.onerror = function() {
+            document.getElementById('app-loader').style.display = 'none';
+            document.getElementById('app-container').style.display = 'none';
+            document.body.classList.remove('iframe-active');
+        };
+
+        iframe.src = fullUrl;
+
+        setTimeout(function() {
+            if (document.getElementById('app-loader').style.display !== 'none') {
+                document.getElementById('app-loader').style.display = 'none';
+                document.getElementById('app-container').style.display = 'none';
+                document.body.classList.remove('iframe-active');
+            }
+        }, 15000);
+
+    } else {
+        sessionStorage.clear();
+        document.getElementById('app-loader').style.display = 'none';
+        document.getElementById('app-container').style.display = 'none';
+        document.body.classList.remove('iframe-active');
+    }
+});
+</script>
 </body>
 </html>
