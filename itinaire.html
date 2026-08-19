@@ -4,49 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>NeTubeX - Itinéraire</title>
+    <title>NeTubeX - Test Itinéraire</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f1f8ff;
+            background: #eef7ff;
             font-family: Arial, sans-serif;
         }
 
         .card {
-            width: 90%;
-            max-width: 450px;
-            background: white;
+            width: 92%;
+            max-width: 480px;
+            background: #ffffff;
             padding: 30px;
-            border-radius: 20px;
+            border-radius: 22px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 900;
+            color: #1565c0;
+            margin-bottom: 10px;
         }
 
         h1 {
-            color: #1565c0;
+            font-size: 25px;
+            color: #172b4d;
+            margin: 15px 0 25px;
         }
 
-        .school {
+        .destination {
             background: #e8f5e9;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .destination .icon {
+            font-size: 45px;
+        }
+
+        .destination h2 {
+            margin: 10px 0;
+            font-size: 21px;
+            color: #1b5e20;
+        }
+
+        .destination p {
+            margin: 5px 0;
+            color: #455a64;
         }
 
         .btn {
             display: block;
+            width: 100%;
             padding: 18px;
             background: #1565c0;
             color: white;
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 18px;
             font-weight: bold;
+            border: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .info {
+            margin-top: 18px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #607d8b;
         }
     </style>
 </head>
@@ -55,26 +96,39 @@
 
 <div class="card">
 
-    <h1>🧭 NeTubeX</h1>
+    <div class="logo">
+        NeTubeX
+    </div>
 
-    <div class="school">
-        <h2>🏫 ÉTABLISSEMENT TEST</h2>
+    <h1>🧭 TEST D'ITINÉRAIRE</h1>
 
-        <p>📍 Kasumbalesa</p>
+    <div class="destination">
+
+        <div class="icon">🏁</div>
+
+        <h2>KASUMBALESA-DOUANE</h2>
+
+        <p>📍 Kasumbalesa, RDC</p>
 
         <p>
-            Latitude : -12.21193<br>
-            Longitude : 27.79512
+            <strong>Destination automatique</strong>
         </p>
+
     </div>
 
     <a
         class="btn"
-        href="https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=-12.21193%2C27.79512"
+        href="https://www.google.com/maps/dir/?api=1&destination=Kasumbalesa%20Douane%2C%20Kasumbalesa%2C%20RDC"
         target="_blank"
+        rel="noopener noreferrer"
     >
-        🧭 ALLER À L'ÉTABLISSEMENT
+        🧭 ALLER À KASUMBALESA-DOUANE
     </a>
+
+    <div class="info">
+        📍 Le départ correspond à votre position actuelle.<br>
+        🏁 La destination est déjà définie.
+    </div>
 
 </div>
 
