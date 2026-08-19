@@ -352,29 +352,44 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('app-container').style.display = 'block';
 
         var pageUrl = '';
-        switch(role) {
-            case 'direction':
-                pageUrl = '/schooldirection.html';
-                break;
-            case 'comptabilite':
-                pageUrl = '/schoolcompta.html';
-                break;
-            case 'promoteur':
-                pageUrl = '/schoolpromo.html';
-                break;
-            case 'direction2':
-                pageUrl = '/schooldirection2.html';
-                break;
-            case 'comptabilite2':
-                pageUrl = '/schoolcompta2.html';
-                break;
-            case 'promoteur2':
-                pageUrl = '/schoolpromo2.html';
-                break;
-            default:
-                sessionStorage.clear();
-                window.location.href = '/login';
-                return;
+        var projet = sessionStorage.getItem('projet') || '1';
+
+        if (projet === '1') {
+            switch(role) {
+                case 'direction':
+                    pageUrl = '/schooldirection.html';
+                    break;
+                case 'comptabilite':
+                    pageUrl = '/schoolcompta.html';
+                    break;
+                case 'promoteur':
+                    pageUrl = '/schoolpromo.html';
+                    break;
+                default:
+                    sessionStorage.clear();
+                    window.location.href = '/login';
+                    return;
+            }
+        } else if (projet === '2') {
+            switch(role) {
+                case 'direction':
+                    pageUrl = '/schooldirection2.html';
+                    break;
+                case 'comptabilite':
+                    pageUrl = '/schoolcompta2.html';
+                    break;
+                case 'promoteur':
+                    pageUrl = '/schoolpromo2.html';
+                    break;
+                default:
+                    sessionStorage.clear();
+                    window.location.href = '/login2';
+                    return;
+            }
+        } else {
+            sessionStorage.clear();
+            window.location.href = '/login';
+            return;
         }
 
         var fullUrl = pageUrl + '?ecole=' + ecoleId + '&code=' + code + '&role=' + role;
