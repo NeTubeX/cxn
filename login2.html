@@ -494,6 +494,7 @@ async function seConnecter(){
         sessionStorage.setItem('code', password);
         sessionStorage.setItem('isAuthenticated', 'true');
         sessionStorage.setItem('loginTime', Date.now().toString());
+        sessionStorage.setItem('projet', '2');
 
         showToast(`✅ Connexion réussie ! Redirection...`, "success");
         
