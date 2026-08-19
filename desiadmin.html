@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NeTubeX · Admin Dashboard</title>
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/storage":"https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"}}
@@ -11,129 +11,135 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-:root{--bg-primary:#080c18;--bg-secondary:#0d1528;--bg-card:rgba(255,255,255,0.03);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--radius:16px;--shadow-3d:0 20px 60px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.03) inset;--shadow-hover:0 30px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.06) inset;--transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1)}
-html,body{overscroll-behavior:none;margin:0;padding:0;width:100%;min-height:100vh;background:var(--bg-primary);color:var(--text-primary)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+:root{--bg-primary:#0A1628;--bg-secondary:#12121f;--bg-card:rgba(255,255,255,0.04);--border-color:rgba(255,255,255,0.06);--text-primary:#ffffff;--text-secondary:rgba(255,255,255,0.6);--text-muted:rgba(255,255,255,0.3);--accent:#6C63FF;--accent-glow:rgba(108,99,255,0.3);--success:#34D399;--warning:#FBBF24;--danger:#F87171;--radius:16px;--shadow:0 8px 32px rgba(0,0,0,0.3);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+html,body{overscroll-behavior:none;margin:0;padding:0;width:100%;min-height:100vh}
+body{background:var(--bg-primary);color:var(--text-primary);padding:0;padding-bottom:80px;transition:background 0.4s ease}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
-::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
-body{position:relative;perspective:1200px}
-body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 50%,rgba(108,99,255,0.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(59,130,246,0.03) 0%,transparent 60%);pointer-events:none;z-index:0}
-body.source-a{--accent:#3b82f6;--accent-glow:rgba(59,130,246,0.3);--accent-dark:#1e3a5f;--accent-light:#60a5fa}
-body.source-a .topbar{background:linear-gradient(135deg,#0a1628,#1a365d);box-shadow:0 4px 30px rgba(59,130,246,0.1)}
-body.source-a .sidebar{background:linear-gradient(180deg,#0f1a2e,#080c18);border-right:1px solid rgba(59,130,246,0.1)}
-body.source-a .source-btn.active[data-source="a"]{background:rgba(59,130,246,0.2);border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 40px rgba(59,130,246,0.15),inset 0 0 30px rgba(59,130,246,0.05)}
-body.source-a .tab-btn.active{background:linear-gradient(135deg,#3b82f6,#2563eb);border-color:#3b82f6;box-shadow:0 4px 20px rgba(59,130,246,0.3)}
-body.source-b{--accent:#10b981;--accent-glow:rgba(16,185,129,0.3);--accent-dark:#064e3b;--accent-light:#34d399}
-body.source-b .topbar{background:linear-gradient(135deg,#0a1628,#064e3b);box-shadow:0 4px 30px rgba(16,185,129,0.1)}
-body.source-b .sidebar{background:linear-gradient(180deg,#0f1a2e,#080c18);border-right:1px solid rgba(16,185,129,0.1)}
-body.source-b .source-btn.active[data-source="b"]{background:rgba(16,185,129,0.2);border-color:#10b981;color:#10b981;box-shadow:0 0 40px rgba(16,185,129,0.15),inset 0 0 30px rgba(16,185,129,0.05)}
-body.source-b .tab-btn.active{background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;box-shadow:0 4px 20px rgba(16,185,129,0.3)}
-body.source-merged{--accent:#f59e0b;--accent-glow:rgba(245,158,11,0.3);--accent-dark:#78350f;--accent-light:#fbbf24}
-body.source-merged .topbar{background:linear-gradient(135deg,#0a1628,#78350f);box-shadow:0 4px 30px rgba(245,158,11,0.1)}
-body.source-merged .sidebar{background:linear-gradient(180deg,#0f1a2e,#080c18);border-right:1px solid rgba(245,158,11,0.1)}
-body.source-merged .source-btn.active[data-source="merged"]{background:rgba(245,158,11,0.2);border-color:#f59e0b;color:#f59e0b;box-shadow:0 0 40px rgba(245,158,11,0.15),inset 0 0 30px rgba(245,158,11,0.05)}
-body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d97706);border-color:#f59e0b;box-shadow:0 4px 20px rgba(245,158,11,0.3)}
-#loginOverlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#080c18 0%,#0f2942 40%,#0d1f35 70%,#080c18 100%);transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1),transform 0.8s cubic-bezier(0.34,1.56,0.64,1)}
-#loginOverlay.hidden{opacity:0;pointer-events:none;transform:scale(0.95) rotateX(10deg)}
-.login-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(40px);border-radius:32px;padding:40px 36px;max-width:400px;width:100%;border:1px solid rgba(255,255,255,0.08);box-shadow:var(--shadow-3d);transform:rotateX(2deg) translateZ(20px);transition:var(--transition)}
-.login-card:hover{transform:rotateX(0deg) translateZ(30px);box-shadow:var(--shadow-hover)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+body.source-a{--accent:#3b82f6;--accent-glow:rgba(59,130,246,0.3)}
+body.source-a .topbar .brand .logo{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+body.source-a .source-btn[data-source="a"]{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6}
+body.source-a .badge-source{background:rgba(59,130,246,0.15);color:#3b82f6}
+body.source-a #sourceStatus{border-color:rgba(59,130,246,0.3);color:#3b82f6}
+body.source-a .tab-btn.active{background:#3b82f6;border-color:#3b82f6}
+
+body.source-b{--accent:#10b981;--accent-glow:rgba(16,185,129,0.3)}
+body.source-b .topbar .brand .logo{background:linear-gradient(135deg,#10b981,#059669)}
+body.source-b .source-btn[data-source="b"]{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981}
+body.source-b .badge-source{background:rgba(16,185,129,0.15);color:#10b981}
+body.source-b #sourceStatus{border-color:rgba(16,185,129,0.3);color:#10b981}
+body.source-b .tab-btn.active{background:#10b981;border-color:#10b981}
+
+body.source-merged{--accent:#f59e0b;--accent-glow:rgba(245,158,11,0.3)}
+body.source-merged .topbar .brand .logo{background:linear-gradient(135deg,#f59e0b,#d97706)}
+body.source-merged .source-btn[data-source="merged"]{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b}
+body.source-merged .badge-source{background:rgba(245,158,11,0.15);color:#f59e0b}
+body.source-merged #sourceStatus{border-color:rgba(245,158,11,0.3);color:#f59e0b}
+body.source-merged .tab-btn.active{background:#f59e0b;border-color:#f59e0b}
+
+#loginOverlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#0a1628 0%,#0f2942 40%,#0d1f35 70%,#0a1628 100%);transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1),transform 0.8s cubic-bezier(0.34,1.56,0.64,1)}
+#loginOverlay.hidden{opacity:0;pointer-events:none;transform:scale(0.95)}
+.login-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(40px);border-radius:32px;padding:40px 36px;max-width:400px;width:100%;border:1px solid rgba(255,255,255,0.08);box-shadow:0 40px 100px rgba(0,0,0,0.4)}
 .login-card .logo{text-align:center;margin-bottom:20px}
-.login-card .logo img{width:72px;height:72px;border-radius:16px;box-shadow:0 8px 30px rgba(108,99,255,0.2)}
-.login-card h1{color:#fff;font-size:22px;font-weight:800;text-align:center;margin-bottom:4px;letter-spacing:-0.5px}
-.login-card .sub{color:var(--text-muted);font-size:13px;text-align:center;margin-bottom:20px}
+.login-card .logo .icon{font-size:48px;background:linear-gradient(135deg,#6C63FF,#4A42D4);width:72px;height:72px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto;color:#fff;font-weight:900;font-size:28px}
+.login-card h1{color:#fff;font-size:22px;font-weight:800;text-align:center;margin-bottom:2px}
+.login-card .sub{color:rgba(255,255,255,0.4);font-size:13px;text-align:center;margin-bottom:20px}
+.login-card .sub strong{color:#6C63FF}
 .sources-info{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
 .sources-info .badge{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600}
 .sources-info .badge.a{background:rgba(59,130,246,0.15);color:#3b82f6;border:1px solid rgba(59,130,246,0.2)}
 .sources-info .badge.b{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.2)}
 .form-group{margin-bottom:16px}
-.form-group label{display:block;color:var(--text-muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
-.form-group input{width:100%;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.06);color:#fff;font-size:15px;outline:none;transition:var(--transition)}
-.form-group input:focus{border-color:var(--accent);background:rgba(255,255,255,0.06);box-shadow:0 0 0 4px var(--accent-glow),inset 0 0 20px rgba(255,255,255,0.02)}
-.form-group input::placeholder{color:var(--text-muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 4px 20px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.1);transform:translateZ(0)}
-.btn:hover{transform:translateY(-2px) translateZ(10px);box-shadow:0 8px 30px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,0.15)}
-.btn:active{transform:translateY(0px) translateZ(0px);box-shadow:0 2px 10px var(--accent-glow)}
-.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.form-group label{display:block;color:rgba(255,255,255,0.4);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.form-group input{width:100%;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.06);color:#fff;font-size:15px;outline:none;transition:all 0.3s ease}
+.form-group input:focus{border-color:#6C63FF;background:rgba(255,255,255,0.08);box-shadow:0 0 0 4px rgba(108,99,255,0.06)}
+.form-group input::placeholder{color:rgba(255,255,255,0.2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--accent);color:#fff;box-shadow:0 2px 8px var(--accent-glow)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent-glow)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 .btn .spinner{display:none;width:20px;height:20px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
 .btn.loading .spinner{display:block}
 .btn.loading .btn-text{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.btn-login{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));font-size:16px;font-weight:700;box-shadow:0 8px 30px var(--accent-glow)}
-.btn-login:hover{transform:translateY(-3px) translateZ(15px);box-shadow:0 12px 40px var(--accent-glow)}
-.btn-sm{padding:6px 14px;font-size:11px;border-radius:8px}
-.btn-danger{background:var(--danger);color:#fff;box-shadow:0 4px 20px rgba(248,113,113,0.2)}
-.btn-danger:hover{box-shadow:0 8px 30px rgba(248,113,113,0.3)}
-.btn-success{background:var(--success);color:#fff;box-shadow:0 4px 20px rgba(52,211,153,0.2)}
-.btn-success:hover{box-shadow:0 8px 30px rgba(52,211,153,0.3)}
-.btn-warning{background:var(--warning);color:#1a202c;box-shadow:0 4px 20px rgba(251,191,36,0.2)}
-.btn-warning:hover{box-shadow:0 8px 30px rgba(251,191,36,0.3)}
+.btn-login{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#6C63FF,#4A42D4);font-size:16px;font-weight:700;box-shadow:0 8px 30px rgba(108,99,255,0.25)}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,99,255,0.35)}
+.btn-sm{padding:4px 12px;font-size:11px;border-radius:6px}
+.btn-danger{background:var(--danger);color:#fff;box-shadow:0 2px 8px rgba(248,113,113,0.2)}
+.btn-danger:hover{box-shadow:0 4px 16px rgba(248,113,113,0.3)}
+.btn-success{background:var(--success);color:#fff;box-shadow:0 2px 8px rgba(52,211,153,0.2)}
+.btn-success:hover{box-shadow:0 4px 16px rgba(52,211,153,0.3)}
+.btn-warning{background:var(--warning);color:#1a202c;box-shadow:0 2px 8px rgba(251,191,36,0.2)}
+.btn-warning:hover{box-shadow:0 4px 16px rgba(251,191,36,0.3)}
 .btn-outline{background:transparent;border:1px solid var(--border-color);color:var(--text-secondary);box-shadow:none}
-.btn-outline:hover{background:rgba(255,255,255,0.05);color:#fff;box-shadow:inset 0 0 30px rgba(255,255,255,0.02)}
-.btn-refresh{background:rgba(255,255,255,0.04);color:var(--text-secondary);box-shadow:none}
-.btn-refresh:hover{background:rgba(255,255,255,0.08);color:#fff}
+.btn-outline:hover{background:rgba(255,255,255,0.05);color:#fff;box-shadow:none}
+.btn-add{background:#bb8fce;color:#fff;box-shadow:0 2px 8px rgba(187,143,206,0.2)}
+.btn-add:hover{box-shadow:0 4px 16px rgba(187,143,206,0.3)}
+.btn-refresh{background:rgba(255,255,255,0.06);color:var(--text-secondary);box-shadow:none}
+.btn-refresh:hover{background:rgba(255,255,255,0.10);color:#fff}
 .error{color:#f87171;font-size:13px;text-align:center;min-height:20px;margin-top:8px}
 .success{color:#34d399;font-size:13px;text-align:center;min-height:20px;margin-top:8px}
-.status-box{background:rgba(255,255,255,0.03);border-radius:12px;padding:12px 16px;margin:12px 0;border:1px solid var(--border-color)}
-.status-box .status-item{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--text-muted)}
+.status-box{background:rgba(255,255,255,0.03);border-radius:12px;padding:12px 16px;margin:12px 0;border:1px solid rgba(255,255,255,0.06)}
+.status-box .status-item{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:rgba(255,255,255,0.5)}
 .status-box .status-item .check{font-weight:700}
 .status-box .status-item .check.success{color:#34d399}
 .status-box .status-item .check.fail{color:#f87171}
-.status-box .status-item .check.waiting{color:var(--text-muted)}
-.login-info{color:var(--text-muted);font-size:11px;text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color)}
-#dashboardContent{display:none;opacity:0;transition:opacity 0.6s ease}
+.status-box .status-item .check.waiting{color:rgba(255,255,255,0.2)}
+.login-info{color:rgba(255,255,255,0.3);font-size:11px;text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.04)}
+#dashboardContent{display:none;opacity:0;transition:opacity 0.5s ease}
 #dashboardContent.visible{display:block;opacity:1}
-.layout{display:flex;min-height:100vh;position:relative;z-index:1}
-.sidebar{width:240px;flex-shrink:0;padding:20px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100}
-.sidebar .brand{display:flex;align-items:center;gap:12px;padding:8px 12px 20px 12px;border-bottom:1px solid var(--border-color);margin-bottom:12px}
-.sidebar .brand img{width:40px;height:40px;border-radius:10px;box-shadow:0 4px 15px rgba(108,99,255,0.2)}
-.sidebar .brand h1{font-size:18px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#fff 60%,var(--text-muted));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sidebar .brand .version{font-size:9px;font-weight:600;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:1px 8px;border-radius:10px;-webkit-text-fill-color:var(--text-muted)}
-.sidebar .nav-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition);border:none;background:transparent;width:100%;text-align:left}
-.sidebar .nav-item:hover{background:rgba(255,255,255,0.05);color:var(--text-primary);transform:translateX(4px)}
-.sidebar .nav-item.active{background:rgba(255,255,255,0.06);color:var(--text-primary);box-shadow:inset 3px 0 0 var(--accent)}
-.sidebar .nav-item .icon{font-size:18px;width:28px;text-align:center}
-.sidebar .nav-item .badge-nav{font-size:9px;font-weight:700;padding:1px 8px;border-radius:12px;margin-left:auto;background:rgba(255,255,255,0.06);color:var(--text-muted)}
-.sidebar .nav-divider{height:1px;background:var(--border-color);margin:8px 12px}
-.main-content{flex:1;min-width:0;padding:20px 24px 40px 24px}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-radius:var(--radius);margin-bottom:20px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);box-shadow:var(--shadow-3d);backdrop-filter:blur(20px)}
-.topbar .left{display:flex;align-items:center;gap:12px}
-.topbar .left .page-title{font-size:18px;font-weight:700;letter-spacing:-0.3px}
-.topbar .left .page-title span{color:var(--accent)}
-.topbar .right{display:flex;align-items:center;gap:12px}
+.topbar{background:var(--bg-primary);border-bottom:1px solid var(--border-color);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.topbar .brand{display:flex;align-items:center;gap:12px}
+.topbar .brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),#4A42D4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff}
+.topbar .brand h1{font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.topbar .brand h1 span{color:var(--accent)}
+.topbar .brand .sub{font-size:12px;font-weight:400;color:var(--text-muted);margin-left:8px}
+.topbar .right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .topbar .right .user-info{font-size:12px;color:var(--text-secondary);background:rgba(255,255,255,0.04);padding:4px 14px;border-radius:20px;border:1px solid var(--border-color)}
-.topbar .right .clear-cache-btn{background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.15);padding:6px 14px;border-radius:8px;cursor:pointer;color:#F87171;font-size:11px;font-weight:600;transition:var(--transition)}
-.topbar .right .clear-cache-btn:hover{background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.3)}
-.topbar .right .logout-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 14px;border-radius:8px;cursor:pointer;color:var(--text-secondary);font-size:12px;font-weight:600;transition:var(--transition)}
-.topbar .right .logout-btn:hover{background:rgba(255,255,255,0.08);color:#fff}
+.topbar .right .logout-btn{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);padding:6px 14px;border-radius:8px;cursor:pointer;color:#F87171;font-size:12px;font-weight:600;transition:var(--transition)}
+.topbar .right .logout-btn:hover{background:rgba(248,113,113,0.2);border-color:rgba(248,113,113,0.4)}
 .topbar .right .theme-toggle{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--text-muted);font-size:16px;transition:var(--transition)}
 .topbar .right .theme-toggle:hover{background:rgba(255,255,255,0.08);color:#fff}
-.source-selector{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:var(--radius);margin-bottom:20px;background:rgba(255,255,255,0.02);border:1px solid var(--border-color);flex-wrap:wrap}
-.source-selector .label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-.source-btn{padding:6px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:var(--transition);border:1px solid var(--border-color);background:transparent;color:var(--text-muted)}
-.source-btn:hover{background:rgba(255,255,255,0.05);color:var(--text-primary);transform:translateY(-1px)}
-.source-btn[data-source="a"].active{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 30px rgba(59,130,246,0.1)}
-.source-btn[data-source="b"].active{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981;box-shadow:0 0 30px rgba(16,185,129,0.1)}
-.source-btn[data-source="merged"].active{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b;box-shadow:0 0 30px rgba(245,158,11,0.1)}
-#sourceStatus{font-size:11px;font-weight:600;margin-left:auto;padding:4px 16px;border-radius:20px;background:rgba(255,255,255,0.03)}
+.source-selector{background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color);padding:8px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.source-selector .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.source-btn{padding:6px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;border:1px solid var(--border-color);background:transparent;color:var(--text-muted)}
+.source-btn:hover{background:rgba(255,255,255,0.05);color:var(--text-primary)}
+.source-btn[data-source="a"].active{background:rgba(59,130,246,0.15);border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,0.15)}
+.source-btn[data-source="b"].active{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981;box-shadow:0 0 20px rgba(16,185,129,0.15)}
+.source-btn[data-source="merged"].active{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b;box-shadow:0 0 20px rgba(245,158,11,0.15)}
+#sourceStatus{font-size:12px;font-weight:600;margin-left:auto;padding:4px 16px;border-radius:20px;background:rgba(255,255,255,0.03)}
 #sourceStatus.a{color:#3b82f6;border:1px solid rgba(59,130,246,0.2)}
 #sourceStatus.b{color:#10b981;border:1px solid rgba(16,185,129,0.2)}
 #sourceStatus.merged{color:#f59e0b;border:1px solid rgba(245,158,11,0.2)}
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
-.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:20px 24px;transition:var(--transition);box-shadow:var(--shadow-3d);transform:perspective(800px) rotateX(1deg);backdrop-filter:blur(10px)}
-.kpi-card:hover{transform:perspective(800px) rotateX(0deg) translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--accent)}
-.kpi-card .kpi-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.kpi-card .kpi-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.kpi-card .kpi-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-.kpi-card .kpi-value{font-size:28px;font-weight:900;letter-spacing:-0.5px}
-.tab-panel{display:none;animation:fadeSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:20px 24px 8px 24px}
+.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:14px 18px;transition:var(--transition)}
+.kpi-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-1px)}
+.kpi-card .label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px}
+.kpi-card .value{font-size:24px;font-weight:800;color:#fff;margin-top:2px}
+.kpi-card .value.blue{color:#5dade2}
+.kpi-card .value.green{color:var(--success)}
+.kpi-card .value.purple{color:#bb8fce}
+.kpi-card .value.gold{color:#f59e0b}
+.kpi-card .source-badge{font-size:9px;padding:2px 12px;border-radius:12px;margin-top:4px;display:inline-block;font-weight:700}
+.kpi-card .source-badge.a{background:rgba(59,130,246,0.15);color:#3b82f6}
+.kpi-card .source-badge.b{background:rgba(16,185,129,0.15);color:#10b981}
+.kpi-card .source-badge.merged{background:rgba(245,158,11,0.15);color:#f59e0b}
+
+.tabs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;padding:10px 20px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border-color)}
+.tab-btn{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);padding:8px 10px;border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:var(--transition);text-align:center;white-space:nowrap}
+.tab-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-secondary);border-color:rgba(255,255,255,0.1)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 12px var(--accent-glow)}
+
+.tab-panel{display:none;padding:16px 20px}
 .tab-panel.active{display:block}
-@keyframes fadeSlideIn{from{opacity:0;transform:translateY(20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-.card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow-3d);transition:var(--transition)}
+.card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition)}
 .card:hover{border-color:rgba(255,255,255,0.08)}
-.card-header{padding:16px 20px;background:rgba(255,255,255,0.02);font-weight:700;font-size:15px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.card-header{padding:14px 18px;background:rgba(255,255,255,0.02);font-weight:700;font-size:15px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .card-header .count{font-weight:400;font-size:12px;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:2px 12px;border-radius:12px}
-.card-body{padding:16px 20px}
+.card-body{padding:14px 16px}
 .card-header-left{display:flex;align-items:center;gap:10px}
 .card-header-actions{display:flex;gap:8px;flex-wrap:wrap}
 .badge{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:700}
@@ -147,18 +153,19 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .badge-espace-secondary{background:rgba(187,143,206,0.15);color:#bb8fce}
 .badge-espace-primary{background:rgba(93,173,226,0.15);color:#5dade2}
 .badge-espace-nursery{background:rgba(52,211,153,0.15);color:var(--success)}
-.empty-state{text-align:center;padding:40px 16px;color:var(--text-muted);font-size:14px}
-.empty-state .empty-icon{font-size:40px;display:block;margin-bottom:8px}
+.empty-state{text-align:center;padding:30px 16px;color:var(--text-muted);font-size:14px}
+.empty-state .empty-icon{font-size:32px;display:block;margin-bottom:6px}
 .form-group-db{margin-bottom:12px}
 .form-group-db label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:4px}
-.form-group-db input,.form-group-db select{width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:rgba(255,255,255,0.04);color:#fff;outline:none;transition:var(--transition)}
-.form-group-db input:focus,.form-group-db select:focus{border-color:var(--accent);background:rgba(255,255,255,0.06);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-group-db input,.form-group-db select{width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:#1a1a2e;color:#fff;outline:none;transition:var(--transition)}
+.form-group-db input:focus,.form-group-db select:focus{border-color:var(--accent);background:#1a1a2e}
 .form-group-db input::placeholder{color:var(--text-muted)}
 .form-group-db select option{background:#0d0d1a;color:#fff}
-.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
-.filter-row select,.filter-row input{padding:8px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;transition:var(--transition)}
-.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:rgba(255,255,255,0.06)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:768px){.form-grid{grid-template-columns:1fr}}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.filter-row select,.filter-row input{padding:8px 14px;background:#1a1a2e;border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:13px;outline:none;transition:var(--transition)}
+.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);background:#1a1a2e}
 .filter-row select option{background:#0d0d1a;color:#fff}
 .filter-row label{font-size:12px;color:var(--text-muted);font-weight:500}
 .filter-group{display:flex;align-items:center;gap:8px;flex:1;min-width:180px}
@@ -166,14 +173,14 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .filter-group input:focus,.filter-group select:focus{border-color:var(--accent)}
 .filter-group input::placeholder{color:var(--text-muted)}
 .filter-icon{font-size:14px;color:var(--text-muted)}
-.table-wrapper{overflow-x:auto;border-radius:10px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
+.table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,0.15)}
 .table-wrapper table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrapper th,.table-wrapper td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
+.table-wrapper th,.table-wrapper td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border-color);vertical-align:middle}
 .table-wrapper th{background:rgba(255,255,255,0.03);color:var(--accent);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.5px}
 .table-wrapper tr:hover td{background:rgba(255,255,255,0.02)}
 .school-list{display:flex;flex-direction:column;gap:10px}
-.school-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px 20px;transition:var(--transition);display:flex;align-items:center;gap:16px;min-height:80px;box-shadow:var(--shadow-3d)}
-.school-item:hover{background:rgba(255,255,255,0.04);border-color:var(--accent);transform:translateX(6px) translateZ(10px);box-shadow:var(--shadow-hover)}
+.school-item{background:rgba(255,255,255,0.02);border:1px solid var(--border-color);border-radius:12px;padding:14px 20px;transition:all 0.3s ease;display:flex;align-items:center;gap:16px;min-height:80px}
+.school-item:hover{background:rgba(255,255,255,0.04);border-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 .school-item .school-left{flex:1;min-width:200px}
 .school-item .school-left .school-name{font-size:15px;font-weight:700;color:var(--text-primary)}
 .school-item .school-left .school-id{font-size:10px;color:var(--text-muted);font-family:monospace;background:rgba(255,255,255,0.04);padding:1px 8px;border-radius:4px;margin-left:8px}
@@ -181,8 +188,8 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .school-item .school-left .school-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 .school-item .school-left .school-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
 .school-item .school-left .school-stats .stat{font-size:11px;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,0.04);padding:1px 10px;border-radius:6px}
-.school-item .school-logo-center{flex-shrink:0;width:56px;height:56px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.04);border:2px solid var(--border-color);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-.school-item:hover .school-logo-center{border-color:var(--accent);transform:scale(1.05) rotateY(5deg)}
+.school-item .school-logo-center{flex-shrink:0;width:56px;height:56px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.04);border:2px solid var(--border-color);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+.school-item:hover .school-logo-center{border-color:var(--accent);transform:scale(1.05)}
 .school-item .school-logo-center img{width:100%;height:100%;object-fit:cover}
 .school-item .school-logo-center .fallback{font-size:24px}
 .school-item .school-right{display:flex;gap:8px;align-items:center;flex-shrink:0;margin-left:auto}
@@ -201,8 +208,8 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .pagination-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .pagination-btn:disabled{opacity:0.3;cursor:not-allowed}
 .teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.teacher-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition);box-shadow:var(--shadow-3d)}
-.teacher-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-4px) translateZ(10px);box-shadow:var(--shadow-hover);border-color:rgba(108,99,255,0.2)}
+.teacher-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition)}
+.teacher-card:hover{background:rgba(255,255,255,0.05);transform:translateY(-2px);border-color:rgba(108,99,255,0.2)}
 .teacher-card .teacher-name{font-size:15px;font-weight:700;color:#fff}
 .teacher-card .teacher-detail{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,0.04)}
 .teacher-card .teacher-detail .label{color:var(--text-muted)}
@@ -212,8 +219,8 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .teacher-card .teacher-detail .value.invalid{color:var(--danger)}
 .teacher-card .teacher-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .codes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
-.code-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition);box-shadow:var(--shadow-3d)}
-.code-card:hover{background:rgba(255,255,255,0.05);border-color:rgba(108,99,255,0.15);transform:translateY(-2px)}
+.code-card{background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;transition:var(--transition)}
+.code-card:hover{background:rgba(255,255,255,0.05);border-color:rgba(108,99,255,0.15)}
 .code-card .code-school-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
 .code-card .code-item{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
 .code-card .code-item .label{color:var(--text-muted)}
@@ -222,10 +229,19 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .code-card .code-item .value.compta{color:var(--success)}
 .code-card .code-item .value.promo{color:#5dade2}
 .code-card .code-item .value.email{color:var(--accent);font-size:12px;font-family:'Inter',sans-serif}
+.stats-fullscreen{width:100%;height:100%;display:flex;flex-direction:column;padding:20px 30px 30px 30px;position:relative}
+.stats-header{display:flex;justify-content:space-between;align-items:center;padding:10px 0 20px 0;flex-shrink:0}
+.stats-header h2{font-size:24px;font-weight:800;color:var(--accent)}
+.stats-header .btn-back{background:rgba(255,255,255,0.06);border:1px solid var(--border-color);color:#fff;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition)}
+.stats-header .btn-back:hover{background:rgba(255,255,255,0.10)}
+.stats-chart-wrapper{flex:1;min-height:0;position:relative}
+.stats-chart-wrapper canvas{width:100% !important;height:100% !important;max-height:100%}
+#tab0{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;background:var(--bg-primary);padding:0;margin:0;display:none}
+#tab0.active{display:block}
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);z-index:999999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s ease}
 .modal-overlay.show{visibility:visible;opacity:1}
-.modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:440px;padding:28px 24px 32px;max-height:90vh;overflow-y:auto;transform:scale(0.9) rotateX(10deg);box-shadow:var(--shadow-3d);transition:transform .4s cubic-bezier(0.34,1.56,0.64,1)}
-.modal-overlay.show .modal-card{transform:scale(1) rotateX(0deg)}
+.modal-card{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);border-radius:20px;border:1px solid var(--border-color);width:100%;max-width:440px;padding:28px 24px 32px;max-height:90vh;overflow-y:auto;transform:scale(0.9);box-shadow:0 30px 80px rgba(0,0,0,0.6);transition:transform .35s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.show .modal-card{transform:scale(1)}
 .modal-card h3{font-size:20px;font-weight:800;margin-bottom:14px;text-align:center;color:#fff}
 .modal-card h3::after{content:'';display:block;width:32px;height:3px;background:var(--accent);margin:8px auto 0;border-radius:4px}
 .modal-buttons{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
@@ -235,19 +251,19 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .code-input-group input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
 .code-input-group input::placeholder{color:var(--text-muted);letter-spacing:2px;font-size:14px;text-align:center}
 .code-input-group .btn{font-size:14px;padding:10px 20px}
-.toast-container{position:fixed;bottom:20px;right:20px;z-index:999999;display:flex;flex-direction:column;gap:8px;max-width:90%;pointer-events:none}
-.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);border-radius:12px;padding:14px 20px;box-shadow:var(--shadow-3d);border-left:4px solid var(--accent);font-size:14px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:280px}
+.toast-container{position:fixed;top:16px;right:16px;z-index:999999;display:flex;flex-direction:column-reverse;gap:8px;max-width:90%;pointer-events:none}
+.toast{background:rgba(20,20,40,0.95);backdrop-filter:blur(20px);border-radius:12px;padding:14px 20px;box-shadow:0 12px 40px rgba(0,0,0,0.4);border-left:4px solid var(--accent);font-size:14px;color:#fff;pointer-events:auto;animation:toastIn .5s cubic-bezier(0.34,1.56,0.64,1);min-width:280px}
 .toast .toast-title{font-weight:700;font-size:15px;margin-bottom:2px}
 .toast .toast-msg{font-size:13px;opacity:0.9}
 .toast.removing{animation:toastOut .5s ease forwards}
 .toast.error{border-left-color:var(--danger)}
 .toast.warning{border-left-color:var(--warning)}
 .toast.success{border-left-color:var(--success)}
-@keyframes toastIn{from{transform:translateY(80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-@keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(80px) scale(0.9);opacity:0}}
+@keyframes toastIn{from{transform:translateY(-80px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes toastOut{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-80px) scale(0.9);opacity:0}}
 .action-dropdown-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center}
 .action-dropdown-overlay.show{display:flex}
-.action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:var(--shadow-3d);max-height:80vh;overflow-y:auto}
+.action-dropdown-box{background:rgba(20,20,40,0.98);backdrop-filter:blur(30px);border-radius:16px;border:1px solid var(--border-color);padding:16px;min-width:260px;max-width:380px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,0.6);max-height:80vh;overflow-y:auto;position:relative}
 .action-dropdown-box .close-btn{position:absolute;top:10px;right:14px;background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;transition:var(--transition)}
 .action-dropdown-box .close-btn:hover{color:#fff;transform:rotate(90deg)}
 .action-dropdown-box .title{font-size:14px;font-weight:700;color:#fff;text-align:center;padding-bottom:10px;border-bottom:1px solid var(--border-color);margin-bottom:10px}
@@ -257,409 +273,369 @@ body.source-merged .tab-btn.active{background:linear-gradient(135deg,#f59e0b,#d9
 .action-dropdown-item.danger{color:var(--danger)}
 .action-dropdown-item.danger:hover{background:rgba(248,113,113,0.12)}
 .action-dropdown-divider{height:1px;background:var(--border-color);margin:4px 8px}
-.progress-bar-container{width:100%;height:6px;background:rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;margin:8px 0;position:relative}
-.progress-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-light));transition:width 0.3s ease;width:0%}
-.progress-bar-text{font-size:11px;color:var(--text-muted);text-align:center;margin-top:4px}
-body.light{--bg-primary:#f0f2f5;--bg-secondary:#ffffff;--bg-card:#ffffff;--border-color:#e2e8f0;--text-primary:#1a202c;--text-secondary:#4a5568;--text-muted:#a0aec0}
-body.light .topbar{background:#ffffff}
-body.light .sidebar{background:#ffffff;border-right:1px solid var(--border-color)}
-body.light .kpi-card{background:#ffffff}
-body.light .kpi-card .kpi-value{-webkit-text-fill-color:var(--text-primary)}
-body.light .card{background:#ffffff}
-body.light .card-header{color:#1a202c;border-bottom-color:#e2e8f0;background:#f7fafc}
-body.light .form-group-db input,body.light .form-group-db select{background:#ffffff;color:#1a202c;border-color:#e2e8f0}
-body.light .filter-row select,body.light .filter-row input{background:#ffffff;color:#1a202c;border-color:#e2e8f0}
-body.light .table-wrapper{background:#ffffff;border-color:#e2e8f0}
-body.light .table-wrapper th{color:#4a5568;background:#f7fafc}
-body.light .table-wrapper td{color:#1a202c}
-body.light .school-item{background:#ffffff}
-body.light .school-item .school-left .school-name{color:#1a202c}
-body.light .teacher-card{background:#ffffff}
-body.light .teacher-card .teacher-name{color:#1a202c}
-body.light .code-card{background:#ffffff}
-body.light .code-card .code-school-name{color:#1a202c}
-body.light .eleve-group-header{color:#1a202c}
-body.light .eleve-group-body .eleve-item .nom{color:#1a202c}
-body.light .toast{background:#ffffff;color:#1a202c}
-body.light .modal-card{background:#ffffff}
-body.light .modal-card h3{color:#1a202c}
-body.light .action-dropdown-box{background:#ffffff}
-body.light .action-dropdown-box .title{color:#1a202c}
-body.light .pagination-btn{color:#4a5568;border-color:#e2e8f0;background:#ffffff}
-body.light .pagination-btn.active{color:#fff}
-body.light .source-selector{background:#ffffff}
-body.light #sourceStatus{background:#f7fafc}
-@media(max-width:768px){
-.sidebar{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;width:100%;flex-direction:row;padding:8px 12px;overflow-x:auto;background:rgba(8,12,24,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border-color);z-index:1000;gap:4px}
-.sidebar .brand{display:none}
-.sidebar .nav-item{padding:8px 12px;font-size:11px;flex-shrink:0;white-space:nowrap;gap:6px}
-.sidebar .nav-item .icon{font-size:16px;width:20px}
-.sidebar .nav-item .badge-nav{display:none}
-.sidebar .nav-divider{display:none}
-.main-content{padding:12px 12px 80px 12px}
-.topbar{padding:10px 14px;flex-wrap:wrap;gap:8px}
-.topbar .left .page-title{font-size:15px}
-.topbar .right .user-info{font-size:10px;padding:2px 10px}
-.topbar .right .clear-cache-btn{font-size:10px;padding:4px 10px}
-.topbar .right .logout-btn{font-size:10px;padding:4px 10px}
-.kpi-row{grid-template-columns:repeat(2,1fr);gap:10px}
-.kpi-card{padding:14px 16px}
-.kpi-card .kpi-value{font-size:22px}
-.kpi-card .kpi-icon{width:36px;height:36px;font-size:16px}
-.source-selector{padding:8px 12px;gap:6px}
-.source-selector .label{font-size:9px}
-.source-btn{font-size:10px;padding:4px 12px}
-#sourceStatus{font-size:10px;padding:2px 10px}
-.form-grid{grid-template-columns:1fr}
-.filter-row{flex-direction:column;align-items:stretch}
-.filter-group{width:100%;min-width:unset}
-.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}
-.school-item .school-left{flex:1 1 100%;min-width:unset}
-.school-item .school-logo-center{width:44px;height:44px}
-.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}
-.teacher-grid{grid-template-columns:1fr}
-.codes-grid{grid-template-columns:1fr}
-.modal-card{padding:20px 16px 24px;margin:10px}
-.code-input-group{flex-direction:column}
-.card-header{font-size:13px;padding:12px 14px}
-.card-body{padding:12px 14px}
-.table-wrapper th,.table-wrapper td{padding:6px 8px;font-size:11px}
-}
-body.light .sidebar{background:rgba(255,255,255,0.98);border-top:1px solid var(--border-color)}
-@media(max-width:768px){body.light .sidebar{background:rgba(255,255,255,0.98)}}
+body.light{--bg-primary:#F4F6F9;--bg-secondary:#FFFFFF;--bg-card:#FFFFFF;--border-color:#E2E8F0;--text-primary:#1A202C;--text-secondary:#4A5568;--text-muted:#A0AEC0}
+body.light .topbar{background:#0A1628}
+body.light .topbar .brand h1{color:#fff}
+body.light .kpi-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .kpi-card .value{color:#1A202C}
+body.light .card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .card-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
+body.light .card-header .count{color:#4A5568;background:#EDF2F7}
+body.light .form-group-db input,body.light .form-group-db select{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .form-group-db input::placeholder{color:#A0AEC0}
+body.light .filter-row select,body.light .filter-row input{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .filter-group input,body.light .filter-group select{background:#FFFFFF;color:#1A202C;border-color:#E2E8F0}
+body.light .table-wrapper{background:#FFFFFF;border-color:#E2E8F0}
+body.light .table-wrapper th{color:#4A5568;background:#F7FAFC}
+body.light .table-wrapper td{color:#1A202C;border-bottom-color:#EDF2F7}
+body.light .table-wrapper tr:hover td{background:#F7FAFC}
+body.light .eleve-group{border-color:#E2E8F0}
+body.light .eleve-group-header{color:#1A202C;border-bottom-color:#E2E8F0;background:#F7FAFC}
+body.light .eleve-group-body .eleve-item .nom{color:#1A202C}
+body.light .eleve-group-body .eleve-item:hover{background:#F7FAFC}
+body.light .school-item{background:#FFFFFF;border-color:#E2E8F0}
+body.light .school-item:hover{background:#F7FAFC}
+body.light .teacher-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .teacher-card .teacher-name{color:#1A202C}
+body.light .teacher-card .teacher-detail .value{color:#4A5568}
+body.light .code-card{background:#FFFFFF;border-color:#E2E8F0}
+body.light .code-card .code-school-name{color:#1A202C}
+body.light .toast{background:#FFFFFF;color:#1A202C;border-left-color:var(--accent)}
+body.light .toast .toast-title{color:#1A202C}
+body.light .toast .toast-msg{color:#4A5568}
+body.light .pagination-btn{color:#4A5568;border-color:#E2E8F0;background:#FFFFFF}
+body.light .pagination-btn:hover{background:#F7FAFC;color:#1A202C}
+body.light .pagination-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+body.light .modal-card{background:#FFFFFF}
+body.light .modal-card h3{color:#1A202C}
+body.light .modal-card h3::after{background:var(--accent)}
+body.light .action-dropdown-box{background:#FFFFFF}
+body.light .action-dropdown-box .title{color:#1A202C;border-bottom-color:#E2E8F0}
+body.light .action-dropdown-item{color:#4A5568}
+body.light .action-dropdown-item:hover{background:#F7FAFC;color:#1A202C}
+body.light .action-dropdown-item.danger{color:#DC2626}
+body.light .action-dropdown-item.danger:hover{background:rgba(220,38,38,0.08)}
+body.light .action-dropdown-box .close-btn{color:#A0AEC0}
+body.light .action-dropdown-box .close-btn:hover{color:#1A202C}
+body.light .tabs-grid{background:#FFFFFF}
+body.light .tab-btn{color:#A0AEC0;border-color:#E2E8F0}
+body.light .tab-btn:hover{color:#4A5568;background:#F7FAFC}
+body.light .tab-btn.active{color:#fff}
+body.light #tab0{background:#F4F6F9}
+body.light .stats-header h2{color:#1A202C}
+body.light .stats-header .btn-back{background:#FFFFFF;border-color:#E2E8F0;color:#1A202C}
+body.light .stats-header .btn-back:hover{background:#F7FAFC}
+body.light .badge-source{background:rgba(108,99,255,0.08);color:var(--accent)}
+@media(max-width:768px){.topbar{padding:10px 16px}.topbar .brand h1{font-size:16px}.topbar .brand .sub{display:none}.kpi-row{padding:12px 16px 4px 16px;grid-template-columns:repeat(2,1fr)}.kpi-card{padding:10px 14px}.kpi-card .value{font-size:20px}.source-selector{padding:8px 16px;gap:8px}.source-btn{font-size:11px;padding:4px 14px}.tabs-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));padding:8px 12px;gap:4px}.tab-btn{font-size:10px;padding:6px 8px}.tab-panel{padding:12px}.card-header{padding:10px 14px;font-size:14px}.card-body{padding:10px 12px}.school-item{flex-wrap:wrap;gap:10px;padding:12px 14px}.school-item .school-left{flex:1 1 100%;min-width:unset}.school-item .school-logo-center{width:48px;height:48px}.school-item .school-right{margin-left:0;flex-wrap:wrap;width:100%;border-top:1px solid var(--border-color);padding-top:10px;justify-content:flex-start}.form-grid{grid-template-columns:1fr}.filter-row{flex-direction:column;align-items:stretch}.filter-row select,.filter-row input{width:100%}.filter-group{width:100%;min-width:unset}.modal-card{padding:20px 16px 24px;margin:10px}.codes-grid{grid-template-columns:1fr}.teacher-grid{grid-template-columns:1fr}.login-card{padding:24px 20px;margin:16px}.code-input-group{flex-direction:column}}
 </style>
 </head>
 <body>
 
 <div id="loginOverlay">
     <div class="login-card">
-        <div class="logo"><img src="https://www.netubex.com/favicon.png.png" alt="NeTubeX"></div>
-        <h1>Admin Dashboard</h1>
-        <p class="sub">Accès sécurisé aux sources de données</p>
+        <div class="logo"><div class="icon">N</div></div>
+        <h1>🔐 Admin Login</h1>
+        <p class="sub">Accès aux <strong>SOURCE A</strong> et <strong>SOURCE B</strong></p>
         <div class="sources-info">
-            <span class="badge a">SOURCE A</span>
-            <span class="badge b">SOURCE B</span>
+            <span class="badge a">🔵 SOURCE A</span>
+            <span class="badge b">🟢 SOURCE B</span>
         </div>
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="loginEmail" placeholder="admin@netubex.com" value="admin@netubex.com">
+            <label>📧 Email</label>
+            <input type="email" id="loginEmail" placeholder="admin@netubex.com">
         </div>
         <div class="form-group">
-            <label>Mot de passe</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" value="admin123">
+            <label>🔑 Mot de passe</label>
+            <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
         </div>
         <div class="status-box" id="statusBox" style="display:none;">
-            <div class="status-item"><span>SOURCE A</span><span class="check waiting" id="statusA">⏳ Connexion...</span></div>
-            <div class="status-item"><span>SOURCE B</span><span class="check waiting" id="statusB">⏳ Connexion...</span></div>
+            <div class="status-item"><span>🔵 SOURCE A</span><span class="check waiting" id="statusA">⏳ Connexion...</span></div>
+            <div class="status-item"><span>🟢 SOURCE B</span><span class="check waiting" id="statusB">⏳ Connexion...</span></div>
         </div>
         <button class="btn btn-login" id="loginBtn">
             <span class="spinner"></span>
-            <span class="btn-text">Se connecter</span>
+            <span class="btn-text">🔓 SE CONNECTER</span>
         </button>
         <div id="loginError" class="error"></div>
         <div id="loginSuccess" class="success"></div>
-        <div class="login-info">NeTubeX · Admin Panel v3.0</div>
+        <div class="login-info">🔐 Accès sécurisé · NeTubeX Admin</div>
     </div>
 </div>
 
 <div id="dashboardContent">
-<div class="layout">
-<div class="sidebar" id="sidebar">
-    <div class="brand">
-        <img src="https://www.netubex.com/favicon.png.png" alt="NeTubeX">
-        <div>
-            <h1>NeTubeX</h1>
-            <div style="display:flex;gap:6px;align-items:center;"><span class="version">v3.0</span></div>
-        </div>
-    </div>
-    <button class="nav-item active" data-tab="tab1"><span class="icon">🏫</span> Écoles</button>
-    <button class="nav-item" data-tab="tab2"><span class="icon">👥</span> Membres A</button>
-    <button class="nav-item" data-tab="tab3"><span class="icon">👥</span> Membres B</button>
-    <button class="nav-item" data-tab="tab4"><span class="icon">👥</span> Membres C</button>
-    <button class="nav-item" data-tab="tab5"><span class="icon">👨‍🏫</span> Professeurs</button>
-    <button class="nav-item" data-tab="tab6"><span class="icon">📄</span> Fiches</button>
-    <button class="nav-item" data-tab="tab7"><span class="icon">🔐</span> Codes & Emails</button>
-    <button class="nav-item" data-tab="tab10"><span class="icon">🔑</span> Codes Parents</button>
-    <button class="nav-item" data-tab="tab12"><span class="icon">🔍</span> Explorateur</button>
-    <button class="nav-item" data-tab="tab13"><span class="icon">👥</span> Total Membres</button>
-    <button class="nav-item" data-tab="tab14"><span class="icon">📥</span> Import CSV</button>
-    <div class="nav-divider"></div>
-    <button class="nav-item" id="clearSessionBtn" style="color:var(--danger);"><span class="icon">🗑️</span> Clear Session</button>
-</div>
-
-<div class="main-content">
 <div class="topbar">
-    <div class="left">
-        <div class="page-title">📊 <span id="pageTitle">Écoles</span></div>
-    </div>
-    <div class="right">
-        <span class="user-info" id="userEmailDisplay">Admin</span>
-        <button class="theme-toggle" id="themeToggle">🌙</button>
-        <button class="logout-btn" id="logoutBtn">Déconnexion</button>
-    </div>
+<div class="brand">
+<div class="logo">N</div>
+<h1>NeTubeX <span>·</span> <span style="font-weight:400;font-size:14px;color:var(--text-muted);">Dashboard</span></h1>
+</div>
+<div class="right">
+<span class="user-info" id="userEmailDisplay">👤 admin@netubex.com</span>
+<button class="theme-toggle" id="themeToggle">🌙</button>
+<button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+</div>
 </div>
 
 <div class="source-selector">
-    <span class="label">Source :</span>
-    <button class="source-btn active" data-source="a">SOURCE A</button>
-    <button class="source-btn" data-source="b">SOURCE B</button>
-    <button class="source-btn" data-source="merged">FUSIONNÉ</button>
-    <span id="sourceStatus" class="a">SOURCE A</span>
+<span class="label">📁 Source :</span>
+<button class="source-btn active" data-source="a">🔵 SOURCE A</button>
+<button class="source-btn" data-source="b">🟢 SOURCE B</button>
+<button class="source-btn" data-source="merged">🟡 FUSIONNÉ</button>
+<span id="sourceStatus" class="a">🔵 SOURCE A · gesco-67c43</span>
 </div>
 
 <div class="kpi-row">
-    <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-label">Écoles</span><div class="kpi-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6;">🏫</div></div>
-        <div class="kpi-value" id="hdrEcoles">0</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-label">Professeurs</span><div class="kpi-icon" style="background:rgba(187,143,206,0.15);color:#bb8fce;">👨‍🏫</div></div>
-        <div class="kpi-value" id="hdrEnseignants">0</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-label">Fiches</span><div class="kpi-icon" style="background:rgba(52,211,153,0.15);color:#34d399;">📄</div></div>
-        <div class="kpi-value" id="hdrFiches">0</div>
-    </div>
+<div class="kpi-card"><div class="label">🏫 Schools</div><div class="value blue" id="hdrEcoles">0</div><div class="source-badge a" id="hdrEcolesBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">👨‍🏫 Teachers</div><div class="value purple" id="hdrEnseignants">0</div><div class="source-badge a" id="hdrEnseignantsBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">📄 Sheets</div><div class="value green" id="hdrFiches">0</div><div class="source-badge a" id="hdrFichesBadge">SOURCE A</div></div>
+<div class="kpi-card"><div class="label">👥 Students</div><div class="value gold" id="hdrEleves">0</div><div class="source-badge a" id="hdrElevesBadge">SOURCE A</div></div>
 </div>
 
-<div id="tab1" class="tab-panel active">
+<div class="tabs-grid" id="tabContainer">
+<button class="tab-btn active" data-tab="tab0">📊 STATS</button>
+<button class="tab-btn" data-tab="tab1">🏫 SCHOOLS</button>
+<button class="tab-btn" data-tab="tab2">👥 MEMBERS A</button>
+<button class="tab-btn" data-tab="tab3">👥 MEMBERS B</button>
+<button class="tab-btn" data-tab="tab4">👥 MEMBERS C</button>
+<button class="tab-btn" data-tab="tab5">👨‍🏫 TEACHERS</button>
+<button class="tab-btn" data-tab="tab6">📄 SHEETS</button>
+<button class="tab-btn" data-tab="tab7">🔐 CODES & EMAILS</button>
+<button class="tab-btn" data-tab="tab10">🔑 PARENT CODES</button>
+<button class="tab-btn" data-tab="tab11">❄️ WHITE MONTHS</button>
+<button class="tab-btn" data-tab="tab12">🔍 EXPLORER</button>
+<button class="tab-btn" data-tab="tab13">👥 TOTAL MEMBERS</button>
+</div>
+
+<div id="tab0" class="tab-panel active">
+<div class="stats-fullscreen">
+<div class="stats-header">
+<h2>📊 General Statistics</h2>
+<button class="btn-back" id="statsBackBtn">← Back</button>
+</div>
+<div class="stats-chart-wrapper">
+<canvas id="statsChart"></canvas>
+</div>
+</div>
+</div>
+
+<div id="tab1" class="tab-panel">
 <div class="card">
 <div class="card-header">
-    <div class="card-header-left"><span>🏫</span> Écoles <span class="count" id="schoolCountBadge">0</span></div>
-    <div class="card-header-actions">
-        <button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳</button>
-        <button class="btn btn-success btn-sm" id="showAddSchool">+ Ajouter</button>
-    </div>
+<div class="card-header-left">
+<span>🏫</span>
+<span>School Management</span>
+<span class="badge badge-primary" id="schoolCountBadge">0</span>
 </div>
-<div id="addSchoolForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);background:rgba(108,99,255,0.02);">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h3 style="font-size:16px;font-weight:700;">Nouvelle école</h3>
-        <button class="btn btn-outline btn-sm" id="cancelSchoolBtn">✕ Fermer</button>
-    </div>
-    <div class="form-grid">
-        <div class="form-group-db"><label>Nom *</label><input type="text" id="schoolName" placeholder="Nom de l'école"></div>
-        <div class="form-group-db"><label>ID (auto)</label><input type="text" id="schoolId" readonly style="background:rgba(255,255,255,0.02);color:var(--accent);font-family:monospace;font-weight:600;"></div>
-        <div class="form-group-db"><label>Province</label><input type="text" id="schoolProvince" placeholder="Province"></div>
-        <div class="form-group-db"><label>Ville</label><input type="text" id="schoolCity" placeholder="Ville"></div>
-        <div class="form-group-db"><label>Téléphone</label><input type="text" id="schoolPhone" placeholder="Téléphone"></div>
-        <div class="form-group-db"><label>Directeur</label><input type="text" id="schoolDirector" placeholder="Nom du directeur"></div>
-        <div class="form-group-db" style="grid-column:1/-1;"><label>Adresse</label><input type="text" id="schoolAddress" placeholder="Adresse complète"></div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:12px;justify-content:flex-end;">
-        <button class="btn btn-outline" id="cancelSchoolBtn2">Annuler</button>
-        <button class="btn btn-success" id="saveSchoolBtn">Créer</button>
-    </div>
+<div class="card-header-actions">
+<button class="btn btn-refresh btn-sm" id="refreshEcolesBtn">⟳ Refresh</button>
+<button class="btn btn-add btn-sm" id="showAddSchool">+ Add School</button>
+</div>
+</div>
+<div id="addSchoolForm" class="card-body" style="display:none; border-bottom:1px solid var(--border-color); background:rgba(108,99,255,0.02);">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+<h3 style="font-size:16px; font-weight:700; color:var(--text-primary);">➕ New School</h3>
+<button class="btn btn-outline btn-sm" id="cancelSchoolBtn">✕ Close</button>
+</div>
+<div class="form-grid">
+<div class="form-group-db"><label>School Name *</label><input type="text" id="schoolName" placeholder="Ex: Complexe Scolaire"></div>
+<div class="form-group-db"><label>ID (auto-generated)</label><input type="text" id="schoolId" readonly style="background:rgba(255,255,255,0.02); color:var(--accent); font-family:monospace; font-weight:600;"></div>
+<div class="form-group-db"><label>Province</label><input type="text" id="schoolProvince" placeholder="Ex: Kinshasa"></div>
+<div class="form-group-db"><label>City</label><input type="text" id="schoolCity" placeholder="Ex: Gombe"></div>
+<div class="form-group-db"><label>Phone</label><input type="text" id="schoolPhone" placeholder="Ex: +2438..."></div>
+<div class="form-group-db"><label>Director</label><input type="text" id="schoolDirector" placeholder="Director name"></div>
+<div class="form-group-db" style="grid-column:1/-1;"><label>Address</label><input type="text" id="schoolAddress" placeholder="Full address"></div>
+</div>
+<div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end;">
+<button class="btn btn-outline" id="cancelSchoolBtn2">Cancel</button>
+<button class="btn btn-success" id="saveSchoolBtn">💾 Create School</button>
+</div>
 </div>
 <div class="card-body" style="padding-bottom:0;">
-    <div class="filter-row">
-        <div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="ecoleSearch" placeholder="Rechercher..."></div>
-        <div class="filter-group"><span class="filter-icon">🏷️</span><select id="ecoleStatutFilter"><option value="all">Toutes</option><option value="actif">Actives</option><option value="inactif">Inactives</option><option value="masque">Masquées</option></select></div>
-        <div style="margin-left:auto;font-size:12px;color:var(--text-muted);"><span id="filteredCount">0</span> écoles</div>
-    </div>
+<div class="filter-row">
+<div class="filter-group">
+<span class="filter-icon">🔍</span>
+<input type="text" id="ecoleSearch" placeholder="Search school...">
+</div>
+<div class="filter-group">
+<span class="filter-icon">🏷️</span>
+<select id="ecoleStatutFilter">
+<option value="all">All Schools</option>
+<option value="actif">✅ Active</option>
+<option value="inactif">⛔ Inactive</option>
+<option value="masque">👻 Hidden</option>
+</select>
+</div>
+<div style="margin-left:auto; font-size:12px; color:var(--text-muted);">
+<span id="filteredCount">0</span> schools
+</div>
+</div>
 </div>
 <div class="card-body" style="padding-top:12px;">
-    <div class="school-list" id="ecolesContainer"><div class="empty-state">Chargement...</div></div>
+<div class="school-list" id="ecolesContainer">
+<div class="empty-state">Loading schools...</div>
+</div>
 </div>
 </div>
 </div>
 
-<div id="tab2" class="tab-panel">
-<div class="card"><div class="card-header"><div>👥 Membres A (Secondaire)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
+<div id="tab2" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBERS A (Secondary)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersA">⟳</button></div></div>
 <div class="card-body">
-    <div class="filter-row">
-        <div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchA" placeholder="Rechercher..."></div>
-        <div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterA"><option value="all">Toutes les écoles</option></select></div>
-    </div>
-    <div id="membersContainerA"><div class="empty-state">Aucun membre</div></div>
-    <div class="pagination-container" id="membersPaginationA"><div class="pagination-info" id="membersPaginationInfoA">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
+<div class="filter-row">
+<div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchA" placeholder="Search student..."></div>
+<div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterA"><option value="all">📊 All schools</option></select></div>
 </div>
+<div id="membersContainerA"><div class="empty-state">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationA"><div class="pagination-info" id="membersPaginationInfoA">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsA"></div></div>
 </div>
-</div>
-
-<div id="tab3" class="tab-panel">
-<div class="card"><div class="card-header"><div>👥 Membres B (Primaire)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row">
-        <div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchB" placeholder="Rechercher..."></div>
-        <div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterB"><option value="all">Toutes les écoles</option></select></div>
-    </div>
-    <div id="membersContainerB"><div class="empty-state">Aucun membre</div></div>
-    <div class="pagination-container" id="membersPaginationB"><div class="pagination-info" id="membersPaginationInfoB">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
-</div>
-</div>
-</div>
-
-<div id="tab4" class="tab-panel">
-<div class="card"><div class="card-header"><div>👥 Membres C (Maternelle)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row">
-        <div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchC" placeholder="Rechercher..."></div>
-        <div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterC"><option value="all">Toutes les écoles</option></select></div>
-    </div>
-    <div id="membersContainerC"><div class="empty-state">Aucun membre</div></div>
-    <div class="pagination-container" id="membersPaginationC"><div class="pagination-info" id="membersPaginationInfoC">0 membres</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
-</div>
-</div>
-</div>
-
-<div id="tab5" class="tab-panel">
-<div class="card"><div class="card-header"><div>👨‍🏫 Professeurs</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row">
-        <label>🏫</label><select id="teacherEcoleFilter"><option value="all">Toutes</option></select>
-        <label>🔍</label><input type="text" id="teacherSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
-        <label>📧</label><select id="teacherEmailFilter"><option value="all">Tous</option><option value="valid">Email valide</option><option value="invalid">Email invalide</option><option value="nocode">Sans code</option></select>
-    </div>
-    <div id="teachersContainer"><div class="empty-state">Chargement...</div></div>
-</div>
-</div>
-</div>
-
-<div id="tab6" class="tab-panel">
-<div class="card"><div class="card-header"><div>📄 Fiches</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row">
-        <label>🏫</label><select id="sheetEcoleFilter"><option value="all">Toutes</option></select>
-        <label>🔍</label><input type="text" id="sheetSearch" placeholder="Rechercher..." style="flex:1;min-width:120px;">
-    </div>
-    <div class="table-wrapper"><table><thead><tr><th>#</th><th>Matière</th><th>Classe</th><th>Option</th><th>Professeur</th><th>École</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
-</div>
-</div>
-</div>
-
-<div id="tab7" class="tab-panel">
-<div class="card"><div class="card-header"><div>🔐 Codes & Emails</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">Toutes</option></select></div>
-    <div id="codesEmailsContainer"><div class="empty-state">Chargement...</div></div>
-</div>
-</div>
-</div>
-
-<div id="tab10" class="tab-panel">
-<div class="card"><div class="card-header"><div>🔑 Codes Parents</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
-<div class="card-body">
-    <div class="filter-row"><label>🏫</label><select id="codeEcoleSelect"><option value="">-- Sélectionner --</option></select></div>
-    <div><input type="text" id="codeSearchInput" placeholder="Taper les premières lettres du nom..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
-    <div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Sélectionner une école</div></div>
-</div>
-</div>
-</div>
-
-<div id="tab12" class="tab-panel">
-<div class="card"><div class="card-header"><div>🔍 Explorateur</div><div class="card-header-actions">
-    <button class="btn btn-success btn-sm" id="exportExplorerBtn">📤 Export</button>
-    <button class="btn btn-warning btn-sm" id="importExplorerBtn">📥 Import</button>
-    <button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button>
 </div></div>
+
+<div id="tab3" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBERS B (Primary)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersB">⟳</button></div></div>
 <div class="card-body">
-    <div class="filter-row">
-        <label>🏫</label><select id="explorerEcoleFilter"><option value="all">Toutes</option></select>
-        <button class="btn btn-primary btn-sm" id="applyExplorerFilter">Appliquer</button>
-    </div>
-    <div class="progress-bar-container" id="explorerProgressContainer" style="display:none;">
-        <div class="progress-bar-fill" id="explorerProgressFill"></div>
-        <div class="progress-bar-text" id="explorerProgressText">Chargement...</div>
-    </div>
-    <div id="explorerContent"><div class="empty-state">Chargement...</div></div>
+<div class="filter-row">
+<div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchB" placeholder="Search student..."></div>
+<div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterB"><option value="all">📊 All schools</option></select></div>
 </div>
+<div id="membersContainerB"><div class="empty-state">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationB"><div class="pagination-info" id="membersPaginationInfoB">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsB"></div></div>
 </div>
+</div></div>
+
+<div id="tab4" class="tab-panel"><div class="card"><div class="card-header"><div>👥 MEMBERS C (Nursery)</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshMembersC">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row">
+<div class="filter-group"><span class="filter-icon">🔍</span><input type="text" id="memberSearchC" placeholder="Search student..."></div>
+<div class="filter-group"><span class="filter-icon">🏫</span><select id="memberEcoleFilterC"><option value="all">📊 All schools</option></select></div>
 </div>
+<div id="membersContainerC"><div class="empty-state">👥 No members found</div></div>
+<div class="pagination-container" id="membersPaginationC"><div class="pagination-info" id="membersPaginationInfoC">0 members</div><div class="pagination-buttons" id="membersPaginationButtonsC"></div></div>
+</div>
+</div></div>
+
+<div id="tab5" class="tab-panel"><div class="card"><div class="card-header"><div>👨‍🏫 TEACHERS</div><div class="card-header-actions"><button class="btn btn-add btn-sm" id="showAddTeacher">+ Add</button><button class="btn btn-refresh btn-sm" id="refreshTeachersBtn">⟳</button></div></div>
+<div id="addTeacherForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div class="form-grid">
+<div class="form-group-db"><label>Name</label><input type="text" id="teacherName" placeholder="Full name"></div>
+<div class="form-group-db"><label>School</label><select id="teacherSchoolSelect"><option value="">Select</option></select></div>
+<div class="form-group-db"><label>Code (6 digits)</label><div style="display:flex;gap:8px;"><input type="text" id="teacherCode" maxlength="6" placeholder="Auto" readonly style="flex:1;background:rgba(255,255,255,0.02);font-family:monospace;font-size:18px;letter-spacing:4px;color:var(--accent);"><button class="btn btn-sm btn-warning" id="generateTeacherCodeBtn">🔄 Generate</button></div></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-success" id="saveTeacherBtn">💾 Create</button><button class="btn btn-outline" id="cancelTeacherBtn">Cancel</button></div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label><select id="teacherEcoleFilter"><option value="all">All</option></select>
+<label>🔍</label><input type="text" id="teacherSearch" placeholder="Search..." style="flex:1;min-width:120px;">
+<label>📧</label><select id="teacherEmailFilter"><option value="all">All</option><option value="valid">Valid email</option><option value="invalid">Invalid email</option><option value="nocode">No code</option></select>
+</div>
+<div id="teachersContainer"></div>
+</div>
+</div></div>
+
+<div id="tab6" class="tab-panel"><div class="card"><div class="card-header"><div>📄 SHEETS</div><div class="card-header-actions"><button class="btn btn-add btn-sm" id="showAddSheet">+ Add</button><button class="btn btn-refresh btn-sm" id="refreshSheetsBtn">⟳</button></div></div>
+<div id="addSheetForm" class="card-body" style="display:none;border-bottom:1px solid var(--border-color);">
+<div class="form-grid">
+<div class="form-group-db"><label>Subject</label><input type="text" id="sheetCours" placeholder="Ex: Mathematics"></div>
+<div class="form-group-db"><label>Class</label><input type="text" id="sheetClasse" placeholder="Ex: 6th A"></div>
+<div class="form-group-db"><label>Option</label><input type="text" id="sheetOption" placeholder="Ex: Sciences"></div>
+<div class="form-group-db"><label>Teacher</label><input type="text" id="sheetTitulaire" placeholder="Teacher name"></div>
+<div class="form-group-db"><label>School</label><select id="sheetSchoolSelect"><option value="">Select</option></select></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-primary" id="saveSheetBtn">💾 Save</button><button class="btn btn-outline" id="cancelSheetBtn">Cancel</button></div>
+</div>
+<div class="card-body">
+<div class="filter-row">
+<label>🏫</label><select id="sheetEcoleFilter"><option value="all">All</option></select>
+<label>🔍</label><input type="text" id="sheetSearch" placeholder="Search..." style="flex:1;min-width:120px;">
+</div>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>Subject</th><th>Class</th><th>Option</th><th>Teacher</th><th>School</th><th>Actions</th></tr></thead><tbody id="sheetsBody"></tbody></table></div>
+</div>
+</div></div>
+
+<div id="tab7" class="tab-panel"><div class="card"><div class="card-header"><div>🔐 CODES & EMAILS</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshCodesEmailsBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>🏫</label><select id="codesEmailsEcoleFilter"><option value="all">All</option></select></div>
+<div id="codesEmailsContainer"></div>
+</div>
+</div></div>
+
+<div id="tab10" class="tab-panel"><div class="card"><div class="card-header"><div>🔑 PARENT CODES</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshCodesBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>School :</label><select id="codeEcoleSelect"><option value="">-- Select --</option></select></div>
+<div><input type="text" id="codeSearchInput" placeholder="Type first letters of name..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;color:#fff;font-size:14px;outline:none;"></div>
+<div id="codeResultsContainer" style="max-height:300px;overflow-y:auto;margin-top:8px;background:rgba(0,0,0,0.10);border-radius:8px;padding:8px;"><div class="empty-state">Select a school</div></div>
+</div>
+</div></div>
+
+<div id="tab11" class="tab-panel"><div class="card"><div class="card-header"><div>❄️ WHITE MONTHS</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshWmBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>School :</label><select id="wmEcoleFilter"><option value="all">All</option></select></div>
+<div class="table-wrapper"><table><thead><tr><th>Student</th><th>Class</th><th>Section</th><th>School</th><th>Month</th><th>Actions</th></tr></thead><tbody id="wmBody"></tbody></table></div>
+</div>
+</div></div>
+
+<div id="tab12" class="tab-panel"><div class="card"><div class="card-header"><div>🔍 EXPLORER</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshExplorerBtn">⟳</button></div></div>
+<div class="card-body">
+<div class="filter-row"><label>School :</label><select id="explorerEcoleFilter"><option value="all">All</option></select><button class="btn btn-primary btn-sm" id="applyExplorerFilter">Apply</button></div>
+<div id="explorerContent"><div class="empty-state">Loading...</div></div>
+</div>
+</div></div>
 
 <div id="tab13" class="tab-panel">
 <div class="card">
-<div class="card-header"><div>👥 Total Membres</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshTotalMembersBtn">⟳</button></div></div>
+<div class="card-header"><div>👥 TOTAL MEMBERS</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshTotalMembersBtn">⟳</button></div></div>
 <div class="card-body">
-    <div style="background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(108,99,255,0.02));border:2px solid var(--accent);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px;">
-        <div style="font-size:14px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Total Membres</div>
-        <div style="font-size:56px;font-weight:900;color:var(--accent);" id="totalAllMembers">0</div>
-        <div style="font-size:13px;color:var(--text-muted);" id="totalAllSchools">Toutes les écoles</div>
-    </div>
-    <div class="filter-row" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border-color);">
-        <label>🏫 Filtrer :</label>
-        <select id="totalMembersEcoleFilter" style="flex:1;min-width:200px;"><option value="all">Toutes les écoles</option></select>
-        <button class="btn btn-primary btn-sm" id="applyTotalFilter">Appliquer</button>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px;">
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #bb8fce;">
-            <div style="font-size:13px;font-weight:700;color:var(--text-muted);">Membres A</div>
-            <div style="font-size:42px;font-weight:900;color:#bb8fce;padding:6px 0;" id="totalCountA">0</div>
-            <div style="font-size:12px;color:var(--text-muted);" id="totalSchoolA">Toutes</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #5dade2;">
-            <div style="font-size:13px;font-weight:700;color:var(--text-muted);">Membres B</div>
-            <div style="font-size:42px;font-weight:900;color:#5dade2;padding:6px 0;" id="totalCountB">0</div>
-            <div style="font-size:12px;color:var(--text-muted);" id="totalSchoolB">Toutes</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #34D399;">
-            <div style="font-size:13px;font-weight:700;color:var(--text-muted);">Membres C</div>
-            <div style="font-size:42px;font-weight:900;color:#34D399;padding:6px 0;" id="totalCountC">0</div>
-            <div style="font-size:12px;color:var(--text-muted);" id="totalSchoolC">Toutes</div>
-        </div>
-    </div>
+<div style="background: linear-gradient(135deg, rgba(108,99,255,0.10), rgba(108,99,255,0.02)); border: 2px solid var(--accent); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
+<div style="font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Total Members</div>
+<div style="font-size: 56px; font-weight: 900; color: var(--accent);" id="totalAllMembers">0</div>
+<div style="font-size: 13px; color: var(--text-muted);" id="totalAllSchools">🏫 All schools</div>
+</div>
+<div class="filter-row" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+<label>🏫 Filter by school :</label>
+<select id="totalMembersEcoleFilter" style="flex:1; min-width: 200px;"><option value="all">All schools</option></select>
+<button class="btn btn-primary btn-sm" id="applyTotalFilter">Apply</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px;">
+<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #bb8fce;">
+<div style="font-size:13px;font-weight:700;color:var(--text-muted);">MEMBERS A</div>
+<div style="font-size:42px;font-weight:900;color:#bb8fce;padding:6px 0;" id="totalCountA">0</div>
+<div style="font-size:12px;color:var(--text-muted);" id="totalSchoolA">All schools</div>
+</div>
+<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #5dade2;">
+<div style="font-size:13px;font-weight:700;color:var(--text-muted);">MEMBERS B</div>
+<div style="font-size:42px;font-weight:900;color:#5dade2;padding:6px 0;" id="totalCountB">0</div>
+<div style="font-size:12px;color:var(--text-muted);" id="totalSchoolB">All schools</div>
+</div>
+<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:18px 20px;text-align:center;border-left:4px solid #34D399;">
+<div style="font-size:13px;font-weight:700;color:var(--text-muted);">MEMBERS C</div>
+<div style="font-size:42px;font-weight:900;color:#34D399;padding:6px 0;" id="totalCountC">0</div>
+<div style="font-size:12px;color:var(--text-muted);" id="totalSchoolC">All schools</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 
-<div id="tab14" class="tab-panel">
-<div class="card">
-<div class="card-header"><div>📥 Import CSV</div><div class="card-header-actions"><button class="btn btn-refresh btn-sm" id="refreshImportBtn">⟳</button></div></div>
-<div class="card-body">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div style="background:rgba(59,130,246,0.05);border:2px dashed rgba(59,130,246,0.3);border-radius:12px;padding:24px;text-align:center;">
-            <div style="font-size:40px;margin-bottom:8px;">🔵</div>
-            <h3 style="font-size:18px;font-weight:700;color:#3b82f6;">SOURCE A</h3>
-            <p style="font-size:13px;color:var(--text-muted);margin:8px 0;">Importer toutes les écoles + données</p>
-            <input type="file" id="importFileA" accept=".csv,.xlsx,.xls" style="display:none;">
-            <button class="btn btn-primary" id="importBtnA">📤 Choisir un fichier</button>
-            <div id="importStatusA" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
-        </div>
-        <div style="background:rgba(16,185,129,0.05);border:2px dashed rgba(16,185,129,0.3);border-radius:12px;padding:24px;text-align:center;">
-            <div style="font-size:40px;margin-bottom:8px;">🟢</div>
-            <h3 style="font-size:18px;font-weight:700;color:#10b981;">SOURCE B</h3>
-            <p style="font-size:13px;color:var(--text-muted);margin:8px 0;">Importer toutes les écoles + données</p>
-            <input type="file" id="importFileB" accept=".csv,.xlsx,.xls" style="display:none;">
-            <button class="btn btn-success" id="importBtnB">📤 Choisir un fichier</button>
-            <div id="importStatusB" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
-        </div>
-    </div>
-    <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border-color);">
-        <p style="font-size:12px;color:var(--text-muted);"><strong>Format attendu :</strong> CSV ou Excel avec les colonnes : nom, id, province, ville, telephone, directeur, adresse, actif</p>
-    </div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-
-<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Vérification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Entrez le code d'accès</p>
-<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Valider</button></div>
+<div class="modal-overlay" id="codeModal"><div class="modal-card"><h3>🔐 Verification</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Please enter the access code</p>
+<div class="code-input-group"><input type="password" id="nxCodeInput" maxlength="8" placeholder="••••••••" style="letter-spacing:4px;font-size:20px;font-weight:700;"><button class="btn btn-code" id="nxCodeValidate">✅ Validate</button></div>
 <div id="codeError" style="color:var(--danger);font-size:13px;text-align:center;min-height:20px;"></div>
-<div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Annuler</button></div>
+<div class="modal-buttons"><button class="btn btn-outline" id="nxCodeCancel">Cancel</button></div>
 </div></div>
 
-<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Changer le logo</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Entrez l'URL de l'image</p>
-<div class="form-group-db"><label>URL du logo</label><input type="text" id="logoUrlInput" placeholder="https://example.com/logo.png" style="width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
+<div class="modal-overlay" id="logoModal"><div class="modal-card"><h3>🖼️ Change logo</h3><p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:12px;">Enter the image URL</p>
+<div class="form-group-db"><label>Logo URL</label><input type="text" id="logoUrlInput" placeholder="https://example.com/logo.png" style="width:100%;padding:10px 14px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;background:rgba(255,255,255,0.03);color:#fff;outline:none;"></div>
 <div id="logoPreviewContainer" style="text-align:center;margin:8px 0;display:none;"><img id="logoPreviewImg" src="" alt="Preview" style="max-width:100px;max-height:100px;border-radius:8px;border:2px solid var(--border-color);"></div>
-<div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Enregistrer</button><button class="btn btn-outline" id="logoCancelBtn">Annuler</button></div>
+<div class="modal-buttons"><button class="btn btn-success" id="logoValidateBtn">💾 Save</button><button class="btn btn-outline" id="logoCancelBtn">Cancel</button></div>
 </div></div>
 
 <div class="modal-overlay" id="confirmModal"><div class="modal-card"><h3>⚠️ Confirmation</h3><div id="confirmMessage" style="text-align:center;padding:14px;font-size:16px;color:var(--text-secondary);"></div>
-<div class="modal-buttons"><button class="btn" id="confirmYes">OUI</button><button class="btn btn-outline" id="confirmNo">NON</button></div>
+<div class="modal-buttons"><button class="btn" id="confirmYes">YES</button><button class="btn btn-outline" id="confirmNo">NO</button></div>
 </div></div>
 
-<div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
+<div class="action-dropdown-overlay" id="actionDropdownOverlay"><div class="action-dropdown-box" id="actionDropdownBox"><div style="position:relative;padding-right:30px;"><button class="close-btn" id="actionDropdownClose" style="position:absolute;top:-4px;right:-6px;background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;transition:var(--transition);">✕</button><div class="title">⚡ Actions</div></div><div id="actionDropdownItems"></div></div></div>
 
 <div class="toast-container" id="toastContainer"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module">
-document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('keydown',e=>{
-if(e.ctrlKey&&['s','u','c','i','j','p','a','x','v','z','y','f','n','o','r'].includes(e.key)){e.preventDefault();}
-if(e.key==='F12'){e.preventDefault();}
-});
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
@@ -693,30 +669,28 @@ let membersA = [], membersB = [], membersC = [];
 let membersPageA = 1, membersPageB = 1, membersPageC = 1;
 const membersPerPage = 20;
 let currentUser = null;
-let explorerProgress = 0;
+let statsChartInstance = null;
 
-function getDb() {
-    if(activeSource === 'a') return dbA;
-    if(activeSource === 'b') return dbB;
-    return dbA;
-}
-
+function getDb() { return activeSource === 'a' ? dbA : dbB; }
 function getSourceLabel() { return activeSource === 'a' ? 'SOURCE A' : activeSource === 'b' ? 'SOURCE B' : 'FUSIONNÉ'; }
 
 function toast(msg, type) {
 type = type || "success";
 const container = document.getElementById('toastContainer');
-if(!container) return;
-const titles = { success: "Succès", error: "Erreur", warning: "Attention", info: "Information" };
+if (!container) return;
+const titles = { success: "✅ Success", error: "❌ Error", warning: "⚠️ Warning", info: "ℹ️ Info" };
 const el = document.createElement("div");
 el.className = 'toast ' + type;
 el.innerHTML = '<div class="toast-title">' + (titles[type] || '') + '</div><div class="toast-msg">' + msg + '</div>';
 container.appendChild(el);
-setTimeout(() => { if(el.parentNode) { el.classList.add('removing'); setTimeout(() => { if(el.parentNode) el.remove(); }, 500); } }, 4000);
+setTimeout(() => { if (el.parentNode) { el.classList.add('removing'); setTimeout(() => { if (el.parentNode) el.remove(); }, 500); } }, 4000);
 }
 
-function escapeHtml(s) { if(!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/[&<>]/g, m => m === "&" ? "&amp;" : m === "<" ? "&lt;" : ">" ? "&gt;" : ""); }
 function genererCode6Chiffres() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+function getSectionFromClasse(classe) { if (!classe) return 'secondary'; const c = classe.toLowerCase(); if (c.includes('niveau') || c.includes('nursery') || c.includes('maternelle')) return 'nursery'; if (['1ère','2ème','3ème','4ème','5ème','6ème'].some(s => c.includes(s))) return 'primary'; return 'secondary'; }
+function getSectionLabel(s) { const map = { 'secondary': 'SECONDARY', 'primary': 'PRIMARY', 'nursery': 'NURSERY' }; return map[s] || s; }
+function getSectionBadge(s) { const map = { 'secondary': 'badge-espace-secondary', 'primary': 'badge-espace-primary', 'nursery': 'badge-espace-nursery' }; return map[s] || 'badge-primary'; }
 
 function showCodeModal() {
 return new Promise((resolve) => {
@@ -729,12 +703,12 @@ modal.classList.add('show');
 setTimeout(() => input.focus(), 300);
 const validate = () => {
 const code = input.value.trim();
-if(code === NX_CODE) { modal.classList.remove('show'); resolve(true); }
-else { error.textContent = 'Code incorrect.'; input.value = ''; input.focus(); }
+if (code === NX_CODE) { modal.classList.remove('show'); resolve(true); }
+else { error.textContent = '❌ Incorrect code.'; input.value = ''; input.focus(); }
 };
 document.getElementById('nxCodeValidate').onclick = validate;
 document.getElementById('nxCodeCancel').onclick = () => { modal.classList.remove('show'); resolve(false); };
-input.onkeydown = (e) => { if(e.key === 'Enter') validate(); };
+input.onkeydown = (e) => { if (e.key === 'Enter') validate(); };
 });
 }
 
@@ -753,23 +727,11 @@ let connectedA = false, connectedB = false, userA = null, userB = null;
 statusBox.style.display = 'block';
 statusA.textContent = '⏳ Connexion...'; statusA.className = 'check waiting';
 statusB.textContent = '⏳ Connexion...'; statusB.className = 'check waiting';
-try { 
-const credA = await signInWithEmailAndPassword(getAuth(appA), email, password); 
-userA = credA.user; connectedA = true; 
-statusA.textContent = '✅ Connecté'; statusA.className = 'check success'; 
-} catch(e) { 
-statusA.textContent = '❌ ' + (e.message || 'Erreur'); statusA.className = 'check fail'; 
-}
-try { 
-const credB = await signInWithEmailAndPassword(getAuth(appB), email, password); 
-userB = credB.user; connectedB = true; 
-statusB.textContent = '✅ Connecté'; statusB.className = 'check success'; 
-} catch(e) { 
-statusB.textContent = '❌ ' + (e.message || 'Erreur'); statusB.className = 'check fail'; 
-}
-if(connectedA && connectedB) return { success: true, message: '✅ Connecté aux DEUX sources', userA, userB, both: true };
-else if(connectedA) return { success: true, message: '⚠️ Connecté UNIQUEMENT à SOURCE A', userA, userB: null, both: false };
-else if(connectedB) return { success: true, message: '⚠️ Connecté UNIQUEMENT à SOURCE B', userA: null, userB, both: false };
+try { const credA = await signInWithEmailAndPassword(getAuth(appA), email, password); userA = credA.user; connectedA = true; statusA.textContent = '✅ Connecté'; statusA.className = 'check success'; } catch(e) { statusA.textContent = '❌ ' + e.message; statusA.className = 'check fail'; }
+try { const credB = await signInWithEmailAndPassword(getAuth(appB), email, password); userB = credB.user; connectedB = true; statusB.textContent = '✅ Connecté'; statusB.className = 'check success'; } catch(e) { statusB.textContent = '❌ ' + e.message; statusB.className = 'check fail'; }
+if (connectedA && connectedB) return { success: true, message: '✅ Connecté aux DEUX projets', userA, userB, both: true };
+else if (connectedA) return { success: true, message: '⚠️ Connecté UNIQUEMENT à SOURCE A', userA, userB: null, both: false };
+else if (connectedB) return { success: true, message: '⚠️ Connecté UNIQUEMENT à SOURCE B', userA: null, userB, both: false };
 else return { success: false, message: '❌ Aucun compte Admin trouvé' };
 }
 
@@ -777,16 +739,16 @@ async function handleLogin() {
 const email = loginEmail.value.trim();
 const password = loginPassword.value.trim();
 loginError.textContent = ''; loginSuccess.textContent = ''; statusBox.style.display = 'none';
-if(!email || !password) { loginError.textContent = '❌ Veuillez remplir tous les champs'; return; }
+if (!email || !password) { loginError.textContent = '❌ Veuillez remplir tous les champs'; return; }
 loginBtn.disabled = true; loginBtn.classList.add('loading');
 try {
 const result = await loginAdmin(email, password);
-if(result.success) {
-loginSuccess.textContent = result.message;
+if (result.success) {
+loginSuccess.textContent = result.message; loginError.textContent = '';
 currentUser = { email, userA: result.userA, userB: result.userB, both: result.both };
 sessionStorage.setItem('adminSession', JSON.stringify({ email, timestamp: Date.now() }));
 showDashboard(email);
-} else { loginError.textContent = result.message; }
+} else { loginError.textContent = result.message; loginSuccess.textContent = ''; }
 } catch(error) { loginError.textContent = '❌ Erreur: ' + error.message; }
 finally { loginBtn.disabled = false; loginBtn.classList.remove('loading'); }
 }
@@ -794,7 +756,7 @@ finally { loginBtn.disabled = false; loginBtn.classList.remove('loading'); }
 function showDashboard(email) {
 loginOverlay.classList.add('hidden');
 dashboardContent.classList.add('visible');
-userEmailDisplay.textContent = email.split('@')[0];
+userEmailDisplay.textContent = '👤 ' + email;
 loadAllData();
 }
 
@@ -803,54 +765,39 @@ currentUser = null; sessionStorage.removeItem('adminSession');
 dashboardContent.classList.remove('visible');
 loginOverlay.classList.remove('hidden');
 loginEmail.value = ''; loginPassword.value = ''; loginError.textContent = ''; loginSuccess.textContent = ''; statusBox.style.display = 'none';
-toast('Déconnecté', 'warning');
-}
-
-function clearSession() {
-sessionStorage.clear();
-localStorage.clear();
-toast('Session effacée', 'info');
-setTimeout(() => { logout(); }, 500);
+toast('👋 Déconnecté', 'warning');
 }
 
 async function loadAllData() {
 try {
-const source = activeSource;
-let schools = [], teachers = [], sheets = [], students = [], codes = [], parentCodes = [];
-let mA = [], mB = [], mC = [];
-const seenMembers = new Set(), seenTeachers = new Set(), seenSheets = new Set(), seenCodes = new Set();
-
-const processSource = async (db, prefix) => {
-try {
+const db = getDb();
 const snap = await getDocs(collection(db, "ecoles"));
-for(const ds of snap.docs) {
+allData = { schools: [], teachers: [], sheets: [], students: [], codes: [], parentCodes: [] };
+membersA = []; membersB = []; membersC = [];
+const seenMembers = new Set(), seenTeachers = new Set(), seenSheets = new Set(), seenCodes = new Set();
+for (const ds of snap.docs) {
 const id = ds.id, ecoleData = ds.data();
-if(ecoleData.masque === true) continue;
-const schoolId = prefix + '_' + id;
-schools.push({ id: schoolId, source: prefix, originalId: id, ...ecoleData });
-const collections = [
-{ name: "compta_eleves", section: 'secondary', arr: mA },
-{ name: "prima_eleves", section: 'primary', arr: mB },
-{ name: "mater_eleves", section: 'nursery', arr: mC }
-];
-for(const { name, section, arr } of collections) {
+if (ecoleData.masque === true) continue;
+allData.schools.push({ id, ...ecoleData });
+const collections = [{ name: "compta_eleves", section: 'secondary', arr: membersA }, { name: "prima_eleves", section: 'primary', arr: membersB }, { name: "mater_eleves", section: 'nursery', arr: membersC }];
+for (const { name, section, arr } of collections) {
 try {
 const mSnap = await getDocs(collection(db, "ecoles", id, name));
 mSnap.forEach(d => {
 const data = d.data();
-if(data.nom && !data.abandon) {
-const key = name + '_' + d.id + '_' + schoolId;
-if(!seenMembers.has(key)) {
+if (data.nom && !data.abandon) {
+const key = name + '_' + d.id + '_' + id;
+if (!seenMembers.has(key)) {
 seenMembers.add(key);
-const m = { id: d.id, ecoleId: schoolId, source: prefix, ecoleNom: ecoleData.nom || id, nom: data.nom, prenom: data.prenom || '', sexe: data.sexe || 'M', classe: data.classe || '', section: section, parentCode: data.parentCode || null };
-arr.push(m); students.push(m);
+const m = { id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom, prenom: data.prenom || '', sexe: data.sexe || 'M', classe: data.classe || '', section: section, parentCode: data.parentCode || null };
+arr.push(m); allData.students.push(m);
 }
 }
-if(data.parentCode) {
-const key = 'pc_' + name + '_' + d.id + '_' + schoolId;
-if(!seenCodes.has(key)) {
+if (data.parentCode) {
+const key = 'pc_' + name + '_' + d.id + '_' + id;
+if (!seenCodes.has(key)) {
 seenCodes.add(key);
-parentCodes.push({ id: d.id, ecole: schoolId, source: prefix, ecoleNom: ecoleData.nom || id, nom: data.nom, prenom: data.prenom || '', parentCode: data.parentCode, classe: data.classe || '', section: section });
+allData.parentCodes.push({ id: d.id, ecole: id, ecoleNom: ecoleData.nom || id, nom: data.nom, prenom: data.prenom || '', parentCode: data.parentCode, classe: data.classe || '', section: section });
 }
 }
 });
@@ -860,11 +807,11 @@ try {
 const pSnap = await getDocs(collection(db, "ecoles", id, "professeurs"));
 pSnap.forEach(d => {
 const data = d.data();
-if(data._type === "prof") {
-const key = d.id + '_' + schoolId;
-if(!seenTeachers.has(key)) {
+if (data._type === "prof") {
+const key = d.id + '_' + id;
+if (!seenTeachers.has(key)) {
 seenTeachers.add(key);
-teachers.push({ id: d.id, ecoleId: schoolId, source: prefix, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false });
+allData.teachers.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, nom: data.nom || "Unknown", code: data.code || null, email: data.email || data.emailProf || null, actif: data.actif !== false });
 }
 }
 });
@@ -873,97 +820,85 @@ try {
 const fSnap = await getDocs(collection(db, "ecoles", id, "fiches"));
 fSnap.forEach(d => {
 const data = d.data();
-if(!data._type) {
-const key = d.id + '_' + schoolId;
-if(!seenSheets.has(key)) {
+if (!data._type) {
+const key = d.id + '_' + id;
+if (!seenSheets.has(key)) {
 seenSheets.add(key);
-sheets.push({ id: d.id, ecoleId: schoolId, source: prefix, ecoleNom: ecoleData.nom || id, cours: data.cours || "No subject", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "" });
+allData.sheets.push({ id: d.id, ecoleId: id, ecoleNom: ecoleData.nom || id, cours: data.cours || "No subject", classe: data.classe || "", option: data.option || "", titulaire: data.titulaire || "" });
 }
 }
 });
 } catch(e) {}
 try {
 const settingsSnap = await getDoc(doc(db, "ecoles", id, "settings", "data"));
-if(settingsSnap.exists()) {
+if (settingsSnap.exists()) {
 const s = settingsSnap.data();
-codes.push({ ecoleId: schoolId, source: prefix, ecoleNom: ecoleData.nom || id, codeDirection: s.codeDirection || 'Not set', codeComptabilite: s.codeComptabilite || 'Not set', codePromoteur: s.codePromoteur || 'Not set', emailDirection: s.emailDirection || null, emailComptabilite: s.emailComptabilite || null, emailPromoteur: s.emailPromoteur || null });
+allData.codes.push({ ecoleId: id, ecoleNom: ecoleData.nom || id, codeDirection: s.codeDirection || 'Not set', codeComptabilite: s.codeComptabilite || 'Not set', codePromoteur: s.codePromoteur || 'Not set', emailDirection: s.emailDirection || null, emailComptabilite: s.emailComptabilite || null, emailPromoteur: s.emailPromoteur || null });
 }
 } catch(e) {}
 }
-} catch(e) {}
-};
-
-if(source === 'a' || source === 'merged') await processSource(dbA, 'A');
-if(source === 'b' || source === 'merged') await processSource(dbB, 'B');
-
-if(source === 'merged') {
-const seenSchools = new Set();
-schools = schools.filter(s => { const key = s.originalId; if(seenSchools.has(key)) return false; seenSchools.add(key); return true; });
-}
-
-allData = { schools, teachers, sheets, students, codes, parentCodes };
-membersA = mA; membersB = mB; membersC = mC;
 updateCounters(); updateSelectors();
-loadSchools(); loadMembersA(); loadMembersB(); loadMembersC(); loadTeachers(); loadSheets(); loadCodesEmails(); loadParentCodes(); loadExplorer(); updateTotalMembers();
+loadSchools(); loadMembersA(); loadMembersB(); loadMembersC(); loadTeachers(); loadSheets(); loadCodesEmails(); loadParentCodes(); loadWhiteMonths(); loadExplorer(); updateTotalMembers();
+buildStatsChart();
 toast('✅ Données ' + getSourceLabel() + ' chargées', 'success');
-} catch(e) { 
-console.error(e);
-toast('❌ Erreur: ' + e.message, 'error'); 
-}
+} catch(e) { toast('❌ Erreur: ' + e.message, 'error'); }
 }
 
 function updateCounters() {
 document.getElementById('hdrEcoles').textContent = allData.schools.length;
 document.getElementById('hdrEnseignants').textContent = allData.teachers.length;
 document.getElementById('hdrFiches').textContent = allData.sheets.length;
+document.getElementById('hdrEleves').textContent = allData.students.length;
 document.getElementById('schoolCountBadge').textContent = allData.schools.length;
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+el.className = 'source-badge ' + activeSource;
+el.textContent = getSourceLabel();
+});
 }
 
 function updateSelectors() {
-['memberEcoleFilterA','memberEcoleFilterB','memberEcoleFilterC','teacherEcoleFilter','sheetEcoleFilter','codesEmailsEcoleFilter','codeEcoleSelect','explorerEcoleFilter','totalMembersEcoleFilter'].forEach(id => {
-const el = document.getElementById(id); if(!el) return;
+['memberEcoleFilterA','memberEcoleFilterB','memberEcoleFilterC','teacherEcoleFilter','sheetEcoleFilter','codesEmailsEcoleFilter','wmEcoleFilter','codeEcoleSelect','explorerEcoleFilter','teacherSchoolSelect','sheetSchoolSelect','totalMembersEcoleFilter'].forEach(id => {
+const el = document.getElementById(id); if (!el) return;
 const val = el.value;
-el.innerHTML = '<option value="all">Toutes</option>';
+el.innerHTML = '<option value="all">📊 All</option>';
 allData.schools.forEach(s => {
 const opt = document.createElement('option');
 opt.value = s.id; opt.textContent = s.nom || s.id;
 el.appendChild(opt);
 });
-if(val && el.querySelector('option[value="' + val + '"]')) el.value = val;
+if (val && el.querySelector('option[value="' + val + '"]')) el.value = val;
 });
 }
 
 function loadSchools() {
 const container = document.getElementById('ecolesContainer');
-if(!container) return;
+if (!container) return;
 const search = document.getElementById('ecoleSearch')?.value?.toLowerCase() || '';
 const filter = document.getElementById('ecoleStatutFilter')?.value || 'all';
 let schools = allData.schools;
-if(search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search));
-if(filter === 'actif') schools = schools.filter(s => s.actif !== false && s.masque !== true);
-else if(filter === 'inactif') schools = schools.filter(s => s.actif === false);
-else if(filter === 'masque') schools = schools.filter(s => s.masque === true);
+if (search) schools = schools.filter(s => s.nom?.toLowerCase().includes(search));
+if (filter === 'actif') schools = schools.filter(s => s.actif !== false && s.masque !== true);
+else if (filter === 'inactif') schools = schools.filter(s => s.actif === false);
+else if (filter === 'masque') schools = schools.filter(s => s.masque === true);
 document.getElementById('filteredCount').textContent = schools.length;
-if(!schools.length) { container.innerHTML = '<div class="empty-state">Aucune école</div>'; return; }
+if (!schools.length) { container.innerHTML = '<div class="empty-state">🏫 No schools found</div>'; return; }
 let html = '';
 schools.forEach(s => {
 const estMasquee = s.masque === true, estActive = s.actif !== false;
 const teacherCount = allData.teachers.filter(t => t.ecoleId === s.id).length;
 const sheetCount = allData.sheets.filter(f => f.ecoleId === s.id).length;
-const sourceBadge = s.source === 'A' ? '🔵' : s.source === 'B' ? '🟢' : '';
 html += `
 <div class="school-item" data-school-id="${s.id}">
 <div class="school-left">
-<div class="school-name">${sourceBadge} ${escapeHtml(s.nom)} <span class="school-id">🆔 ${escapeHtml(s.id)}</span></div>
+<div class="school-name">${escapeHtml(s.nom)} <span class="school-id">🆔 ${escapeHtml(s.id)}</span></div>
 <div class="school-location"><span>📍 ${escapeHtml(s.province || '-')}</span><span>🏙️ ${escapeHtml(s.ville || '-')}</span></div>
 <div class="school-badges">
-${estMasquee ? '<span class="badge badge-masque">MASQUÉE</span>' : ''}
-${estActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}
-${s.source ? '<span class="badge badge-source">SOURCE ' + s.source + '</span>' : ''}
+${estMasquee ? '<span class="badge badge-masque">👻 HIDDEN</span>' : ''}
+${estActive ? '<span class="badge badge-success">✅ Active</span>' : '<span class="badge badge-danger">⛔ Inactive</span>'}
 </div>
 <div class="school-stats">
-<span class="stat">👨‍🏫 ${teacherCount}</span>
-<span class="stat">📄 ${sheetCount}</span>
+<span class="stat">👨‍🏫 <span class="num">${teacherCount}</span></span>
+<span class="stat">📄 <span class="num">${sheetCount}</span></span>
 </div>
 </div>
 <div class="school-logo-center">
@@ -980,22 +915,22 @@ btn.addEventListener('click', function(e) {
 e.stopPropagation();
 const schoolId = this.dataset.schoolId;
 const school = allData.schools.find(s => s.id === schoolId);
-if(!school) return;
+if (!school) return;
 const overlay = document.getElementById('actionDropdownOverlay');
 const items = document.getElementById('actionDropdownItems');
 const estMasquee = school.masque === true;
 const estActive = school.actif !== false;
 items.innerHTML = `
-<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Changer logo</button>
+<button class="action-dropdown-item" data-action="logo" data-school="${schoolId}"><span class="icon">🖼️</span> Change logo</button>
 <div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? 'Afficher' : 'Masquer'}</button>
-<button class="action-dropdown-item" data-action="activer" data-school="${schoolId}"><span class="icon">${estActive ? '⛔' : '✅'}</span> ${estActive ? 'Désactiver' : 'Activer'}</button>
+<button class="action-dropdown-item" data-action="masquer" data-school="${schoolId}"><span class="icon">👻</span> ${estMasquee ? '👁️ Show school' : '👻 Hide school'}</button>
+<button class="action-dropdown-item" data-action="activer" data-school="${schoolId}"><span class="icon">${estActive ? '⛔' : '✅'}</span> ${estActive ? 'Deactivate school' : 'Activate school'}</button>
 <div class="action-dropdown-divider"></div>
-<button class="action-dropdown-item danger" data-action="supprimer" data-school="${schoolId}"><span class="icon">🗑️</span> Supprimer</button>
+<button class="action-dropdown-item danger" data-action="supprimer" data-school="${schoolId}"><span class="icon">🗑️</span> Delete school</button>
 `;
 overlay.classList.add('show');
 document.getElementById('actionDropdownClose').onclick = () => overlay.classList.remove('show');
-overlay.onclick = function(e) { if(e.target === this) this.classList.remove('show'); };
+overlay.onclick = function(e) { if (e.target === this) this.classList.remove('show'); };
 items.querySelectorAll('.action-dropdown-item').forEach(item => {
 item.addEventListener('click', async function() {
 overlay.classList.remove('show');
@@ -1015,49 +950,37 @@ case 'supprimer': await handleDeleteSchool(schoolId2); break;
 
 async function handleToggleMasquer(schoolId) {
 const school = allData.schools.find(s => s.id === schoolId);
-if(!school) return;
-if(!await showCodeModal()) return;
-if(!await showConfirm('Confirmer la ' + (school.masque === true ? 'réactivation' : 'masquage') + ' de <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
-try {
-const db = school.source === 'A' ? dbA : dbB;
-await updateDoc(doc(db, "ecoles", school.originalId), { masque: school.masque !== true });
-toast('École ' + (school.masque === true ? 'réactivée' : 'masquée'), 'success');
-await loadAllData();
-} catch(e) { toast("Erreur: " + e.message, "error"); }
+if (!school) return;
+if (!await showCodeModal()) return;
+if (!await showConfirm('Are you sure you want to ' + (school.masque === true ? 'show' : 'hide') + ' school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+try { await updateDoc(doc(getDb(), "ecoles", schoolId), { masque: school.masque !== true }); toast('✅ School ' + (school.masque === true ? 'shown' : 'hidden'), 'success'); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 }
 
 async function handleToggleActif(schoolId) {
 const school = allData.schools.find(s => s.id === schoolId);
-if(!school) return;
-if(!await showCodeModal()) return;
-if(!await showConfirm('Confirmer la ' + (school.actif !== false ? 'désactivation' : 'activation') + ' de <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
-try {
-const db = school.source === 'A' ? dbA : dbB;
-await updateDoc(doc(db, "ecoles", school.originalId), { actif: school.actif !== false ? false : true });
-toast('École ' + (school.actif !== false ? 'désactivée' : 'activée'), 'success');
-await loadAllData();
-} catch(e) { toast("Erreur: " + e.message, "error"); }
+if (!school) return;
+if (!await showCodeModal()) return;
+if (!await showConfirm('Are you sure you want to ' + (school.actif !== false ? 'deactivate' : 'activate') + ' school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+try { await updateDoc(doc(getDb(), "ecoles", schoolId), { actif: school.actif !== false ? false : true }); toast('✅ School ' + (school.actif !== false ? 'deactivated' : 'activated'), 'success'); await loadAllData(); } catch(e) { toast("Error: " + e.message, "error"); }
 }
 
 async function handleDeleteSchool(schoolId) {
 const school = allData.schools.find(s => s.id === schoolId);
-if(!school) return;
-if(!await showCodeModal()) return;
-if(!await showConfirm('⚠️ Supprimer définitivement <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
+if (!school) return;
+if (!await showCodeModal()) return;
+if (!await showConfirm('⚠️ Permanently delete school <strong>' + escapeHtml(school.nom) + '</strong> ?')) return;
 try {
-const db = school.source === 'A' ? dbA : dbB;
+const db = getDb();
 const subs = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
-for(const sub of subs) { try { const snap = await getDocs(collection(db, "ecoles", school.originalId, sub)); for(const d of snap.docs) { await deleteDoc(d.ref); } } catch(e) {} }
-await deleteDoc(doc(db, "ecoles", school.originalId));
-toast("École supprimée", "success");
+for (const sub of subs) { try { const snap = await getDocs(collection(db, "ecoles", schoolId, sub)); for (const d of snap.docs) { await deleteDoc(d.ref); } } catch(e) {} }
+await deleteDoc(doc(db, "ecoles", schoolId));
+toast("🗑️ School deleted", "success");
 await loadAllData();
-} catch(e) { toast("Erreur: " + e.message, "error"); }
+} catch(e) { toast("Error: " + e.message, "error"); }
 }
 
 async function handleLogoChange(schoolId) {
-if(!await showCodeModal()) return;
-const school = allData.schools.find(s => s.id === schoolId);
-if(!school) return;
+if (!await showCodeModal()) return;
 const modal = document.getElementById('logoModal');
 modal.classList.add('show');
 modal.dataset.schoolId = schoolId;
@@ -1065,48 +988,41 @@ document.getElementById('logoUrlInput').value = '';
 document.getElementById('logoPreviewContainer').style.display = 'none';
 document.getElementById('logoUrlInput').addEventListener('input', function() {
 const url = this.value.trim();
-if(url) { document.getElementById('logoPreviewImg').src = url; document.getElementById('logoPreviewContainer').style.display = 'block'; }
+if (url) { document.getElementById('logoPreviewImg').src = url; document.getElementById('logoPreviewContainer').style.display = 'block'; }
 else { document.getElementById('logoPreviewContainer').style.display = 'none'; }
 });
 document.getElementById('logoValidateBtn').onclick = async function() {
 const url = document.getElementById('logoUrlInput').value.trim();
-if(!url) { toast('Veuillez entrer une URL', 'warning'); return; }
-try {
-const db = school.source === 'A' ? dbA : dbB;
-await updateDoc(doc(db, "ecoles", school.originalId), { logoUrl: url });
-document.getElementById('logoModal').classList.remove('show');
-toast('Logo mis à jour', 'success');
-await loadAllData();
-} catch(e) { toast('Erreur: ' + e.message, 'error'); }
+if (!url) { toast('Please enter a URL', 'warning'); return; }
+try { await updateDoc(doc(getDb(), "ecoles", schoolId), { logoUrl: url }); document.getElementById('logoModal').classList.remove('show'); toast('✅ Logo updated', 'success'); await loadAllData(); } catch(e) { toast('Error: ' + e.message, 'error'); }
 };
 document.getElementById('logoCancelBtn').onclick = () => { document.getElementById('logoModal').classList.remove('show'); };
 }
 
 function loadMembersGeneric(containerId, members, paginationId, paginationInfoId, paginationButtonsId, pageVar, setPage, filterEcoleId, searchId) {
 const container = document.getElementById(containerId);
-if(!container) return;
+if (!container) return;
 const filterEcole = document.getElementById(filterEcoleId)?.value || "all";
 const search = document.getElementById(searchId)?.value?.toLowerCase() || "";
 let filtered = members;
-if(filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
-if(search) filtered = filtered.filter(m => (m.nom + ' ' + (m.prenom||'')).toLowerCase().includes(search));
+if (filterEcole !== "all") filtered = filtered.filter(m => m.ecoleId === filterEcole);
+if (search) filtered = filtered.filter(m => (m.nom + ' ' + (m.prenom||'')).toLowerCase().includes(search));
 const totalPages = Math.ceil(filtered.length / membersPerPage);
 let currentPage = pageVar;
-if(currentPage > totalPages) currentPage = 1;
-if(currentPage < 1) currentPage = 1;
+if (currentPage > totalPages) currentPage = 1;
+if (currentPage < 1) currentPage = 1;
 setPage(currentPage);
 const start = (currentPage - 1) * membersPerPage;
 const pageMembers = filtered.slice(start, start + membersPerPage);
-if(filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun membre</div>'; document.getElementById(paginationId).style.display = 'none'; return; }
+if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">👥 No members found</div>'; document.getElementById(paginationId).style.display = 'none'; return; }
 const grouped = {};
-pageMembers.forEach(m => { const key = m.ecoleId; if(!grouped[key]) grouped[key] = { school: m.ecoleNom, members: [] }; grouped[key].members.push(m); });
+pageMembers.forEach(m => { const key = m.ecoleId; if (!grouped[key]) grouped[key] = { school: m.ecoleNom, members: [] }; grouped[key].members.push(m); });
 let html = '';
-for(const [ecoleId, ecoleData] of Object.entries(grouped)) {
+for (const [ecoleId, ecoleData] of Object.entries(grouped)) {
 html += '<div class="eleve-group"><div class="eleve-group-header">🏫 ' + escapeHtml(ecoleData.school) + '</div><div class="eleve-group-body">';
 ecoleData.members.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || "Unknown";
-const sourceBadge = e.source === 'A' ? '🔵' : e.source === 'B' ? '🟢' : '';
-html += '<div class="eleve-item"><span class="nom">' + sourceBadge + ' ' + escapeHtml(nomComplet) + '</span><span class="code-parent">' + (e.parentCode || '---') + '</span></div>';
+html += '<div class="eleve-item"><span class="nom">' + escapeHtml(nomComplet) + '</span><span class="code-parent">' + (e.parentCode || '---') + '</span></div>';
 });
 html += '</div></div>';
 }
@@ -1114,15 +1030,15 @@ container.innerHTML = html;
 const paginationContainer = document.getElementById(paginationId);
 const paginationInfo = document.getElementById(paginationInfoId);
 const paginationButtons = document.getElementById(paginationButtonsId);
-if(totalPages > 1) {
+if (totalPages > 1) {
 paginationContainer.style.display = 'flex';
-paginationInfo.textContent = 'Page ' + currentPage + '/' + totalPages + ' · ' + filtered.length + ' membres';
+paginationInfo.textContent = 'Page ' + currentPage + '/' + totalPages + ' · ' + filtered.length + ' members';
 let btns = '';
-if(currentPage > 1) btns += '<button class="pagination-btn" data-page="' + (currentPage - 1) + '">◀</button>';
-for(let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+if (currentPage > 1) btns += '<button class="pagination-btn" data-page="' + (currentPage - 1) + '">◀</button>';
+for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
 btns += '<button class="pagination-btn ' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
 }
-if(currentPage < totalPages) btns += '<button class="pagination-btn" data-page="' + (currentPage + 1) + '">▶</button>';
+if (currentPage < totalPages) btns += '<button class="pagination-btn" data-page="' + (currentPage + 1) + '">▶</button>';
 paginationButtons.innerHTML = btns;
 paginationButtons.querySelectorAll('.pagination-btn').forEach(btn => {
 btn.addEventListener('click', function() {
@@ -1139,96 +1055,125 @@ function loadMembersC() { loadMembersGeneric('membersContainerC', membersC, 'mem
 
 function loadTeachers() {
 const container = document.getElementById('teachersContainer');
-if(!container) return;
+if (!container) return;
 const filter = document.getElementById('teacherEcoleFilter')?.value || "all";
 const search = document.getElementById('teacherSearch')?.value?.toLowerCase() || "";
 const emailFilter = document.getElementById('teacherEmailFilter')?.value || "all";
 let teachers = allData.teachers;
-if(filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
-if(search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
-if(emailFilter === 'valid') teachers = teachers.filter(t => t.email && t.email.includes('@'));
-else if(emailFilter === 'invalid') teachers = teachers.filter(t => !t.email || !t.email.includes('@'));
-else if(emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
-if(!teachers.length) { container.innerHTML = '<div class="empty-state">Aucun professeur</div>'; return; }
+if (filter !== "all") teachers = teachers.filter(t => t.ecoleId === filter);
+if (search) teachers = teachers.filter(t => t.nom?.toLowerCase().includes(search));
+if (emailFilter === 'valid') teachers = teachers.filter(t => t.email && t.email.includes('@'));
+else if (emailFilter === 'invalid') teachers = teachers.filter(t => !t.email || !t.email.includes('@'));
+else if (emailFilter === 'nocode') teachers = teachers.filter(t => !t.code);
+if (!teachers.length) { container.innerHTML = '<div class="empty-state">👨‍🏫 No teachers</div>'; return; }
 const ficheCounts = {};
-allData.sheets.forEach(s => { if(s.titulaire) { const key = s.titulaire.trim().toLowerCase(); ficheCounts[key] = (ficheCounts[key] || 0) + 1; } });
+allData.sheets.forEach(s => { if (s.titulaire) { const key = s.titulaire.trim().toLowerCase(); ficheCounts[key] = (ficheCounts[key] || 0) + 1; } });
 let html = '<div class="teacher-grid">';
 teachers.forEach(t => {
 const emailValid = t.email && t.email.includes('@');
 const nbFiches = ficheCounts[t.nom.toLowerCase()] || 0;
-const sourceBadge = t.source === 'A' ? '🔵' : t.source === 'B' ? '🟢' : '';
 html += `
 <div class="teacher-card">
-<div class="teacher-name">${sourceBadge} ${escapeHtml(t.nom)}</div>
+<div class="teacher-name">${escapeHtml(t.nom)}</div>
 <div class="teacher-detail"><span class="label">📧 Email</span><span class="value ${emailValid ? 'valid' : 'invalid'}">${t.email ? escapeHtml(t.email) : '❌'}</span></div>
 <div class="teacher-detail"><span class="label">🔑 Code</span><span class="value code">${t.code || '---'}</span></div>
-<div class="teacher-detail"><span class="label">📊 Statut</span><span class="value">${t.actif ? '🟢 Actif' : '🔴 Inactif'}</span></div>
-<div class="teacher-detail"><span class="label">📄 Fiches</span><span class="value"><span class="badge badge-primary">${nbFiches}</span></span></div>
-<div class="teacher-detail" style="border-bottom:none;"><span class="label">🏫 École</span><span class="value">${escapeHtml(t.ecoleNom)}</span></div>
+<div class="teacher-detail"><span class="label">📊 Status</span><span class="value">${t.actif ? '🟢 Active' : '🔴 Inactive'}</span></div>
+<div class="teacher-detail"><span class="label">📄 Sheets</span><span class="value"><span class="badge badge-primary">${nbFiches}</span></span></div>
+<div class="teacher-detail" style="border-bottom:none;"><span class="label">🏫 School</span><span class="value">${escapeHtml(t.ecoleNom)}</span></div>
 </div>`;
 });
 html += '</div>';
 container.innerHTML = html;
 }
 
+document.getElementById('showAddTeacher')?.addEventListener('click', function() { document.getElementById('addTeacherForm').style.display = 'block'; updateSelectors(); });
+document.getElementById('cancelTeacherBtn')?.addEventListener('click', function() { document.getElementById('addTeacherForm').style.display = 'none'; });
+document.getElementById('generateTeacherCodeBtn')?.addEventListener('click', function() { document.getElementById('teacherCode').value = genererCode6Chiffres(); });
+document.getElementById('saveTeacherBtn')?.addEventListener('click', async function() {
+const nom = document.getElementById('teacherName').value.trim();
+const ecole = document.getElementById('teacherSchoolSelect').value;
+let code = document.getElementById('teacherCode').value.trim();
+if (!nom || !ecole || ecole === 'all') { toast('Name and school required', 'error'); return; }
+if (!code) { code = genererCode6Chiffres(); document.getElementById('teacherCode').value = code; }
+if (!/^\d{6}$/.test(code)) { toast('Code must be 6 digits', 'error'); return; }
+const btn = this; btn.disabled = true; btn.textContent = '⏳ Creating...';
+try {
+const email = 'prof.' + nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').trim().replace(/\s+/g,'.') + '.' + ecole + '@gmail.com';
+try { await createUserWithEmailAndPassword(auth, email, code); } catch(e) { if (e.code === 'auth/email-already-in-use') { toast('Email already in use', 'warning'); btn.disabled = false; btn.textContent = '💾 Create'; return; } throw e; }
+const profId = 'prof_' + Date.now();
+await setDoc(doc(getDb(), 'ecoles', ecole, 'professeurs', profId), { _type: 'prof', id: profId, profId: profId, nom: nom, email: email, emailProf: email, code: code, actif: true, school: ecole, createdAt: new Date().toISOString() });
+toast('✅ Teacher created', 'success');
+document.getElementById('addTeacherForm').style.display = 'none';
+loadAllData();
+} catch(e) { toast('Error: ' + e.message, 'error'); }
+finally { btn.disabled = false; btn.textContent = '💾 Create'; }
+});
+
 function loadSheets() {
 const container = document.getElementById('sheetsBody');
-if(!container) return;
+if (!container) return;
 const filter = document.getElementById('sheetEcoleFilter')?.value || 'all';
 const search = document.getElementById('sheetSearch')?.value?.toLowerCase() || '';
 let sheets = allData.sheets;
-if(filter !== 'all') sheets = sheets.filter(s => s.ecoleId === filter);
-if(search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
-if(!sheets.length) { container.innerHTML = '<tr><td colspan="7" class="empty-state">Aucune fiche</td></tr>'; return; }
+if (filter !== 'all') sheets = sheets.filter(s => s.ecoleId === filter);
+if (search) sheets = sheets.filter(s => s.cours?.toLowerCase().includes(search) || s.titulaire?.toLowerCase().includes(search));
+if (!sheets.length) { container.innerHTML = '<tr><td colspan="7" class="empty-state">📄 No sheets</td></tr>'; return; }
 let html = '';
 sheets.forEach((s, i) => {
-const sourceBadge = s.source === 'A' ? '🔵' : s.source === 'B' ? '🟢' : '';
-html += `<tr><td>${i+1}</td><td><strong>${sourceBadge} ${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
+html += `<tr><td>${i+1}</td><td><strong>${escapeHtml(s.cours)}</strong></td><td>${escapeHtml(s.classe||'-')}</td><td>${escapeHtml(s.option||'-')}</td><td>${escapeHtml(s.titulaire||'-')}</td><td>${escapeHtml(s.ecoleNom)}</td><td><button class="btn btn-sm btn-danger delete-sheet-btn" data-id="${s.id}" data-ecole="${s.ecoleId}">🗑️</button></td></tr>`;
 });
 container.innerHTML = html;
 container.querySelectorAll('.delete-sheet-btn').forEach(btn => {
 btn.addEventListener('click', async function() {
-const id = this.dataset.id, ecoleId = this.dataset.ecole;
-const sheet = allData.sheets.find(s => s.id === id && s.ecoleId === ecoleId);
-if(!sheet) return;
-if(!await showCodeModal()) return;
-if(!await showConfirm('Supprimer la fiche ' + sheet.cours + ' ?')) return;
-try {
-const db = sheet.source === 'A' ? dbA : dbB;
-const school = allData.schools.find(s => s.id === ecoleId);
-await deleteDoc(doc(db, 'ecoles', school.originalId, 'fiches', id));
-toast('Fiche supprimée', 'success');
-await loadAllData();
-} catch(e) { toast('Erreur: ' + e.message, 'error'); }
+const id = this.dataset.id, ecole = this.dataset.ecole;
+const sheet = allData.sheets.find(s => s.id === id && s.ecoleId === ecole);
+if (!sheet) return;
+if (!await showCodeModal()) return;
+if (!await showConfirm('Delete sheet ' + sheet.cours + ' ?')) return;
+try { await deleteDoc(doc(getDb(), 'ecoles', ecole, 'fiches', id)); toast('✅ Sheet deleted', 'success'); loadAllData(); } catch(e) { toast('Error: ' + e.message, 'error'); }
 });
 });
 }
 
+document.getElementById('showAddSheet')?.addEventListener('click', function() { document.getElementById('addSheetForm').style.display = 'block'; updateSelectors(); });
+document.getElementById('cancelSheetBtn')?.addEventListener('click', function() { document.getElementById('addSheetForm').style.display = 'none'; });
+document.getElementById('saveSheetBtn')?.addEventListener('click', async function() {
+const cours = document.getElementById('sheetCours').value.trim();
+const classe = document.getElementById('sheetClasse').value.trim();
+const ecole = document.getElementById('sheetSchoolSelect').value;
+if (!cours || !classe || !ecole || ecole === 'all') { toast('Subject, class and school required', 'error'); return; }
+try {
+await setDoc(doc(collection(getDb(), 'ecoles', ecole, 'fiches')), { cours, classe, option: document.getElementById('sheetOption').value.trim(), titulaire: document.getElementById('sheetTitulaire').value.trim(), createdBy: 'DSI', eleves: [], dateCreation: new Date().toISOString() });
+toast('✅ Sheet added', 'success');
+document.getElementById('addSheetForm').style.display = 'none';
+loadAllData();
+} catch(e) { toast('Error: ' + e.message, 'error'); }
+});
+
 function loadCodesEmails() {
 const container = document.getElementById('codesEmailsContainer');
-if(!container) return;
+if (!container) return;
 const filter = document.getElementById('codesEmailsEcoleFilter')?.value || 'all';
 let schools = allData.schools;
-if(filter !== 'all') schools = schools.filter(s => s.id === filter);
-if(!schools.length) { container.innerHTML = '<div class="empty-state">Aucune école</div>'; return; }
+if (filter !== 'all') schools = schools.filter(s => s.id === filter);
+if (!schools.length) { container.innerHTML = '<div class="empty-state">🔐 No schools</div>'; return; }
 let html = '<div class="codes-grid">';
-for(const s of schools) {
-let codeDir = 'Non défini', codeCompta = 'Non défini', codePromoteur = 'Non défini';
+for (const s of schools) {
+let codeDir = 'Not set', codeCompta = 'Not set', codePromoteur = 'Not set';
 let emailDir = s.directionEmail || 'direction.' + s.id + '@gmail.com';
 let emailCompta = s.comptaEmail || 'compta.' + s.id + '@gmail.com';
 let emailPromo = s.promoteurEmail || 'promoteur.' + s.id + '@gmail.com';
 const code = allData.codes.find(c => c.ecoleId === s.id);
-if(code) { codeDir = code.codeDirection; codeCompta = code.codeComptabilite; codePromoteur = code.codePromoteur; if(code.emailDirection) emailDir = code.emailDirection; if(code.emailComptabilite) emailCompta = code.emailComptabilite; if(code.emailPromoteur) emailPromo = code.emailPromoteur; }
-const sourceBadge = s.source === 'A' ? '🔵' : s.source === 'B' ? '🟢' : '';
+if (code) { codeDir = code.codeDirection; codeCompta = code.codeComptabilite; codePromoteur = code.codePromoteur; if (code.emailDirection) emailDir = code.emailDirection; if (code.emailComptabilite) emailCompta = code.emailComptabilite; if (code.emailPromoteur) emailPromo = code.emailPromoteur; }
 html += `
 <div class="code-card">
-<div class="code-school-name">${sourceBadge} ${escapeHtml(s.nom)} <span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Active' : '🔴 Inactive'}</span></div>
-<div class="code-item"><span class="label">👔 Directeur</span><span class="value dir">${escapeHtml(codeDir)}</span></div>
-<div class="code-item"><span class="label">📧 Email Directeur</span><span class="value email">${escapeHtml(emailDir)}</span></div>
-<div class="code-item"><span class="label">💰 Comptabilité</span><span class="value compta">${escapeHtml(codeCompta)}</span></div>
-<div class="code-item"><span class="label">📧 Email Compta</span><span class="value email">${escapeHtml(emailCompta)}</span></div>
-<div class="code-item"><span class="label">👔 Promoteur</span><span class="value promo">${escapeHtml(codePromoteur)}</span></div>
-<div class="code-item" style="border-bottom:none;"><span class="label">📧 Email Promoteur</span><span class="value email">${escapeHtml(emailPromo)}</span></div>
+<div class="code-school-name">${escapeHtml(s.nom)} <span class="badge ${s.actif !== false ? 'badge-success' : 'badge-danger'}">${s.actif !== false ? '🟢 Active' : '🔴 Inactive'}</span></div>
+<div class="code-item"><span class="label">👔 Director</span><span class="value dir">${escapeHtml(codeDir)}</span></div>
+<div class="code-item"><span class="label">📧 Director Email</span><span class="value email">${escapeHtml(emailDir)}</span></div>
+<div class="code-item"><span class="label">💰 Accounting</span><span class="value compta">${escapeHtml(codeCompta)}</span></div>
+<div class="code-item"><span class="label">📧 Accounting Email</span><span class="value email">${escapeHtml(emailCompta)}</span></div>
+<div class="code-item"><span class="label">👔 Promoter</span><span class="value promo">${escapeHtml(codePromoteur)}</span></div>
+<div class="code-item" style="border-bottom:none;"><span class="label">📧 Promoter Email</span><span class="value email">${escapeHtml(emailPromo)}</span></div>
 </div>`;
 }
 html += '</div>';
@@ -1240,17 +1185,16 @@ const select = document.getElementById('codeEcoleSelect');
 const ecoleId = select?.value;
 const searchTerm = document.getElementById('codeSearchInput')?.value?.toLowerCase() || '';
 let codes = allData.parentCodes;
-if(ecoleId && ecoleId !== 'all' && ecoleId !== '') codes = codes.filter(c => c.ecole === ecoleId);
-if(searchTerm) codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
+if (ecoleId && ecoleId !== 'all' && ecoleId !== '') codes = codes.filter(c => c.ecole === ecoleId);
+if (searchTerm) codes = codes.filter(c => (c.nom + ' ' + (c.prenom || '')).toLowerCase().includes(searchTerm));
 const container = document.getElementById('codeResultsContainer');
-if(!codes.length) { container.innerHTML = '<div class="empty-state">Aucun code parent</div>'; return; }
+if (!codes.length) { container.innerHTML = '<div class="empty-state">📭 No parent codes found</div>'; return; }
 const groupedByEcole = {};
-codes.forEach(c => { const key = c.ecole; if(!groupedByEcole[key]) groupedByEcole[key] = []; groupedByEcole[key].push(c); });
+codes.forEach(c => { const key = c.ecole; if (!groupedByEcole[key]) groupedByEcole[key] = []; groupedByEcole[key].push(c); });
 let html = '';
-for(const [ecoleId, eleves] of Object.entries(groupedByEcole)) {
+for (const [ecoleId, eleves] of Object.entries(groupedByEcole)) {
 const ecoleNom = allData.schools.find(s => s.id === ecoleId)?.nom || ecoleId;
-const sourceBadge = eleves[0]?.source === 'A' ? '🔵' : eleves[0]?.source === 'B' ? '🟢' : '';
-html += '<div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;"><div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);"><span>' + sourceBadge + ' ' + escapeHtml(ecoleNom) + '</span></div><div style="padding:4px 8px;">';
+html += '<div style="background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-color);overflow:hidden;"><div style="padding:8px 14px;background:rgba(255,255,255,0.03);font-weight:700;font-size:13px;color:#fff;display:flex;justify-content:space-between;border-bottom:1px solid var(--border-color);"><span>🏫 ' + escapeHtml(ecoleNom) + '</span></div><div style="padding:4px 8px;">';
 eleves.forEach(e => {
 const nomComplet = (e.nom + ' ' + (e.prenom || '')).trim() || 'Unknown';
 html += '<div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border-color);font-size:14px;"><span style="font-weight:600;">' + escapeHtml(nomComplet) + '</span><span style="font-family:monospace;background:rgba(108,99,255,0.10);padding:2px 12px;border-radius:4px;color:var(--accent);font-weight:700;">' + escapeHtml(e.parentCode) + '</span></div>';
@@ -1260,80 +1204,107 @@ html += '</div></div>';
 container.innerHTML = html;
 }
 
+document.getElementById('codeSearchInput')?.addEventListener('input', loadParentCodes);
+
+async function loadWhiteMonths() {
+const container = document.getElementById('wmBody');
+if (!container) return;
+const filter = document.getElementById('wmEcoleFilter')?.value || 'all';
+let wm = [];
+const db = getDb();
+const schools = filter !== 'all' ? allData.schools.filter(s => s.id === filter) : allData.schools;
+for (const e of schools) {
+try {
+const snap = await getDocs(collection(db, 'ecoles', e.id, 'compta_eleves'));
+snap.forEach(d => {
+const data = d.data();
+const blancs = data.moisBlancs || [];
+blancs.forEach(m => { wm.push({ docId: d.id, ecoleId: e.id, nom: data.nom || 'Unknown', classe: data.classe || '', section: getSectionFromClasse(data.classe), ecoleNom: e.nom || e.id, mois: m }); });
+});
+} catch(e) {}
+}
+if (!wm.length) { container.innerHTML = '<tr><td colspan="6" class="empty-state">❄️ No white months</td></tr>'; return; }
+let html = '';
+wm.slice(0, 100).forEach((w, i) => {
+const sectionBadge = getSectionBadge(w.section);
+html += `<tr><td><strong>${escapeHtml(w.nom)}</strong></td><td>${escapeHtml(w.classe)}</td><td><span class="badge ${sectionBadge}">${getSectionLabel(w.section)}</span></td><td>${escapeHtml(w.ecoleNom)}</td><td><span class="badge badge-warning">❄️ ${escapeHtml(w.mois)}</span></td><td><button class="btn btn-sm btn-success restaurer-wm-btn" data-doc="${w.docId}" data-ecole="${w.ecoleId}" data-mois="${w.mois}">🔄 Restore</button></td></tr>`;
+});
+container.innerHTML = html;
+container.querySelectorAll('.restaurer-wm-btn').forEach(btn => {
+btn.addEventListener('click', async function() {
+const docId = this.dataset.doc, ecole = this.dataset.ecole, mois = this.dataset.mois;
+if (!await showCodeModal()) return;
+if (!await showConfirm('Restore ' + mois + ' ?')) return;
+try {
+const ref = doc(getDb(), 'ecoles', ecole, 'compta_eleves', docId);
+const snap = await getDoc(ref);
+if (snap.exists()) {
+const data = snap.data();
+const blancs = data.moisBlancs || [];
+await updateDoc(ref, { moisBlancs: blancs.filter(m => m !== mois) });
+toast('✅ White month restored', 'success');
+loadAllData();
+}
+} catch(e) { toast('Error: ' + e.message, 'error'); }
+});
+});
+}
+
 async function loadExplorer() {
 const container = document.getElementById('explorerContent');
-if(!container) return;
-const progressContainer = document.getElementById('explorerProgressContainer');
-const progressFill = document.getElementById('explorerProgressFill');
-const progressText = document.getElementById('explorerProgressText');
-progressContainer.style.display = 'block';
-progressFill.style.width = '0%';
-progressText.textContent = 'Démarrage...';
-container.innerHTML = '<div class="empty-state">🔍 Analyse en cours...</div>';
+if (!container) return;
+container.innerHTML = '<div class="empty-state">🔍 Loading...</div>';
 try {
 const filter = document.getElementById('explorerEcoleFilter')?.value || 'all';
 let schools = allData.schools;
-if(filter !== 'all') schools = schools.filter(s => s.id === filter);
+if (filter !== 'all') schools = schools.filter(s => s.id === filter);
 const subCols = ['professeurs','fiches','compta_eleves','eleves','punitions','presences','horaires','corbeille','compteur','config','alertes_admin','communiques','settings','prima_eleves','mater_eleves'];
 const collections = {};
 let totalDocs = 0;
-let processed = 0;
-const total = schools.length * subCols.length;
-
-for(const school of schools) {
+const db = getDb();
+for (const school of schools) {
 const id = school.id;
-const db = school.source === 'A' ? dbA : dbB;
-for(const sub of subCols) {
+for (const sub of subCols) {
 try {
-processed++;
-const pct = Math.min(100, Math.round((processed / total) * 100));
-progressFill.style.width = pct + '%';
-progressText.textContent = 'Analyse ' + (school.nom || id) + ' → ' + sub + ' (' + pct + '%)';
-const snap = await getDocs(collection(db, 'ecoles', school.originalId, sub));
+const snap = await getDocs(collection(db, 'ecoles', id, sub));
 const docs = [];
 snap.forEach(d => docs.push({ id: d.id, data: d.data() }));
 const key = (school.nom || id) + '/' + sub;
-collections[key] = { nb: docs.length, docs: docs, ecoleId: id, ecoleNom: school.nom || id, source: school.source };
+collections[key] = { nb: docs.length, docs: docs, ecoleId: id, ecoleNom: school.nom || id };
 totalDocs += docs.length;
 } catch(e) {}
 }
 }
-
-progressFill.style.width = '100%';
-progressText.textContent = 'Terminé ! ' + Object.keys(collections).length + ' collections analysées';
-
-let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;"><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">' + Object.keys(collections).length + '</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">' + totalDocs + '</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">' + schools.length + '</div><div style="font-size:11px;color:var(--text-muted);">Écoles</div></div></div>';
+let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px;"><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:#5dade2;">' + Object.keys(collections).length + '</div><div style="font-size:11px;color:var(--text-muted);">Collections</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--success);">' + totalDocs + '</div><div style="font-size:11px;color:var(--text-muted);">Documents</div></div><div style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--border-color);"><div style="font-size:22px;font-weight:900;color:var(--warning);">' + schools.length + '</div><div style="font-size:11px;color:var(--text-muted);">Schools</div></div></div>';
 let idx = 0;
-for(const [key, val] of Object.entries(collections)) {
+for (const [key, val] of Object.entries(collections)) {
 idx++;
 const isVide = val.nb === 0;
-const sourceBadge = val.source === 'A' ? '🔵' : val.source === 'B' ? '🟢' : '';
-html += '<div style="border:1px solid var(--border-color);border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,0.01);overflow:hidden;"><div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;cursor:pointer;" onclick="document.getElementById(\'exp-' + idx + '\').classList.toggle(\'open\')"><div><span>' + (isVide ? '📭' : '📂') + '</span><span style="font-weight:600;font-size:13px;margin-left:6px;">' + sourceBadge + ' ' + escapeHtml(key) + '</span></div><div><span class="badge badge-primary">' + val.nb + '</span></div></div><div id="exp-' + idx + '" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">';
-if(val.nb === 0) html += '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Vide</div>';
+html += '<div style="border:1px solid var(--border-color);border-radius:8px;margin-bottom:4px;background:rgba(255,255,255,0.01);overflow:hidden;"><div style="display:flex;justify-content:space-between;align-items:center;padding:6px 12px;cursor:pointer;" onclick="document.getElementById(\'exp-' + idx + '\').classList.toggle(\'open\')"><div><span>' + (isVide ? '📭' : '📂') + '</span><span style="font-weight:600;font-size:13px;margin-left:6px;">' + escapeHtml(key) + '</span></div><div><span class="badge badge-primary">' + val.nb + '</span></div></div><div id="exp-' + idx + '" style="display:none;padding:4px 12px 8px 28px;border-top:1px solid var(--border-color);">';
+if (val.nb === 0) html += '<div style="color:var(--text-muted);font-size:12px;padding:4px 0;">Empty</div>';
 else {
 val.docs.slice(0, 5).forEach(d => {
 html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border-color);font-size:12px;color:var(--text-muted);"><span style="font-family:monospace;font-size:10px;color:#5dade2;">' + d.id.substring(0,8) + '…</span><span>' + JSON.stringify(d.data).substring(0,40) + '…</span></div>';
 });
-if(val.nb > 5) html += '<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... et ' + (val.nb - 5) + ' autres</div>';
+if (val.nb > 5) html += '<div style="color:var(--text-muted);font-size:11px;padding:4px 0;">... and ' + (val.nb - 5) + ' more</div>';
 }
 html += '</div></div>';
 }
 container.innerHTML = html;
-setTimeout(() => { progressContainer.style.display = 'none'; }, 1500);
-} catch(e) { container.innerHTML = '<div class="empty-state">❌ Erreur de chargement</div>'; progressContainer.style.display = 'none'; }
+} catch(e) { container.innerHTML = '<div class="empty-state">❌ Error loading data</div>'; }
 }
 
 function updateTotalMembers() {
 const filterEcole = document.getElementById('totalMembersEcoleFilter')?.value || 'all';
 let filteredA = membersA, filteredB = membersB, filteredC = membersC;
-if(filterEcole !== 'all') {
+if (filterEcole !== 'all') {
 filteredA = filteredA.filter(m => m.ecoleId === filterEcole);
 filteredB = filteredB.filter(m => m.ecoleId === filterEcole);
 filteredC = filteredC.filter(m => m.ecoleId === filterEcole);
 }
 const totalA = filteredA.length, totalB = filteredB.length, totalC = filteredC.length;
 const totalAll = totalA + totalB + totalC;
-const schoolName = filterEcole !== 'all' ? allData.schools.find(s => s.id === filterEcole)?.nom || filterEcole : 'Toutes les écoles';
+const schoolName = filterEcole !== 'all' ? allData.schools.find(s => s.id === filterEcole)?.nom || filterEcole : 'All schools';
 document.getElementById('totalAllMembers').textContent = totalAll;
 document.getElementById('totalAllSchools').textContent = '🏫 ' + schoolName;
 document.getElementById('totalCountA').textContent = totalA;
@@ -1342,6 +1313,31 @@ document.getElementById('totalCountC').textContent = totalC;
 document.getElementById('totalSchoolA').textContent = '🏫 ' + schoolName;
 document.getElementById('totalSchoolB').textContent = '🏫 ' + schoolName;
 document.getElementById('totalSchoolC').textContent = '🏫 ' + schoolName;
+}
+
+function buildStatsChart() {
+const ctx = document.getElementById('statsChart').getContext('2d');
+if (statsChartInstance) statsChartInstance.destroy();
+statsChartInstance = new Chart(ctx, {
+type: 'bar',
+data: {
+labels: ['Schools', 'Teachers', 'Sheets', 'Students'],
+datasets: [{
+label: 'Platform Statistics',
+data: [allData.schools.length, allData.teachers.length, allData.sheets.length, allData.students.length],
+backgroundColor: ['rgba(59,130,246,0.8)', 'rgba(187,143,206,0.8)', 'rgba(52,211,153,0.8)', 'rgba(245,158,11,0.8)'],
+borderColor: ['#3b82f6', '#bb8fce', '#34D399', '#f59e0b'],
+borderWidth: 2,
+borderRadius: 6
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+plugins: { legend: { display: false }, title: { display: true, text: '📊 Platform Overview', color: 'rgba(255,255,255,0.8)', font: { size: 18, weight: '800' }, padding: { bottom: 15 } } },
+scales: { x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 12, weight: '600' } } }, y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } }, beginAtZero: true } }
+}
+});
 }
 
 document.getElementById('showAddSchool')?.addEventListener('click', function() { document.getElementById('addSchoolForm').style.display = 'block'; });
@@ -1354,19 +1350,18 @@ document.getElementById('schoolId').value = val || 'auto-' + Date.now().toString
 document.getElementById('saveSchoolBtn')?.addEventListener('click', async function() {
 const nom = document.getElementById('schoolName').value.trim();
 const id = document.getElementById('schoolId').value.trim();
-if(!nom || !id) { toast('Nom et ID requis', 'error'); return; }
-if(!await showCodeModal()) return;
+if (!nom || !id) { toast('Name and ID required', 'error'); return; }
+if (!await showCodeModal()) return;
 try {
-const db = getDb();
-const existing = await getDoc(doc(db, 'ecoles', id));
-if(existing.exists()) { toast('ID déjà utilisé', 'error'); return; }
+const existing = await getDoc(doc(getDb(), 'ecoles', id));
+if (existing.exists()) { toast('ID already in use', 'error'); return; }
 const codeDirection = genererCode6Chiffres();
-await setDoc(doc(db, 'ecoles', id), { nom, id, province: document.getElementById('schoolProvince').value, ville: document.getElementById('schoolCity').value.trim(), telephone: document.getElementById('schoolPhone').value.trim(), directeur: document.getElementById('schoolDirector').value.trim(), adresse: document.getElementById('schoolAddress').value.trim(), actif: true, inscriptionActive: false, masque: false, dateCreation: new Date().toISOString() });
-await setDoc(doc(db, 'ecoles', id, 'settings', 'data'), { codeDirection: codeDirection, codeComptabilite: genererCode6Chiffres(), codePromoteur: genererCode6Chiffres(), emailDirection: 'direction.' + id + '@gmail.com', emailComptabilite: 'compta.' + id + '@gmail.com', emailPromoteur: 'promoteur.' + id + '@gmail.com', updatedAt: new Date().toISOString() });
-toast('École créée', 'success');
+await setDoc(doc(getDb(), 'ecoles', id), { nom, id, province: document.getElementById('schoolProvince').value, ville: document.getElementById('schoolCity').value.trim(), telephone: document.getElementById('schoolPhone').value.trim(), directeur: document.getElementById('schoolDirector').value.trim(), adresse: document.getElementById('schoolAddress').value.trim(), actif: true, inscriptionActive: false, masque: false, dateCreation: new Date().toISOString() });
+await setDoc(doc(getDb(), 'ecoles', id, 'settings', 'data'), { codeDirection: codeDirection, codeComptabilite: genererCode6Chiffres(), codePromoteur: genererCode6Chiffres(), emailDirection: 'direction.' + id + '@gmail.com', emailComptabilite: 'compta.' + id + '@gmail.com', emailPromoteur: 'promoteur.' + id + '@gmail.com', updatedAt: new Date().toISOString() });
+toast('✅ School created', 'success');
 document.getElementById('addSchoolForm').style.display = 'none';
-await loadAllData();
-} catch(e) { toast('Erreur: ' + e.message, 'error'); }
+loadAllData();
+} catch(e) { toast('Error: ' + e.message, 'error'); }
 });
 
 document.getElementById('themeToggle')?.addEventListener('click', function() {
@@ -1374,18 +1369,20 @@ document.body.classList.toggle('light');
 this.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
 });
 
-document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
+document.querySelectorAll('.tab-btn').forEach(btn => {
 btn.onclick = function() {
-document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 this.classList.add('active');
 document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-const tabId = this.dataset.tab;
-document.getElementById(tabId).classList.add('active');
-const titles = { tab1: 'Écoles', tab2: 'Membres A', tab3: 'Membres B', tab4: 'Membres C', tab5: 'Professeurs', tab6: 'Fiches', tab7: 'Codes & Emails', tab10: 'Codes Parents', tab12: 'Explorateur', tab13: 'Total Membres', tab14: 'Import CSV' };
-document.getElementById('pageTitle').textContent = titles[tabId] || 'Dashboard';
-const loaders = { tab1: loadSchools, tab2: loadMembersA, tab3: loadMembersB, tab4: loadMembersC, tab5: loadTeachers, tab6: loadSheets, tab7: loadCodesEmails, tab10: loadParentCodes, tab12: loadExplorer, tab13: updateTotalMembers };
-if(loaders[tabId]) loaders[tabId]();
+document.getElementById(this.dataset.tab).classList.add('active');
+const tabMap = { 'tab1': loadSchools, 'tab2': loadMembersA, 'tab3': loadMembersB, 'tab4': loadMembersC, 'tab5': loadTeachers, 'tab6': loadSheets, 'tab7': loadCodesEmails, 'tab10': loadParentCodes, 'tab11': loadWhiteMonths, 'tab12': loadExplorer, 'tab13': updateTotalMembers };
+if (tabMap[this.dataset.tab]) tabMap[this.dataset.tab]();
+if (this.dataset.tab === 'tab0') buildStatsChart();
 };
+});
+
+document.getElementById('statsBackBtn')?.addEventListener('click', function() {
+document.querySelector('[data-tab="tab1"]').click();
 });
 
 document.querySelectorAll('.source-btn').forEach(btn => {
@@ -1394,23 +1391,19 @@ document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active
 this.classList.add('active');
 activeSource = this.dataset.source;
 document.body.className = 'source-' + activeSource;
-const labels = { a: '🔵 SOURCE A', b: '🟢 SOURCE B', merged: '🟡 FUSIONNÉ' };
+const labels = { a: '🔵 SOURCE A · gesco-67c43', b: '🟢 SOURCE B · gesco-2', merged: '🟡 FUSIONNÉ · SOURCE A + B' };
 const classes = { a: 'a', b: 'b', merged: 'merged' };
 document.getElementById('sourceStatus').className = classes[activeSource];
 document.getElementById('sourceStatus').textContent = labels[activeSource];
+document.querySelectorAll('.source-badge.a, .source-badge.b, .source-badge.merged').forEach(el => {
+el.className = 'source-badge ' + activeSource;
+el.textContent = getSourceLabel();
+});
 loadAllData();
 });
 });
 
-document.getElementById('clearSessionBtn')?.addEventListener('click', function() {
-if(confirm('Effacer toutes les données de session ?')) {
-clearSession();
-}
-});
-
-document.getElementById('logoutBtn')?.addEventListener('click', logout);
-
-['refreshEcolesBtn','refreshMembersA','refreshMembersB','refreshMembersC','refreshTeachersBtn','refreshSheetsBtn','refreshCodesEmailsBtn','refreshCodesBtn','refreshExplorerBtn','refreshTotalMembersBtn','refreshImportBtn'].forEach(id => {
+['refreshEcolesBtn','refreshMembersA','refreshMembersB','refreshMembersC','refreshTeachersBtn','refreshSheetsBtn','refreshCodesEmailsBtn','refreshCodesBtn','refreshWmBtn','refreshExplorerBtn','refreshTotalMembersBtn'].forEach(id => {
 document.getElementById(id)?.addEventListener('click', loadAllData);
 });
 
@@ -1424,22 +1417,23 @@ document.getElementById(id)?.addEventListener('change', loadSchools);
 ['teacherEcoleFilter','teacherSearch','teacherEmailFilter'].forEach(id => { document.getElementById(id)?.addEventListener('change', loadTeachers); document.getElementById(id)?.addEventListener('input', loadTeachers); });
 ['sheetEcoleFilter','sheetSearch'].forEach(id => { document.getElementById(id)?.addEventListener('change', loadSheets); document.getElementById(id)?.addEventListener('input', loadSheets); });
 document.getElementById('codesEmailsEcoleFilter')?.addEventListener('change', loadCodesEmails);
+document.getElementById('wmEcoleFilter')?.addEventListener('change', loadWhiteMonths);
 document.getElementById('codeEcoleSelect')?.addEventListener('change', loadParentCodes);
-document.getElementById('codeSearchInput')?.addEventListener('input', loadParentCodes);
 document.getElementById('explorerEcoleFilter')?.addEventListener('change', loadExplorer);
 document.getElementById('applyExplorerFilter')?.addEventListener('click', loadExplorer);
 document.getElementById('totalMembersEcoleFilter')?.addEventListener('change', updateTotalMembers);
 document.getElementById('applyTotalFilter')?.addEventListener('click', updateTotalMembers);
 
 loginBtn.addEventListener('click', handleLogin);
-loginPassword.addEventListener('keydown', (e) => { if(e.key === 'Enter') handleLogin(); });
-loginEmail.addEventListener('keydown', (e) => { if(e.key === 'Enter') loginPassword.focus(); });
+loginPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+loginEmail.addEventListener('keydown', (e) => { if (e.key === 'Enter') loginPassword.focus(); });
+logoutBtn.addEventListener('click', logout);
 
 const savedSession = sessionStorage.getItem('adminSession');
-if(savedSession) {
+if (savedSession) {
 try {
 const session = JSON.parse(savedSession);
-if(session.email && session.timestamp > Date.now() - 86400000) {
+if (session.email && session.timestamp > Date.now() - 3600000) {
 currentUser = { email: session.email };
 showDashboard(session.email);
 }
@@ -1447,130 +1441,7 @@ showDashboard(session.email);
 }
 
 document.body.className = 'source-a';
-
-document.getElementById('exportExplorerBtn')?.addEventListener('click', function() {
-const data = JSON.stringify(allData, null, 2);
-const blob = new Blob([data], { type: 'application/json' });
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = 'netubex_export_' + new Date().toISOString().slice(0,10) + '.json';
-a.click();
-URL.revokeObjectURL(url);
-toast('Export JSON effectué', 'success');
-});
-
-document.getElementById('importExplorerBtn')?.addEventListener('click', function() {
-const input = document.createElement('input');
-input.type = 'file';
-input.accept = '.json,.csv,.xlsx,.xls';
-input.onchange = async function(e) {
-const file = e.target.files[0];
-if(!file) return;
-try {
-const text = await file.text();
-let data;
-if(file.name.endsWith('.json')) {
-data = JSON.parse(text);
-toast('Données JSON importées', 'success');
-} else {
-toast('Format CSV/Excel non supporté pour l\'instant', 'warning');
-return;
-}
-if(data.schools) {
-toast('Import réussi : ' + data.schools.length + ' écoles', 'success');
-}
-} catch(err) { toast('Erreur: ' + err.message, 'error'); }
-};
-input.click();
-});
-
-document.getElementById('importBtnA')?.addEventListener('click', function() {
-document.getElementById('importFileA').click();
-});
-document.getElementById('importBtnB')?.addEventListener('click', function() {
-document.getElementById('importFileB').click();
-});
-
-document.getElementById('importFileA')?.addEventListener('change', async function(e) {
-const file = e.target.files[0];
-if(!file) return;
-const status = document.getElementById('importStatusA');
-status.textContent = '⏳ Importation en cours...';
-try {
-const text = await file.text();
-const lines = text.split('\n').filter(l => l.trim());
-const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-let imported = 0;
-for(let i = 1; i < lines.length; i++) {
-const vals = lines[i].split(',').map(v => v.trim());
-if(vals.length < 2) continue;
-const school = {};
-headers.forEach((h, idx) => { school[h] = vals[idx] || ''; });
-if(school.nom && school.id) {
-try {
-const existing = await getDoc(doc(dbA, 'ecoles', school.id));
-if(!existing.exists()) {
-await setDoc(doc(dbA, 'ecoles', school.id), {
-nom: school.nom, id: school.id, province: school.province || '',
-ville: school.ville || '', telephone: school.telephone || '',
-directeur: school.directeur || '', adresse: school.adresse || '',
-actif: school.actif !== 'false', masque: false,
-dateCreation: new Date().toISOString()
-});
-imported++;
-}
-} catch(err) {}
-}
-}
-status.textContent = '✅ ' + imported + ' écoles importées (SOURCE A)';
-toast(imported + ' écoles importées SOURCE A', 'success');
-await loadAllData();
-} catch(err) {
-status.textContent = '❌ Erreur: ' + err.message;
-toast('Erreur import: ' + err.message, 'error');
-}
-});
-
-document.getElementById('importFileB')?.addEventListener('change', async function(e) {
-const file = e.target.files[0];
-if(!file) return;
-const status = document.getElementById('importStatusB');
-status.textContent = '⏳ Importation en cours...';
-try {
-const text = await file.text();
-const lines = text.split('\n').filter(l => l.trim());
-const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-let imported = 0;
-for(let i = 1; i < lines.length; i++) {
-const vals = lines[i].split(',').map(v => v.trim());
-if(vals.length < 2) continue;
-const school = {};
-headers.forEach((h, idx) => { school[h] = vals[idx] || ''; });
-if(school.nom && school.id) {
-try {
-const existing = await getDoc(doc(dbB, 'ecoles', school.id));
-if(!existing.exists()) {
-await setDoc(doc(dbB, 'ecoles', school.id), {
-nom: school.nom, id: school.id, province: school.province || '',
-ville: school.ville || '', telephone: school.telephone || '',
-directeur: school.directeur || '', adresse: school.adresse || '',
-actif: school.actif !== 'false', masque: false,
-dateCreation: new Date().toISOString()
-});
-imported++;
-}
-} catch(err) {}
-}
-}
-status.textContent = '✅ ' + imported + ' écoles importées (SOURCE B)';
-toast(imported + ' écoles importées SOURCE B', 'success');
-await loadAllData();
-} catch(err) {
-status.textContent = '❌ Erreur: ' + err.message;
-toast('Erreur import: ' + err.message, 'error');
-}
-});
+console.log('🚀 NeTubeX Admin Dashboard');
 </script>
 </body>
 </html>
