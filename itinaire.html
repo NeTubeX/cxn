@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>NeTubeX - Test Itinéraire</title>
+    <title>NeTubeX - Itinéraire</title>
 
     <style>
         * {
@@ -24,7 +24,7 @@
         .card {
             width: 92%;
             max-width: 480px;
-            background: #ffffff;
+            background: white;
             padding: 30px;
             border-radius: 22px;
             text-align: center;
@@ -39,31 +39,40 @@
         }
 
         h1 {
-            font-size: 25px;
+            font-size: 24px;
             color: #172b4d;
             margin: 15px 0 25px;
         }
 
-        .destination {
+        .school {
             background: #e8f5e9;
             border-radius: 16px;
             padding: 22px;
             margin-bottom: 25px;
         }
 
-        .destination .icon {
+        .icon {
             font-size: 45px;
         }
 
-        .destination h2 {
+        .school h2 {
             margin: 10px 0;
             font-size: 21px;
             color: #1b5e20;
         }
 
-        .destination p {
-            margin: 5px 0;
+        .school p {
+            margin: 7px 0;
             color: #455a64;
+        }
+
+        .coordinates {
+            margin-top: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #263238;
         }
 
         .btn {
@@ -76,7 +85,7 @@
             border-radius: 14px;
             font-size: 18px;
             font-weight: bold;
-            border: none;
+            cursor: pointer;
         }
 
         .btn:active {
@@ -100,34 +109,37 @@
         NeTubeX
     </div>
 
-    <h1>🧭 TEST D'ITINÉRAIRE</h1>
+    <h1>🧭 ITINÉRAIRE VERS L'ÉTABLISSEMENT</h1>
 
-    <div class="destination">
+    <div class="school">
 
-        <div class="icon">🏁</div>
+        <div class="icon">🏫</div>
 
-        <h2>KASUMBALESA-DOUANE</h2>
+        <h2>ÉTABLISSEMENT TEST</h2>
 
-        <p>📍 Kasumbalesa, RDC</p>
+        <p>📍 Kasumbalesa</p>
 
-        <p>
-            <strong>Destination automatique</strong>
-        </p>
+        <div class="coordinates">
+            <strong>Coordonnées GPS</strong><br><br>
+
+            Latitude : -12.260982<br>
+            Longitude : 27.737325
+        </div>
 
     </div>
 
     <a
         class="btn"
-        href="https://www.google.com/maps/dir/?api=1&destination=Kasumbalesa%20Douane%2C%20Kasumbalesa%2C%20RDC"
+        href="https://www.google.com/maps/dir/?api=1&destination=-12.260982%2C27.737325"
         target="_blank"
         rel="noopener noreferrer"
     >
-        🧭 ALLER À KASUMBALESA-DOUANE
+        🧭 ALLER À L'ÉTABLISSEMENT
     </a>
 
     <div class="info">
-        📍 Le départ correspond à votre position actuelle.<br>
-        🏁 La destination est déjà définie.
+        📍 Votre position actuelle sera utilisée comme point de départ.<br>
+        🏫 L'établissement est déjà défini comme destination.
     </div>
 
 </div>
