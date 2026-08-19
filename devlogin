@@ -13,19 +13,98 @@
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"}}
 </script>
 <style>
-/* ===== VOTRE STYLE EXISTANT ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
 body{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0a0e1a 0%,#0f1a2e 40%,#0f172a 70%,#0d1a2b 100%);position:relative;overscroll-behavior:none;-webkit-overscroll-behavior:none;}
 
-/* ... Gardez tout votre style CSS existant ... */
-/* (Je ne répète pas tout le CSS pour éviter la longueur) */
+.floating-shapes{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+.floating-shapes .shape{position:absolute;border-radius:50%;opacity:0.04;background:linear-gradient(135deg,#3b82f6,#8b5cf6)}
+.floating-shapes .shape:nth-child(1){width:500px;height:500px;top:-200px;right:-100px;animation:floatShape1 35s ease-in-out infinite alternate}
+.floating-shapes .shape:nth-child(2){width:400px;height:400px;bottom:-150px;left:-100px;animation:floatShape2 28s ease-in-out infinite alternate-reverse}
+.floating-shapes .shape:nth-child(3){width:250px;height:250px;top:30%;left:50%;animation:floatShape3 40s ease-in-out infinite alternate}
+.floating-shapes .shape:nth-child(4){width:180px;height:180px;bottom:20%;right:10%;animation:floatShape1 25s ease-in-out infinite alternate}
+@keyframes floatShape1{0%{transform:translate(0,0) scale(1) rotate(0deg)}100%{transform:translate(50px,-50px) scale(1.2) rotate(8deg)}}
+@keyframes floatShape2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-40px,40px) scale(0.8)}}
+@keyframes floatShape3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-30px,-30px) scale(1.1) rotate(-5deg)}}
 
+.login-wrapper{position:relative;width:100%;max-width:480px;padding:15px;perspective:1800px;z-index:10;height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-box{background:rgba(255,255,255,0.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:38px;padding:18px 28px 20px;border:1px solid rgba(255,255,255,0.3);box-shadow:0 50px 120px rgba(0,0,0,0.4),0 20px 50px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.6);transform:rotateX(2deg) rotateY(-1deg) translateZ(0);transition:all 0.6s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;width:100%;will-change:transform;}
+.login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#3b82f6,#8b5cf6,#3b82f6);background-size:200% 100%;animation:gradientMove 3s ease-in-out infinite}
+@keyframes gradientMove{0%{background-position:0% 0%}50%{background-position:100% 0%}100%{background-position:0% 0%}}
+.login-box::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(59,130,246,0.03),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(139,92,246,0.02),transparent 60%);pointer-events:none;z-index:0}
+.login-box:hover{transform:rotateX(0deg) rotateY(0deg) translateY(-4px) translateZ(30px);box-shadow:0 70px 140px rgba(0,0,0,0.3),0 25px 60px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.7);}
+
+.logo-container{display:flex;align-items:center;justify-content:center;margin-bottom:2px;position:relative;z-index:1;}
+.logo-wrapper{width:150px;height:150px;border-radius:50%;background:linear-gradient(145deg,#e8edf5,#c8d0dc);border:5px solid rgba(255,255,255,0.4);padding:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 35px 90px rgba(59,130,246,0.2),inset 0 4px 0 rgba(255,255,255,0.9),inset 0 -4px 0 rgba(0,0,0,0.05);transition:all 0.5s cubic-bezier(0.16,1,0.3,1);transform:perspective(800px) rotateX(8deg) rotateY(3deg);}
+.logo-wrapper:hover{transform:perspective(800px) rotateX(0deg) rotateY(0deg) scale(1.05);box-shadow:0 45px 110px rgba(59,130,246,0.25),inset 0 4px 0 rgba(255,255,255,0.9);}
+.logo-wrapper img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;transform:perspective(600px) rotateX(-5deg) rotateY(-2deg);transition:transform 0.5s ease;}
+.logo-wrapper img:hover{transform:perspective(600px) rotateX(0deg) rotateY(0deg);}
+.logo-wrapper .placeholder{font-size:56px;color:#94a3b8;display:flex;align-items:center;justify-content:center;width:100%;height:100%;}
+
+.login-box h1{text-align:center;font-size:20px;font-weight:900;background:linear-gradient(135deg,#1a2a3a,#2d4a6a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px;margin-bottom:0px;position:relative;z-index:1;text-shadow:0 4px 20px rgba(0,0,0,0.05),0 2px 10px rgba(0,0,0,0.03);transform:perspective(400px) rotateX(1deg);}
+.login-box .sub{text-align:center;color:#64748b;font-size:13px;font-weight:500;margin-bottom:0px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,0.03);letter-spacing:0.3px;}
+.login-box .salutation-wrapper{text-align:center;margin-bottom:10px;position:relative;z-index:1;min-height:44px;display:flex;align-items:center;justify-content:center;}
+.login-box .salutation{color:#3b82f6;font-size:18px;background:rgba(59,130,246,0.06);padding:6px 20px;border-radius:30px;border:1px solid rgba(59,130,246,0.08);display:inline-block;font-weight:700;letter-spacing:0.5px;box-shadow:0 4px 15px rgba(59,130,246,0.05);min-width:200px;text-align:center;font-family:'Inter',sans-serif;}
+.login-box .salutation .cursor{display:inline-block;width:3px;height:24px;background:#3b82f6;margin-left:2px;vertical-align:text-bottom;animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.form-group{margin-bottom:14px;position:relative;z-index:1;}
+.form-group label{display:block;color:#475569;font-size:10px;font-weight:700;margin-bottom:4px;text-align:center;letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 2px 8px rgba(0,0,0,0.02);}
+.form-group input{width:100%;padding:14px 18px;border-radius:16px;background:#e8ecf0;border:2px solid transparent;color:#1a2a3a;font-size:24px;text-align:center;letter-spacing:12px;font-family:'Inter',sans-serif;outline:none;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);box-shadow:inset 0 2px 8px rgba(0,0,0,0.06);}
+.form-group input:focus{border-color:#3b82f6;background:#e2e6eb;box-shadow:0 0 0 4px rgba(59,130,246,0.06),inset 0 2px 8px rgba(0,0,0,0.06);}
+.form-group input::placeholder{color:#9aa8b6;font-size:13px;letter-spacing:5px;font-weight:300;}
+.form-group input:disabled{opacity:0.4;cursor:not-allowed;}
+
+#loginBtn{width:100%;padding:14px;border-radius:16px;border:none;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);letter-spacing:1.5px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(59,130,246,0.3),inset 0 -4px 0 rgba(0,0,0,0.15),inset 0 4px 0 rgba(255,255,255,0.2);z-index:1;text-shadow:0 2px 4px rgba(0,0,0,0.05);transform:perspective(400px) rotateX(2deg) translateY(-2px);}
+#loginBtn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transition:left 0.6s;}
+#loginBtn::before{content:'';position:absolute;top:4px;left:4px;right:4px;height:50%;background:linear-gradient(180deg,rgba(255,255,255,0.2),transparent);border-radius:14px 14px 0 0;pointer-events:none;}
+#loginBtn:hover:not(:disabled){transform:perspective(400px) rotateX(0deg) translateY(-4px) translateZ(10px);box-shadow:0 18px 50px rgba(59,130,246,0.4),inset 0 -4px 0 rgba(0,0,0,0.1),inset 0 4px 0 rgba(255,255,255,0.3);}
+#loginBtn:hover:not(:disabled)::after{left:100%;}
+#loginBtn:active:not(:disabled){transform:perspective(400px) rotateX(0deg) translateY(2px) translateZ(-5px);box-shadow:0 4px 15px rgba(59,130,246,0.2),inset 0 2px 0 rgba(0,0,0,0.2);}
+#loginBtn:disabled{opacity:0.6;transform:perspective(400px) rotateX(0deg) translateY(0px);box-shadow:0 4px 15px rgba(59,130,246,0.1);cursor:not-allowed;}
+#loginBtn .btn-content{display:flex;align-items:center;justify-content:center;gap:10px;}
+#loginBtn .spinner{display:none;width:20px;height:20px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;}
+#loginBtn.loading .spinner{display:inline-block;}
+#loginBtn.loading .btn-text{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.back-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:none;color:#64748b;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.3s ease;padding:6px 14px;border-radius:30px;margin-top:2px;text-decoration:none;font-family:'Inter',sans-serif;}
+.back-btn:hover{color:#3b82f6;background:rgba(59,130,246,0.04);transform:translateX(-4px);}
+.back-btn .arrow{font-size:14px;transition:transform 0.3s ease;}
+.back-btn:hover .arrow{transform:translateX(-4px);}
+
+.footer{text-align:center;margin-top:6px;padding-top:8px;border-top:1px solid rgba(59,130,246,0.04);position:relative;z-index:1;}
+.footer p{color:#94a3b8;font-size:9px;letter-spacing:0.5px;}
+.footer .support{color:#94a3b8;font-size:9px;margin-top:2px;}
+.footer .support a{color:#3b82f6;text-decoration:none;font-weight:600;transition:color 0.3s;}
+.footer .support a:hover{color:#1d4ed8;text-decoration:underline;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(40px) scale(0.95) rotateX(3deg)}to{opacity:1;transform:translateY(0) scale(1) rotateX(0deg)}}
+.login-box{animation:fadeIn 0.7s cubic-bezier(0.16,1,0.3,1)}
+
+.toast-container{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;width:100%;max-width:540px;padding:0 20px;}
+.toast{background:rgba(255,255,255,0.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;padding:16px 24px;min-width:300px;max-width:540px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.08),0 10px 30px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.4);display:flex;align-items:center;gap:14px;transform:translateY(-120px);opacity:0;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);pointer-events:auto;position:relative;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.hide{transform:translateY(-60px);opacity:0;}
+.toast .toast-icon{font-size:22px;flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.toast.success .toast-icon{background:rgba(16,185,129,0.12);color:#059669;}
+.toast.error .toast-icon{background:rgba(239,68,68,0.12);color:#dc2626;}
+.toast.warning .toast-icon{background:rgba(245,158,11,0.12);color:#d97706;}
+.toast.info .toast-icon{background:rgba(59,130,246,0.12);color:#2563eb;}
+.toast .toast-content{flex:1;}
+.toast .toast-title{font-weight:700;font-size:14px;color:#1a2a3a;margin-bottom:1px;}
+.toast .toast-message{font-size:13px;color:#64748b;line-height:1.5;}
+.toast .toast-close{background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:4px;transition:all 0.3s;flex-shrink:0;}
+.toast .toast-close:hover{color:#475569;transform:rotate(90deg);}
+.toast.success{border-left:4px solid #10b981;}
+.toast.error{border-left:4px solid #ef4444;}
+.toast.warning{border-left:4px solid #f59e0b;}
+.toast.info{border-left:4px solid #3b82f6;}
+
+@media(max-width:480px){.login-box{padding:14px 14px 14px;border-radius:24px;}.login-box h1{font-size:16px;}.logo-wrapper{width:120px;height:120px;}.logo-wrapper .placeholder{font-size:44px;}.form-group input{font-size:18px;letter-spacing:8px;padding:10px;}.toast{min-width:auto;padding:10px 12px;}.login-wrapper{max-width:100%;}.login-box .salutation{font-size:14px;padding:4px 14px;min-width:140px;}}
 </style>
 </head>
 <body>
-
-<!-- ===== VOTRE STRUCTURE HTML EXISTANTE ===== -->
 <div class="floating-shapes">
 <div class="shape"></div>
 <div class="shape"></div>
@@ -37,7 +116,6 @@ body{display:flex;align-items:center;justify-content:center;background:linear-gr
 
 <div class="login-wrapper">
 <div class="login-box">
-<!-- Logo et titre -->
 <div class="logo-container">
 <div class="logo-wrapper" id="logoWrapper">
 <div class="placeholder" id="logoPlaceholder">🏫</div>
@@ -46,13 +124,9 @@ body{display:flex;align-items:center;justify-content:center;background:linear-gr
 </div>
 <h1 id="schoolNameTitle">GESTION SCOLAIRE</h1>
 <p class="sub" id="schoolSub">COMPLEXE SCOLAIRE</p>
-
-<!-- Salutation dynamique -->
 <div class="salutation-wrapper">
 <span class="salutation" id="salutationText"><span id="typedText"></span><span class="cursor"></span></span>
 </div>
-
-<!-- Formulaire -->
 <div class="form-group">
 <label>CODE D'ACCÈS</label>
 <input type="password" id="loginPassword" placeholder="••••••••••" maxlength="6" inputmode="numeric" autofocus>
@@ -63,11 +137,7 @@ body{display:flex;align-items:center;justify-content:center;background:linear-gr
 <span class="btn-text">SE CONNECTER</span>
 </span>
 </button>
-
-<!-- Bouton retour -->
 <button class="back-btn" onclick="window.location.href='https://www.netubex.com/schoolchoice'"><span class="arrow">◀</span> Retourner au sélecteur d'école</button>
-
-<!-- Footer -->
 <div class="footer">
 <p>© 2026 - Tous droits réservés</p>
 <p class="support">📞 Support : <a href="tel:+243845048412">+243845048412</a></p>
@@ -78,26 +148,16 @@ body{display:flex;align-items:center;justify-content:center;background:linear-gr
 <script type="importmap">
 {"imports":{"firebase/app":"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js","firebase/auth":"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js","firebase/firestore":"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"}}
 </script>
-
 <script type="module">
-// ========================================
-// IMPORTS FIREBASE
-// ========================================
 import{initializeApp}from"firebase/app";
 import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword}from"firebase/auth";
 import{getFirestore,doc,getDoc}from"firebase/firestore";
 
-// ========================================
-// CONFIGURATION FIREBASE
-// ========================================
 const firebaseConfig={apiKey:"AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",authDomain:"gesco-67c43.firebaseapp.com",projectId:"gesco-67c43",storageBucket:"gesco-67c43.firebasestorage.app",messagingSenderId:"333004443566",appId:"1:333004443566:web:de41f60000e418dce9023f"};
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
 
-// ========================================
-// RÉCUPÉRATION DES PARAMÈTRES URL
-// ========================================
 const urlParams=new URLSearchParams(window.location.search);
 const ecoleId=urlParams.get("ecole")||"mon-ecole";
 const schoolDisplay=ecoleId.toUpperCase().replace(/-/g," ");
@@ -105,17 +165,9 @@ document.getElementById("schoolSub").textContent="COMPLEXE SCOLAIRE "+schoolDisp
 document.getElementById("schoolNameTitle").textContent="ÉCOLE "+schoolDisplay;
 document.title="Connexion - "+schoolDisplay;
 
-// ========================================
-// VARIABLES GLOBALES
-// ========================================
 let tentatives=0;
 let toastTimeout=null;
 
-// ========================================
-// FONCTIONS UTILITAIRES
-// ========================================
-
-// Salutation dynamique
 function getSalutation() {
     const now = new Date();
     const hour = now.getHours();
@@ -127,7 +179,6 @@ function getSalutation() {
     return message;
 }
 
-// Effet machine à écrire
 function typeWriter(element, text, speed = 90) {
     let i = 0;
     const cursor = element.querySelector('.cursor');
@@ -156,7 +207,6 @@ function typeWriter(element, text, speed = 90) {
     type();
 }
 
-// Initialisation de la salutation
 const salutationEl = document.getElementById('salutationText');
 const salutationMsg = getSalutation();
 salutationEl.innerHTML = `<span id="typedText"></span><span class="cursor"></span>`;
@@ -164,14 +214,10 @@ setTimeout(() => {
     typeWriter(salutationEl, salutationMsg, 90);
 }, 500);
 
-// Fonctions de génération d'emails
 function genererEmailPromoteur(ecoleId){return`promoteur.${ecoleId}@gmail.com`;}
 function genererEmailDirection(ecoleId){return`direction.${ecoleId}@gmail.com`;}
 function genererEmailCompta(ecoleId){return`compta.${ecoleId}@gmail.com`;}
 
-// ========================================
-// SYSTEME DE TOAST (Notifications)
-// ========================================
 function showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
     if (!container) return;
@@ -234,9 +280,6 @@ function createToast(message, type) {
     }, 4000);
 }
 
-// ========================================
-// CHARGEMENT DU LOGO
-// ========================================
 async function getSchoolLogo(ecoleId) {
     try {
         const docRef = doc(db, "ecoles", ecoleId);
@@ -270,9 +313,6 @@ async function updateSchoolLogo(ecoleId) {
     }
 }
 
-// ========================================
-// RÉCUPÉRATION DES CODES DE L'ÉCOLE
-// ========================================
 async function getSchoolCodes(){
     try{
         const ref = doc(db, "ecoles", ecoleId, "settings", "data");
@@ -303,14 +343,10 @@ async function getSchoolCodes(){
     }
 }
 
-// ========================================
-// ⭐⭐⭐ FONCTION PRINCIPALE DE CONNEXION (MODIFIÉE) ⭐⭐⭐
-// ========================================
 async function seConnecter(){
     const password = document.getElementById("loginPassword").value.trim();
     const btn = document.getElementById("loginBtn");
     
-    // Validation de base
     if(!password || password.length < 4){
         showToast("Code d'accès incorrect. Veuillez réessayer.", "error");
         tentatives++;
@@ -325,7 +361,6 @@ async function seConnecter(){
     btn.classList.add('loading');
 
     try{
-        // 1. Récupérer les codes de l'école
         const codes = await getSchoolCodes();
         
         if(!codes){
@@ -335,7 +370,6 @@ async function seConnecter(){
             return;
         }
 
-        // 2. Vérifier le code saisi
         let role = null;
         let email = null;
         let urlDestination = '';
@@ -369,7 +403,6 @@ async function seConnecter(){
             return;
         }
 
-        // 3. Authentification Firebase
         const roleLabels = { direction:'Direction', comptabilite:'Comptabilité', promoteur:'Promoteur' };
         showToast(`Vérification réussie. Connexion en tant que ${roleLabels[role]}...`, "success");
 
@@ -392,35 +425,15 @@ async function seConnecter(){
             }
         }
 
-        // ========================================
-        // ⭐⭐⭐ NOUVEAU : STOCKAGE DANS SESSIONSTORAGE ⭐⭐⭐
-        // ========================================
-        // 4. Stocker les informations de connexion dans sessionStorage
-        //    Ces données seront utilisées par la page d'accueil
-        //    pour charger le bon espace sans paramètres dans l'URL
         sessionStorage.setItem('ecoleId', ecoleId);
         sessionStorage.setItem('role', role);
         sessionStorage.setItem('code', password);
         sessionStorage.setItem('isAuthenticated', 'true');
-        sessionStorage.setItem('loginTime', Date.now().toString()); // Pour gérer l'expiration
-        
-        console.log('✅ Données stockées dans sessionStorage:', {
-            ecoleId: ecoleId,
-            role: role,
-            isAuthenticated: 'true'
-        });
+        sessionStorage.setItem('loginTime', Date.now().toString());
 
-        // ========================================
-        // ⭐⭐⭐ NOUVEAU : REDIRECTION VERS LA PAGE D'ACCUEIL ⭐⭐⭐
-        // ========================================
-        // 5. Rediriger vers la page d'accueil SANS paramètres
-        //    L'URL deviendra : https://www.netubex.com
-        //    Les paramètres ecole et code sont masqués !
-        showToast(`✅ Connexion réussie ! Redirection vers l'espace ${roleLabels[role]}...`, "success");
+        showToast(`✅ Connexion réussie ! Redirection...`, "success");
         
         setTimeout(() => {
-            // window.location.replace() remplace l'URL dans l'historique
-            // L'utilisateur ne pourra pas revenir en arrière vers la page de login
             window.location.replace('https://www.netubex.com');
         }, 800);
 
@@ -432,37 +445,19 @@ async function seConnecter(){
     }
 }
 
-// ========================================
-// ÉVÉNEMENTS
-// ========================================
-
-// Bouton de connexion
 document.getElementById("loginBtn").addEventListener("click", seConnecter);
-
-// Touche Entrée
 document.getElementById("loginPassword").addEventListener("keypress", function(e){
     if(e.key === "Enter") seConnecter();
 });
-
-// Limiter à 6 caractères
 document.getElementById("loginPassword").addEventListener("input", function(){
     if(this.value.length > 6) this.value = this.value.slice(0, 6);
 });
-
-// Focus automatique
 document.getElementById("loginPassword").focus();
 
-// Charger le logo
 updateSchoolLogo(ecoleId);
 
-// ========================================
-// SÉCURITÉ : Bloquer les outils de développement
-// ========================================
-
-// Bloquer le clic droit
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// Bloquer F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U, Ctrl+Shift+J
 document.addEventListener('keydown', function(e) {
     if (e.key === 'F12' || e.keyCode === 123) {
         e.preventDefault();
@@ -492,18 +487,8 @@ document.addEventListener('keydown', function(e) {
     return true;
 });
 
-// Bloquer le drag & drop
 document.addEventListener('dragover', e => e.preventDefault());
 document.addEventListener('drop', e => e.preventDefault());
-
-// ========================================
-// MESSAGE D'INFORMATION POUR LE DÉVELOPPEUR
-// ========================================
-console.log('✅ Page de connexion chargée avec succès');
-console.log('📌 URL actuelle :', window.location.href);
-console.log('📌 École :', ecoleId);
-console.log('💡 Après connexion réussie, redirection vers https://www.netubex.com (sans paramètres)');
-
 </script>
 </body>
 </html>
