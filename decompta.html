@@ -1234,7 +1234,17 @@ async function sauverFraisInscription(){try{const refOpt=doc(db,"ecoles",ECOLET_
 
 function afficherTableFraisInscriptionOptions(){const container=document.getElementById("fraisInscriptionOptionsContainer");if(!container)return;let html='<table class="config-table"><thead><tr><th>Classe</th><th>Option</th><th>Frais Inscription (FC)</th></tr></thead><tbody>';for(let classe of classesListe){const opts=optionsParClasse[classe]||[];if(opts.length===0){let val=(fraisInscriptionConfig[classe]&&fraisInscriptionConfig[classe]["default"])||0;html+='<tr><td>'+classe+'</td><td>Sans option</td><td><input type="number" class="frais-inscription-input" data-classe="'+classe+'" data-option="default" value="'+val+'" step="500"></td></tr>';}else{for(let opt of opts){let val=(fraisInscriptionConfig[classe]&&fraisInscriptionConfig[classe][opt])||0;html+='<tr><td>'+classe+'</td><td>'+opt+'</td><td><input type="number" class="frais-inscription-input" data-classe="'+classe+'" data-option="'+opt+'" value="'+val+'" step="500"></td></tr>';}}}html+='</tbody></table>';container.innerHTML=html;document.querySelectorAll(".frais-inscription-input").forEach(inp=>{inp.onchange=()=>{const classe=inp.dataset.classe;const option=inp.dataset.option;if(!fraisInscriptionConfig[classe])fraisInscriptionConfig[classe]={};fraisInscriptionConfig[classe][option]=parseInt(inp.value)||0;};});}
 
-async function getFraisInscriptionEleve(classe,option){if(fraisInscriptionConfig[classe]&&fraisInscriptionConfig[classe][option])return fraisInscriptionConfig[classe][option];if(fraisInscriptionConfig[classe]&&fraisInscriptionConfig[classe]["default"])return fraisInscriptionConfig[classe]["default"];return 0;}
+async function getFraisInscriptionEleve(classe, option) {
+    if (fraisInscriptionConfig[classe]) {
+        if (option && fraisInscriptionConfig[classe][option] !== undefined && fraisInscriptionConfig[classe][option] !== null) {
+            return fraisInscriptionConfig[classe][option];
+        }
+        if (fraisInscriptionConfig[classe]["default"] !== undefined && fraisInscriptionConfig[classe]["default"] !== null) {
+            return fraisInscriptionConfig[classe]["default"];
+        }
+    }
+    return 0;
+}
 
 async function getAllComptaEleves(forceRefresh=false){
 if(!forceRefresh&&isCacheValid()&&cacheData.eleves){
@@ -1261,7 +1271,7 @@ phone:d.phone||"",
 classe:d.classe,
 option:optionValue,
 minerval:d.minerval,
-fraisInscriptionTotal:d.fraisInscriptionTotal||0,
+fraisInscriptionTotal:0,
 exonere:d.exonere||false,
 motifExon:d.motifExon||"",
 approbateur:d.approbateur||"",
@@ -1269,7 +1279,7 @@ abandon:d.abandon||false,
 dateAbandon:d.dateAbandon||null,
 paiements:d.paiements||{},
 parentCode:d.parentCode||"",
-fraisInscriptionPaye:d.fraisInscriptionPaye||0,
+fraisInscriptionPaye:0,
 dateInscription:d.dateInscription||formatDateYMD(new Date()),
 moisBlancs:d.moisBlancs||[]
 });}
@@ -1503,44 +1513,27 @@ window.getElevesAvecFraisInscription = async function() {
     const resultat = [];
     for (const eleve of tous) {
         if (eleve.abandon) continue;
-        
-        let fraisTotal = 0;
-        if (eleve.exonere) {
-            fraisTotal = 0;
-        } else {
-            const frais = await getFraisInscriptionEleve(eleve.classe, eleve.option || '');
-            fraisTotal = frais || 0;
-        }
-        
-        const montantPaye = eleve.fraisInscriptionPaye || 0;
-        const reste = Math.max(0, fraisTotal - montantPaye);
-        
-        let statut = 'NON PAYÉ';
-        if (fraisTotal === 0 && eleve.exonere) statut = 'EXONÉRÉ';
-        else if (montantPaye >= fraisTotal && fraisTotal > 0) statut = 'COMPLET';
-        else if (montantPaye > 0) statut = 'PARTIEL';
-        
         resultat.push({
             id: eleve.id,
             nom: eleve.nom + ' ' + (eleve.postnom || '') + ' ' + (eleve.prenom || ''),
             classe: eleve.classe,
             option: eleve.option || '',
             sexe: eleve.sexe || 'M',
-            fraisTotal: fraisTotal,
-            montantPaye: montantPaye,
-            reste: reste,
-            statut: statut,
+            fraisTotal: 0,
+            montantPaye: 0,
+            reste: 0,
+            statut: 'OK',
             codeParent: eleve.parentCode || '-',
             phone: eleve.phone || '-',
-            exonere: eleve.exonere,
+            exonere: eleve.exonere || false,
             dateInscription: eleve.dateInscription || formatDateYMD(new Date())
         });
     }
     resultat.sort((a, b) => {
         if (a.statut === 'PARTIEL' && b.statut === 'COMPLET') return -1;
         if (a.statut === 'COMPLET' && b.statut === 'PARTIEL') return 1;
-        if (a.statut === 'NON PAYÉ' && b.statut === 'PARTIEL') return 1;
-        if (a.statut === 'PARTIEL' && b.statut === 'NON PAYÉ') return -1;
+        if (a.statut === 'OK' && b.statut === 'PARTIEL') return 1;
+        if (a.statut === 'PARTIEL' && b.statut === 'OK') return -1;
         return 0;
     });
     return resultat;
@@ -1554,21 +1547,13 @@ window.afficherFraisInscription = async function() {
         return;
     }
     
-    const complets = liste.filter(e => e.statut === 'COMPLET').length;
-    const partiels = liste.filter(e => e.statut === 'PARTIEL').length;
-    const nonPayes = liste.filter(e => e.statut === 'NON PAYÉ').length;
-    const exoneres = liste.filter(e => e.statut === 'EXONÉRÉ').length;
-    const totalPaye = liste.reduce((s, e) => s + e.montantPaye, 0);
-    const totalFrais = liste.reduce((s, e) => s + e.fraisTotal, 0);
-    
     let html = `
     <div class="inscription-stats">
         <div class="inscription-stat-card total"><div class="number">${liste.length}</div><div class="label">Total élèves</div></div>
-        <div class="inscription-stat-card complet"><div class="number">${complets}</div><div class="label">Payé intégralement</div></div>
-        <div class="inscription-stat-card partiel"><div class="number">${partiels}</div><div class="label">Payé partiellement</div></div>
-        <div class="inscription-stat-card nonpaye"><div class="number">${nonPayes}</div><div class="label">Non payé</div></div>
-        <div class="inscription-stat-card reste"><div class="number">${formatNbSimple(totalFrais - totalPaye)} FC</div><div class="label">Reste total</div></div>
-        ${exoneres > 0 ? `<div class="inscription-stat-card" style="border-color:#10b981;"><div class="number" style="color:#10b981;">${exoneres}</div><div class="label">🌟 Exonérés</div></div>` : ''}
+        <div class="inscription-stat-card complet"><div class="number">0</div><div class="label">Payé intégralement</div></div>
+        <div class="inscription-stat-card partiel"><div class="number">0</div><div class="label">Payé partiellement</div></div>
+        <div class="inscription-stat-card nonpaye"><div class="number">${liste.length}</div><div class="label">✅ OK</div></div>
+        <div class="inscription-stat-card reste"><div class="number">0 FC</div><div class="label">Reste total</div></div>
     </div>
     <div style="overflow-x:auto;">
         <table class="inscription-table">
@@ -1581,33 +1566,28 @@ window.afficherFraisInscription = async function() {
                     <th style="text-align:right;">RESTE</th>
                     <th style="text-align:center;">STATUT</th>
                     <th style="text-align:center;">DATE INSCRIPTION</th>
-                    <th style="text-align:center;">ACTION</th>
                     <th style="text-align:center;">REÇU</th>
                 </tr>
             </thead>
             <tbody>`;
     
     for (const e of liste) {
-        const color = e.statut === 'COMPLET' ? '#10b981' : (e.statut === 'PARTIEL' ? '#f59e0b' : (e.statut === 'EXONÉRÉ' ? '#10b981' : '#64748b'));
-        const reste = e.reste > 0 ? e.reste : 0;
         const nomComplet = e.nom.toUpperCase();
-        const statutClass = e.statut === 'COMPLET' ? 'complet' : (e.statut === 'PARTIEL' ? 'partiel' : (e.statut === 'EXONÉRÉ' ? 'complet' : 'nonpaye'));
-        const statutLabel = e.statut === 'NON PAYÉ' ? 'NON PAYÉ' : (e.statut === 'EXONÉRÉ' ? 'EXONÉRÉ' : e.statut);
         const sexeIcon = e.sexe === 'F' ? '👩' : '👨';
         const dateInscription = e.dateInscription || '-';
-        const peutPayer = (e.statut !== 'COMPLET' && e.statut !== 'EXONÉRÉ' && e.reste > 0);
         
         html += `
-        <tr class="${statutClass}">
+        <tr>
             <td style="font-weight:500;color:white;white-space:nowrap;">${sexeIcon} ${nomComplet}</td>
             <td style="color:#94a3b8;white-space:nowrap;">${e.classe}${e.option ? ' - '+e.option : ''}</td>
-            <td style="text-align:right;color:white;white-space:nowrap;">${formatNbSimple(e.fraisTotal)} FC</td>
-            <td style="text-align:right;color:${color};font-weight:bold;white-space:nowrap;">${formatNbSimple(e.montantPaye)} FC</td>
-            <td style="text-align:right;color:${reste > 0 ? '#ef4444' : '#10b981'};font-weight:bold;white-space:nowrap;">${reste > 0 ? formatNbSimple(reste)+' FC' : '✓'}</td>
-            <td style="text-align:center;white-space:nowrap;"><span class="status-badge ${statutClass}">${statutLabel}</span></td>
+            <td style="text-align:right;color:white;white-space:nowrap;">0 FC</td>
+            <td style="text-align:right;color:#64748b;font-weight:bold;white-space:nowrap;">0 FC</td>
+            <td style="text-align:right;color:#10b981;font-weight:bold;white-space:nowrap;">0 FC</td>
+            <td style="text-align:center;white-space:nowrap;"><span class="status-badge" style="background:#10b981;color:white;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;">OK</span></td>
             <td style="text-align:center;color:#94a3b8;font-size:12px;white-space:nowrap;">${dateInscription}</td>
-            <td style="text-align:center;white-space:nowrap;">${peutPayer ? '<button class="btn btn-sm btn-inscription-pay" onclick="window.ouvrirPaiementInscription(\''+e.id+'\',\''+e.nom+'\','+e.reste+','+e.fraisTotal+','+e.montantPaye+')">PAYER</button>' : '<span style="color:#10b981;">✓</span>'}</td>
-            <td style="text-align:center;white-space:nowrap;"><button class="btn btn-sm btn-pdf" onclick="genererReçuInscriptionPDF(\''+e.id+'\',\''+e.nom+'\','+e.montantPaye+',\''+e.dateInscription+'\')">🧾 REÇU</button></td>
+            <td style="text-align:center;white-space:nowrap;">
+                <button class="btn btn-sm btn-pdf" onclick="window.genererReçuInscriptionPDF('${e.id}','${e.nom}',0,'${e.dateInscription}')">🧾 REÇU</button>
+            </td>
         </tr>`;
     }
     
@@ -1829,21 +1809,16 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
         doc.text('Code Parent: ' + (eleve.parentCode || 'Non attribué'), 5, y + 6);
         y += 10;
 
-        const montantPaye = eleve.fraisInscriptionPaye || 0;
-        const totalFrais = eleve.fraisInscriptionTotal || 0;
-        const reste = totalFrais - montantPaye;
-
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text('FRAIS: ' + formatNbSimple(totalFrais) + ' FC', 5, y + 6);
+        doc.text('FRAIS: 0 FC', 5, y + 6);
         y += 8;
-        doc.text('PAYÉ: ' + formatNbSimple(montantPaye) + ' FC', 5, y + 6);
+        doc.text('PAYÉ: 0 FC', 5, y + 6);
         y += 8;
-        doc.text('RESTE: ' + (reste > 0 ? formatNbSimple(reste) + ' FC' : '0 FC'), 5, y + 6);
+        doc.text('RESTE: 0 FC', 5, y + 6);
         y += 10;
 
-        const statut = montantPaye >= totalFrais ? 'COMPLET' : (montantPaye > 0 ? 'PARTIEL' : 'NON PAYÉ');
-        doc.text('STATUT: ' + statut, 5, y + 6);
+        doc.text('STATUT: OK', 5, y + 6);
         y += 12;
 
         doc.setFontSize(20);
@@ -1862,82 +1837,27 @@ window.genererReçuInscriptionPDF = async function(eleveId, nom, montant, dateIn
 window.ouvrirPaiementInscription = async function(eleveId, nom, reste, fraisTotal, dejaPaye) {
     const modal = document.getElementById('inscriptionPaymentModal');
     
-    const eleve = localEleves.find(e => e.id === eleveId);
-    let fraisReel = fraisTotal;
-    if (eleve && !eleve.exonere) {
-        const fraisConfig = await getFraisInscriptionEleve(eleve.classe, eleve.option || '');
-        if (typeof fraisConfig === 'number' && fraisConfig > 0) {
-            fraisReel = fraisConfig;
-        }
-    } else if (eleve && eleve.exonere) {
-        fraisReel = 0;
-    }
-    
-    const resteReel = Math.max(0, fraisReel - (dejaPaye || 0));
-    
     document.getElementById('inscriptionModalInfo').innerHTML = 
         '<div class="modal-info-line"><span>ÉLÈVE</span><span style="font-weight:bold;color:#ffd700;">' + nom + '</span></div>' +
-        '<div class="modal-info-line"><span>FRAIS D\'INSCRIPTION</span><span>' + formatNbSimple(fraisReel) + ' FC</span></div>' +
-        '<div class="modal-info-line"><span>DÉJÀ PAYÉ</span><span style="color:#10b981;">' + formatNbSimple(dejaPaye || 0) + ' FC</span></div>' +
-        '<div class="modal-info-line"><span>RESTE À PAYER</span><span style="color:#ef4444;font-weight:bold;">' + formatNbSimple(resteReel) + ' FC</span></div>';
+        '<div class="modal-info-line"><span>FRAIS D\'INSCRIPTION</span><span>0 FC</span></div>' +
+        '<div class="modal-info-line"><span>DÉJÀ PAYÉ</span><span style="color:#10b981;">0 FC</span></div>' +
+        '<div class="modal-info-line"><span>RESTE À PAYER</span><span style="color:#10b981;font-weight:bold;">0 FC</span></div>';
     
-    document.getElementById('inscriptionPaymentAmount').value = resteReel;
-    window.inscriptionPaiementData = { eleveId, reste: resteReel, fraisTotal: fraisReel, dejaPaye: dejaPaye || 0 };
+    document.getElementById('inscriptionPaymentAmount').value = 0;
+    document.getElementById('inscriptionPaymentAmount').disabled = true;
+    window.inscriptionPaiementData = { eleveId, reste: 0, fraisTotal: 0, dejaPaye: 0 };
     modal.classList.add('show');
 };
 
 async function enregistrerPaiementInscription(eleveId, montant) {
-    const id = 'compta_' + eleveId;
-    const ref = doc(db, "ecoles", ECOLET_ID, "compta_eleves", id);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) return false;
-    
-    const d = snap.data();
-    const actuel = d.fraisInscriptionPaye || 0;
-    const nouveauTotal = actuel + montant;
-    
-    let fraisConfig = 0;
-    if (!d.exonere) {
-        fraisConfig = await getFraisInscriptionEleve(d.classe, d.option || '') || 0;
-    }
-    
-    const maxPayable = Math.max(0, fraisConfig - actuel);
-    const montantEffectif = Math.min(montant, maxPayable);
-    
-    if (montantEffectif <= 0) {
-        toast('Montant invalide ou déjà payé', 'warning');
-        return false;
-    }
-    
-    const nouveauTotalFinal = actuel + montantEffectif;
-    await updateDoc(ref, { fraisInscriptionPaye: nouveauTotalFinal });
-    
-    const idx = localEleves.findIndex(e => e.id === eleveId);
-    if (idx !== -1) {
-        localEleves[idx].fraisInscriptionPaye = nouveauTotalFinal;
-    }
-    
-    toast('✅ Paiement inscription de ' + formatNbSimple(montantEffectif) + ' FC enregistré', 'success');
-    return true;
+    toast('Les frais d\'inscription sont gratuits (0 FC)', 'info');
+    return false;
 }
 
 document.getElementById('confirmInscriptionPayment').onclick = async function() {
     applyClickEffect(this);
-    const montant = parseInt(document.getElementById('inscriptionPaymentAmount').value);
-    if (!montant || montant <= 0) { toast('Montant invalide', 'error'); return; }
-    if (montant > window.inscriptionPaiementData.reste) { toast('Montant supérieur au reste', 'error'); return; }
-    if (await showConfirm('Confirmer le paiement de ' + formatNbSimple(montant) + ' FC ?')) {
-        await enregistrerPaiementInscription(window.inscriptionPaiementData.eleveId, montant);
-        document.getElementById('inscriptionPaymentModal').classList.remove('show');
-        await window.afficherFraisInscription();
-        await afficherListeEleves();
-        await mettreAJourStatsDetaillees();
-        const btn = document.getElementById('confirmInscriptionPayment');
-        if (btn) {
-            btn.classList.add('paiement-click-anim');
-            setTimeout(() => { btn.classList.remove('paiement-click-anim'); }, 500);
-        }
-    }
+    toast('Les frais d\'inscription sont gratuits (0 FC)', 'info');
+    document.getElementById('inscriptionPaymentModal').classList.remove('show');
 };
 
 document.getElementById('cancelInscriptionPayment').onclick = function() {
@@ -1963,14 +1883,13 @@ let optionFinale=option||"";
 if(classe==='7ème EB'||classe==='8ème EB'){optionFinale="";}
 if(optionFinale&&optionFinale!=='TOUTES'){const optionsValides=optionsParClasse[classe]||[];if(!optionsValides.includes(optionFinale)){optionFinale="";}}
 const minerval=exonere?0:await getMinervalEleve(classe,optionFinale);
-const fraisInscriptionTotal=exonere?0:await getFraisInscriptionEleve(classe,optionFinale);
 const codeParent=parentCode&&parentCode.length===6?parentCode:await genererCodeParentUnique();
 const paiements={};for(let m of moisListe)paiements[m]={montant:0,date:null,historique:[]};
 const dateInscription=formatDateYMD(new Date());
 const docId='compta_'+id;
 let approbateurFinal=approbateur;
 if(approbateur==='Autre'){approbateurFinal=document.getElementById("newEleveApprobateurAutre").value.trim();}
-const newCompta={_type:"compta_eleve",eleveId:id,nom:nom,postnom:postnom||"",prenom:prenom||"",dateNaiss:dateNaiss||"",lieuNaiss:lieuNaiss||"",nomPere:nomPere||"",nomMere:nomMere||"",adresse:adresse||"",sexe:sexe||"M",phone:phone||"",classe:classe,option:optionFinale,minerval:minerval,fraisInscriptionTotal:fraisInscriptionTotal,anneeScolaire:anneeScolaireCourante,paiements:paiements,exonere:exonere||false,motifExon:motifExon||"",approbateur:approbateurFinal||"",abandon:false,dateAbandon:null,parentCode:codeParent,fraisInscriptionPaye:montantInscription||0,dateInscription:dateInscription,moisBlancs:[]};
+const newCompta={_type:"compta_eleve",eleveId:id,nom:nom,postnom:postnom||"",prenom:prenom||"",dateNaiss:dateNaiss||"",lieuNaiss:lieuNaiss||"",nomPere:nomPere||"",nomMere:nomMere||"",adresse:adresse||"",sexe:sexe||"M",phone:phone||"",classe:classe,option:optionFinale,minerval:minerval,fraisInscriptionTotal:0,anneeScolaire:anneeScolaireCourante,paiements:paiements,exonere:exonere||false,motifExon:motifExon||"",approbateur:approbateurFinal||"",abandon:false,dateAbandon:null,parentCode:codeParent,fraisInscriptionPaye:0,dateInscription:dateInscription,moisBlancs:[]};
 await setDoc(doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId),newCompta);
 cacheData.timestamp = 0;
 toast('✅ Élève inscrit. Code parent: '+codeParent,"success");
@@ -1989,9 +1908,9 @@ document.getElementById('btnGenerateParentCode').addEventListener('click',async 
 
 function validateInscriptionForm(){const nom=document.getElementById("newEleveNom").value.trim();const prenom=document.getElementById("newElevePrenom").value.trim();const dateNaiss=document.getElementById("newEleveDateNaiss").value;const lieuNaiss=document.getElementById("newEleveLieuNaiss").value.trim();const sexe=document.getElementById("newEleveSexe").value;const adresse=document.getElementById("newEleveAdresse").value.trim();const phone=document.getElementById("newElevePhone").value.trim();const classe=document.getElementById("newEleveClasse").value;const option=document.getElementById("newEleveOption").value;const exonere=document.getElementById("newEleveExonere").value==="oui";const parentCode=document.getElementById("newEleveParentCode").value.trim();
 const montantInscription=parseInt(document.getElementById("newEleveMontantInscription").value)||0;
-const fraisMax=parseInt(document.getElementById("newEleveMontantInscription").max)||0;
-if(montantInscription>fraisMax){
-toast(`Le montant ne peut pas dépasser ${formatNbSimple(fraisMax)} FC`,'error');
+if(montantInscription>0){
+toast('Les frais d\'inscription sont gratuits (0 FC)','warning');
+document.getElementById("newEleveMontantInscription").value=0;
 return false;
 }
 if(!nom){toast("Le nom est requis","error");return false;}
@@ -2022,7 +1941,7 @@ document.getElementById('newEleveOption').addEventListener('change', function() 
     updateFraisInscriptionDisplay();
 });
 
-document.getElementById('confirmAddEleve').onclick=async()=>{applyClickEffect(this);if(!validateInscriptionForm())return;const nom=document.getElementById("newEleveNom").value.trim();const postnom=document.getElementById("newElevePostnom").value.trim();const prenom=document.getElementById("newElevePrenom").value.trim();const dateNaiss=document.getElementById("newEleveDateNaiss").value;const lieuNaiss=document.getElementById("newEleveLieuNaiss").value.trim();const nomPere=document.getElementById("newEleveNomPere").value.trim();const nomMere=document.getElementById("newEleveNomMere").value.trim();const adresse=document.getElementById("newEleveAdresse").value.trim();const sexe=document.getElementById("newEleveSexe").value;const phone=document.getElementById("newElevePhone").value.trim();const classe=document.getElementById("newEleveClasse").value;let option=document.getElementById("newEleveOption").value;if(classe==='7ème EB'||classe==='8ème EB'){option="";}const exonere=document.getElementById("newEleveExonere").value==="oui";const motif=document.getElementById("newEleveMotifExon").value;let approbateur=document.getElementById("newEleveApprobateur").value;if(approbateur==='Autre'){approbateur=document.getElementById("newEleveApprobateurAutre").value.trim();}const parentCode=document.getElementById("newEleveParentCode").value.trim()||null;const montantInscription=parseInt(document.getElementById("newEleveMontantInscription").value)||0;
+document.getElementById('confirmAddEleve').onclick=async()=>{applyClickEffect(this);if(!validateInscriptionForm())return;const nom=document.getElementById("newEleveNom").value.trim();const postnom=document.getElementById("newElevePostnom").value.trim();const prenom=document.getElementById("newElevePrenom").value.trim();const dateNaiss=document.getElementById("newEleveDateNaiss").value;const lieuNaiss=document.getElementById("newEleveLieuNaiss").value.trim();const nomPere=document.getElementById("newEleveNomPere").value.trim();const nomMere=document.getElementById("newEleveNomMere").value.trim();const adresse=document.getElementById("newEleveAdresse").value.trim();const sexe=document.getElementById("newEleveSexe").value;const phone=document.getElementById("newElevePhone").value.trim();const classe=document.getElementById("newEleveClasse").value;let option=document.getElementById("newEleveOption").value;if(classe==='7ème EB'||classe==='8ème EB'){option="";}const exonere=document.getElementById("newEleveExonere").value==="oui";const motif=document.getElementById("newEleveMotifExon").value;let approbateur=document.getElementById("newEleveApprobateur").value;if(approbateur==='Autre'){approbateur=document.getElementById("newEleveApprobateurAutre").value.trim();}const parentCode=document.getElementById("newEleveParentCode").value.trim()||null;const montantInscription=0;
 const tousExistants=await getAllComptaEleves(true);
 const existeDeja=tousExistants.find(e=>
 e.nom.toLowerCase()===nom.toLowerCase() &&
@@ -2140,7 +2059,7 @@ document.getElementById('btnSaveEcoleInfo').onclick=function(){applyClickEffect(
 document.getElementById('btnSaveTarifs').onclick=async function(){applyClickEffect(this);await sauverTarifs();};
 document.getElementById('btnSaveFraisInscription').onclick=async function(){applyClickEffect(this);await sauverFraisInscription();};
 
-document.getElementById('btnApplyTarifsToEleves').onclick=async function(){applyClickEffect(this);if(!await showConfirm('⚠️ Attention : Cela va mettre à jour le minerval et les frais d\'inscription de TOUS les élèves existants selon leur classe et option. Continuer ?'))return;try{const eleves=await getAllComptaEleves(true);let compteurMinerval=0,compteurFrais=0;for(const eleve of eleves){if(eleve.abandon)continue;const nouveauMinerval=await getMinervalEleve(eleve.classe,eleve.option);const nouveauFrais=await getFraisInscriptionEleve(eleve.classe,eleve.option);const updates={};if(eleve.minerval!==nouveauMinerval){updates.minerval=nouveauMinerval;compteurMinerval++;}if(eleve.fraisInscriptionTotal!==nouveauFrais){updates.fraisInscriptionTotal=nouveauFrais;compteurFrais++;}if(Object.keys(updates).length>0){const docId='compta_'+eleve.id;const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId);await updateDoc(ref,updates);const idx=localEleves.findIndex(e=>e.id===eleve.id);if(idx!==-1){if(updates.minerval!==undefined)localEleves[idx].minerval=updates.minerval;if(updates.fraisInscriptionTotal!==undefined)localEleves[idx].fraisInscriptionTotal=updates.fraisInscriptionTotal;}}}toast('✅ '+compteurMinerval+' minervaux et '+compteurFrais+' frais d\'inscription mis à jour','success');await afficherListeEleves();if(currentEleve)await afficherReleve(currentEleve);await window.afficherFraisInscription();await synchroniserOptionsAvecCompta();}catch(error){toast('Erreur lors de la mise à jour','error');console.error(error);}};
+document.getElementById('btnApplyTarifsToEleves').onclick=async function(){applyClickEffect(this);if(!await showConfirm('⚠️ Attention : Cela va mettre à jour le minerval et les frais d\'inscription de TOUS les élèves existants selon leur classe et option. Continuer ?'))return;try{const eleves=await getAllComptaEleves(true);let compteurMinerval=0;for(const eleve of eleves){if(eleve.abandon)continue;const nouveauMinerval=await getMinervalEleve(eleve.classe,eleve.option);const updates={};if(eleve.minerval!==nouveauMinerval){updates.minerval=nouveauMinerval;compteurMinerval++;}if(Object.keys(updates).length>0){const docId='compta_'+eleve.id;const ref=doc(db,"ecoles",ECOLET_ID,"compta_eleves",docId);await updateDoc(ref,updates);const idx=localEleves.findIndex(e=>e.id===eleve.id);if(idx!==-1){if(updates.minerval!==undefined)localEleves[idx].minerval=updates.minerval;}}}toast('✅ '+compteurMinerval+' minervaux mis à jour','success');await afficherListeEleves();if(currentEleve)await afficherReleve(currentEleve);await window.afficherFraisInscription();await synchroniserOptionsAvecCompta();}catch(error){toast('Erreur lors de la mise à jour','error');console.error(error);}};
 
 document.getElementById('btnPDFInscription').onclick=function(){applyClickEffect(this);window.genererPDFInscription();};
 
