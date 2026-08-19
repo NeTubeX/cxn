@@ -432,7 +432,6 @@ async function seConnecter(){
 
         let role = null;
         let email = null;
-        let urlDestination = '';
 
         const codeDir = codes.codeDirection ? codes.codeDirection.trim() : '';
         const codeCompta = codes.codeComptabilite ? codes.codeComptabilite.trim() : '';
@@ -442,15 +441,12 @@ async function seConnecter(){
         if(codeDir === passwordClean){
             role = 'direction';
             email = codes.emailDirection || genererEmailDirection(ecoleId);
-            urlDestination = 'https://www.netubex.com/schooldirection2';
         } else if(codeCompta === passwordClean){
             role = 'comptabilite';
             email = codes.emailComptabilite || genererEmailCompta(ecoleId);
-            urlDestination = 'https://www.netubex.com/schoolcompta2';
         } else if(codePromoteur === passwordClean){
             role = 'promoteur';
             email = codes.emailPromoteur || genererEmailPromoteur(ecoleId);
-            urlDestination = 'https://www.netubex.com/schoolpromo2';
         } else {
             showToast("Code d'accès incorrect. Veuillez réessayer.", "error");
             tentatives++;
@@ -464,7 +460,7 @@ async function seConnecter(){
         }
 
         const roleLabels = { direction:'Direction', comptabilite:'Comptabilité', promoteur:'Promoteur' };
-        showToast(`Vérification réussie. Redirection vers l'espace ${roleLabels[role]}...`, "success");
+        showToast(`Vérification réussie. Connexion en tant que ${roleLabels[role]}...`, "success");
 
         try{
             await createUserWithEmailAndPassword(auth, email, password);
@@ -485,8 +481,18 @@ async function seConnecter(){
             }
         }
 
+        // ===== STOCKAGE DANS SESSIONSTORAGE =====
+        sessionStorage.setItem('ecoleId', ecoleId);
+        sessionStorage.setItem('role', role);
+        sessionStorage.setItem('code', password);
+        sessionStorage.setItem('isAuthenticated', 'true');
+        sessionStorage.setItem('loginTime', Date.now().toString());
+
+        showToast(`✅ Connexion réussie ! Redirection...`, "success");
+        
+        // ===== REDIRECTION VERS LA PAGE D'ACCUEIL =====
         setTimeout(() => {
-            window.location.href = `${urlDestination}?ecole=${ecoleId}&code=${password}&role=${role}`;
+            window.location.replace('https://www.netubex.com');
         }, 800);
 
     } catch(error){
