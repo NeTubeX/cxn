@@ -637,7 +637,7 @@ function horairesAutorises() {
     } else {
         return { 
             allowed: false, 
-            message: "🚫 L'espace parental est accessible de 7h00 à 23h00."
+            message: "🚫 L'espace parental est accessible entre 7h00 et 23h00."
         };
     }
 }
@@ -1181,28 +1181,48 @@ return resultats;
 }
 
 async function getDernierCommunique() {
-try {
-const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), where("actif", "==", true), orderBy("date", "desc"), limit(1));
-const snap = await getDocs(q);
-if (snap.empty) return null;
-const docSnap = snap.docs[0];
-const data = docSnap.data();
-const dateComm = new Date(data.date);
-const aujourdhui = new Date();
-const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
-if (diffJours > 7) return null;
-return {
-id: docSnap.id,
-titre: data.titre || "Nouveau communiqué",
-contenu: data.contenu || "",
-date: data.date,
-priorite: data.priorite || "moyenne",
-publiePar: data.publiePar || "Direction",
-diffJours: diffJours,
-dateFormatee: dateComm.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }),
-statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
-};
-} catch (error) { return null; }
+    try {
+        const q = query(
+            collection(db, "ecoles", ECOLET_ID, "communiques"),
+            orderBy("date", "desc"),
+            limit(5)
+        );
+        const snap = await getDocs(q);
+        if (snap.empty) return null;
+        
+        let dernierActif = null;
+        for (const doc of snap.docs) {
+            const data = doc.data();
+            if (data.actif === true) {
+                dernierActif = {
+                    id: doc.id,
+                    titre: data.titre || "Nouveau communiqué",
+                    contenu: data.contenu || "",
+                    date: data.date,
+                    priorite: data.priorite || "moyenne",
+                    publiePar: data.publiePar || "Direction"
+                };
+                break;
+            }
+        }
+        
+        if (!dernierActif) return null;
+        
+        const dateComm = new Date(dernierActif.date);
+        const aujourdhui = new Date();
+        const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
+        
+        if (diffJours > 30) return null;
+        
+        return {
+            ...dernierActif,
+            diffJours: diffJours,
+            dateFormatee: dateComm.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }),
+            statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
+        };
+    } catch (error) { 
+        return null; 
+    }
 }
 
 function convertirNombreEnFrancais(n) {
@@ -1318,7 +1338,7 @@ texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez rép
 }
 
 if (texte.includes("Aucune punition")) {
-texteParle = "Aucune punition active. Bravo !";
+texteParle = "Aucune punition active. c'est excellent !";
 }
 
 if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
@@ -1440,12 +1460,13 @@ historiqueSections[dernierEleveData.id].push(section);
 }
 
 function toutVu(eleveData) {
-    if (!eleveData) return false;
-    const section = eleveData.section;
-    if (section === "SECONDAIRE") {
-        return sectionDejaVisitee('frais') && sectionDejaVisitee('notes') && sectionDejaVisitee('punitions');
-    }
-    return false;
+if (!eleveData) return false;
+const section = eleveData.section;
+if (section === "SECONDAIRE") {
+return sectionDejaVisitee('frais') && sectionDejaVisitee('notes') && sectionDejaVisitee('punitions');
+} else {
+return sectionDejaVisitee('frais');
+}
 }
 
 async function genererReponseNotes(eleveData) {
@@ -1769,26 +1790,8 @@ return reponse;
 }
 
 async function chargerInstructionsIA() {
-    const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
-    return `Système intelligent de l'école ${nomEcole}. Réponses courtes et précises.
-
-RÈGLES :
-- Pas de pourcentages, uniquement points (ex: 15/20)
-- Pas de moyenne générale ou proclamation
-- Maximum 3 phrases
-- Pas de notes à 0
-- Ne pas demander le nom de l'élève
-
-PAR SECTION :
-- MATERNELLE et PRIMAIRE : UNIQUEMENT les frais
-- SECONDAIRE : frais, notes, punitions
-
-FORMAT :
-- Frais : "Payé X FC | Reste X FC | Mois impayés : [liste]"
-- Notes : "Meilleure note : X/20 en [matière]"
-- Punitions : "[liste avec dates]"
-
-Utilise "${pronom}". Sois court et direct.`;
+const nomEcole = schoolId ? schoolId.toUpperCase().replace(/-/g, ' ') : 'COMPLEXE SCOLAIRE';
+return `Tu es un système intelligent de l'école ${nomEcole}. Règles IMPÉRATIVES : 1. Utilise le nom de l'école ${nomEcole} dans tes réponses 2. Ne JAMAIS utiliser de pourcentages 3. Ne JAMAIS parler de moyenne générale 4. Ne JAMAIS parler de proclamation 5. Utilise UNIQUEMENT les points (ex: 18/20, 15/20) 6. Maximum 3 phrases par réponse 7. Sois chaleureux et bienveillant 8. Ne demande JAMAIS le nom de l'élève 9. N'affiche PAS les notes à 0 10. Reste factuel : donne seulement les notes telles quelles`;
 }
 
 async function genererReponseNaturelle(question, eleveData) {
@@ -1892,7 +1895,7 @@ const instructions = await chargerInstructionsIA();
 const prompt = `${instructions} CONTEXTE DE L'ÉLÈVE : ${contexte} QUESTION DU PARENT : ${question} RAPPEL IMPORTANT : - Utilise le nom de l'école ${nomEcole} dans ta réponse - Utilise UNIQUEMENT les POINTS (ex: 15/20, 40/40), JAMAIS les pourcentages - Sois chaleureux et bienveillant - Maximum 3 phrases - Si on te demande le sexe, réponds clairement "C'est un garçon" ou "C'est une fille" - Si on te demande le nombre d'élèves, donne le nombre exact - Utilise "${pronom}" pour parler de l'élève - Utilise TOUJOURS "sa" pour parler de sa situation (le mot situation est féminin) - Si on demande des conseils, donne des encouragements - N'affiche PAS les notes à 0 (zéro)`;
 
 try {
-const response = await fetch('https://ia.netube-a97.workers.dev/', {
+const response = await fetch('https://#.netube-a97.workers.dev/', {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ question: prompt })
@@ -1911,10 +1914,8 @@ if (!reponse.toLowerCase().includes(nomEcole.toLowerCase())) {
 reponse = `À l'école ${nomEcole}, ${reponse.toLowerCase()}`;
 }
 } catch (e) {
-if (!reponse) {
 const nomComplet = `${eleveData.nom} ${eleveData.prenom||''}`.trim();
 reponse = `En tout cas. Je rassemble les informations pour ${nomComplet}. En attendant, que voulez-vous voir ? (frais, notes, punitions)`;
-}
 }
 }
 
@@ -2281,7 +2282,7 @@ if (currentParentCode) await mettreAJourCompteurAffichage(currentParentCode);
 return reponse;
 }
 
-const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
+const motsPunitions = ['punition', 'punitions', 'sanction', 'sanctions', 'puni', 'punie', 'comportement', 'discipline', 'exclusion', 'avertissement', 'retenue', 'blâme', 'conseil', 'mauvaise', 'faute', 'erreur'];
 if (motsPunitions.some(m => message.toLowerCase().includes(m))) {
 if (section === "MATERNELLE" || section === "PRIMAIRE") {
 if (toutVu(eleveData)) {
