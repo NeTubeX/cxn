@@ -1261,156 +1261,142 @@ return n.toString();
 }
 
 function voixParentale(texte) {
-if (!texte) return;
-if (!window.speechSynthesis) return;
-window.speechSynthesis.cancel();
+    if (!texte) return;
+    if (!window.speechSynthesis) return;
+    
+    try {
+        window.speechSynthesis.cancel();
+    } catch(e) {}
 
-let texteParle = texte;
+    let texteParle = texte;
 
-if (dernierEleveData && dernierEleveData.prenom) {
-    const prenom = dernierEleveData.prenom.trim();
-    if (prenom) {
-        texteParle = texteParle.replace(/votre enfant/g, prenom);
+    if (dernierEleveData && dernierEleveData.prenom) {
+        const prenom = dernierEleveData.prenom.trim();
+        if (prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, prenom);
+        }
     }
-}
 
-if (texte.includes("En tout cas.")) {
-texteParle = "En tout cas !";
-const utterance = new SpeechSynthesisUtterance(texteParle);
-utterance.lang = 'fr-FR';
-window.speechSynthesis.speak(utterance);
-return;
-}
+    if (texte.includes("En tout cas.")) {
+        texteParle = "En tout cas !";
+        const utterance = new SpeechSynthesisUtterance(texteParle);
+        utterance.lang = 'fr-FR';
+        window.speechSynthesis.speak(utterance);
+        return;
+    }
 
-if (texte.includes("J'ai trouvé") && texte.includes("dans notre système")) {
-texteParle = texteParle.replace(/J'ai trouvé .*? dans notre système/, "J'ai trouvé votre enfant dans notre système");
-if (dernierEleveData && dernierEleveData.prenom) {
-    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
-}
-}
+    if (texte.includes("J'ai trouvé") && texte.includes("dans notre système")) {
+        texteParle = texteParle.replace(/J'ai trouvé .*? dans notre système/, "J'ai trouvé votre enfant dans notre système");
+        if (dernierEleveData && dernierEleveData.prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+        }
+    }
 
-if (texte.includes("La meilleure note de")) {
-texteParle = texteParle.replace(/La meilleure note de .*? est/, "La meilleure note de votre enfant est");
-if (dernierEleveData && dernierEleveData.prenom) {
-    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
-}
-}
+    if (texte.includes("La meilleure note de")) {
+        texteParle = texteParle.replace(/La meilleure note de .*? est/, "La meilleure note de votre enfant est");
+        if (dernierEleveData && dernierEleveData.prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+        }
+    }
 
-if (texte.includes("Situation financière de")) {
-texteParle = "Voici la situation financière de votre enfant.";
-if (dernierEleveData && dernierEleveData.prenom) {
-    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
-}
-const utterance = new SpeechSynthesisUtterance(texteParle);
-utterance.lang = 'fr-FR';
-window.speechSynthesis.speak(utterance);
-return;
-}
+    if (texte.includes("Situation financière de")) {
+        texteParle = "Voici la situation financière de votre enfant.";
+        if (dernierEleveData && dernierEleveData.prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+        }
+        const utterance = new SpeechSynthesisUtterance(texteParle);
+        utterance.lang = 'fr-FR';
+        window.speechSynthesis.speak(utterance);
+        return;
+    }
 
-if (texte.includes("Punitions de")) {
-texteParle = texteParle.replace(/Punitions de .*? :/, "Voici les punitions de votre enfant :");
-if (dernierEleveData && dernierEleveData.prenom) {
-    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
-}
-}
+    if (texte.includes("Punitions de")) {
+        texteParle = texteParle.replace(/Punitions de .*? :/, "Voici les punitions de votre enfant :");
+        if (dernierEleveData && dernierEleveData.prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+        }
+    }
 
-if (texte.includes("Plusieurs élèves sont associés")) {
-texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité.";
-}
+    if (texte.includes("Plusieurs élèves sont associés")) {
+        texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez répondre avec le numéro de l'élève souhaité.";
+    }
 
-if (texte.includes("Aucune punition")) {
-texteParle = "Aucune punition active. c'est excellent !";
-}
+    if (texte.includes("Aucune punition")) {
+        texteParle = "Aucune punition active. c'est excellent !";
+    }
 
-if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
-texteParle = "Au revoir, bonne journée.";
-}
+    if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
+        texteParle = "Au revoir, bonne journée.";
+    }
 
-if (texte.includes("exonéré")) {
-texteParle = texteParle.replace(/exonéré/g, "exonéré");
-}
+    if (texte.includes("exonéré")) {
+        texteParle = texteParle.replace(/exonéré/g, "exonéré");
+    }
 
-if (texte.includes("abandonné")) {
-texteParle = "J'ai trouvé votre enfant dans notre système. Cet élève a abandonné l'école. Je ne peux pas vous donner d'informations. Veuillez contacter la direction.";
-if (dernierEleveData && dernierEleveData.prenom) {
-    texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
-}
-const utterance = new SpeechSynthesisUtterance(texteParle);
-utterance.lang = 'fr-FR';
-window.speechSynthesis.speak(utterance);
-return;
-}
+    if (texte.includes("abandonné")) {
+        texteParle = "J'ai trouvé votre enfant dans notre système. Cet élève a abandonné l'école. Je ne peux pas vous donner d'informations. Veuillez contacter la direction.";
+        if (dernierEleveData && dernierEleveData.prenom) {
+            texteParle = texteParle.replace(/votre enfant/g, dernierEleveData.prenom.trim());
+        }
+        const utterance = new SpeechSynthesisUtterance(texteParle);
+        utterance.lang = 'fr-FR';
+        window.speechSynthesis.speak(utterance);
+        return;
+    }
 
-texteParle = texteParle.replace(/[📊💰📝📅⚠️✅❌👨‍👩‍👧‍👦🔑💡📌👉💬🏫👋🎯🌟👍👌📖🔒❌⚠️✅💰📝📅]/g, '');
-texteParle = texteParle.replace(/\*\*/g, '');
-texteParle = texteParle.replace(/[\(\)]/g, '');
-texteParle = texteParle.replace(/[|]/g, '');
-texteParle = texteParle.replace(/\n/g, '. ');
-texteParle = texteParle.replace(/\.\./g, '.');
-texteParle = texteParle.replace(/\./g, '. ');
-texteParle = texteParle.replace(/\?/g, '? ');
-texteParle = texteParle.replace(/\!/g, '! ');
-texteParle = texteParle.replace(/:/g, ': ');
-texteParle = texteParle.replace(/-\s/g, '. ');
-texteParle = texteParle.replace(/\d+\.\s/g, (match) => { return match.replace(/\./, '. '); });
-texteParle = texteParle.replace(/,/g, ', ');
-texteParle = texteParle.replace(/\s+/g, ' ');
-texteParle = texteParle.replace(/\.\s+\./g, '. ');
-texteParle = texteParle.replace(/\?\s+\?/g, '? ');
-texteParle = texteParle.replace(/\!\s+\!/g, '! ');
-texteParle = texteParle.replace(/BLESSING/gi, 'blé-ssingue');
-texteParle = texteParle.replace(/\b1ère\s+Année\b/gi, 'première Année');
-texteParle = texteParle.replace(/\b1ere\s+Annee\b/gi, 'première Année');
-texteParle = texteParle.replace(/\b2ème\s+Année\b/gi, 'deuxième Année');
-texteParle = texteParle.replace(/\b2eme\s+Annee\b/gi, 'deuxième Année');
-texteParle = texteParle.replace(/\b3ème\s+Année\b/gi, 'troisième Année');
-texteParle = texteParle.replace(/\b3eme\s+Annee\b/gi, 'troisième Année');
-texteParle = texteParle.replace(/\b4ème\s+Année\b/gi, 'quatrième Année');
-texteParle = texteParle.replace(/\b4eme\s+Annee\b/gi, 'quatrième Année');
-texteParle = texteParle.replace(/\b7ème\s+EB\b/gi, 'septième EB');
-texteParle = texteParle.replace(/\b7eme\s+EB\b/gi, 'septième EB');
-texteParle = texteParle.replace(/\b8ème\s+EB\b/gi, 'huitième EB');
-texteParle = texteParle.replace(/\b8eme\s+EB\b/gi, 'huitième EB');
-texteParle = texteParle.replace(/\bLATIN-PHILO\b/gi, 'latin-philo');
-texteParle = texteParle.replace(/\bSCIENCES\b/gi, 'sciences');
-texteParle = texteParle.replace(/\bELECTRICITE\b/gi, 'électricité');
-texteParle = texteParle.replace(/\bMECANIQUE GENERALE\b/gi, 'mécanique générale');
-texteParle = texteParle.replace(/\bCOUPE ET COUTURE\b/gi, 'coupe et couture');
-texteParle = texteParle.replace(/\bTOUTES\b/gi, 'toutes');
-texteParle = texteParle.replace(/\b1ère\b/gi, 'première');
-texteParle = texteParle.replace(/\b2ème\b/gi, 'deuxième');
-texteParle = texteParle.replace(/\b3ème\b/gi, 'troisième');
-texteParle = texteParle.replace(/\b4ème\b/gi, 'quatrième');
-texteParle = texteParle.replace(/\b5ème\b/gi, 'cinquième');
-texteParle = texteParle.replace(/\b6ème\b/gi, 'sixième');
-texteParle = texteParle.replace(/\b7ème\b/gi, 'septième');
-texteParle = texteParle.replace(/\b8ème\b/gi, 'huitième');
-texteParle = texteParle.replace(/(\d+)\s*FC/g, (match, p1) => {
-const num = parseInt(p1);
-if (num >= 1000) return convertirNombreEnFrancais(num) + ' francs congolais';
-return convertirNombreEnFrancais(num) + ' francs congolais';
-});
-texteParle = texteParle.replace(/\b(\d{1,3}(?:[\s.,]\d{3})*)\b/g, (match, p1) => {
-if (match.includes('FC') || match.includes('/')) return match;
-const num = parseInt(p1.replace(/[\s.,]/g, ''));
-if (num >= 1000) return convertirNombreEnFrancais(num);
-return convertirNombreEnFrancais(num);
-});
-texteParle = texteParle.replace(/(\d+)\/(\d+)/g, (match, p1, p2) => {
-return convertirNombreEnFrancais(parseInt(p1)) + ' sur ' + convertirNombreEnFrancais(parseInt(p2));
-});
-texteParle = texteParle.replace(/\s+/g, ' ');
+    texteParle = texteParle.replace(/[📊💰📝📅⚠️✅❌👨‍👩‍👧‍👦🔑💡📌👉💬🏫👋🎯🌟👍👌📖🔒❌⚠️✅💰📝📅📢🟢🟡🔴🏫✨💬📩📨📩📧📪📫📬📭📮🗳️✉️]/g, '');
+    texteParle = texteParle.replace(/[^a-zA-ZÀ-ÿ0-9\s.,?!;:()'"-]/g, ' ');
+    texteParle = texteParle.replace(/\s+/g, ' ');
+    texteParle = texteParle.replace(/\.\s+\./g, '. ');
+    texteParle = texteParle.replace(/\s+([.,?!;:])/g, '$1 ');
+    texteParle = texteParle.replace(/\(/g, ' ');
+    texteParle = texteParle.replace(/\)/g, ' ');
+    texteParle = texteParle.replace(/"/g, ' ');
+    texteParle = texteParle.replace(/'/g, ' ');
+    texteParle = texteParle.replace(/\*\*/g, ' ');
+    texteParle = texteParle.replace(/\|/g, ' ');
+    texteParle = texteParle.replace(/\[/g, ' ');
+    texteParle = texteParle.replace(/\]/g, ' ');
+    texteParle = texteParle.trim();
 
-if (!texteParle.trim()) return;
+    if (!texteParle.trim()) return;
 
-const utterance = new SpeechSynthesisUtterance(texteParle);
-utterance.lang = 'fr-FR';
-utterance.rate = 0.65;
-utterance.pitch = 1;
-const voices = window.speechSynthesis.getVoices();
-const voixFR = voices.find(v => v.lang.startsWith('fr'));
-if (voixFR) utterance.voice = voixFR;
-window.speechSynthesis.speak(utterance);
+    function parler() {
+        try {
+            const utterance = new SpeechSynthesisUtterance(texteParle);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.65;
+            utterance.pitch = 1;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const voixFR = voices.find(v => v.lang && v.lang.startsWith('fr'));
+            if (voixFR) utterance.voice = voixFR;
+            
+            window.speechSynthesis.speak(utterance);
+        } catch(e) {
+            // Silencieux
+        }
+    }
+
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+        parler();
+    } else {
+        try {
+            window.speechSynthesis.onvoiceschanged = function() {
+                parler();
+                window.speechSynthesis.onvoiceschanged = null;
+            };
+            setTimeout(() => {
+                if (window.speechSynthesis.onvoiceschanged) {
+                    window.speechSynthesis.onvoiceschanged = null;
+                    parler();
+                }
+            }, 2000);
+        } catch(e) {
+            setTimeout(parler, 500);
+        }
+    }
 }
 
 function stopSpeaking() {
@@ -2434,15 +2420,10 @@ parentInfoEleveNew.innerHTML = `ÉCOLE ${nomEcole}`;
 parentQuestionInputNew.value = '';
 parentQuestionInputNew.focus();
 
-if (dernierComm) {
-setTimeout(() => { 
-    voixParentale(`Bienvenue à l'école ${nomEcole}. Communiqué : ${dernierComm.titre}. ${dernierComm.contenu}. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
-}, 800);
-} else {
+// La voix ne mentionne JAMAIS le communiqué
 setTimeout(() => { 
     voixParentale(`Bienvenue à l'école ${nomEcole}. Je suis un système intelligent qui vous permet de savoir quelques détails sur votre enfant. Veuillez entrer votre code parent à 4 ou 6 chiffres.`); 
 }, 800);
-}
 };
 }
 
