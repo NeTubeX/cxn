@@ -637,7 +637,7 @@ function horairesAutorises() {
     } else {
         return { 
             allowed: false, 
-            message: "🚫 L'espace parental est accessible de 7h00 à 23h00."
+            message: "🚫 L'espace parental est accessible entre 7h00 et 23h00."
         };
     }
 }
@@ -1318,7 +1318,7 @@ texteParle = "Plusieurs élèves sont associés à ce code parent. Veuillez rép
 }
 
 if (texte.includes("Aucune punition")) {
-texteParle = "Aucune punition active. Bravo !";
+texteParle = "Aucune punition active. c'est excellent !";
 }
 
 if (texte.includes("Au revoir") || texte.includes("au revoir") || texte.includes("bonne journée") || texte.includes("bonne soirée") || texte.includes("bonne nuit")) {
