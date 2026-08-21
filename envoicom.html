@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📢 Communiqués - École</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0e1a;
+            padding: 15px;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #0a0a1a);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .header h1 {
+            color: #ffd700;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        .header .sub {
+            color: #888;
+            font-size: 13px;
+        }
+        .header .badge {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 3px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .communique-card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            border-left: 5px solid #3b82f6;
+        }
+        .communique-card.haute {
+            border-left-color: #ef4444;
+            background: #1a0a0a;
+        }
+        .communique-card.moyenne {
+            border-left-color: #f59e0b;
+        }
+        .communique-card.basse {
+            border-left-color: #3b82f6;
+        }
+        .communique-card .titre {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .communique-card .meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        .communique-card .meta .date {
+            color: #888;
+        }
+        .communique-card .meta .priorite {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+        .communique-card .meta .priorite.haute {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+        .communique-card .meta .priorite.moyenne {
+            background: #78350f;
+            color: #fbbf24;
+        }
+        .communique-card .meta .priorite.basse {
+            background: #1e3a5f;
+            color: #93c5fd;
+        }
+        .communique-card .contenu {
+            color: #e2e8f0;
+            font-size: 15px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .communique-card .footer {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #2a2a3e;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .empty {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+            background: #1a1a2e;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        .empty .icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        .empty h2 {
+            color: #888;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .empty p {
+            font-size: 14px;
+        }
+        .refresh-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.1);
+            background: #1d4ed8;
+        }
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+        .loading {
+            text-align: center;
+            color: #888;
+            padding: 40px;
+        }
+        .loading .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 4px solid #333;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .back-link {
+            display: inline-block;
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .back-link:hover {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📢 Communiqués</h1>
+    <div class="sub" id="ecoleName">École</div>
+    <div class="badge" id="compteur">0 communiqué</div>
+</div>
+
+<div id="container">
+    <div class="loading">
+        <div class="spinner"></div>
+        <div>Chargement...</div>
+    </div>
+</div>
+
+<button class="refresh-btn" id="refreshBtn" title="Actualiser">🔄</button>
+
+<script type="importmap">
+{
+    "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
+    }
+}
+</script>
+
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, query, where, orderBy, getDocs } from "firebase/firestore";
+
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
+    authDomain: "gesco-67c43.firebaseapp.com",
+    projectId: "gesco-67c43",
+    storageBucket: "gesco-67c43.firebasestorage.app",
+    messagingSenderId: "333004443566",
+    appId: "1:333004443566:web:de41f60000e418dce9023f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Récupérer l'école depuis l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const ecoleId = urlParams.get('ecole');
+
+if (!ecoleId) {
+    document.getElementById('container').innerHTML = `
+        <div class="empty">
+            <div class="icon">❌</div>
+            <h2>École non spécifiée</h2>
+            <p>Ajoutez ?ecole=nom dans l'URL</p>
+        </div>
+    `;
+    document.getElementById('ecoleName').textContent = 'Erreur';
+    document.getElementById('compteur').textContent = '❌';
+}
+
+// Nom de l'école
+const nomEcole = ecoleId ? ecoleId.toUpperCase().replace(/-/g, ' ') : '';
+document.getElementById('ecoleName').textContent = nomEcole;
+
+// Fonction pour récupérer les communiqués
+async function chargerCommuniques() {
+    const container = document.getElementById('container');
+    const compteur = document.getElementById('compteur');
+    
+    try {
+        // Récupérer tous les communiqués actifs, triés par date (plus récent d'abord)
+        const q = query(
+            collection(db, "ecoles", ecoleId, "communiques"),
+            where("actif", "==", true),
+            orderBy("date", "desc")
+        );
+        
+        const snap = await getDocs(q);
+        const communiques = [];
+        
+        snap.forEach(doc => {
+            const data = doc.data();
+            const dateComm = new Date(data.date);
+            const aujourdhui = new Date();
+            const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
+            
+            // Garder les communiqués de moins de 30 jours
+            if (diffJours <= 30) {
+                communiques.push({
+                    id: doc.id,
+                    titre: data.titre || "Sans titre",
+                    contenu: data.contenu || "",
+                    date: data.date,
+                    priorite: data.priorite || "moyenne",
+                    publiePar: data.publiePar || "Direction",
+                    dateFormatee: dateComm.toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        day: 'numeric', 
+                        month: 'long', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
+                });
+            }
+        });
+        
+        // Mettre à jour le compteur
+        compteur.textContent = `${communiques.length} communiqué${communiques.length > 1 ? 's' : ''}`;
+        
+        if (communiques.length === 0) {
+            container.innerHTML = `
+                <div class="empty">
+                    <div class="icon">📭</div>
+                    <h2>Aucun communiqué</h2>
+                    <p>La direction n'a pas encore publié de communiqué.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Afficher les communiqués
+        let html = '';
+        communiques.forEach(comm => {
+            const prioriteClass = comm.priorite || 'moyenne';
+            const prioriteLabel = {
+                haute: '🔴 Urgent',
+                moyenne: '🟡 Important',
+                basse: '🟢 Info'
+            }[prioriteClass] || '🟡 Important';
+            
+            html += `
+                <div class="communique-card ${prioriteClass}">
+                    <div class="titre">${escapeHtml(comm.titre)}</div>
+                    <div class="meta">
+                        <span class="date">📅 ${comm.dateFormatee}</span>
+                        <span class="priorite ${prioriteClass}">${prioriteLabel}</span>
+                        <span style="color:#666;">• ${comm.statut}</span>
+                    </div>
+                    <div class="contenu">${escapeHtml(comm.contenu)}</div>
+                    <div class="footer">
+                        <span>👤 Publié par ${escapeHtml(comm.publiePar)}</span>
+                        <span style="color:#444;">#${comm.id.slice(0, 8)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error("Erreur:", error);
+        container.innerHTML = `
+            <div class="empty">
+                <div class="icon">⚠️</div>
+                <h2>Erreur de chargement</h2>
+                <p>${error.message}</p>
+            </div>
+        `;
+        compteur.textContent = '❌';
+    }
+}
+
+// Fonction escapeHtml
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Charger au démarrage
+await chargerCommuniques();
+
+// Bouton actualiser
+document.getElementById('refreshBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('refreshBtn');
+    btn.style.transform = 'rotate(360deg)';
+    btn.style.transition = 'transform 0.5s';
+    await chargerCommuniques();
+    setTimeout(() => {
+        btn.style.transform = 'rotate(0deg)';
+    }, 500);
+});
+
+// Actualiser automatiquement toutes les 60 secondes
+setInterval(chargerCommuniques, 60000);
+
+// Ajouter le retour
+const header = document.querySelector('.header');
+const backLink = document.createElement('a');
+backLink.className = 'back-link';
+backLink.textContent = '← Retour à l\'accueil';
+backLink.href = '/';
+backLink.style.display = 'block';
+backLink.style.marginTop = '8px';
+backLink.style.color = '#666';
+backLink.style.textDecoration = 'none';
+document.querySelector('.header').appendChild(backLink);
+
+</script>
+
+</body>
+</html>
