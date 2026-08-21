@@ -661,8 +661,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const schoolId = urlParams.get('ecole');
 const codeFromUrl = urlParams.get('code');
 
-if (!schoolId) { window.location.href = 'https://www.netubex.com/login?error=ecole_requise'; throw new Error('Redirection'); }
-if (!codeFromUrl) { window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_requis`; throw new Error('Redirection'); }
+if (!schoolId) { window.location.href = 'https://www.netubex.com/login2?error=ecole_requise'; throw new Error('Redirection'); }
+if (!codeFromUrl) { window.location.href = `https://www.netubex.com/login2?ecole=${schoolId}&error=code_requis`; throw new Error('Redirection'); }
 
 const ECOLET_ID = schoolId.replace(/[^a-zA-Z0-9]/g, '_');
 const SCHOOL_DISPLAY_NAME = schoolId;
@@ -740,7 +740,7 @@ function deconnecterUtilisateur() {
 if(profsUnsubscribe){profsUnsubscribe();profsUnsubscribe=null;}
 if(recoUnsubscribe){recoUnsubscribe();recoUnsubscribe=null;}
 if(elevesUnsubscribe){elevesUnsubscribe();elevesUnsubscribe=null;}
-window.location.href=`https://www.netubex.com/login?ecole=${schoolId}`;
+window.location.href=`https://www.netubex.com/login2?ecole=${schoolId}`;
 }
 
 document.getElementById('logoutBtn').addEventListener('click', deconnecterUtilisateur);
@@ -824,10 +824,10 @@ await verifierCohérenceCode();
 initApp();
 return true;
 }
-window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
+window.location.href = `https://www.netubex.com/login2?ecole=${schoolId}&error=code_incorrect`;
 return false;
 } catch (error) {
-window.location.href = `https://www.netubex.com/login?ecole=${schoolId}&error=code_incorrect`;
+window.location.href = `https://www.netubex.com/login2?ecole=${schoolId}&error=code_incorrect`;
 return false;
 }
 }
