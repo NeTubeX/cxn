@@ -1181,51 +1181,23 @@ return resultats;
 }
 
 async function getDernierCommunique() {
-    try {
-        const q = query(
-            collection(db, "ecoles", ECOLET_ID, "communiques"),
-            orderBy("date", "desc")
-        );
-        
-        const snap = await getDocs(q);
-        let communiques = [];
-        
-        snap.forEach(doc => {
-            const data = doc.data();
-            
-            if (data.actif !== true) return;
-            
-            const dateComm = new Date(data.date);
-            const aujourdhui = new Date();
-            const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
-            
-            if (diffJours <= 30) {
-                communiques.push({
-                    id: doc.id,
-                    titre: data.titre || "Sans titre",
-                    contenu: data.contenu || "",
-                    date: data.date,
-                    priorite: data.priorite || "moyenne",
-                    publiePar: data.publiePar || "Direction",
-                    diffJours: diffJours,
-                    dateFormatee: dateComm.toLocaleDateString('fr-FR', { 
-                        weekday: 'long', 
-                        day: 'numeric', 
-                        month: 'long'
-                    }),
-                    statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
-                });
-            }
-        });
-        
-        if (communiques.length === 0) return null;
-        
-        return communiques[0];
-        
-    } catch (error) { 
-        console.error("Erreur getDernierCommunique:", error);
-        return null; 
-    }
+try {
+const q = query(collection(db, "ecoles", ECOLET_ID, "communiques"), where("actif", "==", true), orderBy("date", "desc"), limit(1));
+const snap = await getDocs(q);
+if (snap.empty) return null;
+const docSnap = snap.docs[0];
+const data = docSnap.data();
+return {
+id: docSnap.id,
+titre: data.titre || "Nouveau communiqué",
+contenu: data.contenu || "",
+date: data.date,
+priorite: data.priorite || "moyenne",
+publiePar: data.publiePar || "Direction",
+dateFormatee: new Date(data.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }),
+statut: "Publié"
+};
+} catch (error) { return null; }
 }
 
 function convertirNombreEnFrancais(n) {
