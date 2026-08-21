@@ -211,7 +211,7 @@
 
 <script type="module">
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import { getFirestore, collection, query, orderBy, getDocs } from "firebase/firestore";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -246,16 +246,25 @@ if (!ecoleId) {
 const nomEcole = ecoleId ? ecoleId.toUpperCase().replace(/-/g, ' ') : '';
 document.getElementById('ecoleName').textContent = nomEcole;
 
-// Fonction pour récupérer les communiqués
+// Fonction escapeHtml
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Fonction pour récupérer les communiqués - SANS FILTRE
 async function chargerCommuniques() {
     const container = document.getElementById('container');
     const compteur = document.getElementById('compteur');
     
+    if (!ecoleId) return;
+    
     try {
-        // Récupérer tous les communiqués actifs, triés par date (plus récent d'abord)
+        // ✅ PAS de where("actif", "==", true) - on filtre en mémoire
         const q = query(
             collection(db, "ecoles", ecoleId, "communiques"),
-            where("actif", "==", true),
             orderBy("date", "desc")
         );
         
@@ -264,11 +273,14 @@ async function chargerCommuniques() {
         
         snap.forEach(doc => {
             const data = doc.data();
+            
+            // ✅ Filtrage en mémoire
+            if (data.actif !== true) return;
+            
             const dateComm = new Date(data.date);
             const aujourdhui = new Date();
             const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
             
-            // Garder les communiqués de moins de 30 jours
             if (diffJours <= 30) {
                 communiques.push({
                     id: doc.id,
@@ -344,14 +356,6 @@ async function chargerCommuniques() {
         `;
         compteur.textContent = '❌';
     }
-}
-
-// Fonction escapeHtml
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
 }
 
 // Charger au démarrage
