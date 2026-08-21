@@ -1184,43 +1184,46 @@ async function getDernierCommunique() {
     try {
         const q = query(
             collection(db, "ecoles", ECOLET_ID, "communiques"),
-            orderBy("date", "desc"),
-            limit(5)
+            orderBy("date", "desc")
         );
-        const snap = await getDocs(q);
-        if (snap.empty) return null;
         
-        let dernierActif = null;
-        for (const doc of snap.docs) {
+        const snap = await getDocs(q);
+        let communiques = [];
+        
+        snap.forEach(doc => {
             const data = doc.data();
-            if (data.actif === true) {
-                dernierActif = {
+            
+            if (data.actif !== true) return;
+            
+            const dateComm = new Date(data.date);
+            const aujourdhui = new Date();
+            const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
+            
+            if (diffJours <= 30) {
+                communiques.push({
                     id: doc.id,
-                    titre: data.titre || "Nouveau communiqué",
+                    titre: data.titre || "Sans titre",
                     contenu: data.contenu || "",
                     date: data.date,
                     priorite: data.priorite || "moyenne",
-                    publiePar: data.publiePar || "Direction"
-                };
-                break;
+                    publiePar: data.publiePar || "Direction",
+                    diffJours: diffJours,
+                    dateFormatee: dateComm.toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        day: 'numeric', 
+                        month: 'long'
+                    }),
+                    statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
+                });
             }
-        }
+        });
         
-        if (!dernierActif) return null;
+        if (communiques.length === 0) return null;
         
-        const dateComm = new Date(dernierActif.date);
-        const aujourdhui = new Date();
-        const diffJours = Math.floor((aujourdhui - dateComm) / (1000 * 60 * 60 * 24));
+        return communiques[0];
         
-        if (diffJours > 30) return null;
-        
-        return {
-            ...dernierActif,
-            diffJours: diffJours,
-            dateFormatee: dateComm.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }),
-            statut: diffJours === 0 ? "Aujourd'hui" : diffJours === 1 ? "Hier" : `Il y a ${diffJours} jours`
-        };
     } catch (error) { 
+        console.error("Erreur getDernierCommunique:", error);
         return null; 
     }
 }
