@@ -23,7 +23,7 @@
             background: #1a1a2e;
             padding: 30px;
             border-radius: 12px;
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             border: 1px solid #333;
         }
@@ -31,6 +31,7 @@
             color: #fff;
             margin-bottom: 20px;
             font-size: 20px;
+            text-align: center;
         }
         label {
             color: #aaa;
@@ -112,16 +113,58 @@
             color: #666;
             font-size: 13px;
             text-decoration: none;
+            cursor: pointer;
         }
         .back:hover {
             color: #aaa;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .user-info {
+            color: #6ee7b7;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: #064e3b;
+            border-radius: 8px;
+        }
+        .logout-btn {
+            background: #dc2626;
+            margin-top: 10px;
+            font-size: 13px;
+            padding: 8px;
+        }
+        .logout-btn:hover {
+            background: #b91c1c;
         }
     </style>
 </head>
 <body>
 
-<div class="box">
+<div class="box" id="loginBox">
+    <h2>🔐 Connexion</h2>
+    <p style="color:#888;text-align:center;font-size:14px;margin-bottom:20px;">Accès à l'envoi de communiqués</p>
+    
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="admin@ecole.com" value="admin@ecole.com">
+    
+    <label>Mot de passe</label>
+    <input type="password" id="loginPassword" placeholder="Votre mot de passe">
+    
+    <button id="loginBtn">🔑 Se connecter</button>
+    
+    <div id="loginStatus" class="msg"></div>
+    
+    <a class="back" id="backLogin">← Retour</a>
+</div>
+
+<!-- Formulaire d'envoi (caché au départ) -->
+<div class="box hidden" id="formBox">
     <h2>📢 Envoyer un communiqué</h2>
+    
+    <div id="userInfo" class="user-info">👤 Connecté</div>
     
     <form id="formComm">
         <label>Titre *</label>
@@ -140,110 +183,209 @@
         <div class="info">👥 Visible par TOUS les parents</div>
         
         <button type="submit" id="btnEnvoyer">📤 Envoyer</button>
+        
+        <button type="button" id="logoutBtn" class="logout-btn">🚪 Se déconnecter</button>
     </form>
     
     <div id="status" class="msg"></div>
     
-    <a href="#" class="back" id="backLink">← Retour</a>
+    <a class="back" id="backForm">← Retour</a>
 </div>
 
-<script>
-    // Configuration Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
-        authDomain: "gesco-67c43.firebaseapp.com",
-        projectId: "gesco-67c43",
-        storageBucket: "gesco-67c43.firebasestorage.app",
-        messagingSenderId: "333004443566",
-        appId: "1:333004443566:web:de41f60000e418dce9023f"
-    };
-
-    // Récupérer l'école depuis l'URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const ecoleId = urlParams.get('ecole');
-    
-    if (!ecoleId) {
-        document.getElementById('status').className = 'msg err';
-        document.getElementById('status').textContent = '❌ École non spécifiée. Ajoutez ?ecole=nom dans l\'URL';
-        document.getElementById('status').style.display = 'block';
-        document.getElementById('btnEnvoyer').disabled = true;
+<script type="importmap">
+{
+    "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
     }
+}
+</script>
 
-    // Initialiser Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDX430AIfzzgfq3o8tXHwQfIptgWOZ-K8c",
+    authDomain: "gesco-67c43.firebaseapp.com",
+    projectId: "gesco-67c43",
+    storageBucket: "gesco-67c43.firebasestorage.app",
+    messagingSenderId: "333004443566",
+    appId: "1:333004443566:web:de41f60000e418dce9023f"
+};
 
-    const form = document.getElementById('formComm');
-    const status = document.getElementById('status');
-    const btn = document.getElementById('btnEnvoyer');
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+// Récupérer l'école depuis l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const ecoleId = urlParams.get('ecole');
+
+// Références DOM
+const loginBox = document.getElementById('loginBox');
+const formBox = document.getElementById('formBox');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const loginBtn = document.getElementById('loginBtn');
+const loginStatus = document.getElementById('loginStatus');
+const logoutBtn = document.getElementById('logoutBtn');
+const userInfo = document.getElementById('userInfo');
+const form = document.getElementById('formComm');
+const status = document.getElementById('status');
+const btn = document.getElementById('btnEnvoyer');
+const backLogin = document.getElementById('backLogin');
+const backForm = document.getElementById('backForm');
+
+// Vérifier l'école
+if (!ecoleId) {
+    loginStatus.className = 'msg err';
+    loginStatus.textContent = '❌ École non spécifiée. Ajoutez ?ecole=nom dans l\'URL';
+    loginStatus.style.display = 'block';
+    loginBtn.disabled = true;
+}
+
+// Afficher formulaire si déjà connecté
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        loginBox.classList.add('hidden');
+        formBox.classList.remove('hidden');
+        userInfo.textContent = `👤 Connecté : ${user.email}`;
+        document.getElementById('titre').focus();
+    } else {
+        loginBox.classList.remove('hidden');
+        formBox.classList.add('hidden');
+        loginEmail.value = '';
+        loginPassword.value = '';
+    }
+});
+
+// Connexion
+loginBtn.addEventListener('click', async () => {
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
+    
+    if (!email || !password) {
+        loginStatus.className = 'msg err';
+        loginStatus.textContent = '⚠️ Email et mot de passe requis';
+        loginStatus.style.display = 'block';
+        return;
+    }
+    
+    loginBtn.disabled = true;
+    loginBtn.textContent = '⏳ Connexion...';
+    loginStatus.className = 'msg load';
+    loginStatus.textContent = '🔐 Connexion en cours...';
+    loginStatus.style.display = 'block';
+    
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginStatus.className = 'msg ok';
+        loginStatus.textContent = '✅ Connecté !';
+        loginStatus.style.display = 'block';
+        loginBtn.textContent = '🔑 Se connecter';
+        loginBtn.disabled = false;
+    } catch (error) {
+        loginStatus.className = 'msg err';
+        let msg = '❌ Email ou mot de passe incorrect';
+        if (error.code === 'auth/user-not-found') msg = '❌ Utilisateur non trouvé';
+        if (error.code === 'auth/wrong-password') msg = '❌ Mot de passe incorrect';
+        if (error.code === 'auth/invalid-email') msg = '❌ Email invalide';
+        if (error.code === 'auth/too-many-requests') msg = '❌ Trop de tentatives. Réessayez plus tard.';
+        loginStatus.textContent = msg;
+        loginStatus.style.display = 'block';
+        loginBtn.textContent = '🔑 Se connecter';
+        loginBtn.disabled = false;
+    }
+});
+
+// Déconnexion
+logoutBtn.addEventListener('click', async () => {
+    await signOut(auth);
+    status.className = 'msg';
+    status.style.display = 'none';
+});
+
+// Retour
+backLogin.addEventListener('click', () => {
+    if (ecoleId) {
+        window.location.href = `/?ecole=${ecoleId}`;
+    } else {
+        window.location.href = '/';
+    }
+});
+
+backForm.addEventListener('click', () => {
+    if (ecoleId) {
+        window.location.href = `/?ecole=${ecoleId}`;
+    } else {
+        window.location.href = '/';
+    }
+});
+
+// Envoi du communiqué
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const titre = document.getElementById('titre').value.trim();
+    const contenu = document.getElementById('contenu').value.trim();
+    const priorite = document.getElementById('priorite').value;
+    
+    if (!titre || !contenu) {
+        status.className = 'msg err';
+        status.textContent = '⚠️ Titre et contenu obligatoires';
+        status.style.display = 'block';
+        return;
+    }
+    
+    btn.disabled = true;
+    btn.textContent = '⏳ Envoi...';
+    status.className = 'msg load';
+    status.textContent = '📤 Envoi en cours...';
+    status.style.display = 'block';
+    
+    try {
+        const data = {
+            titre: titre,
+            contenu: contenu,
+            priorite: priorite,
+            date: new Date().toISOString(),
+            actif: true,
+            publiePar: auth.currentUser?.email || 'Administration'
+        };
         
-        const titre = document.getElementById('titre').value.trim();
-        const contenu = document.getElementById('contenu').value.trim();
-        const priorite = document.getElementById('priorite').value;
+        await addDoc(collection(db, "ecoles", ecoleId, "communiques"), data);
         
-        if (!titre || !contenu) {
-            status.className = 'msg err';
-            status.textContent = '⚠️ Titre et contenu obligatoires';
-            status.style.display = 'block';
-            return;
-        }
-        
-        // Désactiver le bouton
-        btn.disabled = true;
-        btn.textContent = '⏳ Envoi...';
-        
-        status.className = 'msg load';
-        status.textContent = '📤 Envoi en cours...';
+        status.className = 'msg ok';
+        status.textContent = '✅ Communiqué envoyé avec succès !';
         status.style.display = 'block';
         
-        try {
-            const data = {
-                titre: titre,
-                contenu: contenu,
-                priorite: priorite,
-                date: new Date().toISOString(),
-                actif: true,
-                publiePar: 'Administration'
-            };
-            
-            await addDoc(collection(db, "ecoles", ecoleId, "communiques"), data);
-            
-            status.className = 'msg ok';
-            status.textContent = '✅ Communiqué envoyé avec succès !';
-            status.style.display = 'block';
-            
-            form.reset();
-            
-            // Réactiver après 3s
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.textContent = '📤 Envoyer';
-            }, 3000);
-            
-        } catch (error) {
-            status.className = 'msg err';
-            status.textContent = '❌ Erreur : ' + error.message;
-            status.style.display = 'block';
+        form.reset();
+        
+        setTimeout(() => {
             btn.disabled = false;
             btn.textContent = '📤 Envoyer';
-        }
-    });
+        }, 3000);
+        
+    } catch (error) {
+        status.className = 'msg err';
+        status.textContent = '❌ Erreur : ' + error.message;
+        status.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '📤 Envoyer';
+    }
+});
 
-    // Retour vers l'espace parental
-    document.getElementById('backLink').onclick = (e) => {
-        e.preventDefault();
-        if (ecoleId) {
-            window.location.href = `/?ecole=${ecoleId}`;
-        } else {
-            window.location.href = '/';
-        }
-    };
+// Enter pour se connecter
+loginPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+});
+loginEmail.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+});
 </script>
 
 </body>
