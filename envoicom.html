@@ -49,6 +49,7 @@
             margin-bottom: 15px;
             border: 1px solid #333;
             border-left: 5px solid #3b82f6;
+            position: relative;
         }
         .communique-card.haute {
             border-left-color: #ef4444;
@@ -109,6 +110,23 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
+        }
+        .delete-btn {
+            background: #7f1d1d;
+            color: #fca5a5;
+            border: 1px solid #991b1b;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .delete-btn:hover {
+            background: #991b1b;
+            transform: scale(1.05);
+        }
+        .delete-btn:active {
+            transform: scale(0.95);
         }
         .empty {
             text-align: center;
@@ -181,29 +199,127 @@
         .back-link:hover {
             color: #aaa;
         }
+        .logout-btn {
+            background: #1a1a2e;
+            color: #888;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background: #2a2a3e;
+            color: #fff;
+        }
+
+        /* Styles Login */
+        .login-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: #1a1a2e;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .login-container h2 {
+            color: #ffd700;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            background: #0a0e1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .login-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .login-container input::placeholder {
+            color: #555;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        .login-btn:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+        .login-error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+        .login-container .sub {
+            color: #666;
+            font-size: 13px;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>📢 Communiqués</h1>
-    <div class="sub" id="ecoleName">École</div>
-    <div class="badge" id="compteur">0 communiqué</div>
-</div>
+<div id="app">
+    <!-- Login Screen -->
+    <div id="loginScreen" style="display:none;">
+        <div class="login-container">
+            <h2>🔐 Authentification</h2>
+            <input type="email" id="emailInput" placeholder="📧 Votre email" autocomplete="email">
+            <input type="password" id="passwordInput" placeholder="🔑 Mot de passe" autocomplete="current-password">
+            <button class="login-btn" id="loginBtn">Se connecter</button>
+            <div class="login-error" id="loginError"></div>
+            <div class="sub">Connectez-vous avec votre compte Firebase</div>
+        </div>
+    </div>
 
-<div id="container">
-    <div class="loading">
-        <div class="spinner"></div>
-        <div>Chargement...</div>
+    <!-- Main Content -->
+    <div id="mainContent" style="display:none;">
+        <div class="header">
+            <h1>📢 Communiqués</h1>
+            <div class="sub" id="ecoleName">École</div>
+            <div class="badge" id="compteur">0 communiqué</div>
+            <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+        </div>
+
+        <div id="container">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div>Chargement...</div>
+            </div>
+        </div>
+
+        <button class="refresh-btn" id="refreshBtn" title="Actualiser">🔄</button>
     </div>
 </div>
-
-<button class="refresh-btn" id="refreshBtn" title="Actualiser">🔄</button>
 
 <script type="importmap">
 {
     "imports": {
         "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
         "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
     }
 }
@@ -211,7 +327,21 @@
 
 <script type="module">
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, query, orderBy, getDocs } from "firebase/firestore";
+import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged,
+    signOut 
+} from "firebase/auth";
+import { 
+    getFirestore, 
+    collection, 
+    query, 
+    orderBy, 
+    getDocs,
+    deleteDoc,
+    doc 
+} from "firebase/firestore";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -224,27 +354,41 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
+
+// DOM Elements
+const loginScreen = document.getElementById('loginScreen');
+const mainContent = document.getElementById('mainContent');
+const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+const logoutBtn = document.getElementById('logoutBtn');
+const container = document.getElementById('container');
+const compteur = document.getElementById('compteur');
+const ecoleName = document.getElementById('ecoleName');
+const refreshBtn = document.getElementById('refreshBtn');
 
 // Récupérer l'école depuis l'URL
 const urlParams = new URLSearchParams(window.location.search);
 const ecoleId = urlParams.get('ecole');
 
 if (!ecoleId) {
-    document.getElementById('container').innerHTML = `
+    container.innerHTML = `
         <div class="empty">
             <div class="icon">❌</div>
             <h2>École non spécifiée</h2>
             <p>Ajoutez ?ecole=nom dans l'URL</p>
         </div>
     `;
-    document.getElementById('ecoleName').textContent = 'Erreur';
-    document.getElementById('compteur').textContent = '❌';
+    ecoleName.textContent = 'Erreur';
+    compteur.textContent = '❌';
 }
 
 // Nom de l'école
 const nomEcole = ecoleId ? ecoleId.toUpperCase().replace(/-/g, ' ') : '';
-document.getElementById('ecoleName').textContent = nomEcole;
+ecoleName.textContent = nomEcole;
 
 // Fonction escapeHtml
 function escapeHtml(text) {
@@ -254,15 +398,11 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Fonction pour récupérer les communiqués - SANS FILTRE
+// Fonction pour récupérer les communiqués
 async function chargerCommuniques() {
-    const container = document.getElementById('container');
-    const compteur = document.getElementById('compteur');
-    
     if (!ecoleId) return;
     
     try {
-        // ✅ PAS de where("actif", "==", true) - on filtre en mémoire
         const q = query(
             collection(db, "ecoles", ecoleId, "communiques"),
             orderBy("date", "desc")
@@ -273,8 +413,6 @@ async function chargerCommuniques() {
         
         snap.forEach(doc => {
             const data = doc.data();
-            
-            // ✅ Filtrage en mémoire
             if (data.actif !== true) return;
             
             const dateComm = new Date(data.date);
@@ -302,7 +440,6 @@ async function chargerCommuniques() {
             }
         });
         
-        // Mettre à jour le compteur
         compteur.textContent = `${communiques.length} communiqué${communiques.length > 1 ? 's' : ''}`;
         
         if (communiques.length === 0) {
@@ -316,7 +453,7 @@ async function chargerCommuniques() {
             return;
         }
         
-        // Afficher les communiqués
+        // Afficher les communiqués avec bouton supprimer
         let html = '';
         communiques.forEach(comm => {
             const prioriteClass = comm.priorite || 'moyenne';
@@ -327,7 +464,7 @@ async function chargerCommuniques() {
             }[prioriteClass] || '🟡 Important';
             
             html += `
-                <div class="communique-card ${prioriteClass}">
+                <div class="communique-card ${prioriteClass}" data-id="${comm.id}">
                     <div class="titre">${escapeHtml(comm.titre)}</div>
                     <div class="meta">
                         <span class="date">📅 ${comm.dateFormatee}</span>
@@ -337,13 +474,31 @@ async function chargerCommuniques() {
                     <div class="contenu">${escapeHtml(comm.contenu)}</div>
                     <div class="footer">
                         <span>👤 Publié par ${escapeHtml(comm.publiePar)}</span>
-                        <span style="color:#444;">#${comm.id.slice(0, 8)}</span>
+                        <span>
+                            <button class="delete-btn" data-id="${comm.id}">🗑️ Supprimer</button>
+                            <span style="color:#444;margin-left:10px;">#${comm.id.slice(0, 8)}</span>
+                        </span>
                     </div>
                 </div>
             `;
         });
         
         container.innerHTML = html;
+        
+        // Ajouter les événements de suppression
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = btn.dataset.id;
+                if (confirm('Voulez-vous vraiment supprimer ce communiqué ?')) {
+                    try {
+                        await deleteDoc(doc(db, "ecoles", ecoleId, "communiques", id));
+                        await chargerCommuniques();
+                    } catch (error) {
+                        alert('Erreur lors de la suppression: ' + error.message);
+                    }
+                }
+            });
+        });
         
     } catch (error) {
         console.error("Erreur:", error);
@@ -358,36 +513,118 @@ async function chargerCommuniques() {
     }
 }
 
-// Charger au démarrage
-await chargerCommuniques();
+// Fonction de connexion
+async function login(email, password) {
+    try {
+        loginError.textContent = '';
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        let message = 'Erreur de connexion';
+        if (error.code === 'auth/user-not-found') {
+            message = 'Utilisateur non trouvé';
+        } else if (error.code === 'auth/wrong-password') {
+            message = 'Mot de passe incorrect';
+        } else if (error.code === 'auth/invalid-email') {
+            message = 'Email invalide';
+        } else if (error.code === 'auth/too-many-requests') {
+            message = 'Trop de tentatives. Réessayez plus tard.';
+        }
+        loginError.textContent = '❌ ' + message;
+        throw error;
+    }
+}
+
+// État de l'authentification
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Utilisateur connecté
+        loginScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+        chargerCommuniques();
+    } else {
+        // Utilisateur déconnecté
+        loginScreen.style.display = 'block';
+        mainContent.style.display = 'none';
+        emailInput.value = '';
+        passwordInput.value = '';
+        loginError.textContent = '';
+    }
+});
+
+// Événement de connexion
+loginBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    
+    if (!email || !password) {
+        loginError.textContent = '❌ Veuillez remplir tous les champs';
+        return;
+    }
+    
+    loginBtn.textContent = '⏳ Connexion...';
+    loginBtn.disabled = true;
+    
+    try {
+        await login(email, password);
+    } catch (error) {
+        // Erreur déjà affichée
+    } finally {
+        loginBtn.textContent = 'Se connecter';
+        loginBtn.disabled = false;
+    }
+});
+
+// Connexion avec Entrée
+emailInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        passwordInput.focus();
+    }
+});
+
+passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        loginBtn.click();
+    }
+});
+
+// Déconnexion
+logoutBtn.addEventListener('click', async () => {
+    if (confirm('Voulez-vous vous déconnecter ?')) {
+        await signOut(auth);
+    }
+});
 
 // Bouton actualiser
-document.getElementById('refreshBtn').addEventListener('click', async () => {
-    const btn = document.getElementById('refreshBtn');
-    btn.style.transform = 'rotate(360deg)';
-    btn.style.transition = 'transform 0.5s';
+refreshBtn.addEventListener('click', async () => {
+    refreshBtn.style.transform = 'rotate(360deg)';
+    refreshBtn.style.transition = 'transform 0.5s';
     await chargerCommuniques();
     setTimeout(() => {
-        btn.style.transform = 'rotate(0deg)';
+        refreshBtn.style.transform = 'rotate(0deg)';
     }, 500);
 });
 
 // Actualiser automatiquement toutes les 60 secondes
-setInterval(chargerCommuniques, 60000);
+setInterval(() => {
+    if (auth.currentUser) {
+        chargerCommuniques();
+    }
+}, 60000);
 
 // Ajouter le retour
 const header = document.querySelector('.header');
-const backLink = document.createElement('a');
-backLink.className = 'back-link';
-backLink.textContent = '← Retour à l\'accueil';
-backLink.href = '/';
-backLink.style.display = 'block';
-backLink.style.marginTop = '8px';
-backLink.style.color = '#666';
-backLink.style.textDecoration = 'none';
-document.querySelector('.header').appendChild(backLink);
+if (header) {
+    const backLink = document.createElement('a');
+    backLink.className = 'back-link';
+    backLink.textContent = '← Retour à l\'accueil';
+    backLink.href = '/';
+    backLink.style.display = 'block';
+    backLink.style.marginTop = '8px';
+    backLink.style.color = '#666';
+    backLink.style.textDecoration = 'none';
+    header.appendChild(backLink);
+}
 
 </script>
-
 </body>
 </html>
